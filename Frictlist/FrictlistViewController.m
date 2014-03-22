@@ -195,7 +195,7 @@ NSMutableArray *lastNameArray;
     {
         //TODO: go to detail view to add frict
         [hookups insertObject:@"New hookup" atIndex:[hookups count]];
-        [tableV reloadData];;
+        //[tableV reloadData];;
         sentFromAdd = true;
         [self performSegueWithIdentifier:@"showFrictDetail" sender:indexPath];
         sentFromAdd = false;
