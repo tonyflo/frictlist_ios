@@ -154,7 +154,7 @@
 				2F4EE0B0176E97B100642169 /* FrictlistAppDelegate.h */,
 				2F6EA6A9187611AD006BCC70 /* check.png */,
 				2F4EE0B1176E97B100642169 /* FrictlistAppDelegate.m */,
-				2F4EE0B9176E97B100642169 /* MainStoryboard.storyboard */,
+				2FDFA28D18DDB3C900FB56EA /* New Group */,
 				2F9542151868D3BC0063CE37 /* TabBarController.h */,
 				2F9542161868D3BD0063CE37 /* TabBarController.m */,
 				2F4EE0BC176E97B100642169 /* FrictlistViewController.h */,
@@ -186,6 +186,14 @@
 				2F4EE0B7176E97B100642169 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2FDFA28D18DDB3C900FB56EA /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				2F4EE0B9176E97B100642169 /* MainStoryboard.storyboard */,
+			);
+			name = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
