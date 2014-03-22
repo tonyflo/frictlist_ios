@@ -38,13 +38,6 @@ NSString *syncdatetime;
     return self;
 }
 
-//link to website
-- (IBAction)flooreedaLinkClick:(id)sender
-{
-    NSString *ivisitedLink = @"http://ivisited.flooreeda.com";
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:ivisitedLink]];
-}
-
 //get the number of states that were visited
 - (int)countVisited
 {
@@ -101,30 +94,16 @@ NSString *syncdatetime;
     }
 }
 
-#if defined(FREE)
 - (void) showWelcomeDialog
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:@"Welcome to Frictlist!"];
-    [alert setMessage:@"Thank you for downloading Frictlist Free. For the best experience, it is recommended that you create an account. Would you like to create an account now? If you already have an account, you will have the option to sign in."];
-    [alert setDelegate:self];
-    [alert addButtonWithTitle:@"Sign In"];
-    [alert addButtonWithTitle:@"Cancel"];
-    [alert setTag:8];
-    [alert show];
-}
-#else
-- (void) showWelcomeDialog
-{
-    UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Welcome to Frictlist!"];
-    [alert setMessage:@"Thank you for purchasing Frictlist. You will now be directed to the sign in screen.  There you will be able to create your account.  If you have synced iVisited data in the free version of the app and would like to import that data, make sure you sign in using that email address."];
+    [alert setMessage:@"Thank you for downloading Frictlist. You will now be directed to the sign in screen.  There you will be able to create your account.  If you already have an account, you will be able to sign in."];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Sign In"];
     [alert setTag:8];
     [alert show];
 }
-#endif /* FREE */
 
 //Sign in
 -(IBAction)signinButtonPress
@@ -136,11 +115,11 @@ NSString *syncdatetime;
         [self performSegueWithIdentifier:@"sign_in" sender:self];
     }
     //sign out for a free user only
-    else
-    {
-        //signed in, now sign out
-        [self showSignOutConfirmationDialog];
-    }
+    //else
+    //{
+    //    //signed in, now sign out
+    //    [self showSignOutConfirmationDialog];
+    //}
 }
 
 - (void) showSignOutConfirmationDialog
@@ -527,12 +506,12 @@ NSString *syncdatetime;
             // Sign in, signin
             [self performSegueWithIdentifier:@"sign_in" sender:self];
         }
-#if defined(FREE)
-        else if (buttonIndex == 1)
-        {
-            //Cancel, dismis
-        }
-#endif /* FREE */
+//#if defined(FREE)
+//        else if (buttonIndex == 1)
+//        {
+//            //Cancel, dismis
+//        }
+//#endif /* FREE */
     }
 }
 

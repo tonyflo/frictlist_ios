@@ -23,7 +23,8 @@ UIAlertView * alertView;
 int minPwLen = 6;
 int maxPwLen = 255;
 int maxEmailLen = 35;
-NSString * url = @"http://ivisited.flooreeda.com/scripts/";
+int ageLimit = 14;
+NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,9 +37,9 @@ NSString * url = @"http://ivisited.flooreeda.com/scripts/";
 
 -(void)viewWillAppear:(BOOL)animated
 {
-#if !defined(FREE)
-    self.navigationItem.leftBarButtonItem = nil;
-#endif /* PAID */
+//#if !defined(FREE)
+//    self.navigationItem.leftBarButtonItem = nil;
+//#endif /* PAID */
 }
 
 - (void)viewDidLoad
@@ -46,8 +47,15 @@ NSString * url = @"http://ivisited.flooreeda.com/scripts/";
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     checkboxSelected = 0;
-    
-    self.navigationItem.title = @"Sign In";
+    self.view.userInteractionEnabled = TRUE;
+    lastNameText.delegate = self;
+    self.navigationItem.title = @"Sign Up";
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,11 +71,30 @@ NSString * url = @"http://ivisited.flooreeda.com/scripts/";
     if(checkboxButton.selected == 1)
     {
         [signinButton setTitle:@"Create Account" forState:UIControlStateNormal];
+        self.navigationItem.title = @"Sign Up";
+        //enable new account fields
+        firstNameText.enabled = true;
+        lastNameText.enabled = true;
+        genderSwitch.enabled = true;
+        birthdatePicker.enabled = true;
+        firstNameText.alpha = 1;
+        lastNameText.alpha = 1;
+        genderSwitch.alpha = 1;
+        birthdatePicker.alpha = 1;
     }
     else
     {
         [signinButton setTitle:@"Sign In" forState:UIControlStateNormal];
-
+        self.navigationItem.title = @"Sign In";
+        //disable new account fields
+        firstNameText.enabled = false;
+        lastNameText.enabled = false;
+        genderSwitch.enabled = false;
+        birthdatePicker.enabled = false;
+        firstNameText.alpha = 0.5;
+        lastNameText.alpha = 0.5;
+        genderSwitch.alpha = 0.5;
+        birthdatePicker.alpha = 0.5;
     }
 }
 
@@ -90,6 +117,10 @@ NSString * url = @"http://ivisited.flooreeda.com/scripts/";
 {
     NSString * email = emailText.text;
     NSString * password = passwordText.text;
+    NSString * firstName = firstNameText.text;
+    NSString * lastName = lastNameText.text;
+    BOOL gender = genderSwitch.selectedSegmentIndex;
+    NSDate *birthdate = birthdatePicker.date;
     
     //check valid email
     bool rc = [self NSStringIsValidEmail:email];
@@ -112,12 +143,48 @@ NSString * url = @"http://ivisited.flooreeda.com/scripts/";
         [self showInvalidPasswordDialog];
     }
     
+    //if making a new account, check for valid name, birthdate fields
+    if(rc && checkboxButton.selected == 1)
+    {
+
+        if(firstName.length > maxPwLen)
+        {
+            rc = 0;
+            [self showFieldTooLong:@"First Name"];
+        } else if(lastName.length > maxPwLen) {
+            rc = 0;
+            [self showFieldTooLong:@"Last Name"];
+        } else if(firstName.length == 0)
+        {
+            rc = 0;
+            [self showFieldTooShort:@"First Name"];
+        } else if(lastName.length == 0) {
+            rc = 0;
+            [self showFieldTooShort:@"Last Name"];
+        }
+        else {
+            int yearsold = [self checkAgeLimit:birthdate];
+            if(yearsold < ageLimit)
+            {
+                rc = 0;
+                [self showTooYoung:yearsold];
+            }
+        }
+    }
+    
     if(rc)
     {
         [self showSigningInSpinnerDialog];
         
-        //sign in or sign up
-        rc = [self signIn:email password:password];
+        if(checkboxButton.selected == 1)
+        {
+            rc = [self signUp:email password:password firstName:firstName lastName:lastName gender:gender birthdate:birthdate];
+        }
+        else
+        {
+            //sign in
+            rc = [self signIn:email password:password];
+        }        
         
         if(!rc)
         {
@@ -132,8 +199,8 @@ NSString * url = @"http://ivisited.flooreeda.com/scripts/";
 -(BOOL) signIn:(NSString *) email password:(NSString *)password
 {
     BOOL rc = true;
-//paid type is 1, free is 0
-//this is a flag for the php script to make the account paid
+    //paid type is 1, free is 0
+    //this is a flag for the php script to make the account paid
 #if defined(FREE)
     int type = 0;
 #else
@@ -152,19 +219,9 @@ NSString * url = @"http://ivisited.flooreeda.com/scripts/";
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
-    if(checkboxButton.selected == 0)
-    {
-        //Set the Url for which your going to send the data to that request.
-        [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@signin.php", url]]];
-        NSLog(@"Sign in");
-    }
-    else
-    {
-        //Set the Url for which your going to send the data to that request.
-        [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@signup.php", url]]];
-        NSLog(@"Sign up");
-    }
-
+    //Set the Url for which your going to send the data to that request.
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@signin.php", url]]];
+    NSLog(@"Sign in");
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];
@@ -197,6 +254,73 @@ NSString * url = @"http://ivisited.flooreeda.com/scripts/";
 }
 
 
+
+//sign in logic
+-(BOOL) signUp:(NSString *) email password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName gender:(BOOL)gender birthdate:(NSDate *)birthdate
+{
+    BOOL rc = true;
+
+    //1. Set post string with actual username and password.
+    NSString *post = [NSString stringWithFormat:@"&firstname=%@&lastname=%@&email=%@&password=%@&gender=%d&birthdate=%@",firstName, lastName, email, password, gender, [birthdate description]];
+    
+    //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    //You need to send the actual length of your data. Calculate the length of the post string.
+    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    
+    //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //Set the Url for which your going to send the data to that request.
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@signup.php", url]]];
+    NSLog(@"Sign up");
+
+    
+    //Now, set HTTP method (POST or GET). Write this lines as it is in your code
+    [request setHTTPMethod:@"POST"];
+    
+    //Set HTTP header field with length of the post data.
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    //Also set the Encoded value for HTTP header Field.
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+    
+    //Set the HTTPBody of the urlrequest with postData.
+    [request setHTTPBody:postData];
+    
+    //4. Now, create URLConnection object. Initialize it with the URLRequest.
+    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    //It returns the initialized url connection and begins to load the data for the url request. You can check that whether you URL connection is done properly or not using just if/else statement as below.
+    if(conn)
+    {
+        NSLog(@"Connection Successful");
+    }
+    else
+    {
+        NSLog(@"Connection could not be made");
+        rc = false;
+    }
+    
+    //5. To receive the data from the HTTP request , you can use the delegate methods provided by the URLConnection Class Reference. Delegate methods are as below
+    return rc;
+}
+
+//check old enough
+-(int) checkAgeLimit:(NSDate *)bday
+{
+    NSDate *now = [NSDate date];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSUInteger units = NSYearCalendarUnit;
+    NSDateComponents *components = [gregorian components:units fromDate:bday toDate:now options:0];
+    NSUInteger years = [components year];
+    
+    return years;
+}
+
+
 //check valid email
 -(BOOL) NSStringIsValidEmail:(NSString *)checkString
 {
@@ -214,6 +338,28 @@ NSString * url = @"http://ivisited.flooreeda.com/scripts/";
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:@"Email Too Long"];
     [alert setMessage:[NSString stringWithFormat:@"The email address that you entered is too long. Keep email addresses under %d characters. Please use another email address. If this presents a problem, contact the developer.", maxEmailLen]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+//the field is too long
+-(void) showFieldTooLong:(NSString *)fieldName
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:[NSString stringWithFormat:@"%@ Too Long", fieldName]];
+    [alert setMessage:[NSString stringWithFormat:@"The %@ that you entered is too long. The max is %d characters. If this presents a problem, contact the developer.", fieldName, maxEmailLen]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+//the field is null
+-(void) showFieldTooShort:(NSString *)fieldName
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:[NSString stringWithFormat:@"%@ Is Empty", fieldName]];
+    [alert setMessage:[NSString stringWithFormat:@"Please enter a %@.", fieldName]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
@@ -246,6 +392,17 @@ NSString * url = @"http://ivisited.flooreeda.com/scripts/";
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:@"Invalid Email"];
     [alert setMessage:[NSString stringWithFormat:@"The email address you entered (%@) is not a valid email. Please try again.", email]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+//user is too young
+- (void)showTooYoung:(int)yearsold
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"Sorry, You're Not Old Enough"];
+    [alert setMessage:[NSString stringWithFormat:@"Please come back when you're %d or older.", ageLimit]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
@@ -348,39 +505,18 @@ NSString * url = @"http://ivisited.flooreeda.com/scripts/";
     NSInteger intResult = [strResult integerValue];
     
     NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
-    if(false)
-    {
-        //no-op
-    }
-    //check if visited data has arrived
-    else if(strResult.length == 50)
-    {
-        //write data to plist
-        NSLog(@"reverse sync data: %@", strResult);
-        PlistHelper * plist = [PlistHelper alloc];
-        [plist setIvisited:strResult];
-        
-        //alert that it was successful then
-        //go back to settings view
-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-    else if(intResult == -5)
-    {
-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
-        //reverse sync error
-        [self showReverseSyncErrorDialog];
-    }
-    else if(intResult > 0)
+    if(intResult > 0)
     {
         //write the pk to the plist
         //To insert the data into the plist
         PlistHelper *plist = [PlistHelper alloc];
         [plist setPk:intResult];
         [plist setEmail:emailText.text];
-        //make request to sync visited data to phone
-        NSLog(@"reverse sync");
-        [self reverse_sync:intResult];
+        
+        //alert that it was successful then
+        //go back to settings view
+        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     //error code was returned
     else
@@ -457,79 +593,12 @@ NSString * url = @"http://ivisited.flooreeda.com/scripts/";
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:ivisitedLink]];
 }
 
-#if defined(FREE)
+//#if defined(FREE)
 - (IBAction)backButonClick:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-#endif
-
-//revers sync logic. sync database visited data to phone
--(BOOL) reverse_sync:(int)pk
-{
-    BOOL rc = true;
-
-    //1. Set post string with actual username and password.
-    NSString *post = [NSString stringWithFormat:@"&uid=%d",pk];
-    
-    //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
-    
-    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    
-    //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
-    
-    //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-
-    //Set the Url for which your going to send the data to that request.
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@reverse_sync.php", url]]];
-    NSLog(@"Reverse sync");
-    
-    //Now, set HTTP method (POST or GET). Write this lines as it is in your code
-    [request setHTTPMethod:@"POST"];
-    
-    //Set HTTP header field with length of the post data.
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    
-    //Also set the Encoded value for HTTP header Field.
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
-    
-    //Set the HTTPBody of the urlrequest with postData.
-    [request setHTTPBody:postData];
-    
-    //4. Now, create URLConnection object. Initialize it with the URLRequest.
-    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
-    
-    //It returns the initialized url connection and begins to load the data for the url request. You can check that whether you URL connection is done properly or not using just if/else statement as below.
-    if(conn)
-    {
-        NSLog(@"Connection Successful");
-    }
-    else
-    {
-        NSLog(@"Connection could not be made");
-        rc = false;
-    }
-    
-    //5. To receive the data from the HTTP request , you can use the delegate methods provided by the URLConnection Class Reference. Delegate methods are as below
-    return rc;
-}
-
--(BOOL)textFieldShouldReturn:(UITextField*)textField;
-{
-    NSInteger nextTag = textField.tag + 1;
-    // Try to find next responder
-    UIResponder* nextResponder = [textField.superview viewWithTag:nextTag];
-    if (nextResponder) {
-        // Found next responder, so set it.
-        [nextResponder becomeFirstResponder];
-    } else {
-        // Not found, so remove keyboard.
-        [textField resignFirstResponder];
-    }
-    return NO; // We do not want UITextField to insert line-breaks.
-}
+//#endif
 
 //take an action when a choice is made in an alert dialog
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

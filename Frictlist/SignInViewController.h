@@ -14,7 +14,10 @@
     IBOutlet UIButton *checkboxButton;
     IBOutlet UITextField *passwordText;
     IBOutlet UITextField *emailText;
-    IBOutlet UIButton *flooreedaLink;
+    IBOutlet UISegmentedControl *genderSwitch;
+    IBOutlet UIDatePicker *birthdatePicker;
+    IBOutlet UITextField *firstNameText;
+    IBOutlet UITextField *lastNameText;
 }
 
 @property (strong, nonatomic) IBOutlet UINavigationItem *bakcButton;
@@ -22,7 +25,6 @@
 
 - (IBAction)checkboxButton:(id)sender;
 - (IBAction)signInButtonClick:(id)sender;
-- (IBAction)flooreedaLinkClick:(id)sender;
 - (IBAction)backButonClick:(id)sender;
 
 @end

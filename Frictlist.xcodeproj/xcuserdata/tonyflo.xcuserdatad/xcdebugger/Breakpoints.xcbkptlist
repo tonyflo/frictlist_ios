@@ -99,12 +99,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/StatisticsViewController.m"
-         timestampString = "411676915.271135"
+         timestampString = "417195364.690047"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "163"
-         endingLineNumber = "163"
+         startingLineNumber = "142"
+         endingLineNumber = "142"
          landmarkName = "-signOut"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Frictlist/SignInViewController.m"
+         timestampString = "417194116.460477"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "261"
+         endingLineNumber = "261"
+         landmarkName = "-signUp:password:firstName:lastName:gender:birthdate:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
