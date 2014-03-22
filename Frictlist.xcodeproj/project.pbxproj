@@ -1,0 +1,451 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2F2B33871882FC6600D90532 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F2B33861882FC6600D90532 /* MapViewController.m */; };
+		2F383FB018862F600010EF15 /* PlistHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F383FAF18862F5F0010EF15 /* PlistHelper.m */; };
+		2F383FB31888CE0E0010EF15 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F383FB21888CE0E0010EF15 /* map.png */; };
+		2F4EE0A2176E97B100642169 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F4EE0A1176E97B100642169 /* UIKit.framework */; };
+		2F4EE0A4176E97B100642169 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F4EE0A3176E97B100642169 /* Foundation.framework */; };
+		2F4EE0A6176E97B100642169 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F4EE0A5176E97B100642169 /* CoreGraphics.framework */; };
+		2F4EE0AC176E97B100642169 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0AA176E97B100642169 /* InfoPlist.strings */; };
+		2F4EE0AE176E97B100642169 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0AD176E97B100642169 /* main.m */; };
+		2F4EE0B2176E97B100642169 /* FrictlistAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0B1176E97B100642169 /* FrictlistAppDelegate.m */; };
+		2F4EE0B4176E97B100642169 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0B3176E97B100642169 /* Default.png */; };
+		2F4EE0B6176E97B100642169 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0B5176E97B100642169 /* Default@2x.png */; };
+		2F4EE0B8176E97B100642169 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0B7176E97B100642169 /* Default-568h@2x.png */; };
+		2F4EE0BB176E97B100642169 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0B9176E97B100642169 /* MainStoryboard.storyboard */; };
+		2F4EE0BE176E97B100642169 /* FrictlistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0BD176E97B100642169 /* FrictlistViewController.m */; };
+		2F4EE0C9176EA23200642169 /* noCheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0C8176EA23200642169 /* noCheck.png */; };
+		2F4EE0CC176EA2AF00642169 /* FrictDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */; };
+		2F4EE0CF176EB2CF00642169 /* Frict.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0CE176EB2CF00642169 /* Frict.m */; };
+		2F4EE0DA1770032900642169 /* coins in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0D71770032900642169 /* coins */; };
+		2F4EE0DB1770032900642169 /* flags in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0D81770032900642169 /* flags */; };
+		2F4EE0DC1770032900642169 /* plates in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0D91770032900642169 /* plates */; };
+		2F54EBDA187A4FEC00FB4F65 /* icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F54EBD4187A4FEC00FB4F65 /* icon-29.png */; };
+		2F54EBDE187A4FEC00FB4F65 /* icon-58.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F54EBD6187A4FEC00FB4F65 /* icon-58.png */; };
+		2F54EBE0187A4FEC00FB4F65 /* icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F54EBD7187A4FEC00FB4F65 /* icon-60.png */; };
+		2F54EBE4187A4FEC00FB4F65 /* icon-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F54EBD9187A4FEC00FB4F65 /* icon-120.png */; };
+		2F6EA6AA187611AE006BCC70 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F6EA6A9187611AD006BCC70 /* check.png */; };
+		2F9542101868B84A0063CE37 /* gear_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F95420F1868B8490063CE37 /* gear_icon.png */; };
+		2F9542121868B8670063CE37 /* list_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F9542111868B8670063CE37 /* list_icon.png */; };
+		2F9542171868D3BD0063CE37 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9542161868D3BD0063CE37 /* TabBarController.m */; };
+		2F9542191868ECC80063CE37 /* outlines in Resources */ = {isa = PBXBuildFile; fileRef = 2F9542181868ECC80063CE37 /* outlines */; };
+		2F95421B186946E60063CE37 /* seals in Resources */ = {isa = PBXBuildFile; fileRef = 2F95421A186946E60063CE37 /* seals */; };
+		2F95421F186A05B20063CE37 /* map_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F95421E186A05B20063CE37 /* map_icon.png */; };
+		2F954221186A0FB80063CE37 /* pages in Resources */ = {isa = PBXBuildFile; fileRef = 2F954220186A0FB80063CE37 /* pages */; };
+		2FDA34E61875D42F00ED5698 /* checkbox-checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E31875D42E00ED5698 /* checkbox-checked.png */; };
+		2FDA34E71875D42F00ED5698 /* checkbox-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E41875D42E00ED5698 /* checkbox-pressed.png */; };
+		2FDA34E81875D42F00ED5698 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E51875D42E00ED5698 /* checkbox.png */; };
+		2FDA34EE1875DF4500ED5698 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA34ED1875DF4400ED5698 /* SignInViewController.m */; };
+		2FE163A71889BCC600864413 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F54EBEC187A537600FB4F65 /* icon.png */; };
+		2FE163A81889BCCC00864413 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F54EBEA187A536F00FB4F65 /* icon@2x.png */; };
+		2FFA9DFF18614361002775B1 /* StatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFA9DFE18614361002775B1 /* StatisticsViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2F2B33851882FC6600D90532 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		2F2B33861882FC6600D90532 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		2F383FAE18862F5F0010EF15 /* PlistHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlistHelper.h; sourceTree = "<group>"; };
+		2F383FAF18862F5F0010EF15 /* PlistHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlistHelper.m; sourceTree = "<group>"; };
+		2F383FB21888CE0E0010EF15 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map.png; sourceTree = "<group>"; };
+		2F383FB51888DE760010EF15 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		2F4EE09E176E97B100642169 /* Frictlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Frictlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F4EE0A1176E97B100642169 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2F4EE0A3176E97B100642169 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2F4EE0A5176E97B100642169 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2F4EE0A9176E97B100642169 /* Frictlist-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Frictlist-Info.plist"; sourceTree = "<group>"; };
+		2F4EE0AB176E97B100642169 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2F4EE0AD176E97B100642169 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2F4EE0AF176E97B100642169 /* Frictlist-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Frictlist-Prefix.pch"; sourceTree = "<group>"; };
+		2F4EE0B0176E97B100642169 /* FrictlistAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrictlistAppDelegate.h; sourceTree = "<group>"; };
+		2F4EE0B1176E97B100642169 /* FrictlistAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrictlistAppDelegate.m; sourceTree = "<group>"; };
+		2F4EE0B3176E97B100642169 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		2F4EE0B5176E97B100642169 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		2F4EE0B7176E97B100642169 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		2F4EE0BA176E97B100642169 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		2F4EE0BC176E97B100642169 /* FrictlistViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrictlistViewController.h; sourceTree = "<group>"; };
+		2F4EE0BD176E97B100642169 /* FrictlistViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrictlistViewController.m; sourceTree = "<group>"; };
+		2F4EE0C8176EA23200642169 /* noCheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noCheck.png; sourceTree = "<group>"; };
+		2F4EE0CA176EA2AF00642169 /* FrictDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictDetailViewController.h; sourceTree = "<group>"; };
+		2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrictDetailViewController.m; sourceTree = "<group>"; };
+		2F4EE0CD176EB2CF00642169 /* Frict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frict.h; sourceTree = "<group>"; };
+		2F4EE0CE176EB2CF00642169 /* Frict.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Frict.m; sourceTree = "<group>"; };
+		2F4EE0D71770032900642169 /* coins */ = {isa = PBXFileReference; lastKnownFileType = folder; path = coins; sourceTree = "<group>"; };
+		2F4EE0D81770032900642169 /* flags */ = {isa = PBXFileReference; lastKnownFileType = folder; path = flags; sourceTree = "<group>"; };
+		2F4EE0D91770032900642169 /* plates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = plates; sourceTree = "<group>"; };
+		2F54EBD4187A4FEC00FB4F65 /* icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-29.png"; path = "Frictlist/icon-29.png"; sourceTree = "<group>"; };
+		2F54EBD6187A4FEC00FB4F65 /* icon-58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-58.png"; path = "Frictlist/icon-58.png"; sourceTree = "<group>"; };
+		2F54EBD7187A4FEC00FB4F65 /* icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-60.png"; path = "Frictlist/icon-60.png"; sourceTree = "<group>"; };
+		2F54EBD9187A4FEC00FB4F65 /* icon-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-120.png"; path = "Frictlist/icon-120.png"; sourceTree = "<group>"; };
+		2F54EBEA187A536F00FB4F65 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		2F54EBEC187A537600FB4F65 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		2F6EA6A9187611AD006BCC70 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
+		2F86FB7217A4A925008A2C8D /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		2F95420F1868B8490063CE37 /* gear_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear_icon.png; sourceTree = "<group>"; };
+		2F9542111868B8670063CE37 /* list_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list_icon.png; sourceTree = "<group>"; };
+		2F9542151868D3BC0063CE37 /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
+		2F9542161868D3BD0063CE37 /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
+		2F9542181868ECC80063CE37 /* outlines */ = {isa = PBXFileReference; lastKnownFileType = folder; path = outlines; sourceTree = "<group>"; };
+		2F95421A186946E60063CE37 /* seals */ = {isa = PBXFileReference; lastKnownFileType = folder; path = seals; sourceTree = "<group>"; };
+		2F95421E186A05B20063CE37 /* map_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_icon.png; sourceTree = "<group>"; };
+		2F954220186A0FB80063CE37 /* pages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pages; sourceTree = "<group>"; };
+		2FDA34E31875D42E00ED5698 /* checkbox-checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-checked.png"; sourceTree = "<group>"; };
+		2FDA34E41875D42E00ED5698 /* checkbox-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-pressed.png"; sourceTree = "<group>"; };
+		2FDA34E51875D42E00ED5698 /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
+		2FDA34EC1875DF4400ED5698 /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
+		2FDA34ED1875DF4400ED5698 /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
+		2FEEDBF3186E0D0200290B02 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
+		2FFA9DFD18614361002775B1 /* StatisticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsViewController.h; sourceTree = "<group>"; };
+		2FFA9DFE18614361002775B1 /* StatisticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatisticsViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2F4EE09B176E97B100642169 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F4EE0A2176E97B100642169 /* UIKit.framework in Frameworks */,
+				2F4EE0A4176E97B100642169 /* Foundation.framework in Frameworks */,
+				2F4EE0A6176E97B100642169 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2F4EE095176E97B100642169 = {
+			isa = PBXGroup;
+			children = (
+				2F383FB51888DE760010EF15 /* SystemConfiguration.framework */,
+				2F54EBEC187A537600FB4F65 /* icon.png */,
+				2F54EBEA187A536F00FB4F65 /* icon@2x.png */,
+				2F54EBD4187A4FEC00FB4F65 /* icon-29.png */,
+				2F54EBD6187A4FEC00FB4F65 /* icon-58.png */,
+				2F54EBD7187A4FEC00FB4F65 /* icon-60.png */,
+				2F54EBD9187A4FEC00FB4F65 /* icon-120.png */,
+				2F4EE0A7176E97B100642169 /* Frictlist */,
+				2F4EE0A0176E97B100642169 /* Frameworks */,
+				2F4EE09F176E97B100642169 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2F4EE09F176E97B100642169 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2F4EE09E176E97B100642169 /* Frictlist.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2F4EE0A0176E97B100642169 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2F86FB7217A4A925008A2C8D /* libsqlite3.0.dylib */,
+				2F4EE0A1176E97B100642169 /* UIKit.framework */,
+				2F4EE0A3176E97B100642169 /* Foundation.framework */,
+				2F4EE0A5176E97B100642169 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2F4EE0A7176E97B100642169 /* Frictlist */ = {
+			isa = PBXGroup;
+			children = (
+				2F4EE0A9176E97B100642169 /* Frictlist-Info.plist */,
+				2FDA34E31875D42E00ED5698 /* checkbox-checked.png */,
+				2FDA34E41875D42E00ED5698 /* checkbox-pressed.png */,
+				2FDA34E51875D42E00ED5698 /* checkbox.png */,
+				2F95421E186A05B20063CE37 /* map_icon.png */,
+				2F383FB21888CE0E0010EF15 /* map.png */,
+				2F9542111868B8670063CE37 /* list_icon.png */,
+				2F95420F1868B8490063CE37 /* gear_icon.png */,
+				2F4EE0D61770030D00642169 /* images */,
+				2F4EE0C8176EA23200642169 /* noCheck.png */,
+				2F4EE0B0176E97B100642169 /* FrictlistAppDelegate.h */,
+				2F6EA6A9187611AD006BCC70 /* check.png */,
+				2F4EE0B1176E97B100642169 /* FrictlistAppDelegate.m */,
+				2F4EE0B9176E97B100642169 /* MainStoryboard.storyboard */,
+				2F9542151868D3BC0063CE37 /* TabBarController.h */,
+				2F9542161868D3BD0063CE37 /* TabBarController.m */,
+				2F4EE0BC176E97B100642169 /* FrictlistViewController.h */,
+				2F4EE0BD176E97B100642169 /* FrictlistViewController.m */,
+				2F4EE0A8176E97B100642169 /* Supporting Files */,
+				2F4EE0CA176EA2AF00642169 /* FrictDetailViewController.h */,
+				2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */,
+				2F4EE0CD176EB2CF00642169 /* Frict.h */,
+				2F4EE0CE176EB2CF00642169 /* Frict.m */,
+				2FFA9DFD18614361002775B1 /* StatisticsViewController.h */,
+				2FFA9DFE18614361002775B1 /* StatisticsViewController.m */,
+				2F383FAE18862F5F0010EF15 /* PlistHelper.h */,
+				2F383FAF18862F5F0010EF15 /* PlistHelper.m */,
+				2FEEDBF3186E0D0200290B02 /* version.h */,
+				2FDA34EC1875DF4400ED5698 /* SignInViewController.h */,
+				2FDA34ED1875DF4400ED5698 /* SignInViewController.m */,
+				2F2B33851882FC6600D90532 /* MapViewController.h */,
+				2F2B33861882FC6600D90532 /* MapViewController.m */,
+			);
+			path = Frictlist;
+			sourceTree = "<group>";
+		};
+		2F4EE0A8176E97B100642169 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2F4EE0AA176E97B100642169 /* InfoPlist.strings */,
+				2F4EE0AD176E97B100642169 /* main.m */,
+				2F4EE0AF176E97B100642169 /* Frictlist-Prefix.pch */,
+				2F4EE0B3176E97B100642169 /* Default.png */,
+				2F4EE0B5176E97B100642169 /* Default@2x.png */,
+				2F4EE0B7176E97B100642169 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2F4EE0D61770030D00642169 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				2F954220186A0FB80063CE37 /* pages */,
+				2F95421A186946E60063CE37 /* seals */,
+				2F9542181868ECC80063CE37 /* outlines */,
+				2F4EE0D71770032900642169 /* coins */,
+				2F4EE0D81770032900642169 /* flags */,
+				2F4EE0D91770032900642169 /* plates */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2F4EE09D176E97B100642169 /* Frictlist */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2F4EE0C1176E97B100642169 /* Build configuration list for PBXNativeTarget "Frictlist" */;
+			buildPhases = (
+				2F4EE09A176E97B100642169 /* Sources */,
+				2F4EE09B176E97B100642169 /* Frameworks */,
+				2F4EE09C176E97B100642169 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Frictlist;
+			productName = Frictlist;
+			productReference = 2F4EE09E176E97B100642169 /* Frictlist.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2F4EE096176E97B100642169 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = Frictlist;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = FLooReeDA;
+			};
+			buildConfigurationList = 2F4EE099176E97B100642169 /* Build configuration list for PBXProject "Frictlist" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2F4EE095176E97B100642169;
+			productRefGroup = 2F4EE09F176E97B100642169 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2F4EE09D176E97B100642169 /* Frictlist */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2F4EE09C176E97B100642169 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F4EE0AC176E97B100642169 /* InfoPlist.strings in Resources */,
+				2F4EE0B4176E97B100642169 /* Default.png in Resources */,
+				2F4EE0B6176E97B100642169 /* Default@2x.png in Resources */,
+				2F4EE0B8176E97B100642169 /* Default-568h@2x.png in Resources */,
+				2F4EE0BB176E97B100642169 /* MainStoryboard.storyboard in Resources */,
+				2F4EE0C9176EA23200642169 /* noCheck.png in Resources */,
+				2F4EE0DA1770032900642169 /* coins in Resources */,
+				2F4EE0DB1770032900642169 /* flags in Resources */,
+				2F4EE0DC1770032900642169 /* plates in Resources */,
+				2F9542101868B84A0063CE37 /* gear_icon.png in Resources */,
+				2F9542121868B8670063CE37 /* list_icon.png in Resources */,
+				2F9542191868ECC80063CE37 /* outlines in Resources */,
+				2F95421B186946E60063CE37 /* seals in Resources */,
+				2F95421F186A05B20063CE37 /* map_icon.png in Resources */,
+				2F954221186A0FB80063CE37 /* pages in Resources */,
+				2FDA34E61875D42F00ED5698 /* checkbox-checked.png in Resources */,
+				2FDA34E71875D42F00ED5698 /* checkbox-pressed.png in Resources */,
+				2FDA34E81875D42F00ED5698 /* checkbox.png in Resources */,
+				2F6EA6AA187611AE006BCC70 /* check.png in Resources */,
+				2F54EBDA187A4FEC00FB4F65 /* icon-29.png in Resources */,
+				2F54EBDE187A4FEC00FB4F65 /* icon-58.png in Resources */,
+				2F54EBE0187A4FEC00FB4F65 /* icon-60.png in Resources */,
+				2F54EBE4187A4FEC00FB4F65 /* icon-120.png in Resources */,
+				2F383FB31888CE0E0010EF15 /* map.png in Resources */,
+				2FE163A71889BCC600864413 /* icon.png in Resources */,
+				2FE163A81889BCCC00864413 /* icon@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2F4EE09A176E97B100642169 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F4EE0AE176E97B100642169 /* main.m in Sources */,
+				2F4EE0B2176E97B100642169 /* FrictlistAppDelegate.m in Sources */,
+				2F4EE0BE176E97B100642169 /* FrictlistViewController.m in Sources */,
+				2F4EE0CC176EA2AF00642169 /* FrictDetailViewController.m in Sources */,
+				2F4EE0CF176EB2CF00642169 /* Frict.m in Sources */,
+				2FFA9DFF18614361002775B1 /* StatisticsViewController.m in Sources */,
+				2F9542171868D3BD0063CE37 /* TabBarController.m in Sources */,
+				2FDA34EE1875DF4500ED5698 /* SignInViewController.m in Sources */,
+				2F2B33871882FC6600D90532 /* MapViewController.m in Sources */,
+				2F383FB018862F600010EF15 /* PlistHelper.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2F4EE0AA176E97B100642169 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F4EE0AB176E97B100642169 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2F4EE0B9176E97B100642169 /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F4EE0BA176E97B100642169 /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2F4EE0BF176E97B100642169 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2F4EE0C0176E97B100642169 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2F4EE0C2176E97B100642169 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Frictlist/Frictlist-Prefix.pch";
+				INFOPLIST_FILE = "Frictlist/Frictlist-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = Frictlist;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		2F4EE0C3176E97B100642169 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Frictlist/Frictlist-Prefix.pch";
+				INFOPLIST_FILE = "Frictlist/Frictlist-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Frictlist;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2F4EE099176E97B100642169 /* Build configuration list for PBXProject "Frictlist" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2F4EE0BF176E97B100642169 /* Debug */,
+				2F4EE0C0176E97B100642169 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2F4EE0C1176E97B100642169 /* Build configuration list for PBXNativeTarget "Frictlist" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2F4EE0C2176E97B100642169 /* Debug */,
+				2F4EE0C3176E97B100642169 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2F4EE096176E97B100642169 /* Project object */;
+}
