@@ -24,9 +24,6 @@
 		2F4EE0C9176EA23200642169 /* noCheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0C8176EA23200642169 /* noCheck.png */; };
 		2F4EE0CC176EA2AF00642169 /* FrictDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */; };
 		2F4EE0CF176EB2CF00642169 /* Frict.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0CE176EB2CF00642169 /* Frict.m */; };
-		2F4EE0DA1770032900642169 /* coins in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0D71770032900642169 /* coins */; };
-		2F4EE0DB1770032900642169 /* flags in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0D81770032900642169 /* flags */; };
-		2F4EE0DC1770032900642169 /* plates in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0D91770032900642169 /* plates */; };
 		2F54EBDA187A4FEC00FB4F65 /* icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F54EBD4187A4FEC00FB4F65 /* icon-29.png */; };
 		2F54EBDE187A4FEC00FB4F65 /* icon-58.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F54EBD6187A4FEC00FB4F65 /* icon-58.png */; };
 		2F54EBE0187A4FEC00FB4F65 /* icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F54EBD7187A4FEC00FB4F65 /* icon-60.png */; };
@@ -35,10 +32,7 @@
 		2F9542101868B84A0063CE37 /* gear_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F95420F1868B8490063CE37 /* gear_icon.png */; };
 		2F9542121868B8670063CE37 /* list_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F9542111868B8670063CE37 /* list_icon.png */; };
 		2F9542171868D3BD0063CE37 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9542161868D3BD0063CE37 /* TabBarController.m */; };
-		2F9542191868ECC80063CE37 /* outlines in Resources */ = {isa = PBXBuildFile; fileRef = 2F9542181868ECC80063CE37 /* outlines */; };
-		2F95421B186946E60063CE37 /* seals in Resources */ = {isa = PBXBuildFile; fileRef = 2F95421A186946E60063CE37 /* seals */; };
 		2F95421F186A05B20063CE37 /* map_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F95421E186A05B20063CE37 /* map_icon.png */; };
-		2F954221186A0FB80063CE37 /* pages in Resources */ = {isa = PBXBuildFile; fileRef = 2F954220186A0FB80063CE37 /* pages */; };
 		2FDA34E61875D42F00ED5698 /* checkbox-checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E31875D42E00ED5698 /* checkbox-checked.png */; };
 		2FDA34E71875D42F00ED5698 /* checkbox-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E41875D42E00ED5698 /* checkbox-pressed.png */; };
 		2FDA34E81875D42F00ED5698 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E51875D42E00ED5698 /* checkbox.png */; };
@@ -76,9 +70,6 @@
 		2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrictDetailViewController.m; sourceTree = "<group>"; };
 		2F4EE0CD176EB2CF00642169 /* Frict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frict.h; sourceTree = "<group>"; };
 		2F4EE0CE176EB2CF00642169 /* Frict.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Frict.m; sourceTree = "<group>"; };
-		2F4EE0D71770032900642169 /* coins */ = {isa = PBXFileReference; lastKnownFileType = folder; path = coins; sourceTree = "<group>"; };
-		2F4EE0D81770032900642169 /* flags */ = {isa = PBXFileReference; lastKnownFileType = folder; path = flags; sourceTree = "<group>"; };
-		2F4EE0D91770032900642169 /* plates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = plates; sourceTree = "<group>"; };
 		2F54EBD4187A4FEC00FB4F65 /* icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-29.png"; path = "Frictlist/icon-29.png"; sourceTree = "<group>"; };
 		2F54EBD6187A4FEC00FB4F65 /* icon-58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-58.png"; path = "Frictlist/icon-58.png"; sourceTree = "<group>"; };
 		2F54EBD7187A4FEC00FB4F65 /* icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-60.png"; path = "Frictlist/icon-60.png"; sourceTree = "<group>"; };
@@ -91,10 +82,7 @@
 		2F9542111868B8670063CE37 /* list_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list_icon.png; sourceTree = "<group>"; };
 		2F9542151868D3BC0063CE37 /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
 		2F9542161868D3BD0063CE37 /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
-		2F9542181868ECC80063CE37 /* outlines */ = {isa = PBXFileReference; lastKnownFileType = folder; path = outlines; sourceTree = "<group>"; };
-		2F95421A186946E60063CE37 /* seals */ = {isa = PBXFileReference; lastKnownFileType = folder; path = seals; sourceTree = "<group>"; };
 		2F95421E186A05B20063CE37 /* map_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_icon.png; sourceTree = "<group>"; };
-		2F954220186A0FB80063CE37 /* pages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pages; sourceTree = "<group>"; };
 		2FDA34E31875D42E00ED5698 /* checkbox-checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-checked.png"; sourceTree = "<group>"; };
 		2FDA34E41875D42E00ED5698 /* checkbox-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-pressed.png"; sourceTree = "<group>"; };
 		2FDA34E51875D42E00ED5698 /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
@@ -165,7 +153,6 @@
 				2F383FB21888CE0E0010EF15 /* map.png */,
 				2F9542111868B8670063CE37 /* list_icon.png */,
 				2F95420F1868B8490063CE37 /* gear_icon.png */,
-				2F4EE0D61770030D00642169 /* images */,
 				2F4EE0C8176EA23200642169 /* noCheck.png */,
 				2F4EE0B0176E97B100642169 /* FrictlistAppDelegate.h */,
 				2F6EA6A9187611AD006BCC70 /* check.png */,
@@ -204,19 +191,6 @@
 				2F4EE0B7176E97B100642169 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		2F4EE0D61770030D00642169 /* images */ = {
-			isa = PBXGroup;
-			children = (
-				2F954220186A0FB80063CE37 /* pages */,
-				2F95421A186946E60063CE37 /* seals */,
-				2F9542181868ECC80063CE37 /* outlines */,
-				2F4EE0D71770032900642169 /* coins */,
-				2F4EE0D81770032900642169 /* flags */,
-				2F4EE0D91770032900642169 /* plates */,
-			);
-			name = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,15 +251,9 @@
 				2F4EE0B8176E97B100642169 /* Default-568h@2x.png in Resources */,
 				2F4EE0BB176E97B100642169 /* MainStoryboard.storyboard in Resources */,
 				2F4EE0C9176EA23200642169 /* noCheck.png in Resources */,
-				2F4EE0DA1770032900642169 /* coins in Resources */,
-				2F4EE0DB1770032900642169 /* flags in Resources */,
-				2F4EE0DC1770032900642169 /* plates in Resources */,
 				2F9542101868B84A0063CE37 /* gear_icon.png in Resources */,
 				2F9542121868B8670063CE37 /* list_icon.png in Resources */,
-				2F9542191868ECC80063CE37 /* outlines in Resources */,
-				2F95421B186946E60063CE37 /* seals in Resources */,
 				2F95421F186A05B20063CE37 /* map_icon.png in Resources */,
-				2F954221186A0FB80063CE37 /* pages in Resources */,
 				2FDA34E61875D42F00ED5698 /* checkbox-checked.png in Resources */,
 				2FDA34E71875D42F00ED5698 /* checkbox-pressed.png in Resources */,
 				2FDA34E81875D42F00ED5698 /* checkbox.png in Resources */,
