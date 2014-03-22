@@ -20,13 +20,15 @@
 
 NSMutableArray * hookups;
 BOOL sentFromAdd = false;
+NSMutableArray *huidArray;
+NSMutableArray *firstNameArray;
+NSMutableArray *lastNameArray;
 
 - (void)viewDidLoad
 {
     NSLog(@"view did load");
     [super viewDidLoad];
     
-    hookups = [[NSMutableArray alloc] initWithObjects: nil];
     self.title = @"Frictlist";
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(addORDeleteRows)];
     [self.navigationItem setLeftBarButtonItem:addButton];
@@ -91,8 +93,18 @@ BOOL sentFromAdd = false;
 -(void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"view will appear");
-    // loop to populate state array
-    //[self populateFrictArray];
+    
+    PlistHelper *plist = [PlistHelper alloc];
+    huidArray = [plist getHuIdArray];
+    firstNameArray = [plist getFirstNameArray];
+    lastNameArray = [plist getLastNameArray];
+    NSLog(@"huids: %@", huidArray);
+    NSLog(@"firstNameArray: %@", firstNameArray);
+    NSLog(@"lastNameArray: %@", lastNameArray);
+    
+    hookups = huidArray;
+    
+    
     [self.tableView reloadData];
     [super viewWillAppear:animated];
 }
@@ -123,6 +135,7 @@ BOOL sentFromAdd = false;
     }
 }
 
+//count rows
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     int count = [hookups count];
@@ -130,6 +143,7 @@ BOOL sentFromAdd = false;
     return count;
 }
 
+//code for each row
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"FrictCell";
@@ -147,7 +161,12 @@ BOOL sentFromAdd = false;
         cell.textLabel.text = @"Add a Frict";
         return cell;
     }
-    cell.textLabel.text = [hookups objectAtIndex:indexPath.row];
+    
+    int i = indexPath.row;
+    
+    NSString *name = [NSString stringWithFormat:@"%@ %@", firstNameArray[i], lastNameArray[i]];
+    
+    cell.textLabel.text = name;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }

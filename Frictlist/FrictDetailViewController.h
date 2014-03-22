@@ -20,6 +20,7 @@
     IBOutlet UIDatePicker *toSwitch;
     IBOutlet UITextView *notes;
     IBOutlet UIButton *saveBtn;
+    IBOutlet UIButton *currentSwitch;
 }
 
 //image view
@@ -29,5 +30,6 @@
 
 - (IBAction)changeVisited;
 - (IBAction)savePressed:(id)sender;
+- (IBAction)checkboxButton:(id)sender;
 
 @end

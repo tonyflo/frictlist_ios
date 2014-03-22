@@ -226,15 +226,9 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 -(BOOL) signIn:(NSString *) email password:(NSString *)password
 {
     BOOL rc = true;
-    //paid type is 1, free is 0
-    //this is a flag for the php script to make the account paid
-#if defined(FREE)
-    int type = 0;
-#else
-    int type = 1;
-#endif
+
     //1. Set post string with actual username and password.
-    NSString *post = [NSString stringWithFormat:@"&email=%@&password=%@&type=%d",email,password,type];
+    NSString *post = [NSString stringWithFormat:@"&email=%@&password=%@",email,password];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     

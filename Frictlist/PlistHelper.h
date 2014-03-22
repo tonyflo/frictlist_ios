@@ -17,16 +17,15 @@
 -(NSString *)getEmail;
 -(void)setEmail:(NSString *)email;
 -(NSString *)resetEmail;
--(NSString *)getLastSyncDateTime;
--(void)setLastSyncDateTime:(NSString *)sync;
--(NSString *)resetLastSyncDateTime;
 -(int)getPk;
 -(void)setPk:(int)pk;
 -(int)resetPk;
--(NSString *)getIvisited;
--(void)setIvisited:(NSString *)ivisited;
--(NSString *)resetIvisited;
 -(int)getFirst;
 -(void)setFirst:(int)first;
+
+-(NSMutableArray *)getHuIdArray;
+-(NSMutableArray *)getFirstNameArray;
+-(NSMutableArray *)getLastNameArray;
+-(void)addFrict:(int)huid first:(NSString *)fn last:(NSString *)ln;
 
 @end

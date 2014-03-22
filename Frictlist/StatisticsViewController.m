@@ -43,7 +43,8 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     //count visits
     for(int i = 0; i < 50; i++)
     {
-        char v = [[plist getIvisited] characterAtIndex:i];
+        //todo
+        char v = 0; //[[plist getIvisited] characterAtIndex:i];
         if(v == '1')
         {
             count++;
@@ -60,7 +61,7 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     NSLog(@"View did load");
     
     //tab bar titles
-    [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:@"Fricts"];
+    [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:@"Frictlist"];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Settings"];
     
     //tab bar icons
@@ -131,7 +132,8 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
 {
     PlistHelper *plist = [PlistHelper alloc];
     [plist resetEmail];
-    [plist resetIvisited];
+    //TODO reset frictlist
+    //[plist reset];
     [plist resetPk];
     
     uid = [plist getPk];
@@ -221,7 +223,7 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
         if (buttonIndex == 0)
         {
             // Yes, reset
-            [self resetVisited];
+            [self resetFrictlist];
             self.visited.text = [NSString stringWithFormat:@"%i", [self countVisited]];
         }
         else if (buttonIndex == 1)
@@ -294,10 +296,11 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     }
 }
 
-- (void) resetVisited
+- (void) resetFrictlist
 {
-    PlistHelper * plist = [PlistHelper alloc];
-    [plist resetIvisited];
+    //Todo
+    //PlistHelper * plist = [PlistHelper alloc];
+    //[plist resetIvisited];
 }
 
 - (void)didReceiveMemoryWarning
