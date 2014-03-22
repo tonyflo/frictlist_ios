@@ -50,46 +50,131 @@
             </objects>
             <point key="canvasLocation" x="1004" y="-1322"/>
         </scene>
-        <!--Frict Detail View Controller - STATE-->
+        <!--Frict Detail View Controller - New Frict-->
         <scene sceneID="8WZ-XT-fbw">
             <objects>
                 <viewController id="6uw-zG-BVk" customClass="FrictDetailViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Paz-mG-6RD">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                    <view key="view" tag="3" contentMode="scaleToFill" id="Paz-mG-6RD">
+                        <rect key="frame" x="0.0" y="64" width="320" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Have you visited STATE?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eFg-MV-GLH">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ttw-Cq-cTD">
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="SDC-78-fTO">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="283" id="p3o-av-FOZ"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="1st"/>
+                                            <segment title="2nd"/>
+                                            <segment title="3rd"/>
+                                            <segment title="Home"/>
+                                        </segments>
+                                        <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="changeVisited" destination="6uw-zG-BVk" eventType="valueChanged" id="vu7-qs-ljd"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0JK-ur-4sZ">
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pon-4L-Dcc">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="280" id="eoY-3l-VpN"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <segmentedControl opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ceW-C9-Sr3">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="201" id="oIh-aR-Jkn"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="Male"/>
+                                            <segment title="Female"/>
+                                        </segments>
+                                        <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </segmentedControl>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Age" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2MZ-X1-Xwd">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="65" id="zeY-8N-QHi"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
+                                    </textField>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="aD9-HE-WzZ">
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="216" id="3mi-CP-gRY"/>
+                                        </constraints>
+                                        <date key="date" timeIntervalSinceReferenceDate="417202094.83351201">
+                                            <!--2014-03-22 17:28:14 +0000-->
+                                        </date>
+                                        <timeZone key="timeZone" name="America/Los_Angeles">
+                                            <mutableData key="data">
+VFppZgAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAC5AAAABAAAABCepkign7sVkKCGKqChmveQ
+y4kaoNIj9HDSYSYQ1v50INiArZDa/tGg28CQENzes6DdqayQ3r6VoN+JjpDgnneg4WlwkOJ+WaDjSVKQ
+5F47oOUpNJDmR1gg5xJREOgnOiDo8jMQ6gccIOrSFRDr5v4g7LH3EO3G4CDukdkQ76/8oPBxuxDxj96g
+8n/BkPNvwKD0X6OQ9U+ioPY/hZD3L4Sg+CiiEPkPZqD6CIQQ+viDIPvoZhD82GUg/chIEP64RyD/qCoQ
+AJgpIAGIDBACeAsgA3EokARhJ6AFUQqQBkEJoAcw7JAHjUOgCRDOkAmtvyAK8LCQC+CvoAzZzRANwJGg
+DrmvEA+priAQmZEQEYmQIBJ5cxATaXIgFFlVEBVJVCAWOTcQFyk2IBgiU5AZCRggGgI1kBryNKAb4heQ
+HNIWoB3B+ZAesfigH6HbkCB2KyAhgb2QIlYNICNq2hAkNe8gJUq8ECYV0SAnKp4QJ/7toCkKgBAp3s+g
+KupiECu+saAs036QLZ6ToC6zYJAvfnWgMJNCkDFnkiAycySQM0d0IDRTBpA1J1YgNjLokDcHOCA4HAUQ
+OOcaIDn75xA6xvwgO9vJEDywGKA9u6sQPo/6oD+bjRBAb9ygQYSpkEJPvqBDZIuQRC+goEVEbZBF89Mg
+Ry2KEEfTtSBJDWwQSbOXIErtThBLnLOgTNZqkE18laBOtkyQT1x3oFCWLpBRPFmgUnYQkFMcO6BUVfKQ
+VPwdoFY11JBW5TogWB7xEFjFHCBZ/tMQWqT+IFvetRBchOAgXb6XEF5kwiBfnnkQYE3eoGGHlZBiLcCg
+Y2d3kGQNoqBlR1mQZe2EoGcnO5BnzWagaQcdkGmtSKBq5v+Qa5ZlIGzQHBBtdkcgbq/+EG9WKSBwj+AQ
+cTYLIHJvwhBzFe0gdE+kEHT/CaB2OMCQdt7roHgYopB4vs2gefiEkHqer6B72GaQfH6RoH24SJB+XnOg
+f5gqkAABAAECAwEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
+AQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
+AQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
+AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
+</mutableData>
+                                        </timeZone>
+                                    </datePicker>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enter information about your Frict:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbX-QE-lcS">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="480" id="AZI-Up-Jk1"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="309" id="RdR-BA-At0"/>
+                                    <constraint firstItem="2MZ-X1-Xwd" firstAttribute="baseline" secondItem="Pon-4L-Dcc" secondAttribute="baseline" type="default" id="3Rr-Hw-RZL"/>
+                                    <constraint firstItem="aD9-HE-WzZ" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" type="default" id="8D0-gE-gxc"/>
+                                    <constraint firstItem="2MZ-X1-Xwd" firstAttribute="baseline" secondItem="0JK-ur-4sZ" secondAttribute="baseline" type="default" id="9ih-AH-H3P"/>
+                                    <constraint firstItem="ceW-C9-Sr3" firstAttribute="baseline" secondItem="SDC-78-fTO" secondAttribute="baseline" type="default" id="9xR-To-yCN"/>
+                                    <constraint firstItem="0JK-ur-4sZ" firstAttribute="trailing" secondItem="Pon-4L-Dcc" secondAttribute="trailing" type="default" id="BgM-zf-AVd"/>
+                                    <constraint firstItem="0JK-ur-4sZ" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="5" id="CeU-9n-9ac"/>
+                                    <constraint firstItem="ceW-C9-Sr3" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="53" id="Cgq-Im-Hh3"/>
+                                    <constraint firstItem="qbX-QE-lcS" firstAttribute="centerY" secondItem="0JK-ur-4sZ" secondAttribute="centerY" type="default" id="Flx-9n-iYo"/>
+                                    <constraint firstItem="aD9-HE-WzZ" firstAttribute="trailing" secondItem="ttw-Cq-cTD" secondAttribute="trailing" type="default" id="Hzz-4c-fmL"/>
+                                    <constraint firstItem="2MZ-X1-Xwd" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="92" id="Jxf-zJ-qJG"/>
+                                    <constraint firstItem="SDC-78-fTO" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Sdq-SI-Bgz"/>
+                                    <constraint firstItem="ceW-C9-Sr3" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="234" id="SkA-CE-J3x"/>
+                                    <constraint firstItem="aD9-HE-WzZ" firstAttribute="centerX" secondItem="ttw-Cq-cTD" secondAttribute="centerX" type="default" id="U6l-D4-WXz"/>
+                                    <constraint firstItem="2MZ-X1-Xwd" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="190" id="ZZp-Yj-RqX"/>
+                                    <constraint firstAttribute="bottom" secondItem="SDC-78-fTO" secondAttribute="bottom" constant="46" id="ftm-zX-Epw"/>
+                                    <constraint firstItem="0JK-ur-4sZ" firstAttribute="leading" secondItem="Pon-4L-Dcc" secondAttribute="leading" type="default" id="lxi-Xw-mD5"/>
+                                    <constraint firstItem="aD9-HE-WzZ" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="296" id="rAj-DP-Rel"/>
+                                    <constraint firstItem="SDC-78-fTO" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="525" id="unh-Y2-X4Z"/>
+                                    <constraint firstItem="qbX-QE-lcS" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" type="default" id="wbM-Wj-ZXO"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="SDC-78-fTO">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="161" id="Ia0-jw-mzj"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="No"/>
-                                    <segment title="Yes"/>
-                                </segments>
-                                <connections>
-                                    <action selector="changeVisited" destination="6uw-zG-BVk" eventType="valueChanged" id="vu7-qs-ljd"/>
-                                </connections>
-                            </segmentedControl>
+                            </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="SDC-78-fTO" firstAttribute="top" secondItem="eFg-MV-GLH" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="BNL-x5-32U"/>
-                            <constraint firstAttribute="bottom" secondItem="SDC-78-fTO" secondAttribute="bottom" constant="8" id="DDS-zc-hgc"/>
-                            <constraint firstItem="eFg-MV-GLH" firstAttribute="centerX" secondItem="Paz-mG-6RD" secondAttribute="centerX" type="default" id="ZAv-4j-hEQ"/>
-                            <constraint firstItem="eFg-MV-GLH" firstAttribute="centerX" secondItem="SDC-78-fTO" secondAttribute="centerX" type="default" id="Zyn-Qf-OCl"/>
+                            <constraint firstItem="ttw-Cq-cTD" firstAttribute="top" secondItem="Paz-mG-6RD" secondAttribute="top" type="default" id="2oB-Ax-IdD"/>
+                            <constraint firstItem="ttw-Cq-cTD" firstAttribute="bottom" secondItem="Paz-mG-6RD" secondAttribute="bottom" type="default" id="UqE-Hv-tq1"/>
+                            <constraint firstItem="ttw-Cq-cTD" firstAttribute="trailing" secondItem="Paz-mG-6RD" secondAttribute="trailing" type="default" id="j6C-aa-Hhf"/>
+                            <constraint firstItem="ttw-Cq-cTD" firstAttribute="leading" secondItem="Paz-mG-6RD" secondAttribute="leading" type="default" id="zfj-8V-JDV"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="STATE" id="i0J-CR-mHp"/>
+                    <navigationItem key="navigationItem" title="New Frict" id="i0J-CR-mHp"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <outlet property="stateNameLabel" destination="eFg-MV-GLH" id="DQf-Lc-zSF"/>
                         <outlet property="visitedSegmentedControl" destination="SDC-78-fTO" id="myf-61-THb"/>
                     </connections>
                 </viewController>
@@ -398,13 +483,13 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <constraint firstItem="Lol-ue-VnK" firstAttribute="leading" secondItem="SSb-WR-KPb" secondAttribute="leading" type="default" id="25m-sb-5ef"/>
                                     <constraint firstItem="G54-Nx-2hM" firstAttribute="top" secondItem="yia-ww-6by" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="36A-Kg-2yf"/>
                                     <constraint firstItem="SSb-WR-KPb" firstAttribute="top" secondItem="zzS-e9-Nb6" secondAttribute="top" constant="44" id="ACO-oY-yD7"/>
+                                    <constraint firstItem="IbS-JG-H9W" firstAttribute="centerX" secondItem="zzS-e9-Nb6" secondAttribute="centerX" type="default" id="D5e-fO-iQV"/>
                                     <constraint firstItem="G5z-li-JDP" firstAttribute="trailing" secondItem="GLK-er-hQi" secondAttribute="trailing" type="default" id="Fsm-ol-o8L"/>
                                     <constraint firstItem="yia-ww-6by" firstAttribute="leading" secondItem="Lol-ue-VnK" secondAttribute="leading" type="default" id="GQs-FE-CnC"/>
                                     <constraint firstItem="GLK-er-hQi" firstAttribute="leading" secondItem="zzS-e9-Nb6" secondAttribute="leading" constant="5" id="IM8-rG-Iel"/>
                                     <constraint firstAttribute="trailing" secondItem="GLK-er-hQi" secondAttribute="trailing" constant="5" id="IOR-za-4z2"/>
                                     <constraint firstItem="7ss-Bx-W5i" firstAttribute="leading" secondItem="zzS-e9-Nb6" secondAttribute="leading" constant="139" id="JfR-JS-sei"/>
                                     <constraint firstItem="yia-ww-6by" firstAttribute="top" secondItem="Lol-ue-VnK" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="OmB-Bx-GFn"/>
-                                    <constraint firstItem="G5z-li-JDP" firstAttribute="centerX" secondItem="zzS-e9-Nb6" secondAttribute="centerX" type="default" id="Pzd-Lr-sZF"/>
                                     <constraint firstItem="K8m-MK-nES" firstAttribute="trailing" secondItem="G5z-li-JDP" secondAttribute="trailing" type="default" id="WlY-Tp-lbw"/>
                                     <constraint firstItem="Lol-ue-VnK" firstAttribute="top" secondItem="zzS-e9-Nb6" secondAttribute="top" constant="159" id="Z6m-zc-zPq"/>
                                     <constraint firstAttribute="bottom" secondItem="IbS-JG-H9W" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="ZEN-pd-WGf"/>
@@ -489,7 +574,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictDetailViewController.h"/>
             <relationships>
                 <relationship kind="action" name="changeVisited"/>
-                <relationship kind="outlet" name="stateImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="stateNameLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="visitedSegmentedControl" candidateClass="UISegmentedControl"/>
             </relationships>
