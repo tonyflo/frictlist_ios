@@ -99,11 +99,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/StatisticsViewController.m"
-         timestampString = "417196737.372018"
+         timestampString = "417199931.960224"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "135"
-         endingLineNumber = "135"
+         startingLineNumber = "134"
+         endingLineNumber = "134"
          landmarkName = "-signOut"
          landmarkType = "5">
       </FileBreakpoint>
@@ -119,6 +119,32 @@
          endingLineNumber = "288"
          landmarkName = "-signUp:password:firstName:lastName:gender:birthdate:"
          landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Frictlist/FrictlistViewController.m"
+         timestampString = "417201720.035225"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "137"
+         endingLineNumber = "137"
+         landmarkName = "-tableView:cellForRowAtIndexPath:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Frictlist/FrictDetailViewController.h"
+         timestampString = "417199931.960224"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "16"
+         endingLineNumber = "16"
+         landmarkName = "hu_id"
+         landmarkType = "19">
       </FileBreakpoint>
    </FileBreakpoints>
    <SymbolicBreakpoints>

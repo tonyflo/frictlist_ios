@@ -22,7 +22,6 @@
 		2F4EE0BE176E97B100642169 /* FrictlistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0BD176E97B100642169 /* FrictlistViewController.m */; };
 		2F4EE0C9176EA23200642169 /* noCheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0C8176EA23200642169 /* noCheck.png */; };
 		2F4EE0CC176EA2AF00642169 /* FrictDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */; };
-		2F4EE0CF176EB2CF00642169 /* Frict.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0CE176EB2CF00642169 /* Frict.m */; };
 		2F54EBDA187A4FEC00FB4F65 /* icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F54EBD4187A4FEC00FB4F65 /* icon-29.png */; };
 		2F54EBDE187A4FEC00FB4F65 /* icon-58.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F54EBD6187A4FEC00FB4F65 /* icon-58.png */; };
 		2F54EBE0187A4FEC00FB4F65 /* icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F54EBD7187A4FEC00FB4F65 /* icon-60.png */; };
@@ -65,8 +64,6 @@
 		2F4EE0C8176EA23200642169 /* noCheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noCheck.png; sourceTree = "<group>"; };
 		2F4EE0CA176EA2AF00642169 /* FrictDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictDetailViewController.h; sourceTree = "<group>"; };
 		2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrictDetailViewController.m; sourceTree = "<group>"; };
-		2F4EE0CD176EB2CF00642169 /* Frict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frict.h; sourceTree = "<group>"; };
-		2F4EE0CE176EB2CF00642169 /* Frict.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Frict.m; sourceTree = "<group>"; };
 		2F54EBD4187A4FEC00FB4F65 /* icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-29.png"; path = "Frictlist/icon-29.png"; sourceTree = "<group>"; };
 		2F54EBD6187A4FEC00FB4F65 /* icon-58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-58.png"; path = "Frictlist/icon-58.png"; sourceTree = "<group>"; };
 		2F54EBD7187A4FEC00FB4F65 /* icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-60.png"; path = "Frictlist/icon-60.png"; sourceTree = "<group>"; };
@@ -162,8 +159,6 @@
 				2F4EE0A8176E97B100642169 /* Supporting Files */,
 				2F4EE0CA176EA2AF00642169 /* FrictDetailViewController.h */,
 				2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */,
-				2F4EE0CD176EB2CF00642169 /* Frict.h */,
-				2F4EE0CE176EB2CF00642169 /* Frict.m */,
 				2FFA9DFD18614361002775B1 /* StatisticsViewController.h */,
 				2FFA9DFE18614361002775B1 /* StatisticsViewController.m */,
 				2F383FAE18862F5F0010EF15 /* PlistHelper.h */,
@@ -274,7 +269,6 @@
 				2F4EE0B2176E97B100642169 /* FrictlistAppDelegate.m in Sources */,
 				2F4EE0BE176E97B100642169 /* FrictlistViewController.m in Sources */,
 				2F4EE0CC176EA2AF00642169 /* FrictDetailViewController.m in Sources */,
-				2F4EE0CF176EB2CF00642169 /* Frict.m in Sources */,
 				2FFA9DFF18614361002775B1 /* StatisticsViewController.m in Sources */,
 				2F9542171868D3BD0063CE37 /* TabBarController.m in Sources */,
 				2FDA34EE1875DF4500ED5698 /* SignInViewController.m in Sources */,

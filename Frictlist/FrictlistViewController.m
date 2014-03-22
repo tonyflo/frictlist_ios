@@ -8,7 +8,6 @@
 
 #import "FrictlistViewController.h"
 #import "FrictDetailViewController.h" //for segue
-#import "Frict.h"
 #import "PlistHelper.h"
 
 @interface FrictlistViewController ()
@@ -19,128 +18,73 @@
 
 @synthesize tableView;
 
-NSString * stateName[50] =
-{
-                       @"Alabama",
-                       @"Alaska",
-                       @"Arizona",
-                       @"Arkansas",
-                       @"California",
-                       @"Colorado",
-                       @"Connecticut",
-                       @"Delaware",
-                       @"Florida",
-                       @"Georgia",
-                       @"Hawaii",
-                       @"Idaho",
-                       @"Illinois",
-                       @"Indiana",
-                       @"Iowa",
-                       @"Kansas",
-                       @"Kentucky",
-                       @"Louisiana",
-                       @"Maine",
-                       @"Maryland",
-                       @"Massachusetts",
-                       @"Michigan",
-                       @"Minnesota",
-                       @"Mississippi",
-                       @"Missouri",
-                       @"Montana",
-                       @"Nebraska",
-                       @"Nevada",
-                       @"New Hampshire",
-                       @"New Jersey",
-                       @"New Mexico",
-                       @"New York",
-                       @"North Carolina",
-                       @"North Dakota",
-                       @"Ohio",
-                       @"Oklahoma",
-                       @"Oregon",
-                       @"Pennsylvania",
-                       @"Rhode Island",
-                       @"South Carolina",
-                       @"South Dakota",
-                       @"Tennessee",
-                       @"Texas",
-                       @"Utah",
-                       @"Vermont",
-                       @"Virginia",
-                       @"Washington",
-                       @"West Virginia",
-                       @"Wisconsin",
-                       @"Wyoming"
-};
-
-NSMutableArray * states;
+NSMutableArray * hookups;
+BOOL sentFromAdd = false;
 
 - (void)viewDidLoad
 {
     NSLog(@"view did load");
     [super viewDidLoad];
+    
+    hookups = [[NSMutableArray alloc] initWithObjects: nil];
+    self.title = @"Frictlist";
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(addORDeleteRows)];
+    [self.navigationItem setLeftBarButtonItem:addButton];
 }
 
--(void)populateFrictArray
-{
-    states = [[NSMutableArray alloc] initWithCapacity:50];
-    PlistHelper *plist = [PlistHelper alloc];
-    NSString *ivisited = [plist getIvisited];
-    for(int i = 0; i < 50; i++)
-    {
-        char v_c = [ivisited characterAtIndex:i];
-        int v_i = v_c == '0' ? 0 : 1;
-        Frict *st = [[Frict alloc] initWithName:stateName[i] AndVisited:v_i AndIndex:i];
-        [states addObject:st];
-        //NSLog(@"%d, %@, %d", st.primaryKey, st.stateName, st.stateVisited);
-    }
-    NSLog(@"Frict count: %d", [states count]);
-}
+////return the number of states
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//    NSLog(@"count");
+//    //return 50;
+//    return [hookups count];
+//}
 
-//return the number of states
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    NSLog(@"count");
-    //return 50;
-    return [states count];
-}
-
-//code for each row
-- (UITableViewCell *)tableView:(UITableView *)tableViewPtr cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *simpleTableIdentifier = @"FrictCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if(cell == nil)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
-        
-    cell.textLabel.text = [[states objectAtIndex:indexPath.row] stateName]; //default cell label
-    
-    //display check mark if user has visited state at this row
-    if([[states objectAtIndex:indexPath.row] stateVisited] == 1)
-    {
-        cell.imageView.image = [UIImage imageNamed:@"check.png"];
-    }
-    else
-    {
-        cell.imageView.image = [UIImage imageNamed:@"noCheck.png"];
-    }
-    
-    return cell;
-}
+////code for each row
+//- (UITableViewCell *)tableView:(UITableView *)tableViewPtr cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    static NSString *simpleTableIdentifier = @"FrictCell";
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+//    
+//    if(cell == nil)
+//    {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+//    }
+//        
+//    //cell.textLabel.text = [[hookups objectAtIndex:indexPath.row] stateName]; //default cell label
+//    
+//    //display check mark if user has visited state at this row
+////    if([[hookups objectAtIndex:indexPath.row] stateVisited] == 1)
+////    {
+////        cell.imageView.image = [UIImage imageNamed:@"check.png"];
+////    }
+////    else
+////    {
+////        cell.imageView.image = [UIImage imageNamed:@"noCheck.png"];
+////    }
+//    
+//    return cell;
+//}
 
 //send data from table view to detail view
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if([segue.identifier isEqualToString:@"showFrictDetail"])
     {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSIndexPath *indexPath;
+        if(sentFromAdd)
+        {
+            indexPath = sender;
+        }
+        else
+        {
+            indexPath = [self.tableView indexPathForSelectedRow];    
+        }
+        
+        
         FrictDetailViewController *destViewController = segue.destinationViewController;
 
-        Frict *state = [[Frict alloc] init];
-        destViewController.state = [state initWithName:[[states objectAtIndex:indexPath.row] stateName] AndVisited:[[states objectAtIndex:indexPath.row] stateVisited] AndIndex:[indexPath row]];
+        destViewController.hu_id = [indexPath row];
     }
 }
 
@@ -148,7 +92,7 @@ NSMutableArray * states;
 {
     NSLog(@"view will appear");
     // loop to populate state array
-    [self populateFrictArray];
+    //[self populateFrictArray];
     [self.tableView reloadData];
     [super viewWillAppear:animated];
 }
@@ -157,6 +101,86 @@ NSMutableArray * states;
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)addORDeleteRows
+{
+    if(self.editing)
+    {
+        [super setEditing:NO animated:NO];
+        [tableView setEditing:NO animated:NO];
+        [tableView reloadData];
+        [self.navigationItem.leftBarButtonItem setTitle:@"Edit"];
+        [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStylePlain];
+    }
+    else
+    {
+        [super setEditing:YES animated:YES];
+        [tableView setEditing:YES animated:YES];
+        [tableView reloadData];
+        [self.navigationItem.leftBarButtonItem setTitle:@"Done"];
+        [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStyleDone];
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    int count = [hookups count];
+    if(self.editing) count++;
+    return count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *CellIdentifier = @"FrictCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.editingAccessoryType = YES;
+    }
+    int count = 0;
+    if(self.editing && indexPath.row != 0)
+        count = 1;
+    
+    if(indexPath.row == ([hookups count]) && self.editing){
+        cell.textLabel.text = @"Add a Frict";
+        return cell;
+    }
+    cell.textLabel.text = [hookups objectAtIndex:indexPath.row];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    return cell;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.editing == NO || !indexPath)
+        return UITableViewCellEditingStyleNone;
+    
+    if (self.editing && indexPath.row == ([hookups count]))
+        return UITableViewCellEditingStyleInsert;
+    else
+        return UITableViewCellEditingStyleDelete;
+    
+    return UITableViewCellEditingStyleNone;
+}
+
+- (void)tableView:(UITableView *)tableV commitEditingStyle:(UITableViewCellEditingStyle) editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        [hookups removeObjectAtIndex:indexPath.row];
+        [tableV reloadData];
+    }
+    else if (editingStyle == UITableViewCellEditingStyleInsert)
+    {
+        //TODO: go to detail view to add frict
+        [hookups insertObject:@"New hookup" atIndex:[hookups count]];
+        [tableV reloadData];;
+        sentFromAdd = true;
+        [self performSegueWithIdentifier:@"showFrictDetail" sender:indexPath];
+        sentFromAdd = false;
+    }
 }
 
 @end

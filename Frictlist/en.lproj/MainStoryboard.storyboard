@@ -78,40 +78,17 @@
                                     <action selector="changeVisited" destination="6uw-zG-BVk" eventType="valueChanged" id="vu7-qs-ljd"/>
                                 </connections>
                             </segmentedControl>
-                            <imageView contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="5g1-8u-jHz">
-                                <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="280" id="aWJ-IB-bIl"/>
-                                </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="Xtl-ui-4yh" appends="YES" id="CWJ-Rt-ktE"/>
-                                    <outletCollection property="gestureRecognizers" destination="10D-Zn-zWE" appends="YES" id="6Zk-i5-alf"/>
-                                </connections>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cJZ-WW-xdh">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="X2h-Sa-Boe"/>
-                                    <constraint firstAttribute="height" constant="10" id="zwL-gf-1B8"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="SDC-78-fTO" firstAttribute="top" secondItem="eFg-MV-GLH" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="BNL-x5-32U"/>
                             <constraint firstAttribute="bottom" secondItem="SDC-78-fTO" secondAttribute="bottom" constant="8" id="DDS-zc-hgc"/>
-                            <constraint firstItem="5g1-8u-jHz" firstAttribute="centerX" secondItem="cJZ-WW-xdh" secondAttribute="centerX" type="default" id="PMm-Mh-vsg"/>
+                            <constraint firstItem="eFg-MV-GLH" firstAttribute="centerX" secondItem="Paz-mG-6RD" secondAttribute="centerX" type="default" id="ZAv-4j-hEQ"/>
                             <constraint firstItem="eFg-MV-GLH" firstAttribute="centerX" secondItem="SDC-78-fTO" secondAttribute="centerX" type="default" id="Zyn-Qf-OCl"/>
-                            <constraint firstItem="5g1-8u-jHz" firstAttribute="top" secondItem="Paz-mG-6RD" secondAttribute="top" constant="20" symbolic="YES" type="default" id="sCc-BE-XiH"/>
-                            <constraint firstItem="cJZ-WW-xdh" firstAttribute="top" secondItem="Paz-mG-6RD" secondAttribute="top" constant="7" id="tji-62-vHx"/>
-                            <constraint firstItem="5g1-8u-jHz" firstAttribute="centerX" secondItem="eFg-MV-GLH" secondAttribute="centerX" type="default" id="unK-yS-xs0"/>
-                            <constraint firstItem="5g1-8u-jHz" firstAttribute="leading" secondItem="Paz-mG-6RD" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="wh4-xa-o8Z"/>
-                            <constraint firstAttribute="trailing" secondItem="5g1-8u-jHz" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="zBW-tG-xQx"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="STATE" id="i0J-CR-mHp"/>
                     <connections>
-                        <outlet property="pageController" destination="cJZ-WW-xdh" id="WEE-VE-px0"/>
-                        <outlet property="stateImageView" destination="5g1-8u-jHz" id="5e4-XO-1lZ"/>
                         <outlet property="stateNameLabel" destination="eFg-MV-GLH" id="DQf-Lc-zSF"/>
                         <outlet property="visitedSegmentedControl" destination="SDC-78-fTO" id="myf-61-THb"/>
                     </connections>
@@ -512,8 +489,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictDetailViewController.h"/>
             <relationships>
                 <relationship kind="action" name="changeVisited"/>
-                <relationship kind="action" name="handleSwipe:" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="pageController" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="stateImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="stateNameLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="visitedSegmentedControl" candidateClass="UISegmentedControl"/>

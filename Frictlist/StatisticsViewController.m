@@ -7,7 +7,6 @@
 //
 
 #import "StatisticsViewController.h"
-#import "Frict.h"
 #import "version.h"
 #import "SignInViewController.h"
 #import "PlistHelper.h"
