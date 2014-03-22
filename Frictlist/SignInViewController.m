@@ -280,8 +280,6 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     return rc;
 }
 
-
-
 //sign in logic
 -(BOOL) signUp:(NSString *) email password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName gender:(BOOL)gender birthdate:(NSDate *)birthdate
 {

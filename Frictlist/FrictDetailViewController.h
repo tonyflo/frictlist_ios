@@ -8,15 +8,26 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FrictDetailViewController : UIViewController
+@interface FrictDetailViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate>
+{
+    IBOutlet UITextField *activeField;
+    IBOutlet UIScrollView *scrollView;
+    IBOutlet UITextField *firstNameText;
+    IBOutlet UITextField *lastNameText;
+    IBOutlet UISegmentedControl *genderSwitch;
+    IBOutlet UISegmentedControl *baseSwitch;
+    IBOutlet UIDatePicker *fromSwitch;
+    IBOutlet UIDatePicker *toSwitch;
+    IBOutlet UITextView *notes;
+    IBOutlet UIButton *saveBtn;
+}
 
 //image view
 
-@property (nonatomic, strong) IBOutlet UILabel *stateNameLabel;
 @property (readwrite, assign) NSUInteger hu_id;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *visitedSegmentedControl;
 
 - (IBAction)changeVisited;
-
+- (IBAction)savePressed:(id)sender;
 
 @end

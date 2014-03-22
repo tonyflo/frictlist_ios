@@ -14,16 +14,10 @@
 @end
 
 @implementation FrictDetailViewController
-{
-   
-}
 
-@synthesize stateNameLabel;
 @synthesize visitedSegmentedControl;
 @synthesize hu_id;
 
-//globals are bad
-static int imageIndex = 0;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,6 +33,9 @@ static int imageIndex = 0;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    firstNameText.delegate = self;
+    lastNameText.delegate = self;
+    notes.delegate = self;
     
     //set the title
     self.title = [NSString stringWithFormat:@"%d", hu_id];
@@ -68,5 +65,59 @@ static int imageIndex = 0;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    activeField = textField;
+    [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [scrollView setContentOffset:CGPointMake(0,textView.center.y) animated:YES];
+}
+
+// called when click on the retun button.
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSInteger nextTag = textField.tag + 1;
+    // Try to find next responder
+    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
+    
+    if(textField.tag == 1) {
+        [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
+        [textField resignFirstResponder];
+        return YES;
+    } else if (nextResponder) {
+        [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
+        // Found next responder, so set it.
+        [nextResponder becomeFirstResponder];
+        NSLog(@"a");
+    } else {
+        NSLog(@"b");
+        [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
+        [textField resignFirstResponder];
+        return YES;
+    }
+    
+    return NO;
+}
+
+-(BOOL)textView:(UITextView *)textView  shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if([text isEqualToString:@"\n"])
+    {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    return YES;
+}
+
+- (IBAction)savePressed:(id)sender
+{
+    
+}
+
+
 
 @end
