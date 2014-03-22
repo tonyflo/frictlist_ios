@@ -12,7 +12,6 @@
 {
     IBOutlet UIButton *signinBtn;
     IBOutlet UILabel *emailLabel;
-    IBOutlet UILabel *syncLabel;
 }
 @property (strong, nonatomic) IBOutlet UIButton *resetButton;
 @property (strong, nonatomic) IBOutlet UIButton *emailButton;

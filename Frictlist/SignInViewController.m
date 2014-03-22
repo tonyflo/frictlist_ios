@@ -48,13 +48,40 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 	// Do any additional setup after loading the view.
     checkboxSelected = 0;
     self.view.userInteractionEnabled = TRUE;
+    
     lastNameText.delegate = self;
+    firstNameText.delegate = self;
+    passwordText.delegate = self;
+    emailText.delegate = self;
+    
     self.navigationItem.title = @"Sign Up";
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField
+// called when click on the retun button.
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
+
+    NSInteger nextTag = textField.tag + 1;
+    // Try to find next responder
+    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
+    
+    if (nextResponder) {
+        [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
+        // Found next responder, so set it.
+        [nextResponder becomeFirstResponder];
+    } else {
+        [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
+        [textField resignFirstResponder];
+        return YES;
+    }
+    
+    if(checkboxButton.selected == 0)
+    {
+        [textField resignFirstResponder];
+        [scrollView setContentOffset:CGPointMake(0,scrollView.contentSize.height - scrollView.bounds.size.height) animated:YES];
+        return YES;
+    }
+    
     return NO;
 }
 
@@ -587,18 +614,10 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     NSLog(@"Did finish loading");
 }
 
-- (IBAction)flooreedaLinkClick:(id)sender
-{
-    NSString *ivisitedLink = @"http://ivisited.flooreeda.com";
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:ivisitedLink]];
-}
-
-//#if defined(FREE)
 - (IBAction)backButonClick:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-//#endif
 
 //take an action when a choice is made in an alert dialog
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -630,6 +649,12 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    activeField = textField;
+    [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
 }
 
 @end

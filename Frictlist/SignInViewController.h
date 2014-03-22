@@ -18,6 +18,8 @@
     IBOutlet UIDatePicker *birthdatePicker;
     IBOutlet UITextField *firstNameText;
     IBOutlet UITextField *lastNameText;
+    IBOutlet UIScrollView *scrollView;
+    IBOutlet UITextField *activeField;
 }
 
 @property (strong, nonatomic) IBOutlet UINavigationItem *bakcButton;
