@@ -73,12 +73,12 @@ NSString *syncdatetime;
     //tab bar titles
     [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:@"Fricts"];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Settings"];
-    [[self.tabBarController.tabBar.items objectAtIndex:2] setTitle:@"Map"];
+    //[[self.tabBarController.tabBar.items objectAtIndex:2] setTitle:@"Map"];
     
     //tab bar icons
     [[self.tabBarController.tabBar.items objectAtIndex:0] setImage:[UIImage imageNamed:@"list_icon.png"]];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setImage:[UIImage imageNamed:@"gear_icon.png"]];
-    [[self.tabBarController.tabBar.items objectAtIndex:2] setImage:[UIImage imageNamed:@"map_icon.png"]];
+    //[[self.tabBarController.tabBar.items objectAtIndex:2] setImage:[UIImage imageNamed:@"map_icon.png"]];
 }
 
 -(void)checkFirstAppOpen
