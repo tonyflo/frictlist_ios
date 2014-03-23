@@ -23,6 +23,7 @@ UIAlertView * alertView;
 NSString * frict_url = @"http://frictlist.flooreeda.com/scripts/";
 int maxStringLen = 255;
 int minAge = 14;
+int row = 0; //local index of frict (the row of the frict)
 
 NSString *firstName;
 NSString *lastName;
@@ -49,31 +50,30 @@ NSString * notesStr;
         NSMutableArray * notesArray = [plist getNoteArray];
         
         //get local index of hu_id
-        int index = 0;
         for(int i = 0; i < huidArray.count; i++)
         {
             if(self.hu_id == [[huidArray objectAtIndex:i] intValue])
                 {
-                    index = i;
+                    row = i;
                     break;
                 }
         }
     
         NSLog(@"local index of %d is %d", self.hu_id, index);
         
-        firstName = fnArray[index];
+        firstName = fnArray[row];
         NSLog(@"%@", firstName);
-        lastName = lnArray[index];
+        lastName = lnArray[row];
         NSLog(@"%@", lastName);
-        gender = [genderArray[index] intValue];
+        gender = [genderArray[row] intValue];
         NSLog(@"%d", gender);
-        base = [baseArray[index] intValue];
+        base = [baseArray[row] intValue];
         NSLog(@"%d", base);
-        fromDate = fromArray[index];
+        fromDate = fromArray[row];
         NSLog(@"%@", fromDate);
-        toDate = toArray[index];
+        toDate = toArray[row];
         NSLog(@"%@", toDate);
-        notesStr = notesArray[index];
+        notesStr = notesArray[row];
         NSLog(@"%@", notesStr);
         
         firstNameText.text = firstName;
@@ -256,8 +256,16 @@ NSString * notesStr;
 {
     BOOL rc = true;
 
-    //1. Set post string with actual username and password.
-    NSString *post = [NSString stringWithFormat:@"&uid=%d&firstname=%@&lastname=%@&gender=%d&base=%d&from=%@&to=%@&notes=%@",uid, firstname, lastname, gender, base, from, to, hu_notes];
+    NSString *post;
+    
+    if(self.hu_id > 0)
+    {
+        post = [NSString stringWithFormat:@"&uid=%d&frict_id=%d&firstname=%@&lastname=%@&gender=%d&base=%d&from=%@&to=%@&notes=%@",uid, hu_id, firstname, lastname, gender, base, from, to, hu_notes];
+    }
+    else
+    {
+        post = [NSString stringWithFormat:@"&uid=%d&firstname=%@&lastname=%@&gender=%d&base=%d&from=%@&to=%@&notes=%@",uid, firstname, lastname, gender, base, from, to, hu_notes];
+    }
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
@@ -370,10 +378,19 @@ NSString * notesStr;
             toFormatted = @"0000-00-00";
         }
         
-        //To insert the data that has already been inserted on the remote database into the plist
         PlistHelper *plist = [PlistHelper alloc];
-        [plist addFrict:intResult first:firstNameText.text last:lastNameText.text base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text gender:genderSwitch.selectedSegmentIndex];
+        if(self.hu_id > 0)
+        {
+            //update the local database
+            [plist updateFrict:intResult index:row first:firstNameText.text last:lastNameText.text base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text gender:genderSwitch.selectedSegmentIndex];
+        }
+        else
+        {
+            //insert the data that has already been inserted on the remote database into the plist
+            [plist addFrict:intResult first:firstNameText.text last:lastNameText.text base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text gender:genderSwitch.selectedSegmentIndex];
+        }
         
+        //TODO get this to go back to another view
         //alert that it was successful then
         //go back to settings view
         [alertView dismissWithClickedButtonIndex:0 animated:YES];

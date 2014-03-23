@@ -152,7 +152,6 @@ NSMutableArray *defaultGender;
 }
 
 //adders
-
 -(void)addHuId:(int)huid
 {
     NSString * path = [self getPlistPath];
@@ -257,6 +256,114 @@ NSMutableArray *defaultGender;
     [self addNote:notes];
     [self addGender:gender];
 }
+
+//updaters
+-(void)updateHuId:(int)index huid:(int)huid
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * huidArray =[data objectForKey:@"huid"];
+    [huidArray setObject:[NSString stringWithFormat:@"%d", huid] atIndexedSubscript:index];
+    [data setObject:huidArray forKey:@"huid"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)updateFirst:(int)index fn:(NSString *)fn
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * fnArray =[data objectForKey:@"fn"];
+    [fnArray setObject:fn atIndexedSubscript:index];
+    [data setObject:fnArray forKey:@"fn"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)updateLast:(int)index ln:(NSString *)ln
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * lnArray =[data objectForKey:@"ln"];
+    [lnArray setObject:ln atIndexedSubscript:index];
+    [data setObject:lnArray forKey:@"ln"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)updateBase:(int)index base:(int)base
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * baseArray =[data objectForKey:@"base"];
+    [baseArray setObject:[NSString stringWithFormat:@"%d", base] atIndexedSubscript:index];
+    [data setObject:baseArray forKey:@"base"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)updateAccepted:(int)index accept:(int)accept
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * acceptArray =[data objectForKey:@"accept"];
+    [acceptArray setObject:[NSString stringWithFormat:@"%d", accept] atIndexedSubscript:index];
+    [data setObject:acceptArray forKey:@"accept"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)updateFrom:(int)index from:(NSString *)from
+{
+    NSLog(@"From date: %@", from);
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * fromArray =[data objectForKey:@"from"];
+    [fromArray setObject:from atIndexedSubscript:index];
+    [data setObject:fromArray forKey:@"from"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)updateTo:(int)index to:(NSString *)to
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * toArray =[data objectForKey:@"to"];
+    [toArray setObject:to atIndexedSubscript:index];
+    [data setObject:toArray forKey:@"to"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)updateNote:(int)index note:(NSString *)note
+{
+    NSLog(@"set note: %@", note);
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * noteArray =[data objectForKey:@"note"];
+    [noteArray setObject:note atIndexedSubscript:index];
+    [data setObject:noteArray forKey:@"note"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)updateGender:(int)index gender:(int)gender
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * genderArray =[data objectForKey:@"gender"];
+    [genderArray setObject:[NSString stringWithFormat:@"%d", gender] atIndexedSubscript:index];
+    [data setObject:genderArray forKey:@"gender"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)updateFrict:(int)huid index:(int)index first:(NSString *)fn last:(NSString *)ln base:(int)base accepted:(int)accepted from:(NSString *)from to:(NSString *)to notes:(NSString *)notes gender:(int)gender
+{
+
+    [self updateHuId:index huid:huid];
+    [self updateFirst:index fn:fn];
+    [self updateLast:index ln:ln];
+    [self updateBase:index base:base];
+    [self updateAccepted:index accept:accepted];
+    [self updateFrom:index from:from];
+    [self updateTo:index to:to];
+    [self updateNote:index note:notes];
+    [self updateGender:index gender:gender];
+}
+
 
 //resetters
 -(NSString *)resetEmail
