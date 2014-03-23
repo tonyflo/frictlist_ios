@@ -137,8 +137,16 @@ NSString * notesStr;
 
 -(void)goBack:(id)sender
 {
-    NSLog(@"Heerree");
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    if(hu_id >0)
+    {
+        //if frict exists, go to frict view
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else
+    {
+        //if frict doesn't exist, go back to frictlist view
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning
