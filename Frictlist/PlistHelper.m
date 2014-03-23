@@ -411,15 +411,15 @@ NSMutableArray *defaultGender;
     }
     else
     {
-        defaultHuId = [[NSMutableArray alloc] initWithObjects:@"0", nil];
-        defaultFirst = [[NSMutableArray alloc] initWithObjects:@"0", nil];
-        defaultLast = [[NSMutableArray alloc] initWithObjects:@"0", nil];
-        defaultBase = [[NSMutableArray alloc] initWithObjects:@"0", nil];
-        defaultAccepted = [[NSMutableArray alloc] initWithObjects:@"0", nil];
-        defaultFrom = [[NSMutableArray alloc] initWithObjects:@"0", nil];;
-        defaultTo = [[NSMutableArray alloc] initWithObjects:@"0", nil];;
-        defaultNotes = [[NSMutableArray alloc] initWithObjects:@"0", nil];;
-        defaultGender = [[NSMutableArray alloc] initWithObjects:@"0", nil];;
+        defaultHuId = [[NSMutableArray alloc] initWithObjects:nil];
+        defaultFirst = [[NSMutableArray alloc] initWithObjects:nil];
+        defaultLast = [[NSMutableArray alloc] initWithObjects:nil];
+        defaultBase = [[NSMutableArray alloc] initWithObjects:nil];
+        defaultAccepted = [[NSMutableArray alloc] initWithObjects:nil];
+        defaultFrom = [[NSMutableArray alloc] initWithObjects:nil];;
+        defaultTo = [[NSMutableArray alloc] initWithObjects:nil];;
+        defaultNotes = [[NSMutableArray alloc] initWithObjects:nil];;
+        defaultGender = [[NSMutableArray alloc] initWithObjects:nil];;
         
         // If the file doesn’t exist, create an empty dictionary
         data = [[NSMutableDictionary alloc] init];

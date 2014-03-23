@@ -101,7 +101,14 @@ NSString * notesStr;
             [toSwitch setDate:toAsDate];
         }
         
+        //set the title
+        self.title = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
         
+    }
+    else
+    {
+        //set the title
+        self.title = @"New Frict";
     }
 }
 
@@ -123,8 +130,15 @@ NSString * notesStr;
     lastNameText.delegate = self;
     notes.delegate = self;
     
-    //set the title
-    self.title = [NSString stringWithFormat:@"%d", hu_id];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc]  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(goBack:)];
+    self.navigationItem.leftBarButtonItem = backButton;
+    self.navigationItem.hidesBackButton = YES;
+}
+
+-(void)goBack:(id)sender
+{
+    NSLog(@"Heerree");
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -394,7 +408,9 @@ NSString * notesStr;
         //alert that it was successful then
         //go back to settings view
         [alertView dismissWithClickedButtonIndex:0 animated:YES];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        //[self dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popViewControllerAnimated:YES];
+        //[self.navigationController popToRootViewControllerAnimated:YES];
     }
     //error code was returned
     else
@@ -503,5 +519,6 @@ NSString * notesStr;
         toSwitch.alpha = 1;
     }
 }
+
 
 @end

@@ -138,11 +138,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/FrictDetailViewController.m"
-         timestampString = "417231977.657209"
+         timestampString = "417240564.852997"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "242"
-         endingLineNumber = "242"
+         startingLineNumber = "256"
+         endingLineNumber = "256"
          landmarkName = "-savePressed:"
          landmarkType = "5">
       </FileBreakpoint>

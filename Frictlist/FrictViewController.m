@@ -24,11 +24,23 @@
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     NSLog(@"HHUUIIDD: %d", self.hu_id);
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    //jump to the edit view if this is a new row in the list
+    if(self.hu_id <=0)
+    {
+        [self performSegueWithIdentifier:@"editFrict" sender:editButton];
+    }
+  
 }
 
 - (void)didReceiveMemoryWarning

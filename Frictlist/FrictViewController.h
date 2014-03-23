@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface FrictViewController : UIViewController
+{
+    
+    IBOutlet NSLayoutConstraint *editButton;
+}
 
 @property (readwrite, assign) NSUInteger hu_id;
 
