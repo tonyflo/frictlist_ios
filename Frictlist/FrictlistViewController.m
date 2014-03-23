@@ -7,7 +7,7 @@
 //
 
 #import "FrictlistViewController.h"
-#import "FrictDetailViewController.h" //for segue
+#import "FrictViewController.h" //for segue
 #import "PlistHelper.h"
 
 @interface FrictlistViewController ()
@@ -83,10 +83,14 @@ NSMutableArray *lastNameArray;
             indexPath = [self.tableView indexPathForSelectedRow];    
         }
         
+        int local_hid = [indexPath row];
+        int remote_hid = [hookups[local_hid] intValue];
         
-        FrictDetailViewController *destViewController = segue.destinationViewController;
+        NSLog(@"Index path %d", remote_hid);
+        
+        FrictViewController *destViewController = segue.destinationViewController;
 
-        destViewController.hu_id = [indexPath row];
+        destViewController.hu_id = remote_hid;
     }
 }
 

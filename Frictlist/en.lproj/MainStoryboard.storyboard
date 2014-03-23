@@ -23,7 +23,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
-                                            <segue destination="6uw-zG-BVk" kind="push" identifier="showFrictDetail" id="1Xe-30-7bA"/>
+                                            <segue destination="ifs-vp-4ql" kind="push" identifier="showFrictDetail" id="erm-ZJ-yon"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -50,6 +50,50 @@
             </objects>
             <point key="canvasLocation" x="1004" y="-1322"/>
         </scene>
+        <!--Frict View Controller-->
+        <scene sceneID="jeY-Vp-Z3h">
+            <objects>
+                <viewController id="ifs-vp-4ql" customClass="FrictViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Gpc-dD-Eie">
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ow-W6-i14">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="73" id="JQC-3p-jbr"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Edit">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="6uw-zG-BVk" kind="push" identifier="editFrict" id="lMc-Zu-veM"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZKQ-5O-YMW">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="5ow-W6-i14" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="80L-jG-07v"/>
+                            <constraint firstItem="ZKQ-5O-YMW" firstAttribute="centerX" secondItem="Gpc-dD-Eie" secondAttribute="centerX" type="default" id="ElH-Hf-FuG"/>
+                            <constraint firstItem="5ow-W6-i14" firstAttribute="centerX" secondItem="ZKQ-5O-YMW" secondAttribute="centerX" type="default" id="Vhq-eA-ePK"/>
+                            <constraint firstItem="ZKQ-5O-YMW" firstAttribute="top" secondItem="Gpc-dD-Eie" secondAttribute="top" constant="20" symbolic="YES" type="default" id="cgk-iS-bQM"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="2oT-ST-k0a"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gyr-f1-3yY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1541" y="-1322"/>
+        </scene>
         <!--Frict Detail View Controller - New Frict-->
         <scene sceneID="8WZ-XT-fbw">
             <objects>
@@ -68,9 +112,6 @@
                                             <segment title="Home"/>
                                         </segments>
                                         <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="changeVisited" destination="6uw-zG-BVk" eventType="valueChanged" id="vu7-qs-ljd"/>
-                                        </connections>
                                     </segmentedControl>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0JK-ur-4sZ">
                                         <constraints>
@@ -293,7 +334,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <outlet property="saveBtn" destination="oSC-aX-Zkm" id="ZNu-mg-rtJ"/>
                         <outlet property="scrollView" destination="ttw-Cq-cTD" id="mfc-Yi-BoE"/>
                         <outlet property="toSwitch" destination="zIL-jj-Bbg" id="bub-Dq-GuS"/>
-                        <outlet property="visitedSegmentedControl" destination="SDC-78-fTO" id="myf-61-THb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F1x-ra-7Ax" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -308,7 +348,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1564" y="-1178"/>
+            <point key="canvasLocation" x="2081" y="-1411"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="aYA-rt-rck">
@@ -526,7 +566,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </segmentedControl>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="K8m-MK-nES">
-                                        <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="216" id="Igw-L3-15h"/>
                                         </constraints>
@@ -688,7 +727,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <class className="FrictDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictDetailViewController.h"/>
             <relationships>
-                <relationship kind="action" name="changeVisited"/>
                 <relationship kind="action" name="checkboxButton:"/>
                 <relationship kind="action" name="savePressed:"/>
                 <relationship kind="outlet" name="activeField" candidateClass="UITextField"/>
@@ -704,6 +742,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 <relationship kind="outlet" name="toSwitch" candidateClass="UIDatePicker"/>
                 <relationship kind="outlet" name="visitedSegmentedControl" candidateClass="UISegmentedControl"/>
             </relationships>
+        </class>
+        <class className="FrictViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictViewController.h"/>
         </class>
         <class className="FrictlistViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictlistViewController.h"/>

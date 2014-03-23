@@ -21,6 +21,89 @@
 //bad globals
 UIAlertView * alertView;
 NSString * frict_url = @"http://frictlist.flooreeda.com/scripts/";
+int maxStringLen = 255;
+int minAge = 14;
+
+NSString *firstName;
+NSString *lastName;
+int gender;
+int base;
+NSString * fromDate;
+NSString * toDate;
+NSString * notesStr;
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    //check if this is an existing hookup
+    //this mean that we have to display the data for edit
+    if(self.hu_id > 0)
+    {
+        PlistHelper *plist = [PlistHelper alloc];
+        NSMutableArray * huidArray = [plist getHuIdArray];
+        NSMutableArray * fnArray = [plist getFirstNameArray];
+        NSMutableArray * lnArray = [plist getLastNameArray];
+        NSMutableArray * genderArray = [plist getGenderArray];
+        NSMutableArray * baseArray = [plist getBaseArray];
+        NSMutableArray * fromArray = [plist getFromArray];
+        NSMutableArray * toArray = [plist getToArray];
+        NSMutableArray * notesArray = [plist getNoteArray];
+        
+        //get local index of hu_id
+        int index = 0;
+        for(int i = 0; i < huidArray.count; i++)
+        {
+            if(self.hu_id == [[huidArray objectAtIndex:i] intValue])
+                {
+                    index = i;
+                    break;
+                }
+        }
+    
+        NSLog(@"local index of %d is %d", self.hu_id, index);
+        
+        firstName = fnArray[index];
+        NSLog(@"%@", firstName);
+        lastName = lnArray[index];
+        NSLog(@"%@", lastName);
+        gender = [genderArray[index] intValue];
+        NSLog(@"%d", gender);
+        base = [baseArray[index] intValue];
+        NSLog(@"%d", base);
+        fromDate = fromArray[index];
+        NSLog(@"%@", fromDate);
+        toDate = toArray[index];
+        NSLog(@"%@", toDate);
+        notesStr = notesArray[index];
+        NSLog(@"%@", notesStr);
+        
+        firstNameText.text = firstName;
+        lastNameText.text = lastName;
+        genderSwitch.selectedSegmentIndex = gender;
+        baseSwitch.selectedSegmentIndex = base;
+        [notes setText:notesStr];
+        
+        //dates
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        NSDate * fromAsDate = [formatter dateFromString:fromDate];
+        NSDate * toAsDate = [formatter dateFromString:toDate];
+        [fromSwitch setDate:fromAsDate];
+        if([toDate isEqual: @"0000-00-00"])
+        {
+            //current
+            currentSwitch.selected = true;
+            toSwitch.enabled = false;
+            toSwitch.alpha = 0.5;
+        }
+        else
+        {
+            //ended in past
+            [toSwitch setDate:toAsDate];
+        }
+        
+        
+    }
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,25 +126,6 @@ NSString * frict_url = @"http://frictlist.flooreeda.com/scripts/";
     //set the title
     self.title = [NSString stringWithFormat:@"%d", hu_id];
 }
-
-//change visited boolean value via the segmented control
-- (IBAction)changeVisited
-{
-//    BOOL visited;
-//    if(visitedSegmentedControl.selectedSegmentIndex == 0)
-//    {
-//        visited = 0;
-//    }
-//    else
-//    {
-//        visited = 1;
-//    }
-//    
-//    PlistHelper * plist = [PlistHelper alloc];
-//    NSString * updated_visited = [[plist getIvisited] stringByReplacingCharactersInRange:NSMakeRange(state.primaryKey, 1) withString:[NSString stringWithFormat:@"%d",visited]];
-//    [plist setIvisited:updated_visited];
-}
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -132,7 +196,35 @@ NSString * frict_url = @"http://frictlist.flooreeda.com/scripts/";
         to = NULL;
     }
     
-    //TODO validate user input
+    //validate user input
+    if(firstname.length > maxStringLen)
+    {
+        rc = 0;
+        [self showFieldTooLong:@"First Name"];
+    } else if(lastname.length > maxStringLen) {
+        rc = 0;
+        [self showFieldTooLong:@"Last Name"];
+    } else if(firstname.length == 0)
+    {
+        rc = 0;
+        [self showFieldTooShort:@"First Name"];
+    } else if(lastname.length == 0) {
+        rc = 0;
+        [self showFieldTooShort:@"Last Name"];
+    }
+    else {
+        //TODO
+        //check date for:
+        // to before for
+        // from/to after now
+        // from/to before bday
+    }
+    
+    //format dates
+    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *fromFormatted = [formatter stringFromDate:from];
+    NSString *toFormatted = [formatter stringFromDate:to];
     
     //get uid
     PlistHelper *plist = [PlistHelper alloc];
@@ -147,26 +239,25 @@ NSString * frict_url = @"http://frictlist.flooreeda.com/scripts/";
     {
         [self showAddingFrictDialog];
         
-        rc = [self save_frict:uid firstname:firstname lastname:lastname gender:gender base:base from:from to:to notes:hu_notes];
+        rc = [self save_frict:uid firstname:firstname lastname:lastname gender:gender base:base from:fromFormatted to:toFormatted notes:hu_notes];
+        
+        //take action if something went wrong
+        if(!rc)
+        {
+            //something went wrong with the signin
+            [alertView dismissWithClickedButtonIndex:0 animated:YES];
+            [self showUnknownFailureDialog];
+        }
     }
-    
-    //take action if something went wrong
-    if(!rc)
-    {
-        //something went wrong with the signin
-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
-        [self showUnknownFailureDialog];
-    }
-
 }
 
 //save frict data
--(BOOL) save_frict:(int) uid firstname:(NSString *) firstname lastname:(NSString *)lastname gender:(int)gender base:(int)base from:(NSDate *)from to:(NSDate *)to notes:(NSString *)hu_notes
+-(BOOL) save_frict:(int) uid firstname:(NSString *) firstname lastname:(NSString *)lastname gender:(int)gender base:(int)base from:(NSString *)from to:(NSString *)to notes:(NSString *)hu_notes
 {
     BOOL rc = true;
 
     //1. Set post string with actual username and password.
-    NSString *post = [NSString stringWithFormat:@"&uid=%d&firstname=%@&lastname=%@&gender=%d&base=%d&from=%@&to=%@&notes=%@",uid, firstname, lastname, gender, base, [from description], [to description], hu_notes];
+    NSString *post = [NSString stringWithFormat:@"&uid=%d&firstname=%@&lastname=%@&gender=%d&base=%d&from=%@&to=%@&notes=%@",uid, firstname, lastname, gender, base, from, to, hu_notes];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
@@ -178,9 +269,17 @@ NSString * frict_url = @"http://frictlist.flooreeda.com/scripts/";
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
-    //Set the Url for which your going to send the data to that request.
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@add_frict.php", frict_url]]];
-    NSLog(@"Sign in");
+    if(self.hu_id > 0)
+    {
+        //this hookup has already been written to the mysql db, updated it now
+        [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@update_frict.php", frict_url]]];
+    }
+    else
+    {
+        //this hookup is new hookup, insert it into the mysql db
+        [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@add_frict.php", frict_url]]];
+    }
+
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];
@@ -260,12 +359,20 @@ NSString * frict_url = @"http://frictlist.flooreeda.com/scripts/";
     if(intResult > 0)
     {
         NSLog(@"Success");
-        //todo: presist data locally
         
-        //write the pk to the plist
-        //To insert the data into the plist
+        //format dates
+        NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        NSString *fromFormatted = [formatter stringFromDate:fromSwitch.date];
+        NSString *toFormatted = [formatter stringFromDate:toSwitch.date];
+        if(currentSwitch.selected == true)
+        {
+            toFormatted = @"0000-00-00";
+        }
+        
+        //To insert the data that has already been inserted on the remote database into the plist
         PlistHelper *plist = [PlistHelper alloc];
-        [plist addFrict:intResult first:firstNameText.text last:lastNameText.text];
+        [plist addFrict:intResult first:firstNameText.text last:lastNameText.text base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text gender:genderSwitch.selectedSegmentIndex];
         
         //alert that it was successful then
         //go back to settings view
@@ -318,6 +425,39 @@ NSString * frict_url = @"http://frictlist.flooreeda.com/scripts/";
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:@"Error"];
     [alert setMessage:[error localizedDescription]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+//the field is too long
+-(void) showFieldTooLong:(NSString *)fieldName
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:[NSString stringWithFormat:@"%@ Too Long", fieldName]];
+    [alert setMessage:[NSString stringWithFormat:@"The %@ that you entered is too long. The max is %d characters.", fieldName, maxStringLen]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+//the field is null
+-(void) showFieldTooShort:(NSString *)fieldName
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:[NSString stringWithFormat:@"%@ Is Empty", fieldName]];
+    [alert setMessage:[NSString stringWithFormat:@"Please enter a %@.", fieldName]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+//generic error message. message string can be pased in
+-(void) showGenericErrorDialog:(NSString *)title msg:(NSString *) message
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:title];
+    [alert setMessage:message];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];

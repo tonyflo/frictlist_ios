@@ -26,6 +26,13 @@
 -(NSMutableArray *)getHuIdArray;
 -(NSMutableArray *)getFirstNameArray;
 -(NSMutableArray *)getLastNameArray;
--(void)addFrict:(int)huid first:(NSString *)fn last:(NSString *)ln;
+-(NSMutableArray *)getBaseArray;
+-(NSMutableArray *)getAcceptedArray;
+-(NSMutableArray *)getGenderArray;
+-(NSMutableArray *)getFromArray;
+-(NSMutableArray *)getToArray;
+-(NSMutableArray *)getNoteArray;
+
+-(void)addFrict:(int)huid first:(NSString *)fn last:(NSString *)ln base:(int)base accepted:(int)accepted from:(NSString *)from to:(NSString *)to notes:(NSString *)notes gender:(int)gender;
 
 @end

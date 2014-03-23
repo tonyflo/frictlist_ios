@@ -28,7 +28,6 @@
 @property (readwrite, assign) NSUInteger hu_id;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *visitedSegmentedControl;
 
-- (IBAction)changeVisited;
 - (IBAction)savePressed:(id)sender;
 - (IBAction)checkboxButton:(id)sender;
 

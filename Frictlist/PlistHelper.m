@@ -17,6 +17,10 @@ NSMutableArray *defaultFirst;
 NSMutableArray *defaultLast;
 NSMutableArray *defaultBase;
 NSMutableArray *defaultAccepted;
+NSMutableArray *defaultFrom;
+NSMutableArray *defaultTo;
+NSMutableArray *defaultNotes;
+NSMutableArray *defaultGender;
 
 -(id)initDefaults
 {
@@ -72,6 +76,54 @@ NSMutableArray *defaultAccepted;
     NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
     NSMutableArray * lastNameArray = [plistDict objectForKey:@"ln"];
     return lastNameArray;
+}
+
+-(NSMutableArray *)getBaseArray
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
+    NSMutableArray * baseArray = [plistDict objectForKey:@"base"];
+    return baseArray;
+}
+
+-(NSMutableArray *)getAcceptedArray
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
+    NSMutableArray * accepted = [plistDict objectForKey:@"accept"];
+    return accepted;
+}
+
+-(NSMutableArray *)getFromArray
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
+    NSMutableArray * from = [plistDict objectForKey:@"from"];
+    return from;
+}
+
+-(NSMutableArray *)getToArray
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
+    NSMutableArray * to = [plistDict objectForKey:@"to"];
+    return to;
+}
+
+-(NSMutableArray *)getNoteArray
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
+    NSMutableArray * notes = [plistDict objectForKey:@"note"];
+    return notes;
+}
+
+-(NSMutableArray *)getGenderArray
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
+    NSMutableArray * gender = [plistDict objectForKey:@"gender"];
+    return gender;
 }
 
 //setters
@@ -131,11 +183,79 @@ NSMutableArray *defaultAccepted;
     [data writeToFile: path atomically:YES];
 }
 
--(void)addFrict:(int)huid first:(NSString *)fn last:(NSString *)ln
+-(void)addBase:(int)base
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * baseArray =[data objectForKey:@"base"];
+    [baseArray addObject:[NSString stringWithFormat:@"%d", base]];
+    [data setObject:baseArray forKey:@"base"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)addAccepted:(int)accept
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * acceptArray =[data objectForKey:@"accept"];
+    [acceptArray addObject:[NSString stringWithFormat:@"%d", accept]];
+    [data setObject:acceptArray forKey:@"accept"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)addFrom:(NSString *)from
+{
+    NSLog(@"From date: %@", from);
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * fromArray =[data objectForKey:@"from"];
+    [fromArray addObject:from];
+    [data setObject:fromArray forKey:@"from"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)addTo:(NSString *)to
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * toArray =[data objectForKey:@"to"];
+    [toArray addObject:to];
+    [data setObject:toArray forKey:@"to"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)addNote:(NSString *)note
+{
+    NSLog(@"set note: %@", note);
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * noteArray =[data objectForKey:@"note"];
+    [noteArray addObject:note];
+    [data setObject:noteArray forKey:@"note"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)addGender:(int)gender
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * genderArray =[data objectForKey:@"gender"];
+    [genderArray addObject:[NSString stringWithFormat:@"%d", gender]];
+    [data setObject:genderArray forKey:@"gender"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)addFrict:(int)huid first:(NSString *)fn last:(NSString *)ln base:(int)base accepted:(int)accepted from:(NSString *)from to:(NSString *)to notes:(NSString *)notes gender:(int)gender
 {
     [self addHuId:huid];
     [self addFirst:fn];
     [self addLast:ln];
+    [self addBase:base];
+    [self addAccepted:accepted];
+    [self addFrom:from];
+    [self addTo:to];
+    [self addNote:notes];
+    [self addGender:gender];
 }
 
 //resetters
@@ -184,11 +304,15 @@ NSMutableArray *defaultAccepted;
     }
     else
     {
-        defaultHuId = [[NSMutableArray alloc] initWithObjects:@"-1", nil];
-        defaultFirst = [[NSMutableArray alloc] initWithObjects:@"Jena", nil];
-        defaultLast = [[NSMutableArray alloc] initWithObjects:@"Nooch", nil];
-        defaultBase = [[NSMutableArray alloc] initWithObjects:@"3", nil];
-        defaultAccepted = [[NSMutableArray alloc] initWithObjects:@"1", nil];
+        defaultHuId = [[NSMutableArray alloc] initWithObjects:@"0", nil];
+        defaultFirst = [[NSMutableArray alloc] initWithObjects:@"0", nil];
+        defaultLast = [[NSMutableArray alloc] initWithObjects:@"0", nil];
+        defaultBase = [[NSMutableArray alloc] initWithObjects:@"0", nil];
+        defaultAccepted = [[NSMutableArray alloc] initWithObjects:@"0", nil];
+        defaultFrom = [[NSMutableArray alloc] initWithObjects:@"0", nil];;
+        defaultTo = [[NSMutableArray alloc] initWithObjects:@"0", nil];;
+        defaultNotes = [[NSMutableArray alloc] initWithObjects:@"0", nil];;
+        defaultGender = [[NSMutableArray alloc] initWithObjects:@"0", nil];;
         
         // If the file doesn’t exist, create an empty dictionary
         data = [[NSMutableDictionary alloc] init];
@@ -200,6 +324,10 @@ NSMutableArray *defaultAccepted;
         [data setObject:defaultLast forKey:@"ln"]; //last name array
         [data setObject:defaultBase forKey:@"base"]; //bases
         [data setObject:defaultAccepted forKey:@"accept"]; //accepted status
+        [data setObject:defaultFrom forKey:@"from"]; //from date
+        [data setObject:defaultTo forKey:@"to"]; //to date
+        [data setObject:defaultNotes forKey:@"note"]; //notes
+        [data setObject:defaultGender forKey:@"gender"]; //gender
         [data writeToFile: path atomically:YES];
     }
     
