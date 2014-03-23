@@ -22,12 +22,6 @@ NSMutableArray *defaultTo;
 NSMutableArray *defaultNotes;
 NSMutableArray *defaultGender;
 
--(id)initDefaults
-{
-    [self getPlistData:[self getPlistPath]];
-    return self;
-}
-
 //getters
 -(NSString *)getEmail
 {
@@ -204,7 +198,6 @@ NSMutableArray *defaultGender;
 
 -(void)addFrom:(NSString *)from
 {
-    NSLog(@"From date: %@", from);
     NSString * path = [self getPlistPath];
     NSMutableDictionary *data = [self getPlistData:path];
     NSMutableArray * fromArray =[data objectForKey:@"from"];
@@ -225,7 +218,6 @@ NSMutableArray *defaultGender;
 
 -(void)addNote:(NSString *)note
 {
-    NSLog(@"set note: %@", note);
     NSString * path = [self getPlistPath];
     NSMutableDictionary *data = [self getPlistData:path];
     NSMutableArray * noteArray =[data objectForKey:@"note"];
@@ -364,6 +356,109 @@ NSMutableArray *defaultGender;
     [self updateGender:index gender:gender];
 }
 
+//removers
+-(void)removeHuId:(int)index
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * huidArray =[data objectForKey:@"huid"];
+    [huidArray removeObjectAtIndex:index];
+    [data setObject:huidArray forKey:@"huid"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)removeFirst:(int)index
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * fnArray =[data objectForKey:@"fn"];
+    [fnArray removeObjectAtIndex:index];
+    [data setObject:fnArray forKey:@"fn"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)removeLast:(int)index
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * lnArray =[data objectForKey:@"ln"];
+    [lnArray removeObjectAtIndex:index];
+    [data setObject:lnArray forKey:@"ln"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)removeBase:(int)index
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * baseArray =[data objectForKey:@"base"];
+    [baseArray removeObjectAtIndex:index];
+    [data setObject:baseArray forKey:@"base"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)removeAccepted:(int)index
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * acceptArray =[data objectForKey:@"accept"];
+    [acceptArray removeObjectAtIndex:index];
+    [data setObject:acceptArray forKey:@"accept"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)removeFrom:(int)index
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * fromArray =[data objectForKey:@"from"];
+    [fromArray removeObjectAtIndex:index];
+    [data setObject:fromArray forKey:@"from"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)removeTo:(int)index
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * toArray =[data objectForKey:@"to"];
+    [toArray removeObjectAtIndex:index];
+    [data setObject:toArray forKey:@"to"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)removeNote:(int)index
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * noteArray =[data objectForKey:@"note"];
+    [noteArray removeObjectAtIndex:index];
+    [data setObject:noteArray forKey:@"note"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)removeGender:(int)index
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * genderArray =[data objectForKey:@"gender"];
+    [genderArray removeObjectAtIndex:index];
+    [data setObject:genderArray forKey:@"gender"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)removeFrict:(int)index
+{
+    [self removeHuId:index];
+    [self removeFirst:index];
+    [self removeLast:index];
+    [self removeBase:index];
+    [self removeAccepted:index];
+    [self removeFrom:index];
+    [self removeTo:index];
+    [self removeNote:index];
+    [self removeGender:index];
+}
 
 //resetters
 -(NSString *)resetEmail
@@ -384,6 +479,19 @@ NSMutableArray *defaultGender;
     return [defaultPk integerValue];
 }
 
+-(id)initDefaults
+{
+    [self getPlistData:[self getPlistPath]];
+    return self;
+}
+
+-(id)resetPlist
+{
+    [self removePlistFile];
+    [self getPlistData:[self getPlistPath]];
+    return self;
+}
+
 - (NSString *)getPlistPath
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -398,6 +506,23 @@ NSMutableArray *defaultGender;
     }
     
     return path;
+}
+
+- (BOOL)removePlistFile
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"plist.plist"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+        
+    BOOL status = true;
+    
+    if ([fileManager fileExistsAtPath: path])
+    {
+        status = [fileManager removeItemAtPath:path error:nil];
+    }
+    
+    return status;
 }
 
 -(NSMutableDictionary *) getPlistData:path

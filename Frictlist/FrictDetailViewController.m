@@ -7,6 +7,7 @@
 //
 
 #import "FrictDetailViewController.h"
+#import "FrictViewController.h"
 #import "PlistHelper.h"
 
 @interface FrictDetailViewController ()
@@ -17,6 +18,7 @@
 
 @synthesize visitedSegmentedControl;
 @synthesize hu_id;
+
 
 //bad globals
 UIAlertView * alertView;
@@ -110,6 +112,8 @@ NSString * notesStr;
         //set the title
         self.title = @"New Frict";
     }
+    
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -133,10 +137,18 @@ NSString * notesStr;
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc]  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(goBack:)];
     self.navigationItem.leftBarButtonItem = backButton;
     self.navigationItem.hidesBackButton = YES;
+    
+    //enable tabbaar items
+    [[self.tabBarController.tabBar.items objectAtIndex:0] setEnabled:FALSE];
+    [[self.tabBarController.tabBar.items objectAtIndex:1] setEnabled:FALSE];
 }
 
 -(void)goBack:(id)sender
 {
+    //enable tabbaar items
+    [[self.tabBarController.tabBar.items objectAtIndex:0] setEnabled:TRUE];
+    [[self.tabBarController.tabBar.items objectAtIndex:1] setEnabled:TRUE];
+    
     if(hu_id >0)
     {
         //if frict exists, go to frict view
@@ -412,13 +424,17 @@ NSString * notesStr;
             [plist addFrict:intResult first:firstNameText.text last:lastNameText.text base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text gender:genderSwitch.selectedSegmentIndex];
         }
         
+        //enable tabbaar items
+        [[self.tabBarController.tabBar.items objectAtIndex:0] setEnabled:TRUE];
+        [[self.tabBarController.tabBar.items objectAtIndex:1] setEnabled:TRUE];
+        
         //TODO get this to go back to another view
         //alert that it was successful then
         //go back to settings view
         [alertView dismissWithClickedButtonIndex:0 animated:YES];
         //[self dismissViewControllerAnimated:YES completion:nil];
-        [self.navigationController popViewControllerAnimated:YES];
-        //[self.navigationController popToRootViewControllerAnimated:YES];
+        //[self.navigationController popViewControllerAnimated:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }
     //error code was returned
     else

@@ -12,6 +12,11 @@
 {
     
     IBOutlet NSLayoutConstraint *editButton;
+    IBOutlet UILabel *nameText;
+    IBOutlet UITextView *notesText;
+    IBOutlet UILabel *dateRangeText;
+    IBOutlet UIImageView *genderImageView;
+    IBOutlet UIImageView *baseImageView;
 }
 
 @property (readwrite, assign) NSUInteger hu_id;

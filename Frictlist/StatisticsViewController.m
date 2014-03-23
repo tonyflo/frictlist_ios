@@ -37,25 +37,13 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
 //get the number of states that were visited
 - (int)countVisited
 {
-    int count = 0;
     PlistHelper * plist = [PlistHelper alloc];
     
-    //count visits
-    for(int i = 0; i < 50; i++)
-    {
-        //todo
-        char v = 0; //[[plist getIvisited] characterAtIndex:i];
-        if(v == '1')
-        {
-            count++;
-        }
-    }
-    
-    return count;
+    return [plist getHuIdArray].count;
 }
 
 - (void)viewDidLoad
-{
+{    
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     NSLog(@"View did load");
@@ -130,12 +118,7 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
 //logic to sign out
 - (void) signOut
 {
-    PlistHelper *plist = [PlistHelper alloc];
-    [plist resetEmail];
-    //TODO reset frictlist
-    //[plist reset];
-    [plist resetPk];
-    
+    PlistHelper *plist = [[PlistHelper alloc] resetPlist];
     uid = [plist getPk];
     
     if(uid <= 0)
@@ -196,11 +179,6 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
 }
 
--(IBAction)resetButtonPress
-{
-    [self showConfirmAlert];
-}
-
 - (void)showConfirmAlert
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
@@ -216,23 +194,7 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
 //take an action when a choice is made in an alert dialog
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    //reset data
-    if(alertView.tag == 1)
-    {
-        NSLog(@"1");
-        if (buttonIndex == 0)
-        {
-            // Yes, reset
-            [self resetFrictlist];
-            self.visited.text = [NSString stringWithFormat:@"%i", [self countVisited]];
-        }
-        else if (buttonIndex == 1)
-        {
-            //Cancel, dismiss
-        }
-    }
-    //sign in
-    else if(alertView.tag == 2)
+    if(alertView.tag == 2)
     {
         NSLog(@"2");
         if (buttonIndex == 0)
@@ -279,12 +241,6 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
             // Sign in, signin
             [self performSegueWithIdentifier:@"sign_in" sender:self];
         }
-//#if defined(FREE)
-//        else if (buttonIndex == 1)
-//        {
-//            //Cancel, dismis
-//        }
-//#endif /* FREE */
     }
 }
 
@@ -294,13 +250,6 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     {
         //SignInViewController *destViewController = segue.destinationViewController;
     }
-}
-
-- (void) resetFrictlist
-{
-    //Todo
-    //PlistHelper * plist = [PlistHelper alloc];
-    //[plist resetIvisited];
 }
 
 - (void)didReceiveMemoryWarning
@@ -315,9 +264,6 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     
     //check signed in
     PlistHelper * plist = [PlistHelper alloc];
-    
-    //update #visits text
-    self.visited.text = [NSString stringWithFormat:@"%i", [self countVisited]];
 
     //assign static uid to plist pk
     uid = [plist getPk];
@@ -335,8 +281,12 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
         [emailLabel setText:[plist getEmail]];
 
     }
+    
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
+    
+    //update #visits text
+    self.visited.text = [NSString stringWithFormat:@"%i", [self countVisited]];
+
 }
-
-
 
 @end

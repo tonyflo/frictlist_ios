@@ -20,6 +20,8 @@
     IBOutlet UITextField *lastNameText;
     IBOutlet UIScrollView *scrollView;
     IBOutlet UITextField *activeField;
+    IBOutlet UILabel *newAccountLabel;
+    IBOutlet UILabel *birthdateLabel;
 }
 
 @property (strong, nonatomic) IBOutlet UINavigationItem *bakcButton;
