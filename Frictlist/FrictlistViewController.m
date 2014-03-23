@@ -341,6 +341,27 @@ NSMutableArray *baseArray;
     }
 }
 
+//something went wrong, but we have an error code to report
+- (void)showErrorCodeDialog:(int)errorCode
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:[NSString stringWithFormat:@"Error Code %d", errorCode]];
+    [alert setMessage:[NSString stringWithFormat:@"Something went wrong. Sorry about this. Things to try:\n %C Check your internet connection\n %C Check your credentials\nIf the problem persists, email the developer and mention the %d error code.", (unichar) 0x2022, (unichar) 0x2022, errorCode]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+    
+    NSArray *subViewArray = alert.subviews;
+    for(int x = 0; x < [subViewArray count]; x++){
+        
+        //If the current subview is a UILabel...
+        if([[[subViewArray objectAtIndex:x] class] isSubclassOfClass:[UILabel class]]) {
+            UILabel *label = [subViewArray objectAtIndex:x];
+            label.textAlignment = NSTextAlignmentLeft;
+        }
+    }
+}
+
 //Below method is used to receive the data which we get using post method.
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData*)rsp
 {
@@ -370,26 +391,12 @@ NSMutableArray *baseArray;
     //error code was returned
     else
     {
-        //TODO handle errors
-        if(intResult == -40)
+        if(intResult == -40 ||
+           intResult == -41 ||
+           intResult == -42 ||
+           intResult == -43)
         {
-            //null data
-            //[self showEmailNotFoundDialog];
-        }
-        else if(intResult == -41)
-        {
-            //uid not found
-            //[self showWrongPasswordDialog];
-        }
-        else if(intResult == -42)
-        {
-            //frict_id not found
-            //[self showWrongPasswordDialog];
-        }
-        else if(intResult == -43)
-        {
-            //something when wrong when deleting
-            //[self showWrongPasswordDialog];
+            [self showErrorCodeDialog:intResult];
         }
         else
         {

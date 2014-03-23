@@ -60,9 +60,7 @@ NSString * notesStr;
                     break;
                 }
         }
-    
-        NSLog(@"local index of %d is %d", self.hu_id, index);
-        
+            
         firstName = fnArray[row];
         NSLog(@"%@", firstName);
         lastName = lnArray[row];
@@ -246,11 +244,23 @@ NSString * notesStr;
         rc = 0;
         [self showFieldTooShort:@"Last Name"];
     }
-    else {
-        //TODO
-        //check date for:
-        // to before for
-        // from/to after now
+    else
+    {
+        NSDate* now = [NSDate date];
+        if([to compare:from] == NSOrderedAscending)
+        {
+            //to before from
+            rc = 0;
+            [self showToBeforeFromDialog];
+        }
+        else if([to compare:now] == NSOrderedDescending ||
+                [from compare:now] == NSOrderedDescending)
+        {
+            //to after now
+            rc = 0;
+            [self showDateAfterNowDialog];
+        }
+        //todo
         // from/to before bday
     }
     
@@ -263,7 +273,7 @@ NSString * notesStr;
     //get uid
     PlistHelper *plist = [PlistHelper alloc];
     int uid = [plist getPk];
-    if(uid < 0)
+    if(rc && uid < 0)
     {
         rc = 0;
     }
@@ -389,6 +399,47 @@ NSString * notesStr;
     }
 }
 
+- (void)showDateAfterNowDialog
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"Date Error"];
+    [alert setMessage:@"One or more of the dates occur after now.  Please fix this before continuing."];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+- (void)showToBeforeFromDialog
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"Date Error"];
+    [alert setMessage:@"The 'To' date cannot occur before the 'From' date."];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+//something went wrong, but we have an error code to report
+- (void)showErrorCodeDialog:(int)errorCode
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:[NSString stringWithFormat:@"Error Code %d", errorCode]];
+    [alert setMessage:[NSString stringWithFormat:@"Sorry about this. Things to try:\n %C Check your internet connection\n %C Check your credentials\nIf the problem persists, email the developer and mention the %d error code.", (unichar) 0x2022, (unichar) 0x2022, errorCode]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+    
+    NSArray *subViewArray = alert.subviews;
+    for(int x = 0; x < [subViewArray count]; x++){
+        
+        //If the current subview is a UILabel...
+        if([[[subViewArray objectAtIndex:x] class] isSubclassOfClass:[UILabel class]]) {
+            UILabel *label = [subViewArray objectAtIndex:x];
+            label.textAlignment = NSTextAlignmentLeft;
+        }
+    }
+}
+
 //Below method is used to receive the data which we get using post method.
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData*)rsp
 {
@@ -428,8 +479,6 @@ NSString * notesStr;
         [[self.tabBarController.tabBar.items objectAtIndex:0] setEnabled:TRUE];
         [[self.tabBarController.tabBar.items objectAtIndex:1] setEnabled:TRUE];
         
-        //TODO get this to go back to another view
-        //alert that it was successful then
         //go back to settings view
         [alertView dismissWithClickedButtonIndex:0 animated:YES];
         //[self dismissViewControllerAnimated:YES completion:nil];
@@ -439,32 +488,24 @@ NSString * notesStr;
     //error code was returned
     else
     {
-            //TODO handle errors
-            if(intResult == -20)
-            {
-                //null data
-                //[self showEmailNotFoundDialog];
-            }
-            else if(intResult == -21)
-            {
-                //uid not found
-                //[self showWrongPasswordDialog];
-            }
-            else if(intResult == -22)
-            {
-                //error adding to hookup table
-                //[self showWrongPasswordDialog];
-            }
-            else if(intResult == -23)
-            {
-                //error adding to frict table
-                //[self showWrongPasswordDialog];
-            }
-            else
-            {
-                //unknown error
-                [self showUnknownFailureDialog];
-            }
+        if(intResult == -20 ||
+           intResult == -21 ||
+           intResult == -22 ||
+           intResult == -23 ||
+           intResult == -30 ||
+           intResult == -31 ||
+           intResult == -32 ||
+           intResult == -33 ||
+           intResult == -34 ||
+           intResult == -35)
+        {
+            [self showErrorCodeDialog:intResult];
+        }
+        else
+        {
+            //unknown error
+            [self showUnknownFailureDialog];
+        }
 
     }
     NSLog(@"Result: %@", strResult);
