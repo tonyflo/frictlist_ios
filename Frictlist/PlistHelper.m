@@ -12,6 +12,7 @@
 
 NSString *defaultPk = @"-1";
 NSString *defaultEmail = @"Not Signed In";
+NSString *defaultBirthday = @"0000-00-00";
 NSMutableArray *defaultHuId;
 NSMutableArray *defaultFirst;
 NSMutableArray *defaultLast;
@@ -29,6 +30,14 @@ NSMutableArray *defaultGender;
     NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
     NSString * email = [plistDict objectForKey:@"email"];
     return email;
+}
+
+-(NSString *)getBirthday
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
+    NSString * bday = [plistDict objectForKey:@"bday"];
+    return bday;
 }
 
 -(int)getPk
@@ -126,6 +135,14 @@ NSMutableArray *defaultGender;
     NSString * path = [self getPlistPath];
     NSMutableDictionary *data = [self getPlistData:path];
     [data setObject:email forKey:@"email"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)setBirthday:(NSString *)bday
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    [data setObject:bday forKey:@"bday"];
     [data writeToFile: path atomically:YES];
 }
 
@@ -470,6 +487,15 @@ NSMutableArray *defaultGender;
     return defaultEmail;
 }
 
+-(NSString *)resetBirthday
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    [data setObject:defaultBirthday forKey:@"bday"];
+    [data writeToFile: path atomically:YES];
+    return defaultBirthday;
+}
+
 -(int)resetPk
 {
     NSString * path = [self getPlistPath];
@@ -550,6 +576,7 @@ NSMutableArray *defaultGender;
         data = [[NSMutableDictionary alloc] init];
         [data setObject:defaultEmail forKey:@"email"]; //email
         [data setObject:defaultPk forKey:@"pk"]; //primary key
+        [data setObject:defaultBirthday forKey:@"bday"]; //birthday
         [data setObject:@"1" forKey:@"first"]; //1 if first time opening app
         [data setObject:defaultHuId forKey:@"huid"]; //hookup ids
         [data setObject:defaultFirst forKey:@"fn"]; //first name array

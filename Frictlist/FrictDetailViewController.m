@@ -246,7 +246,15 @@ NSString * notesStr;
     }
     else
     {
+        //get the birthday of the user from the plist then format it into a string
+        PlistHelper *plist = [PlistHelper alloc];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        NSDate* bday = [formatter dateFromString:[plist getBirthday]];
+        //get now date
         NSDate* now = [NSDate date];
+        
+        //validate input dates
         if([to compare:from] == NSOrderedAscending)
         {
             //to before from
@@ -260,8 +268,13 @@ NSString * notesStr;
             rc = 0;
             [self showDateAfterNowDialog];
         }
-        //todo
-        // from/to before bday
+        else if([to compare:bday] == NSOrderedAscending ||
+                [from compare:bday] == NSOrderedAscending)
+        {
+            // from/to before bday
+            rc = 0;
+            [self showDateBeforeBdayDialog];
+        }
     }
     
     //format dates
@@ -404,6 +417,16 @@ NSString * notesStr;
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:@"Date Error"];
     [alert setMessage:@"One or more of the dates occur after now.  Please fix this before continuing."];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+- (void)showDateBeforeBdayDialog
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"Date Error"];
+    [alert setMessage:@"Whoops! You cannot input a date that occured before your birthdate.  Please fix this before continuing."];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];

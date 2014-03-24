@@ -19,6 +19,9 @@
 -(NSString *)getEmail;
 -(void)setEmail:(NSString *)email;
 -(NSString *)resetEmail;
+-(NSString *)getBirthday;
+-(void)setBirthday:(NSString *)email;
+-(NSString *)resetBirthday;
 -(int)getPk;
 -(void)setPk:(int)pk;
 -(int)resetPk;
