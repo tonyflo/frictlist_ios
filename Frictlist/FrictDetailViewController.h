@@ -16,6 +16,7 @@
     IBOutlet UITextField *lastNameText;
     IBOutlet UISegmentedControl *genderSwitch;
     IBOutlet UISegmentedControl *baseSwitch;
+    IBOutlet UIButton *oneNightStandCheck;
     IBOutlet UIDatePicker *fromSwitch;
     IBOutlet UIDatePicker *toSwitch;
     IBOutlet UITextView *notes;
@@ -30,5 +31,6 @@
 
 - (IBAction)savePressed:(id)sender;
 - (IBAction)checkboxButton:(id)sender;
+- (IBAction)oneNightStandCheckboxButton:(id)sender;
 
 @end

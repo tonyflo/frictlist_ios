@@ -175,8 +175,6 @@ NSMutableArray *baseArray;
         cell.editingAccessoryType = YES;
     }
     
-
-    
     int count = 0;
     if(self.editing && indexPath.row != 0)
         count = 1;

@@ -576,12 +576,35 @@ NSString * notesStr;
         //enable to picker
         toSwitch.enabled = false;
         toSwitch.alpha = 0.5;
+        oneNightStandCheck.enabled = false;
     }
     else
     {
         //disable to picker
         toSwitch.enabled = true;
         toSwitch.alpha = 1;
+        oneNightStandCheck.enabled = true;
+    }
+}
+
+- (IBAction)oneNightStandCheckboxButton:(id)sender
+{
+    oneNightStandCheck.selected = !oneNightStandCheck.selected;
+    
+    if(oneNightStandCheck.selected == 1)
+    {
+        //enable to picker
+        toSwitch.enabled = false;
+        toSwitch.alpha = 0.5;
+        toSwitch.date = fromSwitch.date;
+        currentSwitch.enabled = false;
+    }
+    else
+    {
+        //disable to picker
+        toSwitch.enabled = true;
+        toSwitch.alpha = 1;
+        currentSwitch.enabled = true;
     }
 }
 

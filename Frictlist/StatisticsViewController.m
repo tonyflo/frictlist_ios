@@ -258,6 +258,14 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    NSLog(@"Count visited is %d", [self countVisited]);
+    //update #visits text
+    self.visited.text = [NSString stringWithFormat:@"%i", [self countVisited]];
+
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [self checkFirstAppOpen];
@@ -283,10 +291,6 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     }
     
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
-    
-    //update #visits text
-    self.visited.text = [NSString stringWithFormat:@"%i", [self countVisited]];
-
 }
 
 @end
