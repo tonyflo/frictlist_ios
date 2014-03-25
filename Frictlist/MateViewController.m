@@ -7,6 +7,7 @@
 //
 
 #import "MateViewController.h"
+#import "MateDetailViewController.h"
 
 @interface MateViewController ()
 
@@ -38,6 +39,17 @@
     NSLog(@"go to root");
     //if frict doesn't exist, go back to frictlist view
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+//send data from table view to detail view
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([segue.identifier isEqualToString:@"editMate"])
+    {
+        MateDetailViewController *destViewController = segue.destinationViewController;
+        
+        destViewController.hu_id = self.hu_id;
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated

@@ -187,7 +187,18 @@ int gender;
 {
     BOOL rc = true;
     
-    NSString *post = [NSString stringWithFormat:@"&uid=%d&frict_id=%d&firstname=%@&lastname=%@&gender=%d",uid, hu_id, firstname, lastname, gender];
+    NSString *post;
+    
+    if(self.hu_id > 0)
+    {
+        //update
+        post = [NSString stringWithFormat:@"&uid=%d&mid=%d&firstname=%@&lastname=%@&gender=%d",uid, hu_id, firstname, lastname, gender];
+    }
+    else
+    {
+        //add
+         post = [NSString stringWithFormat:@"&uid=%d&firstname=%@&lastname=%@&gender=%d",uid, firstname, lastname, gender];
+    }
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
