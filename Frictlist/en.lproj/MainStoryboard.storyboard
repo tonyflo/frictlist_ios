@@ -780,11 +780,29 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <segue destination="2oM-lx-ZKt" kind="push" identifier="editMate" id="rza-pU-1zM"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z81-38-aHK">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="73" id="HmB-UK-5a5"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Frictlist">
+                                    <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="Bml-PA-3bk" kind="push" identifier="showFrictlist" id="iNV-lQ-bJj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="AvF-9f-0tb" firstAttribute="centerX" secondItem="AeS-e1-LUl" secondAttribute="centerX" type="default" id="DGx-lu-q1L"/>
+                            <constraint firstItem="z81-38-aHK" firstAttribute="leading" secondItem="AvF-9f-0tb" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="EuX-X6-MpC"/>
                             <constraint firstAttribute="bottom" secondItem="AvF-9f-0tb" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="Uvw-pc-lIP"/>
+                            <constraint firstAttribute="bottom" secondItem="z81-38-aHK" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="W87-Xy-ECE"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Mui-HW-rwS"/>
@@ -883,7 +901,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
-                                            <segue destination="Bml-PA-3bk" kind="push" identifier="showFrictlist" id="LNL-hF-YHq"/>
+                                            <segue destination="0H3-am-xjC" kind="push" identifier="showMateDetail" id="Oj3-rZ-NEm"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -904,12 +922,11 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <navigationItem key="navigationItem" title="Matelist" id="qzr-NT-VFk"/>
                     <connections>
                         <outlet property="tableView" destination="UHE-3x-XvW" id="MyT-p9-ohF"/>
-                        <segue destination="0H3-am-xjC" kind="push" identifier="showMateDetail" id="c82-2h-InO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bS6-u4-5si" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1470" y="-970"/>
+            <point key="canvasLocation" x="1728" y="-1004"/>
         </scene>
     </scenes>
     <resources>

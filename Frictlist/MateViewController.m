@@ -27,6 +27,17 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc]  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(goBack:)];
+    self.navigationItem.leftBarButtonItem = backButton;
+    self.navigationItem.hidesBackButton = YES;
+    
+}
+
+-(void)goBack:(id)sender
+{
+    NSLog(@"go to root");
+    //if frict doesn't exist, go back to frictlist view
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -34,7 +45,12 @@
     //jump to the edit view if this is a new row in the list
     if(self.hu_id <=0)
     {
+        NSLog(@"moving on");
         [self performSegueWithIdentifier:@"editMate" sender:editButton];
+    }
+    else
+    {
+        NSLog(@"staying here");
     }
 }
 

@@ -56,15 +56,11 @@ NSMutableArray *lastNameArray;
         int local_hid = [indexPath row];
         int remote_hid = [huidArray[local_hid] intValue];
         
-        NSLog(@"Index path %d", remote_hid);
+        NSLog(@"going to show mate detail");
         
         MateViewController *destViewController = segue.destinationViewController;
         
         destViewController.hu_id = remote_hid;
-    }
-    else if([segue.identifier isEqualToString:@"showFrictlist"])
-    {
-        NSLog(@"FRICTLIST");
     }
     else
     {
@@ -101,10 +97,10 @@ NSMutableArray *lastNameArray;
     // Dispose of any resources that can be recreated.
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self performSegueWithIdentifier:@"showFrictlist" sender:indexPath];
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    [self performSegueWithIdentifier:@"showMateDetail" sender:indexPath];
+//}
 
 - (void)addORDeleteRows
 {
