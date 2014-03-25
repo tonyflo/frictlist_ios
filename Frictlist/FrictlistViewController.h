@@ -13,4 +13,6 @@
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 
+@property (readwrite, assign) NSUInteger hu_id;
+
 @end

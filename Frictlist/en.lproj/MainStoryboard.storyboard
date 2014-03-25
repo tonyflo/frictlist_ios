@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--Frictlist View Controller - The Fricts-->
+        <!--Frictlist View Controller - Frictlist-->
         <scene sceneID="mhi-H2-09N">
             <objects>
                 <viewController id="Bml-PA-3bk" customClass="FrictlistViewController" sceneMemberID="viewController">
@@ -42,14 +42,14 @@
                             <constraint firstItem="aIe-KC-s5b" firstAttribute="leading" secondItem="3Pe-RL-z0Z" secondAttribute="leading" type="default" id="v4d-4P-CsR"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="The Fricts" id="EGU-JW-Ma1"/>
+                    <navigationItem key="navigationItem" title="Frictlist" id="EGU-JW-Ma1"/>
                     <connections>
                         <outlet property="tableView" destination="aIe-KC-s5b" id="ypl-QT-Ott"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kpl-uA-cOU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1004" y="-1322"/>
+            <point key="canvasLocation" x="2336" y="-578"/>
         </scene>
         <!--Frict View Controller-->
         <scene sceneID="jeY-Vp-Z3h">
@@ -113,8 +113,8 @@
                             <constraint firstItem="aPc-a0-scr" firstAttribute="trailing" secondItem="lra-Yk-Jn3" secondAttribute="trailing" type="default" id="Fgm-M6-PkV"/>
                             <constraint firstItem="ZKQ-5O-YMW" firstAttribute="top" secondItem="Gpc-dD-Eie" secondAttribute="top" constant="11" id="GqM-pN-RIQ"/>
                             <constraint firstItem="W2P-7H-nMy" firstAttribute="top" secondItem="ZKQ-5O-YMW" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Ici-L1-HyL"/>
-                            <constraint firstAttribute="bottom" secondItem="5ow-W6-i14" secondAttribute="bottom" constant="7" id="alJ-DF-7Y6"/>
                             <constraint firstItem="aPc-a0-scr" firstAttribute="centerX" secondItem="ZKQ-5O-YMW" secondAttribute="centerX" type="default" id="ei9-xH-TpI"/>
+                            <constraint firstAttribute="bottom" secondItem="5ow-W6-i14" secondAttribute="bottom" constant="8" id="kVN-AL-gTo"/>
                             <constraint firstItem="cAW-Uc-XEh" firstAttribute="leading" secondItem="aPc-a0-scr" secondAttribute="leading" type="default" id="nO8-D2-Y8v"/>
                             <constraint firstItem="cAW-Uc-XEh" firstAttribute="top" secondItem="ZKQ-5O-YMW" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="nk6-pi-PK5"/>
                             <constraint firstItem="aPc-a0-scr" firstAttribute="leading" secondItem="lra-Yk-Jn3" secondAttribute="leading" type="default" id="qk3-dM-HbF"/>
@@ -131,7 +131,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gyr-f1-3yY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1541" y="-1322"/>
+            <point key="canvasLocation" x="3025" y="-570"/>
         </scene>
         <!--Frict Detail View Controller - New Frict-->
         <scene sceneID="8WZ-XT-fbw">
@@ -412,7 +412,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2081" y="-1411"/>
+            <point key="canvasLocation" x="3649" y="-851"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="aYA-rt-rck">
@@ -445,7 +445,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Bml-PA-3bk" kind="relationship" relationship="rootViewController" id="eHe-zE-cky"/>
+                        <segue destination="znp-dn-Af7" kind="relationship" relationship="rootViewController" id="o1p-gr-UF8"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ezj-H3-zpf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -756,6 +756,161 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             </objects>
             <point key="canvasLocation" x="1038" y="39"/>
         </scene>
+        <!--Mate View Controller-->
+        <scene sceneID="Zh6-QL-X0E">
+            <objects>
+                <viewController id="0H3-am-xjC" customClass="MateViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AeS-e1-LUl">
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AvF-9f-0tb">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="73" id="K8k-bY-DET"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Edit">
+                                    <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="2oM-lx-ZKt" kind="push" identifier="editMate" id="rza-pU-1zM"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="AvF-9f-0tb" firstAttribute="centerX" secondItem="AeS-e1-LUl" secondAttribute="centerX" type="default" id="DGx-lu-q1L"/>
+                            <constraint firstAttribute="bottom" secondItem="AvF-9f-0tb" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="Uvw-pc-lIP"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Mui-HW-rwS"/>
+                    <connections>
+                        <outlet property="editButton" destination="AvF-9f-0tb" id="tfa-xX-dWN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9hS-Xe-Bcm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2329" y="-1439"/>
+        </scene>
+        <!--Mate Detail View Controller-->
+        <scene sceneID="wt8-Mh-qPG">
+            <objects>
+                <viewController id="2oM-lx-ZKt" customClass="MateDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IbM-Kt-N7v">
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iNe-Ik-Y69">
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rWJ-zA-Ad7">
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="done"/>
+                            </textField>
+                            <segmentedControl opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="d2S-tU-Uvv">
+                                <segments>
+                                    <segment title="Male"/>
+                                    <segment title="Female"/>
+                                </segments>
+                                <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V1L-eR-YJo">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="73" id="U7C-wC-GuF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="savePressed:" destination="2oM-lx-ZKt" eventType="touchUpInside" id="s5y-fn-xB9"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="V1L-eR-YJo" firstAttribute="top" secondItem="IbM-Kt-N7v" secondAttribute="top" constant="155" id="8dN-0y-Wtx"/>
+                            <constraint firstItem="d2S-tU-Uvv" firstAttribute="top" secondItem="IbM-Kt-N7v" secondAttribute="top" constant="110" id="Djh-t2-hry"/>
+                            <constraint firstAttribute="trailing" secondItem="d2S-tU-Uvv" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="GcD-lk-vSx"/>
+                            <constraint firstItem="d2S-tU-Uvv" firstAttribute="leading" secondItem="IbM-Kt-N7v" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="LQ0-dt-ccF"/>
+                            <constraint firstAttribute="trailing" secondItem="rWJ-zA-Ad7" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="PN6-b6-K2G"/>
+                            <constraint firstAttribute="trailing" secondItem="iNe-Ik-Y69" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="dxw-Hd-XxB"/>
+                            <constraint firstItem="rWJ-zA-Ad7" firstAttribute="leading" secondItem="IbM-Kt-N7v" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="e0Q-kW-bNZ"/>
+                            <constraint firstItem="V1L-eR-YJo" firstAttribute="centerX" secondItem="d2S-tU-Uvv" secondAttribute="centerX" type="default" id="ns9-tb-f36"/>
+                            <constraint firstItem="iNe-Ik-Y69" firstAttribute="leading" secondItem="IbM-Kt-N7v" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="sHQ-YZ-BWX"/>
+                            <constraint firstItem="iNe-Ik-Y69" firstAttribute="top" secondItem="IbM-Kt-N7v" secondAttribute="top" constant="33" id="t9c-BU-FPm"/>
+                            <constraint firstItem="rWJ-zA-Ad7" firstAttribute="top" secondItem="iNe-Ik-Y69" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="zyA-ST-gXS"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="1Ix-xk-r39"/>
+                    <connections>
+                        <outlet property="firstNameText" destination="iNe-Ik-Y69" id="wZa-HA-afA"/>
+                        <outlet property="genderSwitch" destination="d2S-tU-Uvv" id="L2W-8u-9F5"/>
+                        <outlet property="lastNameText" destination="rWJ-zA-Ad7" id="6jb-ka-9AB"/>
+                        <outlet property="saveButton" destination="V1L-eR-YJo" id="YeU-98-kQi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="foz-tm-Rub" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2824" y="-1439"/>
+        </scene>
+        <!--Matelist View Controller - Matelist-->
+        <scene sceneID="5fr-4C-isZ">
+            <objects>
+                <viewController id="znp-dn-Af7" customClass="MatelistViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jJ3-vK-nxq">
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="UHE-3x-XvW">
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MateCell" id="DpK-Ht-xJy">
+                                        <rect key="frame" x="0.0" y="46" width="320" height="46"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="Bml-PA-3bk" kind="push" identifier="showFrictlist" id="LNL-hF-YHq"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="znp-dn-Af7" id="ntt-mD-2Yj"/>
+                                    <outlet property="delegate" destination="znp-dn-Af7" id="Ugn-xl-EEK"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="UHE-3x-XvW" firstAttribute="leading" secondItem="jJ3-vK-nxq" secondAttribute="leading" type="default" id="68e-B3-nIE"/>
+                            <constraint firstItem="UHE-3x-XvW" firstAttribute="trailing" secondItem="jJ3-vK-nxq" secondAttribute="trailing" type="default" id="AuK-hc-eka"/>
+                            <constraint firstItem="UHE-3x-XvW" firstAttribute="bottom" secondItem="jJ3-vK-nxq" secondAttribute="bottom" type="default" id="Hy8-cL-gkH"/>
+                            <constraint firstItem="UHE-3x-XvW" firstAttribute="top" secondItem="jJ3-vK-nxq" secondAttribute="top" type="default" id="KXv-Zy-Pm7"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Matelist" id="qzr-NT-VFk"/>
+                    <connections>
+                        <outlet property="tableView" destination="UHE-3x-XvW" id="MyT-p9-ohF"/>
+                        <segue destination="0H3-am-xjC" kind="push" identifier="showMateDetail" id="c82-2h-InO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bS6-u4-5si" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1470" y="-970"/>
+        </scene>
     </scenes>
     <resources>
         <image name="base_0.png" width="100" height="92"/>
@@ -799,6 +954,28 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         </class>
         <class className="FrictlistViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictlistViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="MateDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MateDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="savePressed:"/>
+                <relationship kind="outlet" name="firstNameText" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="genderSwitch" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="lastNameText" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="saveButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="MateViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MateViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="editButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="MatelistViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MatelistViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>

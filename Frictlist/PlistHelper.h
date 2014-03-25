@@ -42,4 +42,7 @@
 -(void)updateFrict:(int)huid index:(int)index first:(NSString *)fn last:(NSString *)ln base:(int)base accepted:(int)accepted from:(NSString *)from to:(NSString *)to notes:(NSString *)notes gender:(int)gender;
 -(void)removeFrict:(int)index;
 
+-(void)addMate:(int)mid first:(NSString *)fn last:(NSString *)ln gender:(int)gender;
+-(void)updateMate:(int)mid index:(int)index first:(NSString *)fn last:(NSString *)ln gender:(int)gender;
+
 @end

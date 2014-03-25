@@ -266,6 +266,15 @@ NSMutableArray *defaultGender;
     [self addGender:gender];
 }
 
+-(void)addMate:(int)mid first:(NSString *)fn last:(NSString *)ln gender:(int)gender
+
+{
+    [self addHuId:mid];
+    [self addFirst:fn];
+    [self addLast:ln];
+    [self addGender:gender];
+}
+
 //updaters
 -(void)updateHuId:(int)index huid:(int)huid
 {
@@ -361,7 +370,6 @@ NSMutableArray *defaultGender;
 
 -(void)updateFrict:(int)huid index:(int)index first:(NSString *)fn last:(NSString *)ln base:(int)base accepted:(int)accepted from:(NSString *)from to:(NSString *)to notes:(NSString *)notes gender:(int)gender
 {
-
     [self updateHuId:index huid:huid];
     [self updateFirst:index fn:fn];
     [self updateLast:index ln:ln];
@@ -370,6 +378,14 @@ NSMutableArray *defaultGender;
     [self updateFrom:index from:from];
     [self updateTo:index to:to];
     [self updateNote:index note:notes];
+    [self updateGender:index gender:gender];
+}
+
+-(void)updateMate:(int)mid index:(int)index first:(NSString *)fn last:(NSString *)ln gender:(int)gender
+{
+    [self updateHuId:index huid:mid];
+    [self updateFirst:index fn:fn];
+    [self updateLast:index ln:ln];
     [self updateGender:index gender:gender];
 }
 
