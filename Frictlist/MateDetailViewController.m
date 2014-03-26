@@ -192,7 +192,7 @@ int gender;
     if(self.hu_id > 0)
     {
         //update
-        post = [NSString stringWithFormat:@"&uid=%d&mid=%d&firstname=%@&lastname=%@&gender=%d",uid, hu_id, firstname, lastname, gender];
+        post = [NSString stringWithFormat:@"&uid=%d&mate_id=%d&firstname=%@&lastname=%@&gender=%d",uid, hu_id, firstname, lastname, gender];
     }
     else
     {

@@ -16,8 +16,7 @@
 
 @implementation FrictDetailViewController
 
-@synthesize visitedSegmentedControl;
-@synthesize hu_id;
+@synthesize frict_id;
 
 
 //bad globals
@@ -25,11 +24,9 @@ UIAlertView * alertView;
 NSString * frict_url = @"http://frictlist.flooreeda.com/scripts/";
 int maxStringLen = 255;
 int minAge = 14;
-int row = 0; //local index of frict (the row of the frict)
+int row = 0; //local index of mate
+int col = 0; //local index of frict
 
-NSString *firstName;
-NSString *lastName;
-int gender;
 int base;
 NSString * fromDate;
 NSString * toDate;
@@ -37,48 +34,47 @@ NSString * notesStr;
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    NSLog(@"view will appear frict detail");
     //check if this is an existing hookup
     //this mean that we have to display the data for edit
-    if(self.hu_id > 0)
+    if(self.frict_id > 0)
     {
         PlistHelper *plist = [PlistHelper alloc];
+        NSMutableArray * frictidArray = [plist getFrictIdArray];
         NSMutableArray * huidArray = [plist getHuIdArray];
-        NSMutableArray * fnArray = [plist getFirstNameArray];
-        NSMutableArray * lnArray = [plist getLastNameArray];
-        NSMutableArray * genderArray = [plist getGenderArray];
         NSMutableArray * baseArray = [plist getBaseArray];
         NSMutableArray * fromArray = [plist getFromArray];
         NSMutableArray * toArray = [plist getToArray];
         NSMutableArray * notesArray = [plist getNoteArray];
         
-        //get local index of hu_id
-        for(int i = 0; i < huidArray.count; i++)
+        //get local index of mate id
+        for(; row < huidArray.count; row++)
         {
-            if(self.hu_id == [[huidArray objectAtIndex:i] intValue])
-                {
-                    row = i;
-                    break;
-                }
+            if(self.mate_id == [[huidArray objectAtIndex:row] intValue])
+            {
+                break;
+            }
         }
-            
-        firstName = fnArray[row];
-        NSLog(@"%@", firstName);
-        lastName = lnArray[row];
-        NSLog(@"%@", lastName);
-        gender = [genderArray[row] intValue];
-        NSLog(@"%d", gender);
-        base = [baseArray[row] intValue];
+        
+        //get local index of frict id
+        for(; col < frictidArray.count; col++)
+        {
+            if(self.frict_id == [frictidArray[row][col] intValue])
+            {
+                break;
+            }
+        }
+        NSLog(@"row %d col %d", row, col);
+        
+        base = [baseArray[row][col] intValue];
         NSLog(@"%d", base);
-        fromDate = fromArray[row];
+        fromDate = fromArray[row][col];
         NSLog(@"%@", fromDate);
-        toDate = toArray[row];
+        toDate = toArray[row][col];
         NSLog(@"%@", toDate);
-        notesStr = notesArray[row];
+        notesStr = notesArray[row][col];
         NSLog(@"%@", notesStr);
         
-        firstNameText.text = firstName;
-        lastNameText.text = lastName;
-        genderSwitch.selectedSegmentIndex = gender;
         baseSwitch.selectedSegmentIndex = base;
         [notes setText:notesStr];
         
@@ -101,8 +97,9 @@ NSString * notesStr;
             [toSwitch setDate:toAsDate];
         }
         
+        //todo: proally wana show name of mate
         //set the title
-        self.title = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+        //self.title = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
         
     }
     else
@@ -128,8 +125,6 @@ NSString * notesStr;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    firstNameText.delegate = self;
-    lastNameText.delegate = self;
     notes.delegate = self;
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc]  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(goBack:)];
@@ -147,7 +142,7 @@ NSString * notesStr;
     [[self.tabBarController.tabBar.items objectAtIndex:0] setEnabled:TRUE];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setEnabled:TRUE];
     
-    if(hu_id >0)
+    if(frict_id >0)
     {
         //if frict exists, go to frict view
         [self.navigationController popViewControllerAnimated:YES];
@@ -165,41 +160,6 @@ NSString * notesStr;
     // Dispose of any resources that can be recreated.
 }
 
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    activeField = textField;
-    [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
-}
-
--(void)textViewDidBeginEditing:(UITextView *)textView
-{
-    [scrollView setContentOffset:CGPointMake(0,textView.center.y) animated:YES];
-}
-
-// called when click on the retun button.
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    NSInteger nextTag = textField.tag + 1;
-    // Try to find next responder
-    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
-    
-    if(textField.tag == 1) {
-        [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
-        [textField resignFirstResponder];
-        return YES;
-    } else if (nextResponder) {
-        [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
-        // Found next responder, so set it.
-        [nextResponder becomeFirstResponder];
-    } else {
-        [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
-        [textField resignFirstResponder];
-        return YES;
-    }
-    
-    return NO;
-}
-
 -(BOOL)textView:(UITextView *)textView  shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if([text isEqualToString:@"\n"])
@@ -214,9 +174,6 @@ NSString * notesStr;
 {
     BOOL rc = true;
     
-    NSString * firstname = firstNameText.text;
-    NSString * lastname = lastNameText.text;
-    int gender = genderSwitch.selectedSegmentIndex;
     int base = baseSwitch.selectedSegmentIndex;
     NSDate * from = fromSwitch.date;
     NSDate * to = toSwitch.date;
@@ -228,24 +185,7 @@ NSString * notesStr;
         to = NULL;
     }
     
-    //validate user input
-    if(firstname.length > maxStringLen)
-    {
-        rc = 0;
-        [self showFieldTooLong:@"First Name"];
-    } else if(lastname.length > maxStringLen) {
-        rc = 0;
-        [self showFieldTooLong:@"Last Name"];
-    } else if(firstname.length == 0)
-    {
-        rc = 0;
-        [self showFieldTooShort:@"First Name"];
-    } else if(lastname.length == 0) {
-        rc = 0;
-        [self showFieldTooShort:@"Last Name"];
-    }
-    else
-    {
+
         //get the birthday of the user from the plist then format it into a string
         PlistHelper *plist = [PlistHelper alloc];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -275,16 +215,11 @@ NSString * notesStr;
             rc = 0;
             [self showDateBeforeBdayDialog];
         }
-    }
     
-    //format dates
-    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
     NSString *fromFormatted = [formatter stringFromDate:from];
     NSString *toFormatted = [formatter stringFromDate:to];
     
     //get uid
-    PlistHelper *plist = [PlistHelper alloc];
     int uid = [plist getPk];
     if(rc && uid < 0)
     {
@@ -294,9 +229,10 @@ NSString * notesStr;
     //add the frict to the remote db
     if(rc)
     {
+        //TODO, could distinguish between add and update
         [self showAddingFrictDialog];
-        
-        rc = [self save_frict:uid firstname:firstname lastname:lastname gender:gender base:base from:fromFormatted to:toFormatted notes:hu_notes];
+        //TODO
+        rc = [self save_frict:base from:fromFormatted to:toFormatted notes:hu_notes];
         
         //take action if something went wrong
         if(!rc)
@@ -309,19 +245,21 @@ NSString * notesStr;
 }
 
 //save frict data
--(BOOL) save_frict:(int) uid firstname:(NSString *) firstname lastname:(NSString *)lastname gender:(int)gender base:(int)base from:(NSString *)from to:(NSString *)to notes:(NSString *)hu_notes
+-(BOOL) save_frict:(int)base from:(NSString *)from to:(NSString *)to notes:(NSString *)hu_notes
 {
     BOOL rc = true;
 
     NSString *post;
     
-    if(self.hu_id > 0)
+    if(self.frict_id > 0)
     {
-        post = [NSString stringWithFormat:@"&uid=%d&frict_id=%d&firstname=%@&lastname=%@&gender=%d&base=%d&from=%@&to=%@&notes=%@",uid, hu_id, firstname, lastname, gender, base, from, to, hu_notes];
+        //update
+        post = [NSString stringWithFormat:@"&frict_id=%d&mate_id=%d&base=%d&from=%@&to=%@&notes=%@",self.frict_id, self.mate_id, base, from, to, hu_notes];
     }
     else
     {
-        post = [NSString stringWithFormat:@"&uid=%d&firstname=%@&lastname=%@&gender=%d&base=%d&from=%@&to=%@&notes=%@",uid, firstname, lastname, gender, base, from, to, hu_notes];
+        //add
+        post = [NSString stringWithFormat:@"&mate_id=%d&base=%d&from=%@&to=%@&notes=%@",self.mate_id, base, from, to, hu_notes];
     }
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
@@ -334,7 +272,7 @@ NSString * notesStr;
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
-    if(self.hu_id > 0)
+    if(self.frict_id > 0)
     {
         //this hookup has already been written to the mysql db, updated it now
         [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@update_frict.php", frict_url]]];
@@ -487,15 +425,18 @@ NSString * notesStr;
         }
         
         PlistHelper *plist = [PlistHelper alloc];
-        if(self.hu_id > 0)
+        if(self.frict_id > 0)
         {
+            //todo
             //update the local database
-            [plist updateFrict:intResult index:row first:firstNameText.text last:lastNameText.text base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text gender:genderSwitch.selectedSegmentIndex];
+            //[plist updateFrict:intResult index:row first:firstNameText.text last:lastNameText.text base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text gender:genderSwitch.selectedSegmentIndex];
         }
         else
         {
+            NSLog(@"adding frict");
             //insert the data that has already been inserted on the remote database into the plist
-            [plist addFrict:intResult first:firstNameText.text last:lastNameText.text base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text gender:genderSwitch.selectedSegmentIndex];
+            [plist addFrict:intResult huid:self.mate_id base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text];
+            NSLog(@"added frict");
         }
         
         //enable tabbaar items

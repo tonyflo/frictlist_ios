@@ -16,12 +16,15 @@ NSString *defaultBirthday = @"0000-00-00";
 NSMutableArray *defaultHuId;
 NSMutableArray *defaultFirst;
 NSMutableArray *defaultLast;
+NSMutableArray *defaultGender;
+
+NSMutableArray *defaultFrictId;
 NSMutableArray *defaultBase;
 NSMutableArray *defaultAccepted;
 NSMutableArray *defaultFrom;
 NSMutableArray *defaultTo;
 NSMutableArray *defaultNotes;
-NSMutableArray *defaultGender;
+
 
 //getters
 -(NSString *)getEmail
@@ -61,7 +64,6 @@ NSMutableArray *defaultGender;
     NSString * path = [self getPlistPath];
     NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
     NSMutableArray * huidArray = [plistDict objectForKey:@"huid"];
-    NSLog(@"plist: %@", huidArray);
     return huidArray;
 }
 
@@ -79,6 +81,22 @@ NSMutableArray *defaultGender;
     NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
     NSMutableArray * lastNameArray = [plistDict objectForKey:@"ln"];
     return lastNameArray;
+}
+
+-(NSMutableArray *)getGenderArray
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
+    NSMutableArray * gender = [plistDict objectForKey:@"gender"];
+    return gender;
+}
+
+-(NSMutableArray *)getFrictIdArray
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
+    NSMutableArray * frictidArray = [plistDict objectForKey:@"frictid"];
+    return frictidArray;
 }
 
 -(NSMutableArray *)getBaseArray
@@ -119,14 +137,6 @@ NSMutableArray *defaultGender;
     NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
     NSMutableArray * notes = [plistDict objectForKey:@"note"];
     return notes;
-}
-
--(NSMutableArray *)getGenderArray
-{
-    NSString * path = [self getPlistPath];
-    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
-    NSMutableArray * gender = [plistDict objectForKey:@"gender"];
-    return gender;
 }
 
 //setters
@@ -193,56 +203,6 @@ NSMutableArray *defaultGender;
     [data writeToFile: path atomically:YES];
 }
 
--(void)addBase:(int)base
-{
-    NSString * path = [self getPlistPath];
-    NSMutableDictionary *data = [self getPlistData:path];
-    NSMutableArray * baseArray =[data objectForKey:@"base"];
-    [baseArray addObject:[NSString stringWithFormat:@"%d", base]];
-    [data setObject:baseArray forKey:@"base"];
-    [data writeToFile: path atomically:YES];
-}
-
--(void)addAccepted:(int)accept
-{
-    NSString * path = [self getPlistPath];
-    NSMutableDictionary *data = [self getPlistData:path];
-    NSMutableArray * acceptArray =[data objectForKey:@"accept"];
-    [acceptArray addObject:[NSString stringWithFormat:@"%d", accept]];
-    [data setObject:acceptArray forKey:@"accept"];
-    [data writeToFile: path atomically:YES];
-}
-
--(void)addFrom:(NSString *)from
-{
-    NSString * path = [self getPlistPath];
-    NSMutableDictionary *data = [self getPlistData:path];
-    NSMutableArray * fromArray =[data objectForKey:@"from"];
-    [fromArray addObject:from];
-    [data setObject:fromArray forKey:@"from"];
-    [data writeToFile: path atomically:YES];
-}
-
--(void)addTo:(NSString *)to
-{
-    NSString * path = [self getPlistPath];
-    NSMutableDictionary *data = [self getPlistData:path];
-    NSMutableArray * toArray =[data objectForKey:@"to"];
-    [toArray addObject:to];
-    [data setObject:toArray forKey:@"to"];
-    [data writeToFile: path atomically:YES];
-}
-
--(void)addNote:(NSString *)note
-{
-    NSString * path = [self getPlistPath];
-    NSMutableDictionary *data = [self getPlistData:path];
-    NSMutableArray * noteArray =[data objectForKey:@"note"];
-    [noteArray addObject:note];
-    [data setObject:noteArray forKey:@"note"];
-    [data writeToFile: path atomically:YES];
-}
-
 -(void)addGender:(int)gender
 {
     NSString * path = [self getPlistPath];
@@ -253,17 +213,91 @@ NSMutableArray *defaultGender;
     [data writeToFile: path atomically:YES];
 }
 
--(void)addFrict:(int)huid first:(NSString *)fn last:(NSString *)ln base:(int)base accepted:(int)accepted from:(NSString *)from to:(NSString *)to notes:(NSString *)notes gender:(int)gender
+//index for the following add functions is the local index of the mate
+-(void)addFrictId:(int)index frictid:(int)frictid
 {
-    [self addHuId:huid];
-    [self addFirst:fn];
-    [self addLast:ln];
-    [self addBase:base];
-    [self addAccepted:accepted];
-    [self addFrom:from];
-    [self addTo:to];
-    [self addNote:notes];
-    [self addGender:gender];
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * frictidArray =[data objectForKey:@"frictid"];
+    [[frictidArray objectAtIndex:index] addObject:[NSString stringWithFormat:@"%d", frictid]];
+    [data setObject:frictidArray forKey:@"frictid"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)addBase:(int)index base:(int)base
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * baseArray =[data objectForKey:@"base"];
+    [[baseArray objectAtIndex:index] addObject:[NSString stringWithFormat:@"%d", base]];
+    [data setObject:baseArray forKey:@"base"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)addAccepted:(int)index accept:(int)accept
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * acceptArray =[data objectForKey:@"accept"];
+    [[acceptArray objectAtIndex:index] addObject:[NSString stringWithFormat:@"%d", accept]];
+    [data setObject:acceptArray forKey:@"accept"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)addFrom:(int)index from:(NSString *)from
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * fromArray =[data objectForKey:@"from"];
+    [[fromArray objectAtIndex:index] addObject:from];
+    [data setObject:fromArray forKey:@"from"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)addTo:(int)index to:(NSString *)to
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * toArray =[data objectForKey:@"to"];
+    [[toArray objectAtIndex:index] addObject:to];
+    [data setObject:toArray forKey:@"to"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)addNote:(int)index note:(NSString *)note
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * noteArray =[data objectForKey:@"note"];
+    [[noteArray objectAtIndex:index] addObject:note];
+    [data setObject:noteArray forKey:@"note"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)addFrict:(int)frictid huid:(int)huid base:(int)base accepted:(int)accepted from:(NSString *)from to:(NSString *)to notes:(NSString *)notes
+{
+    //get huid's index into the huid array
+    NSArray * mateIdArray = [self getHuIdArray];
+    
+    int index = 0; //local mate index
+    //get local index of mate's id
+    for(; index < mateIdArray.count; index++)
+    {
+        if(huid == [[mateIdArray objectAtIndex:index] intValue])
+        {
+            break;
+        }
+    }
+    
+    NSLog(@"index into huid array is %d", index);
+    //add frict data for this mate
+    [self addFrictId:index frictid:frictid];
+    NSLog(@"added frict id");
+    [self addBase:index base:base];
+    [self addAccepted:index accept:accepted];
+    [self addFrom:index from:from];
+    [self addTo:index to:to];
+    [self addNote:index note:notes];
 }
 
 -(void)addMate:(int)mid first:(NSString *)fn last:(NSString *)ln gender:(int)gender
@@ -273,6 +307,39 @@ NSMutableArray *defaultGender;
     [self addFirst:fn];
     [self addLast:ln];
     [self addGender:gender];
+    
+    [self addEmptyFrictArrays];
+}
+
+-(void)addEmptyFrictArrays
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    
+    NSMutableArray * frictidArray =[data objectForKey:@"frictid"];
+    NSMutableArray * baseArry =[data objectForKey:@"base"];
+    NSMutableArray * acceptArray =[data objectForKey:@"accept"];
+    NSMutableArray * fromArray =[data objectForKey:@"from"];
+    NSMutableArray * toArray =[data objectForKey:@"to"];
+    NSMutableArray * noteArray =[data objectForKey:@"note"];
+    
+    [frictidArray addObject:[[NSMutableArray alloc] initWithObjects:nil]];
+    [baseArry addObject:[[NSMutableArray alloc] initWithObjects:nil]];
+    [acceptArray addObject:[[NSMutableArray alloc] initWithObjects:nil]];
+    [fromArray addObject:[[NSMutableArray alloc] initWithObjects:nil]];
+    [toArray addObject:[[NSMutableArray alloc] initWithObjects:nil]];
+    [noteArray addObject:[[NSMutableArray alloc] initWithObjects:nil]];
+    
+    [data setObject:frictidArray forKey:@"frictid"];
+    [data setObject:baseArry forKey:@"base"];
+    [data setObject:acceptArray forKey:@"accept"];
+    [data setObject:fromArray forKey:@"from"];
+    [data setObject:toArray forKey:@"to"];
+    [data setObject:noteArray forKey:@"note"];
+    
+    NSLog(@"base array size: %d", [baseArry count]);
+    
+    [data writeToFile: path atomically:YES];
 }
 
 //updaters
@@ -306,58 +373,6 @@ NSMutableArray *defaultGender;
     [data writeToFile: path atomically:YES];
 }
 
--(void)updateBase:(int)index base:(int)base
-{
-    NSString * path = [self getPlistPath];
-    NSMutableDictionary *data = [self getPlistData:path];
-    NSMutableArray * baseArray =[data objectForKey:@"base"];
-    [baseArray setObject:[NSString stringWithFormat:@"%d", base] atIndexedSubscript:index];
-    [data setObject:baseArray forKey:@"base"];
-    [data writeToFile: path atomically:YES];
-}
-
--(void)updateAccepted:(int)index accept:(int)accept
-{
-    NSString * path = [self getPlistPath];
-    NSMutableDictionary *data = [self getPlistData:path];
-    NSMutableArray * acceptArray =[data objectForKey:@"accept"];
-    [acceptArray setObject:[NSString stringWithFormat:@"%d", accept] atIndexedSubscript:index];
-    [data setObject:acceptArray forKey:@"accept"];
-    [data writeToFile: path atomically:YES];
-}
-
--(void)updateFrom:(int)index from:(NSString *)from
-{
-    NSLog(@"From date: %@", from);
-    NSString * path = [self getPlistPath];
-    NSMutableDictionary *data = [self getPlistData:path];
-    NSMutableArray * fromArray =[data objectForKey:@"from"];
-    [fromArray setObject:from atIndexedSubscript:index];
-    [data setObject:fromArray forKey:@"from"];
-    [data writeToFile: path atomically:YES];
-}
-
--(void)updateTo:(int)index to:(NSString *)to
-{
-    NSString * path = [self getPlistPath];
-    NSMutableDictionary *data = [self getPlistData:path];
-    NSMutableArray * toArray =[data objectForKey:@"to"];
-    [toArray setObject:to atIndexedSubscript:index];
-    [data setObject:toArray forKey:@"to"];
-    [data writeToFile: path atomically:YES];
-}
-
--(void)updateNote:(int)index note:(NSString *)note
-{
-    NSLog(@"set note: %@", note);
-    NSString * path = [self getPlistPath];
-    NSMutableDictionary *data = [self getPlistData:path];
-    NSMutableArray * noteArray =[data objectForKey:@"note"];
-    [noteArray setObject:note atIndexedSubscript:index];
-    [data setObject:noteArray forKey:@"note"];
-    [data writeToFile: path atomically:YES];
-}
-
 -(void)updateGender:(int)index gender:(int)gender
 {
     NSString * path = [self getPlistPath];
@@ -368,17 +383,73 @@ NSMutableArray *defaultGender;
     [data writeToFile: path atomically:YES];
 }
 
--(void)updateFrict:(int)huid index:(int)index first:(NSString *)fn last:(NSString *)ln base:(int)base accepted:(int)accepted from:(NSString *)from to:(NSString *)to notes:(NSString *)notes gender:(int)gender
+-(void)updateBase:(int)mid_index frictid:(int)frictid_index base:(int)base
 {
-    [self updateHuId:index huid:huid];
-    [self updateFirst:index fn:fn];
-    [self updateLast:index ln:ln];
-    [self updateBase:index base:base];
-    [self updateAccepted:index accept:accepted];
-    [self updateFrom:index from:from];
-    [self updateTo:index to:to];
-    [self updateNote:index note:notes];
-    [self updateGender:index gender:gender];
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * baseArray =[data objectForKey:@"base"];
+    [[baseArray objectAtIndex:mid_index] setObject:[NSString stringWithFormat:@"%d", base] atIndexedSubscript:frictid_index];
+    [data setObject:baseArray forKey:@"base"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)updateAccepted:(int)mid_index frictid:(int)frictid_index accept:(int)accept
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * acceptArray =[data objectForKey:@"accept"];
+    [[acceptArray objectAtIndex:mid_index] setObject:[NSString stringWithFormat:@"%d", accept] atIndexedSubscript:frictid_index];
+    [data setObject:acceptArray forKey:@"accept"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)updateFrom:(int)mid_index frictid:(int)frictid_index from:(NSString *)from
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * fromArray =[data objectForKey:@"from"];
+    [[fromArray objectAtIndex:mid_index] setObject:from atIndexedSubscript:frictid_index];
+    [data setObject:fromArray forKey:@"from"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)updateTo:(int)mid_index frictid:(int)frictid_index to:(NSString *)to
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * toArray =[data objectForKey:@"to"];
+    [[toArray objectAtIndex:mid_index] setObject:to atIndexedSubscript:frictid_index];
+    [data setObject:toArray forKey:@"to"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)updateNote:(int)mid_index frictid:(int)frictid_index note:(NSString *)note
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    NSMutableArray * noteArray =[data objectForKey:@"note"];
+    [[noteArray objectAtIndex:mid_index] setObject:note atIndexedSubscript:frictid_index];
+    [data setObject:noteArray forKey:@"note"];
+    [data writeToFile: path atomically:YES];
+}
+
+//todo
+-(void)updateFrict:(int)mid frict_id:(int)frict_id base:(int)base accepted:(int)accepted from:(NSString *)from to:(NSString *)to notes:(NSString *)notes
+{
+    //convert int to object
+    NSNumber *mid_as_number = [NSNumber numberWithInt:mid];
+    //get mid's index into the huid array
+    int mid_index_as_int = [[self getHuIdArray] indexOfObject:mid_as_number];
+    NSNumber *mid_index_as_number = [NSNumber numberWithInt:mid_index_as_int];
+    //get frict_id's index into the frict_id array
+    int frictid_index_as_int = [[self getFrictIdArray] indexOfObject:mid_index_as_number];
+    
+    //update frict data for this mate
+    [self updateBase:mid_index_as_int frictid:(int)frictid_index_as_int base:base];
+    [self updateAccepted:mid_index_as_int frictid:(int)frictid_index_as_int accept:accepted];
+    [self updateFrom:mid_index_as_int frictid:(int)frictid_index_as_int from:from];
+    [self updateTo:mid_index_as_int frictid:(int)frictid_index_as_int to:to];
+    [self updateNote:mid_index_as_int frictid:(int)frictid_index_as_int note:notes];
 }
 
 -(void)updateMate:(int)mid index:(int)index first:(NSString *)fn last:(NSString *)ln gender:(int)gender
@@ -581,12 +652,14 @@ NSMutableArray *defaultGender;
         defaultHuId = [[NSMutableArray alloc] initWithObjects:nil];
         defaultFirst = [[NSMutableArray alloc] initWithObjects:nil];
         defaultLast = [[NSMutableArray alloc] initWithObjects:nil];
-        defaultBase = [[NSMutableArray alloc] initWithObjects:nil];
-        defaultAccepted = [[NSMutableArray alloc] initWithObjects:nil];
-        defaultFrom = [[NSMutableArray alloc] initWithObjects:nil];;
-        defaultTo = [[NSMutableArray alloc] initWithObjects:nil];;
-        defaultNotes = [[NSMutableArray alloc] initWithObjects:nil];;
-        defaultGender = [[NSMutableArray alloc] initWithObjects:nil];;
+        defaultGender = [[NSMutableArray alloc] initWithObjects:nil];
+        
+        defaultFrictId = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] initWithObjects:nil], nil];
+        defaultBase = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] initWithObjects:nil], nil];
+        defaultAccepted = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] initWithObjects:nil], nil];
+        defaultFrom = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] initWithObjects:nil], nil];;
+        defaultTo = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] initWithObjects:nil], nil];;
+        defaultNotes = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] initWithObjects:nil], nil];;
         
         // If the file doesn’t exist, create an empty dictionary
         data = [[NSMutableDictionary alloc] init];
@@ -594,15 +667,18 @@ NSMutableArray *defaultGender;
         [data setObject:defaultPk forKey:@"pk"]; //primary key
         [data setObject:defaultBirthday forKey:@"bday"]; //birthday
         [data setObject:@"1" forKey:@"first"]; //1 if first time opening app
+        
         [data setObject:defaultHuId forKey:@"huid"]; //hookup ids
         [data setObject:defaultFirst forKey:@"fn"]; //first name array
         [data setObject:defaultLast forKey:@"ln"]; //last name array
+        [data setObject:defaultGender forKey:@"gender"]; //gender
+        
+        [data setObject:defaultFrictId forKey:@"frictid"]; //frict ids
         [data setObject:defaultBase forKey:@"base"]; //bases
         [data setObject:defaultAccepted forKey:@"accept"]; //accepted status
         [data setObject:defaultFrom forKey:@"from"]; //from date
         [data setObject:defaultTo forKey:@"to"]; //to date
         [data setObject:defaultNotes forKey:@"note"]; //notes
-        [data setObject:defaultGender forKey:@"gender"]; //gender
         [data writeToFile: path atomically:YES];
     }
     

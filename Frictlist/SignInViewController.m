@@ -596,7 +596,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 
             if(frict.count == 9)
             {
-                [plist addFrict:[frict[0] intValue] first:frict[1] last:frict[2] base:[frict[3] intValue] accepted:[frict[4] intValue] from:frict[5] to:frict[6] notes:frict[7] gender:[frict[8] intValue]];
+                //[plist addFrict:[frict[0] intValue] first:frict[1] last:frict[2] base:[frict[3] intValue] accepted:[frict[4] intValue] from:frict[5] to:frict[6] notes:frict[7] gender:[frict[8] intValue]];
             }
         }
         
@@ -620,7 +620,8 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         //now, get the frictlist
         if(checkboxButton.selected == 0)
         {
-            [self get_frictlist:intResult];
+            //todo
+            //[self get_frictlist:intResult];
         }
         
         //go back to settings view

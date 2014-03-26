@@ -19,7 +19,8 @@
     IBOutlet UIImageView *baseImageView;
 }
 
-@property (readwrite, assign) NSUInteger hu_id;
+@property (readwrite, assign) NSUInteger frict_id;
+@property (readwrite, assign) NSUInteger mate_id;
 
 
 @end

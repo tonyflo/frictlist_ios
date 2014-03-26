@@ -8,6 +8,7 @@
 
 #import "MateViewController.h"
 #import "MateDetailViewController.h"
+#import "FrictlistViewController.h"
 
 @interface MateViewController ()
 
@@ -46,9 +47,15 @@
 {
     if([segue.identifier isEqualToString:@"editMate"])
     {
+        NSLog(@"edit mate segue");
         MateDetailViewController *destViewController = segue.destinationViewController;
-        
         destViewController.hu_id = self.hu_id;
+    }
+    else if([segue.identifier isEqualToString:@"showFrictlist"])
+    {
+        NSLog(@"show frictlist segue");
+        FrictlistViewController *destViewConroller = segue.destinationViewController;
+        destViewConroller.hu_id = self.hu_id;
     }
 }
 
@@ -63,6 +70,7 @@
     else
     {
         NSLog(@"staying here");
+        NSLog(@"Mate ID: %d", self.hu_id);
     }
 }
 

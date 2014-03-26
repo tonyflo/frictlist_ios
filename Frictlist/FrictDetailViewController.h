@@ -10,11 +10,7 @@
 
 @interface FrictDetailViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate>
 {
-    IBOutlet UITextField *activeField;
     IBOutlet UIScrollView *scrollView;
-    IBOutlet UITextField *firstNameText;
-    IBOutlet UITextField *lastNameText;
-    IBOutlet UISegmentedControl *genderSwitch;
     IBOutlet UISegmentedControl *baseSwitch;
     IBOutlet UIButton *oneNightStandCheck;
     IBOutlet UIDatePicker *fromSwitch;
@@ -26,8 +22,8 @@
 
 //image view
 
-@property (readwrite, assign) NSUInteger hu_id;
-@property (nonatomic, weak) IBOutlet UISegmentedControl *visitedSegmentedControl;
+@property (readwrite, assign) NSUInteger frict_id;
+@property (readwrite, assign) NSUInteger mate_id;
 
 - (IBAction)savePressed:(id)sender;
 - (IBAction)checkboxButton:(id)sender;

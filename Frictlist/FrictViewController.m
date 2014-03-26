@@ -44,11 +44,15 @@ NSString * notesStr;
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    NSLog(@"HHUUIIDD: %d", self.hu_id);
+    NSLog(@"Frict id: %d", self.frict_id);
     //jump to the edit view if this is a new row in the list
-    if(self.hu_id <=0)
+    if(self.frict_id <=0)
     {
+        NSLog(@"going to frict detail view");
         [self performSegueWithIdentifier:@"editFrict" sender:editButton];
+    }
+    else{
+        NSLog(@"Staying at frict view");
     }
   
 }
@@ -62,11 +66,13 @@ NSString * notesStr;
 //send data from table view to detail view
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    NSLog(@"Prepare for segue");
     if([segue.identifier isEqualToString:@"editFrict"])
     {
+        NSLog(@"mate id: %d frict id: %d", self.mate_id, self.frict_id);
         FrictDetailViewController *destViewController = segue.destinationViewController;
-        
-        destViewController.hu_id = self.hu_id;
+        destViewController.mate_id = self.mate_id;
+        destViewController.frict_id = self.frict_id;
     }
 }
 
@@ -74,10 +80,11 @@ NSString * notesStr;
 {
     //check if this is an existing hookup
     //this mean that we have to display the data for edit
-    if(self.hu_id > 0)
+    if(self.frict_id > 0)
     {
         PlistHelper *plist = [PlistHelper alloc];
         NSMutableArray * huidArray = [plist getHuIdArray];
+        NSMutableArray * frictidArray = [plist getFrictIdArray];
         NSMutableArray * fnArray = [plist getFirstNameArray];
         NSMutableArray * lnArray = [plist getLastNameArray];
         NSMutableArray * genderArray = [plist getGenderArray];
@@ -87,29 +94,39 @@ NSString * notesStr;
         NSMutableArray * notesArray = [plist getNoteArray];
         
         int row = 0;
-
-        //get local index of hu_id
+        //get local index of mate id
         for(; row < huidArray.count; row++)
         {
-            if(self.hu_id == [[huidArray objectAtIndex:row] intValue])
+            if(self.mate_id == [[huidArray objectAtIndex:row] intValue])
             {
                 break;
             }
         }
-        
+
+        int col = 0;
+        //get local index of frict id
+        for(; col < frictidArray.count; col++)
+        {
+            if(self.frict_id == [frictidArray[row][col] intValue])
+            {
+                break;
+            }
+        }
+        NSLog(@"row %d col %d", row, col);
+
         firstName = fnArray[row];
         NSLog(@"%@", firstName);
         lastName = lnArray[row];
         NSLog(@"%@", lastName);
         gender = [genderArray[row] intValue];
         NSLog(@"%d", gender);
-        base = [baseArray[row] intValue];
+        base = [baseArray[row][col] intValue];
         NSLog(@"%d", base);
-        fromDate = fromArray[row];
+        fromDate = fromArray[row][col];
         NSLog(@"%@", fromDate);
-        toDate = toArray[row];
+        toDate = toArray[row][col];
         NSLog(@"%@", toDate);
-        notesStr = notesArray[row];
+        notesStr = notesArray[row][col];
         NSLog(@"%@", notesStr);
         
         //set name
@@ -121,7 +138,7 @@ NSString * notesStr;
         NSLog(@"GENDER IMAGE: %@", genderStr);
         
         //set base
-        NSString *baseStr = [NSString stringWithFormat:@"base_%d.png", [baseArray[row] intValue] + 1];
+        NSString *baseStr = [NSString stringWithFormat:@"base_%d.png", [baseArray[row][col] intValue] + 1];
         baseImageView.image = [UIImage imageNamed:baseStr];
         
         
@@ -150,7 +167,7 @@ NSString * notesStr;
         }
         
         //set the title
-        //self.title = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+        self.title = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
     }
     else
     {
