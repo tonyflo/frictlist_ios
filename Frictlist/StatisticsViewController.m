@@ -10,6 +10,7 @@
 #import "version.h"
 #import "SignInViewController.h"
 #import "PlistHelper.h"
+#import "SqlHelper.h"
 
 @interface StatisticsViewController ()
 
@@ -43,7 +44,17 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
 }
 
 - (void)viewDidLoad
-{    
+{
+    SqlHelper * sql = [SqlHelper alloc];
+    [sql createEditableCopyOfDatabaseIfNeeded];
+    [sql add_mate:1 fn:@"Jena" ln:@"Marrinucci" gender:1];
+    NSMutableArray * mates = [sql get_mate_list];
+    int count = ((NSArray *)mates[0]).count;
+    for(int i = 0; i < count; i++)
+    {
+        NSLog(@"%@ %@ %@ %@", mates[0][i], mates[1][i], mates[2][i], mates[3][i]);
+    }
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     NSLog(@"View did load");
@@ -268,6 +279,8 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    
+    
     [self checkFirstAppOpen];
     
     //check signed in
