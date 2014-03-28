@@ -7,9 +7,9 @@
 //
 
 #import "MatelistViewController.h"
-#import "FrictlistViewController.h"
 #import "MateViewController.h"
 #import "PlistHelper.h"
+#import "SqlHelper.h"
 
 @interface MatelistViewController ()
 
@@ -72,10 +72,16 @@ NSMutableArray *lastNameArray;
 {
     NSLog(@"view will appear");
     
-    PlistHelper *plist = [PlistHelper alloc];
-    huidArray = [plist getHuIdArray];
-    firstNameArray = [plist getFirstNameArray];
-    lastNameArray = [plist getLastNameArray];
+    SqlHelper * sql = [SqlHelper alloc];
+    NSMutableArray * mates = [sql get_mate_list];
+    //    int count = ((NSArray *)mates[0]).count;
+    //    for(int i = 0; i < count; i++)
+    //    {
+    //        NSLog(@"%@ %@ %@ %@", mates[0][i], mates[1][i], mates[2][i], mates[3][i]);
+    //    }
+    huidArray = mates[0];
+    firstNameArray = mates[1];
+    lastNameArray = mates[2];
     NSLog(@"huids: %@", huidArray);
     NSLog(@"firstNameArray: %@", firstNameArray);
     NSLog(@"lastNameArray: %@", lastNameArray);
@@ -188,33 +194,24 @@ NSMutableArray *lastNameArray;
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        [self showRemovingFrictDialog];
+        [self showRemovingMateDialog];
         
-        //remove frict from plist
+        //get row
         curRow = indexPath.row;
         
-        //get uid
-        PlistHelper *plist = [PlistHelper alloc];
-        int uid = [plist getPk];
+        //get mate_id
+        int mate_id = [[huidArray objectAtIndex:curRow] intValue];
         
-        //get frict_id
-        int frict_id = [[huidArray objectAtIndex:curRow] intValue];
-        
-        //remove frict data from local arrays
-        [huidArray removeObjectAtIndex:curRow];
-        [firstNameArray removeObjectAtIndex:curRow];
-        [lastNameArray removeObjectAtIndex:curRow];
-        
-        //remove frict from mysql db
-        [self remove_mate:uid frict_id:frict_id];
+        //remove mate from mysql db
+        [self remove_mate:mate_id];
         
         //refresh the table
         [tableV reloadData];
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert)
     {
-        //go to detail view to add frict
-        [huidArray insertObject:@"New hookup" atIndex:[huidArray count]];
+        //go to detail view to add mate
+        [huidArray insertObject:@"New mate" atIndex:[huidArray count]];
         //[tableV reloadData];;
         sentFromAdd = true;
         [self performSegueWithIdentifier:@"showMateDetail" sender:indexPath];
@@ -224,11 +221,11 @@ NSMutableArray *lastNameArray;
 
 //todo
 //remove mate
--(BOOL) remove_mate:(int) uid frict_id:(int)frict_id
+-(BOOL) remove_mate:(int)mate_id
 {
     BOOL rc = true;
     
-    NSString * post = [NSString stringWithFormat:@"&uid=%d&frict_id=%d",uid, frict_id];
+    NSString * post = [NSString stringWithFormat:@"&mate_id=%d",mate_id];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
@@ -273,9 +270,9 @@ NSMutableArray *lastNameArray;
     return rc;
 }
 
--(void)showRemovingFrictDialog
+-(void)showRemovingMateDialog
 {
-    alertView = [[UIAlertView alloc] initWithTitle:@"Removig Frict"
+    alertView = [[UIAlertView alloc] initWithTitle:@"Removig Mate"
                                            message:@"\n"
                                           delegate:self
                                  cancelButtonTitle:nil
@@ -345,9 +342,17 @@ NSMutableArray *lastNameArray;
         
         if(curRow >= 0)
         {
-            //remove frict from plist
-            PlistHelper *plist = [PlistHelper alloc];
-            [plist removeFrict:curRow];
+            NSLog(@"removing mate!");
+            SqlHelper * sql = [SqlHelper alloc];
+            [sql remove_mate:intResult];
+            
+            //remove mate data from local arrays
+            [huidArray removeObjectAtIndex:curRow];
+            [firstNameArray removeObjectAtIndex:curRow];
+            [lastNameArray removeObjectAtIndex:curRow];
+            
+            [tableView reloadData];
+            NSLog(@"done removing mate");
         }
         else
         {

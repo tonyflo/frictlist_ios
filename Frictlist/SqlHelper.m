@@ -89,7 +89,7 @@ NSString * dbName = @"frictlist.sqlite";
         }
         else
         {
-            NSLog(@"Prepare error #%i: %s", result, sqlite3_errmsg(database));
+            NSLog(@"Prepare* error #%i: %s", result, sqlite3_errmsg(database));
         }
         // "Finalize" the statement - releases the resources associated with the statement.
         sqlite3_finalize(statement);
@@ -104,6 +104,64 @@ NSString * dbName = @"frictlist.sqlite";
     return mate_list;
 }
 
+- (NSMutableArray *)get_frict_list:(int)mate_id
+{
+    NSMutableArray * frict_id_array = [[NSMutableArray alloc] initWithObjects: nil];
+    NSMutableArray * from_array = [[NSMutableArray alloc] initWithObjects: nil];
+    NSMutableArray * to_array = [[NSMutableArray alloc] initWithObjects: nil];
+    NSMutableArray * base_array = [[NSMutableArray alloc] initWithObjects: nil];
+    NSMutableArray * notes_array = [[NSMutableArray alloc] initWithObjects: nil];
+    NSMutableArray * frict_list;
+    
+    NSString * path = [self getDbPath];
+    // Open the database. The database was prepared outside the application.
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
+    {
+        // Get the primary key for all books.
+        const char *sql = [[NSString stringWithFormat:@"select frict_id, frict_from_date, frict_to_date, frict_base, notes from frict where mate_id='%d'", mate_id] UTF8String];
+        sqlite3_stmt *statement;
+        // Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
+        // The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.
+        int result = sqlite3_prepare_v2(database, sql, -1, &statement, NULL);
+        if (result == SQLITE_OK)
+        {
+            // We "step" through the results - once for each row.
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                NSLog(@"out");
+                // The second parameter indicates the column index into the result set.
+                NSNumber *frict_id = [NSNumber numberWithInt: sqlite3_column_int(statement, 0)];
+                NSString *from = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
+                NSString *to = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
+                NSNumber *base = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
+                NSString *notes = [NSString stringWithUTF8String:sqlite3_column_text(statement, 4)];
+                [frict_id_array addObject:frict_id];
+                [from_array addObject:from];
+                [to_array addObject:to];
+                [base_array addObject:base];
+                [notes_array addObject:notes];
+            }
+            
+            frict_list = [[NSMutableArray alloc] initWithObjects:frict_id_array, from_array, to_array, base_array, notes_array, nil];
+        }
+        else
+        {
+            NSLog(@"Prepare! error #%i: %s", result, sqlite3_errmsg(database));
+        }
+        // "Finalize" the statement - releases the resources associated with the statement.
+        sqlite3_finalize(statement);
+    }
+    else
+    {
+        // Even though the open failed, call close to properly clean up resources.
+        sqlite3_close(database);
+        NSAssert1(0, @"Failed to open database with message '%s'.", sqlite3_errmsg(database));
+    }
+    NSLog(@"sql get_frict_list: %@", frict_list);
+    return frict_list;
+}
+
+
 - (void)add_mate:(int)mate_id fn:(NSString *)fn ln:(NSString *)ln gender:(int)gender
 {
     NSString * path = [self getDbPath];
@@ -113,7 +171,7 @@ NSString * dbName = @"frictlist.sqlite";
         sqlite3_stmt *updateStmt = nil;
         if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
         {
-            NSLog(@"Error while creating update statement. '%s'", sqlite3_errmsg(database));
+            NSLog(@"Error while creating insert statement. '%s'", sqlite3_errmsg(database));
         }
         if (SQLITE_DONE != sqlite3_step(updateStmt)){
             NSLog(@"Error while creating database. '%s'", sqlite3_errmsg(database));
@@ -126,6 +184,242 @@ NSString * dbName = @"frictlist.sqlite";
         NSLog(@"Error while opening database '%s'", sqlite3_errmsg(database));
     }
     sqlite3_close(database);
+}
+
+- (void)add_frict:(int)frict_id mate_id:(int)mate_id from:(NSString *)from to:(NSString *)to base:(int)base notes:(NSString *)notes
+{
+    NSString * path = [self getDbPath];
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
+    {
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO frict(frict_id, mate_id, frict_from_date, frict_to_date, frict_base, notes) VALUES('%d', '%d', '%@', '%@', '%d', '%@')", frict_id, mate_id, from, to, base, [self sanatize:notes]] UTF8String];
+        sqlite3_stmt *updateStmt = nil;
+        if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
+        {
+            NSLog(@"Error while creating insert statement. '%s'", sqlite3_errmsg(database));
+        }
+        if (SQLITE_DONE != sqlite3_step(updateStmt)){
+            NSLog(@"Error while creating database. '%s'", sqlite3_errmsg(database));
+        }
+        sqlite3_reset(updateStmt);
+        sqlite3_finalize(updateStmt);
+    }
+    else
+    {
+        NSLog(@"Error while opening database '%s'", sqlite3_errmsg(database));
+    }
+    sqlite3_close(database);
+}
+
+- (void)update_mate:(int)mate_id fn:(NSString *)fn ln:(NSString *)ln gender:(int)gender
+{
+    NSString * path = [self getDbPath];
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
+    {
+        const char *sql = [[NSString stringWithFormat:@"UPDATE mate SET mate_first_name='%@', mate_last_name='%@', mate_gender='%d' where mate_id='%d'", fn, ln, gender, mate_id] UTF8String];
+        sqlite3_stmt *updateStmt = nil;
+        if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
+        {
+            NSLog(@"Error while creating insert statement. '%s'", sqlite3_errmsg(database));
+        }
+        if (SQLITE_DONE != sqlite3_step(updateStmt)){
+            NSLog(@"Error while creating database. '%s'", sqlite3_errmsg(database));
+        }
+        sqlite3_reset(updateStmt);
+        sqlite3_finalize(updateStmt);
+    }
+    else
+    {
+        NSLog(@"Error while opening database '%s'", sqlite3_errmsg(database));
+    }
+    sqlite3_close(database);
+}
+
+
+- (void)update_frict:(int)frict_id from:(NSString *)from to:(NSString *)to base:(int)base notes:(NSString *)notes
+{
+    NSString * path = [self getDbPath];
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
+    {
+        const char *sql = [[NSString stringWithFormat:@"UPDATE frict SET frict_from_date='%@', frict_to_date='%@', frict_base='%d', notes='%@' where frict_id='%d'", from, to, base, [self sanatize:notes], frict_id] UTF8String];
+        sqlite3_stmt *updateStmt = nil;
+        if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
+        {
+            NSLog(@"Error while creating insert statement. '%s'", sqlite3_errmsg(database));
+            NSLog(@"done update frict");
+        }
+        if (SQLITE_DONE != sqlite3_step(updateStmt)){
+            NSLog(@"Error while creating database. '%s'", sqlite3_errmsg(database));
+        }
+        sqlite3_reset(updateStmt);
+        sqlite3_finalize(updateStmt);
+    }
+    else
+    {
+        NSLog(@"Error while opening database '%s'", sqlite3_errmsg(database));
+    }
+    sqlite3_close(database);
+    NSLog(@"by update frict");
+}
+
+
+- (void)remove_mate:(int)mate_id
+{
+    NSString * path = [self getDbPath];
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
+    {
+        {
+            //remove fricts associated with this mate
+            const char *sql = [[NSString stringWithFormat:@"DELETE FROM frict WHERE mate_id='%d'", mate_id] UTF8String];
+            sqlite3_stmt *removeStatement = nil;
+            if(sqlite3_prepare_v2(database, sql, -1, &removeStatement, NULL) != SQLITE_OK)
+            {
+                NSLog(@"Error while creating remove statement. '%s'", sqlite3_errmsg(database));
+            }
+            if (SQLITE_DONE != sqlite3_step(removeStatement)){
+                NSLog(@"Error while remove database. '%s'", sqlite3_errmsg(database));
+            }
+            sqlite3_reset(removeStatement);
+            sqlite3_finalize(removeStatement);
+
+        }
+        
+        const char *sql = [[NSString stringWithFormat:@"DELETE FROM mate WHERE mate_id='%d'", mate_id] UTF8String];
+        sqlite3_stmt *removeStatement = nil;
+        if(sqlite3_prepare_v2(database, sql, -1, &removeStatement, NULL) != SQLITE_OK)
+        {
+            NSLog(@"Error while creating remove statement. '%s'", sqlite3_errmsg(database));
+        }
+        if (SQLITE_DONE != sqlite3_step(removeStatement)){
+            NSLog(@"Error while remove database. '%s'", sqlite3_errmsg(database));
+        }
+        sqlite3_reset(removeStatement);
+        sqlite3_finalize(removeStatement);
+    }
+    else
+    {
+        NSLog(@"Error while opening database '%s'", sqlite3_errmsg(database));
+    }
+    sqlite3_close(database);
+}
+
+- (void)remove_frict:(int)frict_id
+{
+    NSString * path = [self getDbPath];
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
+    {
+        const char *sql = [[NSString stringWithFormat:@"DELETE FROM frict WHERE frict_id='%d'", frict_id] UTF8String];
+        sqlite3_stmt *removeStatement = nil;
+        if(sqlite3_prepare_v2(database, sql, -1, &removeStatement, NULL) != SQLITE_OK)
+        {
+            NSLog(@"Error while creating remove statement. '%s'", sqlite3_errmsg(database));
+        }
+        if (SQLITE_DONE != sqlite3_step(removeStatement)){
+            NSLog(@"Error while remove database. '%s'", sqlite3_errmsg(database));
+        }
+        sqlite3_reset(removeStatement);
+        sqlite3_finalize(removeStatement);
+    }
+    else
+    {
+        NSLog(@"Error while opening database '%s'", sqlite3_errmsg(database));
+    }
+    sqlite3_close(database);
+}
+
+- (NSMutableArray *)get_frict:(int)frict_id
+{
+    NSMutableArray * frict;
+    
+    NSString * path = [self getDbPath];
+    // Open the database. The database was prepared outside the application.
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
+    {
+        // Get the primary key for all books.
+        const char *sql = [[NSString stringWithFormat:@"select frict_from_date, frict_to_date, frict_base, notes from frict where frict_id='%d'", frict_id] UTF8String];
+        sqlite3_stmt *statement;
+        // Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
+        // The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.
+        int result = sqlite3_prepare_v2(database, sql, -1, &statement, NULL);
+        if (result == SQLITE_OK)
+        {
+            // We "step" through the results - once for each row.
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                NSLog(@"found a frict for %d", frict_id);
+                // The second parameter indicates the column index into the result set.
+                NSString *from = [NSString stringWithUTF8String:sqlite3_column_text(statement, 0)];
+                NSString *to = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
+                NSNumber *base = [NSNumber numberWithInt: sqlite3_column_int(statement, 2)];
+                NSString *notes = [NSString stringWithUTF8String:sqlite3_column_text(statement, 3)];
+            
+                frict = [[NSMutableArray alloc] initWithObjects:from, to, base, notes, nil];
+            }
+            NSLog(@"end frict getting");
+        }
+        else
+        {
+            NSLog(@"Prepare# error #%i: %s", result, sqlite3_errmsg(database));
+        }
+        // "Finalize" the statement - releases the resources associated with the statement.
+        sqlite3_finalize(statement);
+    }
+    else
+    {
+        // Even though the open failed, call close to properly clean up resources.
+        sqlite3_close(database);
+        NSAssert1(0, @"Failed to open database with message '%s'.", sqlite3_errmsg(database));
+    }
+    NSLog(@"get a frict: %@", frict);
+    return frict;
+}
+
+- (NSMutableArray *)get_mate:(int)mate_id
+{
+    NSMutableArray * mate;
+    
+    NSString * path = [self getDbPath];
+    // Open the database. The database was prepared outside the application.
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
+    {
+        // Get the primary key for all books.
+        const char *sql = [[NSString stringWithFormat:@"select mate_first_name, mate_last_name, mate_gender from mate where mate_id='%d'", mate_id] UTF8String];
+        sqlite3_stmt *statement;
+        // Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
+        // The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.
+        int result = sqlite3_prepare_v2(database, sql, -1, &statement, NULL);
+        if (result == SQLITE_OK)
+        {
+            // We "step" through the results - once for each row.
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                // The second parameter indicates the column index into the result set.
+                NSString *fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 0)];
+                NSNumber *ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
+                NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 2)];
+                
+                mate = [[NSMutableArray alloc] initWithObjects:fn, ln, gender, nil];
+            }
+        }
+        else
+        {
+            NSLog(@"Prepare$ error #%i: %s", result, sqlite3_errmsg(database));
+        }
+        // "Finalize" the statement - releases the resources associated with the statement.
+        sqlite3_finalize(statement);
+    }
+    else
+    {
+        // Even though the open failed, call close to properly clean up resources.
+        sqlite3_close(database);
+        NSAssert1(0, @"Failed to open database with message '%s'.", sqlite3_errmsg(database));
+    }
+    
+    return mate;
+}
+
+- (NSString *) sanatize:(NSString*)input
+{
+    return [[input stringByReplacingOccurrencesOfString:@"'" withString:@"\'"] stringByReplacingOccurrencesOfString:@"'" withString:@"\""];
 }
 
 @end

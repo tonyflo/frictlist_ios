@@ -9,6 +9,7 @@
 #import "FrictViewController.h"
 #import "FrictDetailViewController.h"
 #import "PlistHelper.h"
+#import "SqlHelper.h"
 
 @interface FrictViewController ()
 
@@ -46,7 +47,7 @@ NSString * notesStr;
 {
     NSLog(@"Frict id: %d", self.frict_id);
     //jump to the edit view if this is a new row in the list
-    if(self.frict_id <=0)
+    if(self.frict_id <= 0)
     {
         NSLog(@"going to frict detail view");
         [self performSegueWithIdentifier:@"editFrict" sender:editButton];
@@ -82,63 +83,29 @@ NSString * notesStr;
     //this mean that we have to display the data for edit
     if(self.frict_id > 0)
     {
-        PlistHelper *plist = [PlistHelper alloc];
-        NSMutableArray * huidArray = [plist getHuIdArray];
-        NSMutableArray * frictidArray = [plist getFrictIdArray];
-        NSMutableArray * fnArray = [plist getFirstNameArray];
-        NSMutableArray * lnArray = [plist getLastNameArray];
-        NSMutableArray * genderArray = [plist getGenderArray];
-        NSMutableArray * baseArray = [plist getBaseArray];
-        NSMutableArray * fromArray = [plist getFromArray];
-        NSMutableArray * toArray = [plist getToArray];
-        NSMutableArray * notesArray = [plist getNoteArray];
+        SqlHelper *sql = [SqlHelper alloc];
+        NSArray *mate = [sql get_mate:self.mate_id];
+        NSArray *frict = [sql get_frict:self.frict_id];
+        NSLog(@"okay frict id is %d", self.frict_id);
+        firstName = mate[0];
+        lastName = mate[1];
+        gender = [mate[2] intValue];
         
-        int row = 0;
-        //get local index of mate id
-        for(; row < huidArray.count; row++)
-        {
-            if(self.mate_id == [[huidArray objectAtIndex:row] intValue])
-            {
-                break;
-            }
-        }
-
-        int col = 0;
-        //get local index of frict id
-        for(; col < frictidArray.count; col++)
-        {
-            if(self.frict_id == [frictidArray[row][col] intValue])
-            {
-                break;
-            }
-        }
-        NSLog(@"row %d col %d", row, col);
-
-        firstName = fnArray[row];
-        NSLog(@"%@", firstName);
-        lastName = lnArray[row];
-        NSLog(@"%@", lastName);
-        gender = [genderArray[row] intValue];
-        NSLog(@"%d", gender);
-        base = [baseArray[row][col] intValue];
-        NSLog(@"%d", base);
-        fromDate = fromArray[row][col];
-        NSLog(@"%@", fromDate);
-        toDate = toArray[row][col];
-        NSLog(@"%@", toDate);
-        notesStr = notesArray[row][col];
-        NSLog(@"%@", notesStr);
+        fromDate = frict[0];
+        toDate = frict[1];
+        base = [frict[2] intValue];
+        notesStr = frict[3];
         
         //set name
         nameText.text = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
         
         //set gender
-        NSString *genderStr = [NSString stringWithFormat:@"gender_%d.png", [genderArray[row] intValue]];
+        NSString *genderStr = [NSString stringWithFormat:@"gender_%d.png", gender];
         genderImageView.image = [UIImage imageNamed:genderStr];
         NSLog(@"GENDER IMAGE: %@", genderStr);
         
         //set base
-        NSString *baseStr = [NSString stringWithFormat:@"base_%d.png", [baseArray[row][col] intValue] + 1];
+        NSString *baseStr = [NSString stringWithFormat:@"base_%d.png", base + 1];
         baseImageView.image = [UIImage imageNamed:baseStr];
         
         

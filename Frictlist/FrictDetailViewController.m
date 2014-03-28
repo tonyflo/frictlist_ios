@@ -9,6 +9,7 @@
 #import "FrictDetailViewController.h"
 #import "FrictViewController.h"
 #import "PlistHelper.h"
+#import "SqlHelper.h"
 
 @interface FrictDetailViewController ()
 
@@ -39,45 +40,19 @@ NSString * notesStr;
     //this mean that we have to display the data for edit
     if(self.frict_id > 0)
     {
-        PlistHelper *plist = [PlistHelper alloc];
-        NSMutableArray * frictidArray = [plist getFrictIdArray];
-        NSMutableArray * huidArray = [plist getHuIdArray];
-        NSMutableArray * baseArray = [plist getBaseArray];
-        NSMutableArray * fromArray = [plist getFromArray];
-        NSMutableArray * toArray = [plist getToArray];
-        NSMutableArray * notesArray = [plist getNoteArray];
+        SqlHelper *sql = [SqlHelper alloc];
+        NSArray *frict = [sql get_frict:self.frict_id];
         
-        //get local index of mate id
-        for(; row < huidArray.count; row++)
-        {
-            if(self.mate_id == [[huidArray objectAtIndex:row] intValue])
-            {
-                break;
-            }
-        }
+        NSLog(@"single frict : %@", frict);
         
-        //get local index of frict id
-        for(; col < frictidArray.count; col++)
-        {
-            if(self.frict_id == [frictidArray[row][col] intValue])
-            {
-                break;
-            }
-        }
-        NSLog(@"row %d col %d", row, col);
-        
-        base = [baseArray[row][col] intValue];
-        NSLog(@"%d", base);
-        fromDate = fromArray[row][col];
-        NSLog(@"%@", fromDate);
-        toDate = toArray[row][col];
-        NSLog(@"%@", toDate);
-        notesStr = notesArray[row][col];
-        NSLog(@"%@", notesStr);
+        fromDate = frict[0];
+        toDate = frict[1];
+        base = [frict[2] intValue];
+        notesStr = frict[3];
         
         baseSwitch.selectedSegmentIndex = base;
         [notes setText:notesStr];
-        
+        NSLog(@"yooo");
         //dates
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy-MM-dd"];
@@ -96,6 +71,7 @@ NSString * notesStr;
             //ended in past
             [toSwitch setDate:toAsDate];
         }
+        NSLog(@"dne in here");
         
         //todo: proally wana show name of mate
         //set the title
@@ -424,18 +400,23 @@ NSString * notesStr;
             toFormatted = @"0000-00-00";
         }
         
-        PlistHelper *plist = [PlistHelper alloc];
+        SqlHelper * sql = [SqlHelper alloc];
+        
+        //PlistHelper *plist = [PlistHelper alloc];
         if(self.frict_id > 0)
         {
             //todo
             //update the local database
             //[plist updateFrict:intResult index:row first:firstNameText.text last:lastNameText.text base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text gender:genderSwitch.selectedSegmentIndex];
+            [sql update_frict:intResult from:fromFormatted to:toFormatted base:baseSwitch.selectedSegmentIndex notes:notes.text];
         }
         else
         {
             NSLog(@"adding frict");
             //insert the data that has already been inserted on the remote database into the plist
-            [plist addFrict:intResult huid:self.mate_id base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text];
+            //[plist addFrict:intResult huid:self.mate_id base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text];
+            [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted to:toFormatted base:baseSwitch.selectedSegmentIndex notes:notes.text];
+            NSLog(@"%@", [sql get_frict_list:intResult]);
             NSLog(@"added frict");
         }
         

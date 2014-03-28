@@ -8,6 +8,7 @@
 
 #import "MateDetailViewController.h"
 #import "PlistHelper.h"
+#import "SqlHelper.h"
 
 @interface MateDetailViewController ()
 
@@ -34,27 +35,14 @@ int gender;
     //this mean that we have to display the data for edit
     if(self.hu_id > 0)
     {
-        PlistHelper *plist = [PlistHelper alloc];
-        NSMutableArray * huidArray = [plist getHuIdArray];
-        NSMutableArray * fnArray = [plist getFirstNameArray];
-        NSMutableArray * lnArray = [plist getLastNameArray];
-        NSMutableArray * genderArray = [plist getGenderArray];
+        SqlHelper *sql = [SqlHelper alloc];
+        NSArray * mate = [sql get_mate:self.hu_id];
         
-        //get local index of hu_id
-        for(int i = 0; i < huidArray.count; i++)
-        {
-            if(self.hu_id == [[huidArray objectAtIndex:i] intValue])
-            {
-                row_num = i;
-                break;
-            }
-        }
-        
-        firstName = fnArray[row_num];
+        firstName = mate[0];
         NSLog(@"%@", firstName);
-        lastName = lnArray[row_num];
+        lastName = mate[1];
         NSLog(@"%@", lastName);
-        gender = [genderArray[row_num] intValue];
+        gender = [mate[2] intValue];
         NSLog(@"%d", gender);
         
         firstNameText.text = firstName;
@@ -322,17 +310,22 @@ int gender;
     {
         NSLog(@"Success");
         
-        PlistHelper *plist = [PlistHelper alloc];
+        //PlistHelper *plist = [PlistHelper alloc];
+        SqlHelper * sql = [SqlHelper alloc];
         if(self.hu_id > 0)
         {
+            //todo
             //update the local database
-            [plist updateMate:intResult index:row_num first:firstNameText.text last:lastNameText.text gender:genderSwitch.selectedSegmentIndex];
+            //[plist updateMate:intResult index:row_num first:firstNameText.text last:lastNameText.text gender:genderSwitch.selectedSegmentIndex];
+            [sql update_mate:intResult fn:firstNameText.text ln:lastNameText.text gender:genderSwitch.selectedSegmentIndex];
         }
         else
         {
-            //insert the data that has already been inserted on the remote database into the plist
-            [plist addMate:intResult first:firstNameText.text last:lastNameText.text gender:genderSwitch.selectedSegmentIndex];
+            //insert the data that has already been inserted on the remote database into the sqlite local db
+            //[plist addMate:intResult first:firstNameText.text last:lastNameText.text gender:genderSwitch.selectedSegmentIndex]
+            [sql add_mate:intResult fn:firstNameText.text ln:lastNameText.text gender:genderSwitch.selectedSegmentIndex];
         }
+
         
         //enable tabbaar items
         [[self.tabBarController.tabBar.items objectAtIndex:0] setEnabled:TRUE];

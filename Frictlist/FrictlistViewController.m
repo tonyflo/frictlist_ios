@@ -9,6 +9,7 @@
 #import "FrictlistViewController.h"
 #import "FrictViewController.h" //for segue
 #import "PlistHelper.h"
+#import "SqlHelper.h"
 
 @interface FrictlistViewController ()
 
@@ -55,7 +56,7 @@ NSMutableArray *matesFrictIds;
         //todo pass frictid
         int local_frict_id = [indexPath row];
         int remote_frict = [matesFrictIds[local_frict_id] intValue];
-        NSLog(@"local frict %d remote frict %d", local_frict_id, remote_frict);
+        NSLog(@"bye from fl vc local frict %d remote frict %d", local_frict_id, remote_frict);
         
         FrictViewController *destViewController = segue.destinationViewController;
         
@@ -69,27 +70,37 @@ NSMutableArray *matesFrictIds;
     NSLog(@"view will appear");
     NSLog(@"mate id: %d", self.hu_id);
     
-    PlistHelper *plist = [PlistHelper alloc];
-    NSMutableArray *frictidArray = [plist getFrictIdArray];
-    NSArray * mateIdArray = [plist getHuIdArray];
+    matesFrictIds = [[NSMutableArray alloc] init];
     
-    
-    int loaclMateIndex = 0;
-    //get local index of mate's id
-    for(; loaclMateIndex < mateIdArray.count; loaclMateIndex++)
+    //todo: get more than just the id of the frict
+    SqlHelper * sql = [SqlHelper alloc];
+    NSArray *fl = [sql get_frict_list:self.hu_id];
+    if(fl != NULL)
     {
-        if(self.hu_id == [[mateIdArray objectAtIndex:loaclMateIndex] intValue])
+        NSLog(@"not null");
+        int count = ((NSArray *)fl[0]).count;
+        for(int i = 0; i < count; i++)
         {
-            break;
+            NSLog(@"%d: %@", i, fl[0][i]);
+            [matesFrictIds addObject: fl[0][i]];
+            NSLog(@"Current fl: %@", matesFrictIds);
         }
+        
+    }
+    else
+    {
+        NSLog(@"null");
+        matesFrictIds = NULL;
     }
     
-    NSLog(@"local huid index: %d", loaclMateIndex);
-     NSLog(@"frict id array size: %d", [frictidArray count]);
-    matesFrictIds = [frictidArray objectAtIndex:loaclMateIndex];
-    NSLog(@"Size of frict id array %d", [matesFrictIds count]);
+    NSLog(@"Count %d",fl.count);
+    NSLog(@"Count %d",((NSArray *)fl[0]).count);
+    NSLog(@"fl %@", matesFrictIds);
 
-    
+//    for(int i = 0; i < count; i++)
+//    {
+//        NSLog(@"%@ %@ %@ %@", matesFrictIds[0][i], matesFrictIds[1][i], matesFrictIds[2][i], matesFrictIds[3][i]);
+//    }
     
     [self.tableView reloadData];
     [super viewWillAppear:animated];
@@ -169,7 +180,7 @@ NSMutableArray *matesFrictIds;
     //cell.imageView.image = [UIImage imageNamed:base];
     
     //set cell text
-    cell.textLabel.text = [matesFrictIds objectAtIndex:i];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", [matesFrictIds objectAtIndex:i]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
@@ -209,7 +220,10 @@ NSMutableArray *matesFrictIds;
         //[lastNameArray removeObjectAtIndex:curRowFrict];
         
         //remove frict from mysql db
-        [self remove_frict:uid frict_id:frict_id];
+        [self remove_frict:frict_id];
+        
+        //remove from local array
+        [matesFrictIds removeObjectAtIndex:curRowFrict];
         
         //refresh the table
         [tableV reloadData];
@@ -227,11 +241,11 @@ NSMutableArray *matesFrictIds;
 }
 
 //remove frict
--(BOOL) remove_frict:(int) uid frict_id:(int)frict_id
+-(BOOL) remove_frict:(int)frict_id
 {
     BOOL rc = true;
     
-    NSString * post = [NSString stringWithFormat:@"&uid=%d&frict_id=%d",uid, frict_id];
+    NSString * post = [NSString stringWithFormat:@"&frict_id=%d", frict_id];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
@@ -348,9 +362,12 @@ NSMutableArray *matesFrictIds;
         
         if(curRowFrict >= 0)
         {
-            //remove frict from plist
-            PlistHelper *plist = [PlistHelper alloc];
-            [plist removeFrict:curRowFrict];
+            //remove frict from sqlite
+            SqlHelper * sql = [SqlHelper alloc];
+            [sql remove_frict:intResult];
+            NSLog(@"removed frict");
+            
+            [tableView reloadData];
         }
         else
         {
