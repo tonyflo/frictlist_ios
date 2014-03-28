@@ -9,6 +9,7 @@
 #import "SignInViewController.h"
 #import "version.h"
 #import "PlistHelper.h"
+#import "SqlHelper.h"
 
 @interface SignInViewController ()
 
@@ -585,8 +586,11 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     
     if([frictlistFlag isEqual:@"frictlist"])
     {
-        //we have received the frictlist because the user has just signed in. now loop over it and save it to the plist
-        PlistHelper *plist = [PlistHelper alloc];
+        //we have received the frictlist because the user has just signed in. now loop over it and save it to the sqlite db
+        SqlHelper *sql = [SqlHelper alloc];
+        
+        //store the mate_ids to avoid adding the same mate more than once
+        NSMutableArray *mateIds = [[NSMutableArray alloc] init];
         
         //for each row
         for(int i = 1; i < frictlist.count - 1; i++)
@@ -596,7 +600,18 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 
             if(frict.count == 9)
             {
-                //[plist addFrict:[frict[0] intValue] first:frict[1] last:frict[2] base:[frict[3] intValue] accepted:[frict[4] intValue] from:frict[5] to:frict[6] notes:frict[7] gender:[frict[8] intValue]];
+                //check if mate has already been added to sqlite
+                if(![mateIds containsObject:frict[0]])
+                {
+                    [sql add_mate:[frict[0] intValue] fn:frict[1] ln:frict[2] gender:[frict[3] intValue] ];
+                    [mateIds addObject:frict[0]];
+                }
+                //check for frict data
+                if(frict[4] != NULL)
+                {
+                    [sql add_frict:[frict[4] intValue] mate_id:[frict[0] intValue] from:frict[5] to:frict[6] base:[frict[7] intValue] notes:frict[8]];
+                }
+                
             }
         }
         
@@ -620,8 +635,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         //now, get the frictlist
         if(checkboxButton.selected == 0)
         {
-            //todo
-            //[self get_frictlist:intResult];
+            [self get_frictlist:intResult];
         }
         
         //go back to settings view

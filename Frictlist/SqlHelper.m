@@ -51,6 +51,23 @@ NSString * dbName = @"frictlist.sqlite";
     return path;
 }
 
+- (BOOL)removeSqliteFile
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:dbName];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    BOOL status = true;
+    
+    if ([fileManager fileExistsAtPath: path])
+    {
+        status = [fileManager removeItemAtPath:path error:nil];
+    }
+    
+    return status;
+}
+
 - (NSMutableArray *)get_mate_list
 {
     NSMutableArray * mate_id_array = [[NSMutableArray alloc] initWithObjects: nil];

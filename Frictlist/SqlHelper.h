@@ -11,6 +11,7 @@
 @interface SqlHelper : NSObject
 
 - (void)createEditableCopyOfDatabaseIfNeeded;
+- (BOOL)removeSqliteFile;
 
 - (NSMutableArray *)get_mate_list;
 - (NSMutableArray *)get_frict_list:(int)mate_id;

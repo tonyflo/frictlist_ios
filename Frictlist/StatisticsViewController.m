@@ -130,10 +130,16 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
 //logic to sign out
 - (void) signOut
 {
+    //delete plist
     PlistHelper *plist = [[PlistHelper alloc] resetPlist];
     uid = [plist getPk];
     
-    if(uid <= 0)
+    //delete sqlite
+    SqlHelper *sql = [SqlHelper alloc];
+    BOOL success = [sql removeSqliteFile];
+    
+    
+    if(uid <= 0 && success)
     {
         //now signed out
         [signinBtn setTitle:@"Sign In" forState:UIControlStateNormal];
