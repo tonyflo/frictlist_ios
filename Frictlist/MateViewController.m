@@ -9,6 +9,7 @@
 #import "MateViewController.h"
 #import "MateDetailViewController.h"
 #import "FrictlistViewController.h"
+#import "SqlHelper.h"
 
 @interface MateViewController ()
 
@@ -25,13 +26,22 @@
     return self;
 }
 
+-(void)goToFrictlist
+{
+    [self performSegueWithIdentifier:@"showFrictlist" sender:self];
+
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc]  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(goBack:)];
-    self.navigationItem.leftBarButtonItem = backButton;
-    self.navigationItem.hidesBackButton = YES;
+    //UIBarButtonItem *backButton = [[UIBarButtonItem alloc]  initWithBarButtonSystemItem:UIBarButton target:self action:@selector(goBack:)];
+    //self.navigationItem.leftBarButtonItem = backButton;
+    //self.navigationItem.hidesBackButton = YES;
+    
+    UIBarButtonItem *frictlistButton = [[UIBarButtonItem alloc] initWithTitle:@"Frictlist" style:UIBarButtonItemStyleBordered target:self action:@selector(goToFrictlist)];
+    [self.navigationItem setRightBarButtonItem:frictlistButton];
     
 }
 
@@ -76,7 +86,89 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    //set background
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
+    
+    //get mate info
+    SqlHelper *sql = [SqlHelper alloc];
+    NSArray * mate_details =[sql get_mate:self.hu_id];
+    
+    //get mate name
+    NSString *mate_name;
+    if(mate_details[0] == NULL || [mate_details[0] isEqual: @""])
+    {
+        
+        mate_name = @"New Mate";
+    }
+    else
+    {
+        mate_name = [NSString stringWithFormat:@"%@ %@", mate_details[0], mate_details[1]];
+    }
+    
+    //set back button text
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
+                                   initWithTitle: mate_name
+                                   style: UIBarButtonItemStyleBordered
+                                   target: nil action: nil];
+    [self.navigationItem setBackBarButtonItem: backButton];
+    
+    //set title
+    self.title = mate_name;
+    
+    int counts[4] = {0,0,0,0};
+    
+    //get frict bases count
+    NSArray *fl = [sql get_frict_list:self.hu_id];
+    if(fl != NULL)
+    {
+        int count = ((NSArray *)fl[0]).count;
+        for(int i = 0; i < count; i++)
+        {
+            //sick logic
+            counts[[fl[3][i] intValue]]++;
+        }
+        
+    }
+    
+    //determine scores
+    int scores[4] ={0,0,0,0};
+    scores[0]=counts[0] * 1;
+    scores[1]=counts[1] * 3;
+    scores[2]=counts[2] * 5;
+    scores[3]=counts[3] * 9;
 
+    //display the counts
+    firstCount.text = [NSString stringWithFormat:@"%d",counts[0]];
+    firstCount.font = [UIFont fontWithName:@"DBLCDTempBlack" size:17.0];
+    secondCount.text = [NSString stringWithFormat:@"%d",counts[1]];
+    secondCount.font = [UIFont fontWithName:@"DBLCDTempBlack" size:15.0];
+    thirdCount.text = [NSString stringWithFormat:@"%d",counts[2]];
+    thirdCount.font = [UIFont fontWithName:@"DBLCDTempBlack" size:17.0];
+    homeCount.text = [NSString stringWithFormat:@"%d",counts[3]];
+    homeCount.font = [UIFont fontWithName:@"DBLCDTempBlack" size:19.0];
+    
+    //display the scores
+    firstScore.text = [NSString stringWithFormat:@"%d",scores[0]];
+    firstScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:25.0];
+    secondScore.text = [NSString stringWithFormat:@"%d",scores[1]];
+    secondScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:20.0];
+    thirdScore.text = [NSString stringWithFormat:@"%d",scores[2]];
+    thirdScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:25.0];
+    homeScore.text = [NSString stringWithFormat:@"%d",scores[3]];
+    homeScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:30.0];
+    
+    //calculate totals
+    int totalScore = 0;
+    int totalCount = 0;
+    for(int i = 0; i < 4; i++)
+    {
+        totalScore += scores[i];
+        totalCount += counts[i];
+    }
+    
+    //display the total score and count
+    frictCount.text = [NSString stringWithFormat:@"Frict Count: %d", totalCount];
+    frictScore.text = [NSString stringWithFormat:@"Frict Score: %d", totalScore];
 }
 
 - (void)didReceiveMemoryWarning

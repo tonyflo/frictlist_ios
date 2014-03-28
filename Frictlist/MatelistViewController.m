@@ -27,6 +27,7 @@ BOOL sentFromAdd = false;
 NSMutableArray *huidArray;
 NSMutableArray *firstNameArray;
 NSMutableArray *lastNameArray;
+NSMutableArray *genderArray;
 
 - (void)viewDidLoad
 {
@@ -35,7 +36,7 @@ NSMutableArray *lastNameArray;
     
     self.title = @"Matelist";
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(addORDeleteRows)];
-    [self.navigationItem setLeftBarButtonItem:addButton];
+    [self.navigationItem setRightBarButtonItem:addButton];
 }
 
 //send data from table view to detail view
@@ -82,11 +83,7 @@ NSMutableArray *lastNameArray;
     huidArray = mates[0];
     firstNameArray = mates[1];
     lastNameArray = mates[2];
-    NSLog(@"huids: %@", huidArray);
-    NSLog(@"firstNameArray: %@", firstNameArray);
-    NSLog(@"lastNameArray: %@", lastNameArray);
-    NSLog(@"count of hids = %d", firstNameArray.count);
-    
+    genderArray = mates[3];
 
     [self.tableView reloadData];
     [super viewWillAppear:animated];
@@ -166,9 +163,8 @@ NSMutableArray *lastNameArray;
     cell.textLabel.textColor = [UIColor greenColor];
     
     //set cell icon
-    //TODO
-    //NSString *base = [NSString stringWithFormat:@"base_%d.png", [baseArray[i] intValue] + 1];
-    //cell.imageView.image = [UIImage imageNamed:base];
+    NSString *base = [NSString stringWithFormat:@"gender_%d.png", [genderArray[i] intValue]];
+    cell.imageView.image = [UIImage imageNamed:base];
     
     //set cell text
     cell.textLabel.text = name;

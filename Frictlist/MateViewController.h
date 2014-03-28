@@ -10,6 +10,16 @@
 
 @interface MateViewController : UIViewController {
     
+    IBOutlet UILabel *frictScore;
+    IBOutlet UILabel *frictCount;
+    IBOutlet UILabel *homeCount;
+    IBOutlet UILabel *homeScore;
+    IBOutlet UILabel *thirdCount;
+    IBOutlet UILabel *thirdScore;
+    IBOutlet UILabel *secondCount;
+    IBOutlet UILabel *secondScore;
+    IBOutlet UILabel *firstCount;
+    IBOutlet UILabel *firstScore;
     IBOutlet UIButton *editButton;
 }
 

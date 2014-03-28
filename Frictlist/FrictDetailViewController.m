@@ -428,7 +428,8 @@ NSString * notesStr;
         [alertView dismissWithClickedButtonIndex:0 animated:YES];
         //[self dismissViewControllerAnimated:YES completion:nil];
         //[self.navigationController popViewControllerAnimated:YES];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        //self.navigationController popToRootViewControllerAnimated:YES];
+        [self.navigationController popToViewController:[[self.navigationController viewControllers] objectAtIndex:2] animated:YES];
     }
     //error code was returned
     else

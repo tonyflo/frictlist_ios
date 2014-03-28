@@ -184,7 +184,7 @@ NSString * dbName = @"frictlist.sqlite";
     NSString * path = [self getDbPath];
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
-        const char *sql = [[NSString stringWithFormat:@"INSERT INTO mate(mate_id, mate_first_name, mate_last_name, mate_gender) VALUES('%d', '%@', '%@', '%d')", mate_id, fn, ln, gender] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO mate(mate_id, mate_first_name, mate_last_name, mate_gender) VALUES('%d', '%@', '%@', '%d')", mate_id, [self sanatize:fn], [self sanatize:ln], gender] UTF8String];
         sqlite3_stmt *updateStmt = nil;
         if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
         {
@@ -232,7 +232,7 @@ NSString * dbName = @"frictlist.sqlite";
     NSString * path = [self getDbPath];
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
-        const char *sql = [[NSString stringWithFormat:@"UPDATE mate SET mate_first_name='%@', mate_last_name='%@', mate_gender='%d' where mate_id='%d'", fn, ln, gender, mate_id] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"UPDATE mate SET mate_first_name='%@', mate_last_name='%@', mate_gender='%d' where mate_id='%d'", [self sanatize:fn], [self sanatize:ln], gender, mate_id] UTF8String];
         sqlite3_stmt *updateStmt = nil;
         if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
         {

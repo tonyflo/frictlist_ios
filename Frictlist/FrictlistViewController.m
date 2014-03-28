@@ -25,6 +25,9 @@ int curRowFrict = -1;
 
 BOOL sentFromAddFrict = false;
 NSMutableArray *matesFrictIds;
+NSMutableArray *fromArray;
+NSMutableArray *toArray;
+NSMutableArray *baseArray;
 
 - (void)viewDidLoad
 {
@@ -33,7 +36,7 @@ NSMutableArray *matesFrictIds;
     
     self.title = @"Frictlist";
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(addORDeleteRows)];
-    [self.navigationItem setLeftBarButtonItem:addButton];
+    [self.navigationItem setRightBarButtonItem:addButton];
 }
 
 //send data from table view to detail view
@@ -72,19 +75,14 @@ NSMutableArray *matesFrictIds;
     
     matesFrictIds = [[NSMutableArray alloc] init];
     
-    //todo: get more than just the id of the frict
     SqlHelper * sql = [SqlHelper alloc];
     NSArray *fl = [sql get_frict_list:self.hu_id];
     if(fl != NULL)
     {
-        NSLog(@"not null");
-        int count = ((NSArray *)fl[0]).count;
-        for(int i = 0; i < count; i++)
-        {
-            NSLog(@"%d: %@", i, fl[0][i]);
-            [matesFrictIds addObject: fl[0][i]];
-            NSLog(@"Current fl: %@", matesFrictIds);
-        }
+        matesFrictIds = fl[0];
+        fromArray = fl[1];
+        toArray = fl[2];
+        baseArray = fl[3];
         
     }
     else
@@ -92,15 +90,6 @@ NSMutableArray *matesFrictIds;
         NSLog(@"null");
         matesFrictIds = NULL;
     }
-    
-    NSLog(@"Count %d",fl.count);
-    NSLog(@"Count %d",((NSArray *)fl[0]).count);
-    NSLog(@"fl %@", matesFrictIds);
-
-//    for(int i = 0; i < count; i++)
-//    {
-//        NSLog(@"%@ %@ %@ %@", matesFrictIds[0][i], matesFrictIds[1][i], matesFrictIds[2][i], matesFrictIds[3][i]);
-//    }
     
     [self.tableView reloadData];
     [super viewWillAppear:animated];
@@ -169,18 +158,34 @@ NSMutableArray *matesFrictIds;
     
     int i = indexPath.row;
     
-    //todo: display date and gender?
-   //NSString *name = [NSString stringWithFormat:@"%@ %@", firstNameArray[i], lastNameArray[i]];
+    //display date
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MMM dd, YYYY"];
+    NSDateFormatter *converter = [[NSDateFormatter alloc] init];
+    [converter setDateFormat:@"yyyy-MM-dd"];
+    NSString *range;
+    if([fromArray[i] isEqual:toArray[i]])
+    {
+        //display single date
+        range = [formatter stringFromDate: [converter dateFromString:fromArray[i]]];
+    }
+    else
+    {
+        //display range
+        range = [NSString stringWithFormat:@"%@ to %@", [formatter stringFromDate: [converter dateFromString:fromArray[i]]], [formatter stringFromDate: [converter dateFromString:toArray[i]]]];
+    }
+    
     
     //set text color
     cell.textLabel.textColor = [UIColor greenColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:16.0];
     
     //set cell icon
-    //NSString *base = [NSString stringWithFormat:@"base_%d.png", [baseArray[i] intValue] + 1];
-    //cell.imageView.image = [UIImage imageNamed:base];
+    NSString *base = [NSString stringWithFormat:@"base_%d.png", [baseArray[i] intValue] + 1];
+    cell.imageView.image = [UIImage imageNamed:base];
     
     //set cell text
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", [matesFrictIds objectAtIndex:i]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", range];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
@@ -207,10 +212,6 @@ NSMutableArray *matesFrictIds;
         //remove frict from plist
         curRowFrict = indexPath.row;
         
-        //get uid
-        PlistHelper *plist = [PlistHelper alloc];
-        int uid = [plist getPk];
-        
         //get frict_id
         int frict_id = [[matesFrictIds objectAtIndex:curRowFrict] intValue];
         
@@ -224,6 +225,9 @@ NSMutableArray *matesFrictIds;
         
         //remove from local array
         [matesFrictIds removeObjectAtIndex:curRowFrict];
+        [fromArray removeObjectAtIndex:curRowFrict];
+        [toArray removeObjectAtIndex:curRowFrict];
+        [baseArray removeObjectAtIndex:curRowFrict];
         
         //refresh the table
         [tableV reloadData];

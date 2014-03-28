@@ -336,6 +336,7 @@ int gender;
         //[self dismissViewControllerAnimated:YES completion:nil];
         //[self.navigationController popViewControllerAnimated:YES];
         [self.navigationController popToRootViewControllerAnimated:YES];
+        //[self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }
     //error code was returned
     else
