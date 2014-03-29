@@ -242,7 +242,12 @@ int gender;
 
 -(void)showAddingMateDialog
 {
-    alertView = [[UIAlertView alloc] initWithTitle:@"Adding Mate"
+    NSString *desc = @"Adding Mate";
+    if(self.hu_id > 0)
+    {
+        desc = @"Updating Mate";
+    }
+    alertView = [[UIAlertView alloc] initWithTitle:desc
                                            message:@"\n"
                                           delegate:self
                                  cancelButtonTitle:nil
@@ -255,12 +260,12 @@ int gender;
     [alertView show];
 }
 
-//if sign is connection was not successful
+//unknown failure
 - (void)showUnknownFailureDialog
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Something Went Wrong"];
-    [alert setMessage:[NSString stringWithFormat:@"Sorry about this. Things to try:\n %C Check your internet connection\n %C Check your credentials\nIf the problem persists, email the developer.", (unichar) 0x2022, (unichar) 0x2022]];
+    [alert setTitle:@"Dagnabbit!"];
+    [alert setMessage:[NSString stringWithFormat:@"Something went wrong. Sorry about this. Things to try:\n %C Check your internet connection\n %C Check your credentials\nIf the problem persists, email the developer.", (unichar) 0x2022, (unichar) 0x2022]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
@@ -341,10 +346,11 @@ int gender;
     //error code was returned
     else
     {
-        //todo update
-        if(intResult == -60 ||
-           intResult == -61 ||
-           intResult == -62)
+        //known error codes
+        if(intResult == -60 || //adding mate may have failed
+           intResult == -70 || //updating mate may have failed
+           intResult == -100 || //id was null or not positive
+           intResult == -101) //id doesn't exist or isn't unique
         {
             [self showErrorCodeDialog:intResult];
         }

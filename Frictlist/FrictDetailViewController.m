@@ -157,6 +157,7 @@ NSString * notesStr;
     NSDate* bday = [formatter dateFromString:[plist getBirthday]];
     //get now date
     NSDate* now = [NSDate date];
+    NSLog(@"birthday of user: %@", bday);
 
     //chate date after now
     if([now compare:from] == NSOrderedAscending)
@@ -272,7 +273,12 @@ NSString * notesStr;
 
 -(void)showAddingFrictDialog
 {
-    alertView = [[UIAlertView alloc] initWithTitle:@"Adding Frict"
+    NSString * desc = @"Adding Frict";
+    if(self.frict_id > 0)
+    {
+        desc = @"Updating Frict";
+    }
+    alertView = [[UIAlertView alloc] initWithTitle:desc
                                            message:@"\n"
                                           delegate:self
                                  cancelButtonTitle:nil
@@ -285,12 +291,12 @@ NSString * notesStr;
     [alertView show];
 }
 
-//if sign is connection was not successful
+//unknown failure
 - (void)showUnknownFailureDialog
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Something Went Wrong"];
-    [alert setMessage:[NSString stringWithFormat:@"Sorry about this. Things to try:\n %C Check your internet connection\n %C Check your credentials\nIf the problem persists, email the developer.", (unichar) 0x2022, (unichar) 0x2022]];
+    [alert setTitle:@"Dagnabbit!"];
+    [alert setMessage:[NSString stringWithFormat:@"Something went wrong. Sorry about this. Things to try:\n %C Check your internet connection\n %C Check your credentials\nIf the problem persists, email the developer.", (unichar) 0x2022, (unichar) 0x2022]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
@@ -392,16 +398,11 @@ NSString * notesStr;
     //error code was returned
     else
     {
-        if(intResult == -20 ||
-           intResult == -21 ||
-           intResult == -22 ||
-           intResult == -23 ||
-           intResult == -30 ||
-           intResult == -31 ||
-           intResult == -32 ||
-           intResult == -33 ||
-           intResult == -34 ||
-           intResult == -35)
+        //known error codes
+        if(intResult == -80 || //adding frict may have failed
+           intResult == -90 || //updating frict may have failed
+           intResult == -100 || //id was null or not positive
+           intResult == -101) //id doesn't exist or isn't unique
         {
             [self showErrorCodeDialog:intResult];
         }

@@ -73,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/SignInViewController.m"
-         timestampString = "417718662.521535"
+         timestampString = "417756644.04877"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "287"
-         endingLineNumber = "287"
+         startingLineNumber = "280"
+         endingLineNumber = "280"
          landmarkName = "-signUp:password:firstName:lastName:gender:birthdate:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -99,11 +99,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/FrictDetailViewController.m"
-         timestampString = "417752695.447622"
+         timestampString = "417759364.238703"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "191"
-         endingLineNumber = "191"
+         startingLineNumber = "192"
+         endingLineNumber = "192"
          landmarkName = "-savePressed:"
          landmarkType = "5">
       </FileBreakpoint>

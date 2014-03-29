@@ -60,13 +60,6 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
 {
     SqlHelper * sql = [SqlHelper alloc];
     [sql createEditableCopyOfDatabaseIfNeeded];
-    //    [sql add_mate:1 fn:@"Jena" ln:@"Marrinucci" gender:1];
-    //    NSMutableArray * mates = [sql get_mate_list];
-    //    int count = ((NSArray *)mates[0]).count;
-    //    for(int i = 0; i < count; i++)
-    //    {
-    //        NSLog(@"%@ %@ %@ %@", mates[0][i], mates[1][i], mates[2][i], mates[3][i]);
-    //    }
     
     //check first sign in
     PlistHelper *plist = [[PlistHelper alloc] initDefaults];
@@ -143,6 +136,9 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
         
         //set email label back
         [emailLabel setText:[plist getEmail]];
+        
+        //reset stats
+        [self resetStatistics];
                 
         //force sign in
         [self checkFirstAppOpen];
@@ -272,7 +268,7 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    
+    [self statistics];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -301,7 +297,11 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
     
+    //display stats
     [self statistics];
+    
+    //reset navigation controllers
+    [self resetAllTabs];
 }
 
 -(void)statistics
@@ -369,6 +369,30 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     totalCount.font = [UIFont fontWithName:@"DBLCDTempBlack" size:27];
     totalScore.text = [NSString stringWithFormat:@"%d", score];
     totalScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:27];
+}
+
+-(void)resetStatistics
+{
+    firstCount.text = @"0";
+    secondCount.text = @"0";
+    thirdCount.text = @"0";
+    homeCount.text = @"0";
+    firstScore.text = @"0";
+    secondScore.text = @"0";
+    thirdScore.text = @"0";
+    homeScore.text = @"0";
+    totalCount.text = @"0";
+    totalScore.text = @"0";
+}
+
+- (void)resetAllTabs
+{
+    for (id controller in self.tabBarController.viewControllers) {
+        
+        if ([controller isMemberOfClass:[UINavigationController class]]) {
+            [controller popToRootViewControllerAnimated:NO];
+        }
+    }
 }
 
 @end

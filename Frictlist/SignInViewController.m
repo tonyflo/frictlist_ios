@@ -36,13 +36,6 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     return self;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-//#if !defined(FREE)
-//    self.navigationItem.leftBarButtonItem = nil;
-//#endif /* PAID */
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -579,8 +572,9 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         //store the mate_ids to avoid adding the same mate more than once
         NSMutableArray *mateIds = [[NSMutableArray alloc] init];
         
-        //for each row
-        for(int i = 1; i < frictlist.count - 1; i++)
+        //for each row in the frictlist table
+        //start at 2 to skip over frictlist line and user data array
+        for(int i = 2; i < frictlist.count - 1; i++)
         {
             //split the row into columns
             NSArray *frict = [frictlist[i] componentsSeparatedByString:@"\t"];
@@ -593,14 +587,24 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
                     [sql add_mate:[frict[0] intValue] fn:frict[1] ln:frict[2] gender:[frict[3] intValue] ];
                     [mateIds addObject:frict[0]];
                 }
+
                 //check for frict data
-                if(frict[4] != NULL)
+                if(frict[4] != NULL && frict[4] != nil && ![frict[4] isEqual:@""])
                 {
                     [sql add_frict:[frict[4] intValue] mate_id:[frict[0] intValue] from:frict[5] rating:[frict[6] intValue] base:[frict[7] intValue] notes:frict[8]];
                 }
                 
             }
         }
+        
+        //get user data
+        NSArray *user_data = [frictlist[1] componentsSeparatedByString:@"\t"];
+        PlistHelper *plist = [PlistHelper alloc];
+        
+        //set users birthday
+        NSString *bdayStr = user_data[2];
+        [plist setBirthday:bdayStr];
+        NSLog(@"user bday: %@", bdayStr);
         
         //go back to settings view
         [alertView dismissWithClickedButtonIndex:0 animated:YES];
@@ -613,12 +617,6 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         PlistHelper *plist = [PlistHelper alloc];
         [plist setPk:intResult];
         [plist setEmail:emailText.text];
-        //format the date then insert it into the plist as well
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd"];
-        NSString * bdayStr = [formatter stringFromDate:birthdatePicker.date];
-        [plist setBirthday:bdayStr];
-        NSLog(@"user bday: %@", bdayStr);
         
         //now, get the frictlist
         if(checkboxButton.selected == 0)
@@ -741,5 +739,11 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     activeField = textField;
     [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
 }
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+}
+
 
 @end

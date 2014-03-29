@@ -295,12 +295,12 @@ NSMutableArray *baseArray;
     [alertView show];
 }
 
-//if sign is connection was not successful
+//unknown failure
 - (void)showUnknownFailureDialog
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Something Went Wrong"];
-    [alert setMessage:[NSString stringWithFormat:@"Sorry about this. Things to try:\n %C Check your internet connection\n %C Check your credentials\nIf the problem persists, email the developer.", (unichar) 0x2022, (unichar) 0x2022]];
+    [alert setTitle:@"Dagnabbit!"];
+    [alert setMessage:[NSString stringWithFormat:@"Something went wrong. Sorry about this. Things to try:\n %C Check your internet connection\n %C Check your credentials\nIf the problem persists, email the developer.", (unichar) 0x2022, (unichar) 0x2022]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
@@ -369,10 +369,10 @@ NSMutableArray *baseArray;
     //error code was returned
     else
     {
-        if(intResult == -40 ||
-           intResult == -41 ||
-           intResult == -42 ||
-           intResult == -43)
+        //known error codes
+        if(intResult == -50 || //removing frict may have failed
+           intResult == -100 || //id was null or not positive
+           intResult == -101) //id doesn't exist or isn't unique
         {
             [self showErrorCodeDialog:intResult];
         }

@@ -52,9 +52,9 @@
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
-    if([tabBar.selectedItem.title isEqual: @"Map"])
-    {
-        NSLog(@"Map");
+    //if([tabBar.selectedItem.title isEqual: @"Map"])
+    //{
+    //    NSLog(@"Map");
         
         /*
          UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -63,7 +63,7 @@
         [self.view addSubview:spinner];
         [spinner startAnimating];
          */
-    }
+    //}
 }
 
 

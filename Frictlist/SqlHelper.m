@@ -81,7 +81,7 @@ NSString * dbName = @"frictlist.sqlite";
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
         // Get the primary key for all books.
-        const char *sql = "select * from mate";
+        const char *sql = "SELECT * FROM mate ORDER BY mate_first_name ASC";
         sqlite3_stmt *statement;
         // Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
         // The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.
@@ -135,7 +135,7 @@ NSString * dbName = @"frictlist.sqlite";
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
         // Get the primary key for all books.
-        const char *sql = [[NSString stringWithFormat:@"select frict_id, frict_from_date, frict_rating, frict_base, notes from frict where mate_id='%d'", mate_id] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"SELECT frict_id, frict_from_date, frict_rating, frict_base, notes FROM frict WHERE mate_id='%d' ORDER BY frict_from_date DESC", mate_id] UTF8String];
         sqlite3_stmt *statement;
         // Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
         // The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.

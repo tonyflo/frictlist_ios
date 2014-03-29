@@ -360,10 +360,10 @@ NSMutableArray *genderArray;
     //error code was returned
     else
     {
-        if(intResult == -40 ||
-           intResult == -41 ||
-           intResult == -42 ||
-           intResult == -43)
+        //known error codes
+        if(intResult == -40 || //removing mate may have failed
+           intResult == -100 || //id was null or not positive
+           intResult == -101) //id doesn't exist or isn't unique
         {
             [self showErrorCodeDialog:intResult];
         }

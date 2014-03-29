@@ -65,7 +65,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Edit">
-                                    <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.12941176469999999" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -83,7 +83,12 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="base_0.png" translatesAutoresizingMaskIntoConstraints="NO" id="cAW-Uc-XEh"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="base_0.png" translatesAutoresizingMaskIntoConstraints="NO" id="cAW-Uc-XEh">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="ijy-FD-q8b"/>
+                                    <constraint firstAttribute="height" constant="92" id="wqK-7g-c9f"/>
+                                </constraints>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="gender_.png" translatesAutoresizingMaskIntoConstraints="NO" id="W2P-7H-nMy"/>
                             <textView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lra-Yk-Jn3">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -140,6 +145,7 @@
                             <constraint firstItem="M0P-Dx-xoC" firstAttribute="centerX" secondItem="aPc-a0-scr" secondAttribute="centerX" type="default" id="lcM-wd-8T6"/>
                             <constraint firstAttribute="trailing" secondItem="W2P-7H-nMy" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="lle-Do-jTW"/>
                             <constraint firstItem="cAW-Uc-XEh" firstAttribute="top" secondItem="ZKQ-5O-YMW" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="nk6-pi-PK5"/>
+                            <constraint firstItem="aPc-a0-scr" firstAttribute="top" secondItem="W2P-7H-nMy" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="vMg-b6-nXD"/>
                             <constraint firstItem="ZKQ-5O-YMW" firstAttribute="top" secondItem="Gpc-dD-Eie" secondAttribute="top" constant="11" id="yBd-e1-FFl"/>
                         </constraints>
                     </view>
@@ -194,7 +200,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Save">
-                                            <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.12941176469999999" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <state key="highlighted">
@@ -214,9 +220,6 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" returnKeyType="done"/>
                                     </textView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" text="Notes:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a35-qx-Xwh">
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="278" id="hCU-ww-kTZ"/>
-                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -256,7 +259,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <action selector="valueChanged:" destination="6uw-zG-BVk" eventType="valueChanged" id="Six-Ic-ma4"/>
                                         </connections>
                                     </slider>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qwl-o0-ucZ">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qwl-o0-ucZ">
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="UVA-nq-ihM"/>
                                             <constraint firstAttribute="width" constant="42" id="VGF-3F-uPd"/>
@@ -280,6 +283,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <constraint firstItem="1UE-Kh-7Br" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="180" id="PsJ-sR-75l"/>
                                     <constraint firstItem="qwl-o0-ucZ" firstAttribute="top" secondItem="CTE-cO-70K" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="VBD-Dv-XgG"/>
                                     <constraint firstItem="qbX-QE-lcS" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="13" id="cwW-GX-CQX"/>
+                                    <constraint firstItem="oSC-aX-Zkm" firstAttribute="centerX" secondItem="NbA-7r-e92" secondAttribute="centerX" type="default" id="iEa-M0-I3R"/>
                                     <constraint firstItem="CTE-cO-70K" firstAttribute="trailing" secondItem="SDC-78-fTO" secondAttribute="trailing" type="default" id="iVM-TZ-EqK"/>
                                     <constraint firstItem="oSC-aX-Zkm" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="637" id="kvf-0p-I6D"/>
                                     <constraint firstItem="1UE-Kh-7Br" firstAttribute="centerX" secondItem="oSC-aX-Zkm" secondAttribute="centerX" type="default" id="lVx-78-kd6"/>
@@ -375,8 +379,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Email Developer">
-                                    <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.12941176469999999" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -391,8 +394,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Sign In">
-                                    <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.12941176469999999" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1111,19 +1113,18 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         </scene>
     </scenes>
     <resources>
-        <image name="base_0.png" width="100" height="92"/>
+        <image name="base_0.png" width="110" height="102"/>
         <image name="checkbox-checked.png" width="16" height="16"/>
         <image name="checkbox-pressed.png" width="16" height="16"/>
         <image name="checkbox.png" width="16" height="16"/>
         <image name="fieldglow.png" width="600" height="600"/>
-        <image name="gender_.png" width="100" height="92"/>
+        <image name="gender_.png" width="100" height="100"/>
     </resources>
     <classes>
         <class className="FrictDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictDetailViewController.h"/>
             <relationships>
                 <relationship kind="action" name="savePressed:"/>
-                <relationship kind="action" name="valueChanged:" candidateClass="UISlider"/>
                 <relationship kind="outlet" name="baseSwitch" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="fromSwitch" candidateClass="UIDatePicker"/>
                 <relationship kind="outlet" name="notes" candidateClass="UITextView"/>
