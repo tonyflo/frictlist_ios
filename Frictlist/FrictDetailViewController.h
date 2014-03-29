@@ -10,14 +10,12 @@
 
 @interface FrictDetailViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate>
 {
+    IBOutlet UISlider *ratingSlider;
     IBOutlet UIScrollView *scrollView;
     IBOutlet UISegmentedControl *baseSwitch;
-    IBOutlet UIButton *oneNightStandCheck;
     IBOutlet UIDatePicker *fromSwitch;
-    IBOutlet UIDatePicker *toSwitch;
     IBOutlet UITextView *notes;
     IBOutlet UIButton *saveBtn;
-    IBOutlet UIButton *currentSwitch;
 }
 
 //image view
@@ -26,7 +24,6 @@
 @property (readwrite, assign) NSUInteger mate_id;
 
 - (IBAction)savePressed:(id)sender;
-- (IBAction)checkboxButton:(id)sender;
-- (IBAction)oneNightStandCheckboxButton:(id)sender;
+
 
 @end
