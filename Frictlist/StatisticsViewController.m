@@ -32,14 +32,6 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     return self;
 }
 
-//get the number of states that were visited
-- (int)countVisited
-{
-    PlistHelper * plist = [PlistHelper alloc];
-    
-    return [plist getHuIdArray].count;
-}
-
 - (void)viewDidLoad
 {
     
@@ -63,17 +55,14 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     
     //check first sign in
     PlistHelper *plist = [[PlistHelper alloc] initDefaults];
-    int first = [plist getFirst];
+
     if([plist getPk] == -1)
     {
-        first = 1;
-    }
-    
-    if(first == 1)
-    {
         [self showWelcomeDialog];
-        //set the plist first value to zero so the welcome message doesn't show up anymore
-        [plist setFirst:0];
+    }
+    else
+    {
+        NSLog(@"not first");
     }
 }
 

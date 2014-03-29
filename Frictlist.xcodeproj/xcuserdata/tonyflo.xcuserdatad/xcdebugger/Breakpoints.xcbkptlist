@@ -73,12 +73,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/SignInViewController.m"
-         timestampString = "417756644.04877"
+         timestampString = "417812951.827063"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "280"
-         endingLineNumber = "280"
-         landmarkName = "-signUp:password:firstName:lastName:gender:birthdate:"
+         startingLineNumber = "295"
+         endingLineNumber = "295"
+         landmarkName = "-signUp:username:password:firstName:lastName:gender:birthdate:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -112,77 +112,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/PlistHelper.m"
-         timestampString = "417494445.40114"
+         timestampString = "417815098.75775"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "307"
-         endingLineNumber = "307"
-         landmarkName = "-addMate:first:last:gender:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Frictlist/PlistHelper.m"
-         timestampString = "417494758.918888"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "658"
-         endingLineNumber = "658"
+         startingLineNumber = "211"
+         endingLineNumber = "211"
          landmarkName = "-getPlistData:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Frictlist/PlistHelper.m"
-         timestampString = "417494758.918888"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "656"
-         endingLineNumber = "656"
-         landmarkName = "-getPlistData:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Frictlist/PlistHelper.m"
-         timestampString = "417494758.918888"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "660"
-         endingLineNumber = "660"
-         landmarkName = "-getPlistData:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Frictlist/PlistHelper.m"
-         timestampString = "417494758.918888"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "665"
-         endingLineNumber = "665"
-         landmarkName = "-getPlistData:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Frictlist/PlistHelper.m"
-         timestampString = "417494758.918888"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "443"
-         endingLineNumber = "443"
-         landmarkName = "-updateFrict:frict_id:base:accepted:from:to:notes:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -235,6 +170,19 @@
          startingLineNumber = "36"
          endingLineNumber = "36"
          landmarkName = "-valueChanged:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Frictlist/RequestViewController.m"
+         timestampString = "417819301.311693"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "417"
+         endingLineNumber = "417"
+         landmarkName = "-messageComposeViewController:didFinishWithResult:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

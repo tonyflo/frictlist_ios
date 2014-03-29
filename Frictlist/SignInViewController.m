@@ -25,6 +25,7 @@ int minPwLen = 6;
 int maxPwLen = 255;
 int maxEmailLen = 35;
 int ageLimit = 14;
+int maxUnLen = 20;
 NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -47,6 +48,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     firstNameText.delegate = self;
     passwordText.delegate = self;
     emailText.delegate = self;
+    usernameText.delegate = self;
     
     self.navigationItem.title = @"Sign Up";
     
@@ -61,14 +63,15 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     // Try to find next responder
     UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
     
-    if (nextResponder) {
-        [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
-        // Found next responder, so set it.
-        [nextResponder becomeFirstResponder];
-    } else {
+    if (nextTag == 6) {
         [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
         [textField resignFirstResponder];
         return YES;
+        
+    } else {
+        [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
+        // Found next responder, so set it.
+        [nextResponder becomeFirstResponder];
     }
     
     if(checkboxButton.selected == 0)
@@ -142,6 +145,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 
 - (IBAction)signInButtonClick:(id)sender
 {
+    NSString * username = usernameText.text;
     NSString * email = emailText.text;
     NSString * password = passwordText.text;
     NSString * firstName = firstNameText.text;
@@ -149,52 +153,63 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     BOOL gender = genderSwitch.selectedSegmentIndex;
     NSDate *birthdate = birthdatePicker.date;
     
-    //check valid email
-    bool rc = [self NSStringIsValidEmail:email];
-    if(!rc)
-    {
-        [self showInvalidEmailDialog:email];
-    }
-    
-    //check email too long
-    if(rc && email.length > maxEmailLen)
-    {
-        rc = 0;
-        [self showEmailTooLongDialog];
-    }
+    bool rc = 1;
     
     //check valid password
-    if(rc && (password.length < minPwLen || password.length > maxPwLen))
+    if(password.length < minPwLen || password.length > maxPwLen)
     {
         rc = 0;
         [self showInvalidPasswordDialog];
     }
+    //check username too long
+    else if(username.length < minPwLen || username.length > maxUnLen)
+    {
+        rc = 0;
+        [self showInvalidUsernameDialog];
+    }
+    
     
     //if making a new account, check for valid name, birthdate fields
     if(rc && checkboxButton.selected == 1)
     {
-
-        if(firstName.length > maxPwLen)
+        //check valid email
+        rc = [self NSStringIsValidEmail:email];
+        if(!rc)
         {
-            rc = 0;
-            [self showFieldTooLong:@"First Name"];
-        } else if(lastName.length > maxPwLen) {
-            rc = 0;
-            [self showFieldTooLong:@"Last Name"];
-        } else if(firstName.length == 0)
-        {
-            rc = 0;
-            [self showFieldTooShort:@"First Name"];
-        } else if(lastName.length == 0) {
-            rc = 0;
-            [self showFieldTooShort:@"Last Name"];
+            [self showInvalidEmailDialog:email];
         }
-        else {
-            int yearsold = [self checkAgeLimit:birthdate];
-            if(yearsold < ageLimit)
+        
+        //check email too long
+        if(rc && email.length > maxEmailLen)
+        {
+            rc = 0;
+            [self showEmailTooLongDialog];
+        }
+
+        if(rc)
+        {
+            if(firstName.length > maxPwLen)
             {
                 rc = 0;
-                [self showTooYoung:yearsold];
+                [self showFieldTooLong:@"First Name"];
+            } else if(lastName.length > maxPwLen) {
+                rc = 0;
+                [self showFieldTooLong:@"Last Name"];
+            } else if(firstName.length == 0)
+            {
+                rc = 0;
+                [self showFieldTooShort:@"First Name"];
+            } else if(lastName.length == 0) {
+                rc = 0;
+                [self showFieldTooShort:@"Last Name"];
+            }
+            else {
+                int yearsold = [self checkAgeLimit:birthdate];
+                if(yearsold < ageLimit)
+                {
+                    rc = 0;
+                    [self showTooYoung:yearsold];
+                }
             }
         }
     }
@@ -205,12 +220,12 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         
         if(checkboxButton.selected == 1)
         {
-            rc = [self signUp:email password:password firstName:firstName lastName:lastName gender:gender birthdate:birthdate];
+            rc = [self signUp:email username:username password:password firstName:firstName lastName:lastName gender:gender birthdate:birthdate];
         }
         else
         {
             //sign in
-            rc = [self signIn:email password:password];
+            rc = [self signIn:username password:password];
         }        
         
         if(!rc)
@@ -223,12 +238,12 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 }
 
 //sign in logic
--(BOOL) signIn:(NSString *) email password:(NSString *)password
+-(BOOL) signIn:(NSString *) username password:(NSString *)password
 {
     BOOL rc = true;
 
     //1. Set post string with actual username and password.
-    NSString *post = [NSString stringWithFormat:@"&email=%@&password=%@",email,password];
+    NSString *post = [NSString stringWithFormat:@"&username=%@&password=%@",username,password];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
@@ -275,12 +290,12 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 }
 
 //sign in logic
--(BOOL) signUp:(NSString *) email password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName gender:(BOOL)gender birthdate:(NSDate *)birthdate
+-(BOOL) signUp:(NSString *) email username:username password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName gender:(BOOL)gender birthdate:(NSDate *)birthdate
 {
     BOOL rc = true;
 
     //1. Set post string with actual username and password.
-    NSString *post = [NSString stringWithFormat:@"&firstname=%@&lastname=%@&email=%@&password=%@&gender=%d&birthdate=%@",firstName, lastName, email, password, gender, [birthdate description]];
+    NSString *post = [NSString stringWithFormat:@"&firstname=%@&lastname=%@&email=%@&username=%@&password=%@&gender=%d&birthdate=%@",firstName, lastName, email, username, password, gender, [birthdate description]];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
@@ -477,7 +492,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     [alert show];
 }
 
-//if user enters a password that is too short, show this dialog
+//if user enters a password that is too short/long, show this dialog
 - (void)showInvalidPasswordDialog
 {
     NSString *title;
@@ -491,6 +506,30 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     {
         title = @"Password Too Long";
         message = [NSString stringWithFormat:@"Your password may be no more than %d characters.", maxPwLen];
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:title];
+    [alert setMessage:message];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+//if user enters a username that is too short/long, show this dialog
+- (void)showInvalidUsernameDialog
+{
+    NSString *title;
+    NSString *message;
+    if(usernameText.text.length < minPwLen)
+    {
+        title = @"Username Too Short";
+        message = [NSString stringWithFormat:@"Your username must be at least %d characters.", minPwLen];
+    }
+    else
+    {
+        title = @"Username Too Long";
+        message = [NSString stringWithFormat:@"Your username may be no more than %d characters.", maxUnLen];
     }
     
     UIAlertView *alert = [[UIAlertView alloc] init];
@@ -540,6 +579,17 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:@"Emaill Address In Use"];
     [alert setMessage:[NSString stringWithFormat:@" The email address %@ is not available to use. Please try a different email address.", email]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+//email address not available
+- (void)showUsernameNotAvailableDialog:username
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"Username In Use"];
+    [alert setMessage:[NSString stringWithFormat:@" The username %@ is not available to use. Please try a different username.", username]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
@@ -604,7 +654,11 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         //set users birthday
         NSString *bdayStr = user_data[2];
         [plist setBirthday:bdayStr];
-        NSLog(@"user bday: %@", bdayStr);
+        NSLog(@"user fn: %@ ln: %@ bday: %@", user_data[0], user_data[1], bdayStr);
+        
+        //set user's first and last name
+        [plist setFirstName:user_data[0]];
+        [plist setLastName:user_data[1]];
         
         //go back to settings view
         [alertView dismissWithClickedButtonIndex:0 animated:YES];
@@ -612,16 +666,27 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     }
     else if(intResult > 0)
     {
-        //write the pk to the plist
-        //To insert the data into the plist
+        //To insert username and pk into the plist
         PlistHelper *plist = [PlistHelper alloc];
         [plist setPk:intResult];
-        [plist setEmail:emailText.text];
+        [plist setEmail:usernameText.text];
         
         //now, get the frictlist
         if(checkboxButton.selected == 0)
         {
+            //get the frictlist because this is not a new account
             [self get_frictlist:intResult];
+        }
+        else
+        {
+            //capture the input data into the local plist
+            [plist setFirstName:firstNameText.text];
+            [plist setLastName:lastNameText.text];
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"yyyy-MM-dd"];
+            NSString * bday = [formatter stringFromDate:birthdatePicker.date];
+            [plist setBirthday:bday];
         }
         
         //go back to settings view
@@ -631,9 +696,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     //error code was returned
     else
     {
-        //sign in error
-        if(checkboxButton.selected == 0)
-        {
+            //sign in errors below until sign up errors
             if(intResult == -1)
             {
                 //email address was not found
@@ -644,19 +707,16 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
                 //password was wrong
                 [self showWrongPasswordDialog];
             }
-            else
-            {
-                //unknown error
-                [self showUnknownFailureDialog];
-            }
-        }
-        //sign up error
-        else
-        {
-            if(intResult == -4)
+            //sign up errors below
+            else if(intResult == -4)
             {
                 //email address not available
                 [self showEmailNotAvailableDialog:emailText.text];
+            }
+            else if(intResult == -5)
+            {
+                //username not available
+                [self showUsernameNotAvailableDialog:usernameText.text];
             }
             else if(intResult == -7)
             {
@@ -668,7 +728,6 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
                 //unknown error
                 [self showUnknownFailureDialog];
             }
-        }
     }
     NSLog(@"Result: %@", strResult);
    [alertView dismissWithClickedButtonIndex:0 animated:YES];
@@ -738,6 +797,11 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 {
     activeField = textField;
     [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

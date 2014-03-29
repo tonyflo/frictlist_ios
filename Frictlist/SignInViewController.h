@@ -12,6 +12,7 @@
 {
     BOOL checkboxSelected;
     IBOutlet UIButton *checkboxButton;
+    IBOutlet UITextField *usernameText;
     IBOutlet UITextField *passwordText;
     IBOutlet UITextField *emailText;
     IBOutlet UISegmentedControl *genderSwitch;

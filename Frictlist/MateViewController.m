@@ -10,6 +10,7 @@
 #import "MateDetailViewController.h"
 #import "FrictlistViewController.h"
 #import "SqlHelper.h"
+#import "RequestViewController.h"
 
 @interface MateViewController ()
 
@@ -66,6 +67,12 @@
         NSLog(@"show frictlist segue");
         FrictlistViewController *destViewConroller = segue.destinationViewController;
         destViewConroller.hu_id = self.hu_id;
+    }
+    else if([segue.identifier isEqualToString:@"searchMate"])
+    {
+        NSLog(@"search mate segue");
+        RequestViewController *destViewConroller = segue.destinationViewController;
+        destViewConroller.mate_id = self.hu_id;
     }
 }
 
