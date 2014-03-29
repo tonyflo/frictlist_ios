@@ -14,9 +14,6 @@
 
 @interface StatisticsViewController ()
 
-@property (strong, nonatomic) IBOutlet UILabel *visited;
-
-
 @end
 
 @implementation StatisticsViewController
@@ -146,10 +143,7 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
         
         //set email label back
         [emailLabel setText:[plist getEmail]];
-        
-        //updated visited number
-        self.visited.text = [NSString stringWithFormat:@"%d", [self countVisited]];
-        
+                
         //force sign in
         [self checkFirstAppOpen];
     }
@@ -278,10 +272,7 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    NSLog(@"Count visited is %d", [self countVisited]);
-    //update #visits text
-    self.visited.text = [NSString stringWithFormat:@"%i", [self countVisited]];
-
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated

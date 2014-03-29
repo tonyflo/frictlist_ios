@@ -631,6 +631,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         [formatter setDateFormat:@"yyyy-MM-dd"];
         NSString * bdayStr = [formatter stringFromDate:birthdatePicker.date];
         [plist setBirthday:bdayStr];
+        NSLog(@"user bday: %@", bdayStr);
         
         //now, get the frictlist
         if(checkboxButton.selected == 0)

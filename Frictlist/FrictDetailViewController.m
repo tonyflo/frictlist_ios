@@ -158,11 +158,19 @@ NSString * notesStr;
     //get now date
     NSDate* now = [NSDate date];
 
-    if([from compare:bday] == NSOrderedAscending)
+    //chate date after now
+    if([now compare:from] == NSOrderedAscending)
     {
-        // from/to before bday
         rc = 0;
-        [self showDateBeforeBdayDialog];
+        [self showDateAfterNowDialog];
+    }
+    //check date before bday
+    else if([from compare:bday] == NSOrderedAscending)
+    {
+        rc = 0;
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MMMM dd, YYYY"];
+        [self showDateBeforeBdayDialog:[formatter stringFromDate:bday]];
     }
     
     NSString *fromFormatted = [formatter stringFromDate:from];
@@ -301,28 +309,18 @@ NSString * notesStr;
 - (void)showDateAfterNowDialog
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Date Error"];
-    [alert setMessage:@"One or more of the dates occur after now.  Please fix this before continuing."];
+    [alert setTitle:@"Time Travling Error"];
+    [alert setMessage:@"Unfortunately, time travel hasn't been invented yet."];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
 }
 
-- (void)showDateBeforeBdayDialog
+- (void)showDateBeforeBdayDialog:(NSString *)bday
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Date Error"];
-    [alert setMessage:@"Whoops! You cannot input a date that occured before your birthdate.  Please fix this before continuing."];
-    [alert setDelegate:self];
-    [alert addButtonWithTitle:@"Okay"];
-    [alert show];
-}
-
-- (void)showToBeforeFromDialog
-{
-    UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Date Error"];
-    [alert setMessage:@"The 'To' date cannot occur before the 'From' date."];
+    [alert setTitle:@"Fricting Before Birth?"];
+    [alert setMessage:[NSString stringWithFormat:@"According to you, you weren't born until %@.", bday]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];

@@ -167,8 +167,10 @@
     }
     
     //display the total score and count
-    frictCount.text = [NSString stringWithFormat:@"Frict Count: %d", totalCount];
-    frictScore.text = [NSString stringWithFormat:@"Frict Score: %d", totalScore];
+    frictCount.text = [NSString stringWithFormat:@"%d", totalCount];
+    frictCount.font = [UIFont fontWithName:@"DBLCDTempBlack" size:27];
+    frictScore.text = [NSString stringWithFormat:@"%d", totalScore];
+    frictScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:27];
 }
 
 - (void)didReceiveMemoryWarning

@@ -13,10 +13,8 @@
     IBOutlet UIButton *signinBtn;
     IBOutlet UILabel *emailLabel;
 }
-@property (strong, nonatomic) IBOutlet UIButton *resetButton;
 @property (strong, nonatomic) IBOutlet UIButton *emailButton;
 
 -(IBAction)emailButtonPress;
--(IBAction)resetButtonPress;
 
 @end

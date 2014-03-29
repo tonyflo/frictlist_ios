@@ -111,6 +111,7 @@ NSString * notesStr;
         //set score for this frict
         int score[4] = {1, 3, 5, 9};
         scoreText.text = [NSString stringWithFormat:@"%d", score[base]];
+        scoreText.font = [UIFont fontWithName:@"DBLCDTempBlack" size:28.0];
         
         // display rating
         ratingText.text = [NSString stringWithFormat:@"%d",rating ];
