@@ -1,20 +1,20 @@
 //
-//  RequestViewController.m
+//  SearchViewController.m
 //  Frictlist
 //
 //  Created by Tony Flo on 3/29/14.
 //  Copyright (c) 2014 FLooReeDA. All rights reserved.
 //
 
-#import "RequestViewController.h"
+#import "SearchViewController.h"
 #import "PlistHelper.h"
 #import "SqlHelper.h"
 
-@interface RequestViewController ()
+@interface SearchViewController ()
 
 @end
 
-@implementation RequestViewController
+@implementation SearchViewController
 
 @synthesize tableView;
 
@@ -24,6 +24,7 @@ NSString * frict_scripts_url_str = @"http://frictlist.flooreeda.com/scripts/";
 NSMutableArray * userIdArray;
 NSMutableArray * usernameArray;
 NSMutableArray * userBdayArray;
+int selectedMateIndex = -1;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -61,6 +62,12 @@ NSMutableArray * userBdayArray;
     userIdArray = [[NSMutableArray alloc] init];
     usernameArray = [[NSMutableArray alloc] init];
     userBdayArray = [[NSMutableArray alloc] init];
+    
+    SqlHelper *sql = [SqlHelper alloc];
+    NSArray * mate_data = [sql get_mate:self.mate_id];
+    
+    NSString * mate_name = [NSString stringWithFormat:@"%@ %@", mate_data[0], mate_data[1]];
+    self.title = mate_name;
 }
 
 - (void)search
@@ -82,9 +89,6 @@ NSMutableArray * userBdayArray;
         [self showUnknownFailureDialog];
     }
 }
-
-
-
 
 //search for mate
 -(BOOL) search_mate:(NSString *) firstname lastname:(NSString *)lastname gender:(int)gender
@@ -141,6 +145,21 @@ NSMutableArray * userBdayArray;
 -(void)showSearchingDialog
 {
     alertView = [[UIAlertView alloc] initWithTitle:@"Searching"
+                                           message:@"\n"
+                                          delegate:self
+                                 cancelButtonTitle:nil
+                                 otherButtonTitles:nil];
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    spinner.center = CGPointMake(139.5, 75.5); // .5 so it doesn't blur
+    [alertView addSubview:spinner];
+    [spinner startAnimating];
+    [alertView show];
+}
+
+-(void)showSendingRequest
+{
+    alertView = [[UIAlertView alloc] initWithTitle:@"Sending Request"
                                            message:@"\n"
                                           delegate:self
                                  cancelButtonTitle:nil
@@ -251,7 +270,7 @@ NSMutableArray * userBdayArray;
             }
         }
         
-        statusText.text = @"No luck? Invite your mate to Frictlist by text or email!";
+        statusText.text = @"No luck? Invite your mate to Frictlist by text or email.";
         textButton.hidden = false;
         emailButton.hidden = false;
         
@@ -273,12 +292,18 @@ NSMutableArray * userBdayArray;
         //[self.navigationController popToRootViewControllerAnimated:YES];
         //[self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }
+    //check for successful request where a request id is returned
+    else if(intResult > 0)
+    {
+        NSLog(@"request sent");
+    }
     //error code was returned
     else
     {
         //known error codes
         if(intResult == -100 || //id was null or not positive
-           intResult == -101) //id doesn't exist or isn't unique
+           intResult == -101 || //id doesn't exist or isn't unique
+           intResult == -101) //request insert wasn't successful
         {
             [self showErrorCodeDialog:intResult];
         }
@@ -422,6 +447,99 @@ NSMutableArray * userBdayArray;
 {
     //Add an alert in case of failure
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+//click on a table cell
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    selectedMateIndex = indexPath.row;
+    [self showRequestConfirmationDialog:usernameArray[selectedMateIndex]];
+}
+
+//the field is too long
+-(void) showRequestConfirmationDialog:(NSString *)username
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"Is That Your Final Answer?"];
+    [alert setMessage:[NSString stringWithFormat:@"Do you want to send a request to %@?", username]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Yes"];
+    [alert addButtonWithTitle:@"No"];
+    [alert setTag:1];
+    [alert show];
+}
+
+//take an action when a choice is made in an alert dialog
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    //reset data
+    if(alertView.tag == 1)
+    {
+        if (buttonIndex == 0)
+        {
+            //send request
+            [self send_mate_request];
+        }
+        else if (buttonIndex == 1)
+        {
+            //Cancel, dismiss
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }
+}
+
+//send mate request
+-(BOOL) send_mate_request
+{
+    BOOL rc = true;
+    
+    PlistHelper *plist = [PlistHelper alloc];
+    int uid = [plist getPk];
+    
+    NSString *post = [NSString stringWithFormat:@"&uid=%d&users_mate_id=%d&mates_uid=%d", uid, self.mate_id, [userIdArray[selectedMateIndex] intValue]];
+    
+    //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    //You need to send the actual length of your data. Calculate the length of the post string.
+    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    
+    //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    
+    //search for mate
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@send_mate_request.php", frict_scripts_url_str]]];
+    
+    //Now, set HTTP method (POST or GET). Write this lines as it is in your code
+    [request setHTTPMethod:@"POST"];
+    
+    //Set HTTP header field with length of the post data.
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    //Also set the Encoded value for HTTP header Field.
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+    
+    //Set the HTTPBody of the urlrequest with postData.
+    [request setHTTPBody:postData];
+    
+    //4. Now, create URLConnection object. Initialize it with the URLRequest.
+    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    //It returns the initialized url connection and begins to load the data for the url request. You can check that whether you URL connection is done properly or not using just if/else statement as below.
+    if(conn)
+    {
+        NSLog(@"Connection Successful");
+    }
+    else
+    {
+        NSLog(@"Connection could not be made");
+        rc = false;
+    }
+    
+    //5. To receive the data from the HTTP request , you can use the delegate methods provided by the URLConnection Class Reference. Delegate methods are as below
+    return rc;
 }
 
 @end

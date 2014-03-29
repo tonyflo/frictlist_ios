@@ -10,7 +10,7 @@
 #import "MateDetailViewController.h"
 #import "FrictlistViewController.h"
 #import "SqlHelper.h"
-#import "RequestViewController.h"
+#import "SearchViewController.h"
 
 @interface MateViewController ()
 
@@ -71,7 +71,7 @@
     else if([segue.identifier isEqualToString:@"searchMate"])
     {
         NSLog(@"search mate segue");
-        RequestViewController *destViewConroller = segue.destinationViewController;
+        SearchViewController *destViewConroller = segue.destinationViewController;
         destViewConroller.mate_id = self.hu_id;
     }
 }

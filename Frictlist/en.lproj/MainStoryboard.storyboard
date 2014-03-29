@@ -1094,10 +1094,10 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             </objects>
             <point key="canvasLocation" x="2207" y="-1242"/>
         </scene>
-        <!--Request View Controller-->
+        <!--Search View Controller-->
         <scene sceneID="kVZ-EG-7fM">
             <objects>
-                <viewController id="dHN-h6-K0j" customClass="RequestViewController" sceneMemberID="viewController">
+                <viewController id="dHN-h6-K0j" customClass="SearchViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VJ7-2l-xcT">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1125,7 +1125,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             </tableView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Find Your Frict" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7aN-uV-aJQ">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="280" id="mhP-7m-I5Q"/>
+                                    <constraint firstAttribute="width" constant="287" id="gif-uy-gXV"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1189,12 +1189,12 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             <constraint firstItem="DLC-fH-6bZ" firstAttribute="leading" secondItem="VJ7-2l-xcT" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="8H1-BN-TLD"/>
                             <constraint firstAttribute="trailing" secondItem="GEG-kZ-KbX" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="9f7-2f-A6I"/>
                             <constraint firstItem="Le0-7q-dUv" firstAttribute="leading" secondItem="VJ7-2l-xcT" secondAttribute="leading" type="default" id="FgX-f0-OxC"/>
-                            <constraint firstItem="7aN-uV-aJQ" firstAttribute="leading" secondItem="VJ7-2l-xcT" secondAttribute="leading" constant="13" id="JS9-gN-gq8"/>
+                            <constraint firstItem="GEG-kZ-KbX" firstAttribute="leading" secondItem="7aN-uV-aJQ" secondAttribute="leading" type="default" id="GoW-jg-9Yh"/>
                             <constraint firstItem="7aN-uV-aJQ" firstAttribute="top" secondItem="VJ7-2l-xcT" secondAttribute="top" constant="20" symbolic="YES" type="default" id="Mby-X6-oAB"/>
                             <constraint firstItem="Le0-7q-dUv" firstAttribute="top" secondItem="GEG-kZ-KbX" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="XTA-vM-US3"/>
                             <constraint firstItem="DLC-fH-6bZ" firstAttribute="top" secondItem="Le0-7q-dUv" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="fqT-ii-uFa"/>
                             <constraint firstItem="Le0-7q-dUv" firstAttribute="trailing" secondItem="VJ7-2l-xcT" secondAttribute="trailing" type="default" id="gR4-pw-qMH"/>
-                            <constraint firstItem="GEG-kZ-KbX" firstAttribute="leading" secondItem="VJ7-2l-xcT" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="oi9-ys-DH5"/>
+                            <constraint firstAttribute="trailing" secondItem="7aN-uV-aJQ" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="rpW-JY-WA5"/>
                             <constraint firstAttribute="trailing" secondItem="DLC-fH-6bZ" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="rui-aM-D0s"/>
                             <constraint firstAttribute="trailing" secondItem="wxB-ak-xVo" secondAttribute="trailing" constant="50" id="yuW-T8-jdc"/>
                         </constraints>
@@ -1338,8 +1338,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
         </class>
-        <class className="RequestViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RequestViewController.h"/>
+        <class className="SearchViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchViewController.h"/>
             <relationships>
                 <relationship kind="action" name="emailPressed:"/>
                 <relationship kind="action" name="textPressed:"/>

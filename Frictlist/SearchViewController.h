@@ -1,5 +1,5 @@
 //
-//  RequestViewController.h
+//  SearchViewController.h
 //  Frictlist
 //
 //  Created by Tony Flo on 3/29/14.
@@ -11,7 +11,7 @@
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 
-@interface RequestViewController : UIViewController  <MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate>
+@interface SearchViewController : UIViewController  <MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate>
 {
     IBOutlet UIButton *emailButton;
     IBOutlet UIButton *textButton;
