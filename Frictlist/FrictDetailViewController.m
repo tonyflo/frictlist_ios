@@ -112,15 +112,17 @@ NSString * notesStr;
     [[self.tabBarController.tabBar.items objectAtIndex:0] setEnabled:TRUE];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setEnabled:TRUE];
     
-    if(frict_id >0)
+    if(self.frict_id > 0)
     {
-        //if frict exists, go to frict view
+        NSLog(@"back to frict detail");
+        //go back back to frict detail
         [self.navigationController popViewControllerAnimated:YES];
     }
     else
     {
-        //if frict doesn't exist, go back to frictlist view
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        NSLog(@"back to frictlist");
+        //go back to frictlist
+        [self.navigationController popToViewController:[[self.navigationController viewControllers] objectAtIndex:2] animated:YES];
     }
 }
 
