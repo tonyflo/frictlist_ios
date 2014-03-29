@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
 
-@interface StatisticsViewController : UIViewController
+@interface StatisticsViewController : UIViewController<MFMailComposeViewControllerDelegate>
 {
     IBOutlet UILabel *totalScore;
     IBOutlet UILabel *totalCount;
@@ -25,6 +27,6 @@
 }
 @property (strong, nonatomic) IBOutlet UIButton *emailButton;
 
--(IBAction)emailButtonPress;
+-(IBAction)emailButtonPress:(id)sender;
 
 @end

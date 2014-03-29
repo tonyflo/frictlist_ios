@@ -163,19 +163,6 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     [alert show];
 }
 
-
--(IBAction)emailButtonPress
-{
-    NSString *recipients = @"mailto:tony@flooreeda.com?subject=Frictlist iOS App";
-    NSString *body = @"";
-    
-    NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
-    
-    email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
-}
-
 - (void)showConfirmAlert
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
@@ -382,6 +369,38 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
             [controller popToRootViewControllerAnimated:NO];
         }
     }
+}
+
+- (IBAction)emailButtonPress:(id)sender
+{
+    
+    if ([MFMailComposeViewController canSendMail]) {
+
+        PlistHelper *plist = [PlistHelper alloc];
+        NSString * fn = [plist getFirstName];
+        NSString * ln = [plist getLastName];
+        NSString * un = [plist getEmail];
+        
+        MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
+        [composeViewController setMailComposeDelegate:self];
+        [composeViewController setToRecipients:@[@"tony@flooreeda.com"]];
+        [composeViewController setSubject:@"Frictlist iOS App"];
+        [composeViewController setMessageBody:[NSString stringWithFormat:@"Hi Tony,\n\nI really like your Frictlist app!\n\nHappy Fricting!\n%@ %@\n%@", fn, ln, un] isHTML:NO];
+        
+        if ([self respondsToSelector:@selector(presentViewController:animated:completion:)]){
+            [self presentViewController:composeViewController animated:YES completion:nil];
+        } else {
+            [self presentModalViewController:composeViewController animated:YES];
+        }
+        //[self presentViewController:composeViewController animated:YES completion:nil];
+    }
+}
+
+//catch result of email
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    //Add an alert in case of failure
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
