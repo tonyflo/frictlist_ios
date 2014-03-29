@@ -277,8 +277,6 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    
-    
     [self checkFirstAppOpen];
     
     //check signed in
@@ -302,6 +300,75 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
     }
     
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
+    
+    [self statistics];
+}
+
+-(void)statistics
+{
+    SqlHelper *sql = [SqlHelper alloc];
+    NSArray *mateList = [sql get_mate_list];
+    NSArray *mate_ids = mateList[0];
+    
+    int counts[4] = {0,0,0,0};
+    
+    //loop over all fricts
+    for(int mate_index = 0; mate_index < mate_ids.count; mate_index++)
+    {
+        //get frict bases count
+        NSArray *fl = [sql get_frict_list:[mate_ids[mate_index] intValue]];
+        if(fl != NULL)
+        {
+            int count = ((NSArray *)fl[0]).count;
+            for(int i = 0; i < count; i++)
+            {
+                //sick logic
+                counts[[fl[3][i] intValue]]++;
+            }
+        }
+    }
+    
+    //determine scores
+    int scores[4] ={0,0,0,0};
+    scores[0]=counts[0] * 1;
+    scores[1]=counts[1] * 3;
+    scores[2]=counts[2] * 5;
+    scores[3]=counts[3] * 9;
+    
+    //display the counts
+    firstCount.text = [NSString stringWithFormat:@"%d",counts[0]];
+    firstCount.font = [UIFont fontWithName:@"DBLCDTempBlack" size:17.0];
+    secondCount.text = [NSString stringWithFormat:@"%d",counts[1]];
+    secondCount.font = [UIFont fontWithName:@"DBLCDTempBlack" size:15.0];
+    thirdCount.text = [NSString stringWithFormat:@"%d",counts[2]];
+    thirdCount.font = [UIFont fontWithName:@"DBLCDTempBlack" size:17.0];
+    homeCount.text = [NSString stringWithFormat:@"%d",counts[3]];
+    homeCount.font = [UIFont fontWithName:@"DBLCDTempBlack" size:19.0];
+    
+    //display the scores
+    firstScore.text = [NSString stringWithFormat:@"%d",scores[0]];
+    firstScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:25.0];
+    secondScore.text = [NSString stringWithFormat:@"%d",scores[1]];
+    secondScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:20.0];
+    thirdScore.text = [NSString stringWithFormat:@"%d",scores[2]];
+    thirdScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:25.0];
+    homeScore.text = [NSString stringWithFormat:@"%d",scores[3]];
+    homeScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:30.0];
+    
+    //calculate totals
+    int score = 0;
+    int count = 0;
+    for(int i = 0; i < 4; i++)
+    {
+        score += scores[i];
+        count += counts[i];
+    }
+    
+    //display the total score and count
+    totalCount.text = [NSString stringWithFormat:@"%d", count];
+    totalCount.font = [UIFont fontWithName:@"DBLCDTempBlack" size:27];
+    totalScore.text = [NSString stringWithFormat:@"%d", score];
+    totalScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:27];
 }
 
 @end

@@ -567,7 +567,17 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <connections>
                         <outlet property="emailButton" destination="Dyo-D0-W78" id="eHZ-Id-7LM"/>
                         <outlet property="emailLabel" destination="kWr-mA-7TN" id="rum-E5-XMq"/>
+                        <outlet property="firstCount" destination="EBQ-tp-o3h" id="FPI-Yi-EhQ"/>
+                        <outlet property="firstScore" destination="bl7-FO-0e5" id="V17-E9-JwA"/>
+                        <outlet property="homeCount" destination="I61-u6-jba" id="d7P-1i-nUi"/>
+                        <outlet property="homeScore" destination="HBw-WV-5Pw" id="tAy-j1-CUc"/>
+                        <outlet property="secondCount" destination="WAI-Pa-Vv1" id="mJy-3z-yea"/>
+                        <outlet property="secondScore" destination="vrf-eg-cUd" id="Oyt-ni-dEh"/>
                         <outlet property="signinBtn" destination="lLr-1a-jed" id="znw-qP-1gT"/>
+                        <outlet property="thirdCount" destination="VdG-LC-4aH" id="D4o-TY-01N"/>
+                        <outlet property="thirdScore" destination="LKX-a1-ftJ" id="SCn-Jj-KOF"/>
+                        <outlet property="totalCount" destination="3VM-a7-xbR" id="X6N-3H-TQ4"/>
+                        <outlet property="totalScore" destination="lF9-lU-msM" id="ijO-Nx-kYT"/>
                         <segue destination="6uA-tK-fYV" kind="modal" identifier="sign_in" modalTransitionStyle="flipHorizontal" id="IV7-kP-Hxi"/>
                     </connections>
                 </viewController>
@@ -1113,6 +1123,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictDetailViewController.h"/>
             <relationships>
                 <relationship kind="action" name="savePressed:"/>
+                <relationship kind="action" name="valueChanged:" candidateClass="UISlider"/>
                 <relationship kind="outlet" name="baseSwitch" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="fromSwitch" candidateClass="UIDatePicker"/>
                 <relationship kind="outlet" name="notes" candidateClass="UITextView"/>
@@ -1203,7 +1214,17 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 <relationship kind="action" name="emailButtonPress"/>
                 <relationship kind="outlet" name="emailButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="emailLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="firstCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="firstScore" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="homeCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="homeScore" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="secondCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="secondScore" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="signinBtn" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="thirdCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="thirdScore" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="totalCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="totalScore" candidateClass="UILabel"/>
             </relationships>
         </class>
         <class className="TabBarController" superclassName="UITabBarController">

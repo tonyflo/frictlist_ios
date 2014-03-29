@@ -10,6 +10,16 @@
 
 @interface StatisticsViewController : UIViewController
 {
+    IBOutlet UILabel *totalScore;
+    IBOutlet UILabel *totalCount;
+    IBOutlet UILabel *thirdCount;
+    IBOutlet UILabel *thirdScore;
+    IBOutlet UILabel *homeCount;
+    IBOutlet UILabel *homeScore;
+    IBOutlet UILabel *secondCount;
+    IBOutlet UILabel *secondScore;
+    IBOutlet UILabel *firstScore;
+    IBOutlet UILabel *firstCount;
     IBOutlet UIButton *signinBtn;
     IBOutlet UILabel *emailLabel;
 }

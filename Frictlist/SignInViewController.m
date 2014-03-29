@@ -412,8 +412,8 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 -(void) showEmailTooLongDialog
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Email Too Long"];
-    [alert setMessage:[NSString stringWithFormat:@"The email address that you entered is too long. Keep email addresses under %d characters. Please use another email address. If this presents a problem, contact the developer.", maxEmailLen]];
+    [alert setTitle:@"Email Address Way Too Long"];
+    [alert setMessage:[NSString stringWithFormat:@"I don't believe that that is your email address. Keep email addresses under %d characters. Please use another email address.", maxEmailLen]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
@@ -423,8 +423,8 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 -(void) showFieldTooLong:(NSString *)fieldName
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:[NSString stringWithFormat:@"%@ Too Long", fieldName]];
-    [alert setMessage:[NSString stringWithFormat:@"The %@ that you entered is too long. The max is %d characters. If this presents a problem, contact the developer.", fieldName, maxEmailLen]];
+    [alert setTitle:[NSString stringWithFormat:@"%@ Way To Long", fieldName]];
+    [alert setMessage:[NSString stringWithFormat:@"Is your %@ really that long? The max is %d characters. Try again.", fieldName, maxEmailLen]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
@@ -434,7 +434,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 -(void) showFieldTooShort:(NSString *)fieldName
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:[NSString stringWithFormat:@"%@ Is Empty", fieldName]];
+    [alert setTitle:[NSString stringWithFormat:@"I'm Goning To Need Your %@", fieldName]];
     [alert setMessage:[NSString stringWithFormat:@"Please enter a %@.", fieldName]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
@@ -445,8 +445,8 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 - (void)showUnknownFailureDialog
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Something Went Wrong"];
-    [alert setMessage:[NSString stringWithFormat:@"Sorry about this. Things to try:\n %C Check your internet connection\n %C Check your credentials\nIf the problem persists, email the developer.", (unichar) 0x2022, (unichar) 0x2022]];
+    [alert setTitle:@"Dagnabbit!"];
+    [alert setMessage:[NSString stringWithFormat:@"Something went wrong. Sorry about this. Things to try:\n %C Check your internet connection\n %C Check your credentials\nIf the problem persists, email the developer.", (unichar) 0x2022, (unichar) 0x2022]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
@@ -466,7 +466,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 - (void)showInvalidEmailDialog:(NSString *)email
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Invalid Email"];
+    [alert setTitle:@"Real Email Please"];
     [alert setMessage:[NSString stringWithFormat:@"The email address you entered (%@) is not a valid email. Please try again.", email]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
@@ -512,7 +512,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 - (void)showEmailNotFoundDialog
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Sign In Failed"];
+    [alert setTitle:@"I Don't Recognize That Email Address"];
     [alert setMessage:@"An unknown email address was entered. Please try again."];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
@@ -523,7 +523,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 - (void)showWrongPasswordDialog
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Sign In Failed"];
+    [alert setTitle:@"Wrong!"];
     [alert setMessage:@"The password that was entered is incorrect. Please try again."];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
@@ -534,7 +534,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 - (void)showSignupFailureDialog
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Sign Up Failed"];
+    [alert setTitle:@"Whoops!"];
     [alert setMessage:@"Something went wrong when creating your account. Please try again. If the problem persists, contact the developer."];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
@@ -549,19 +549,6 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     [alert setMessage:[NSString stringWithFormat:@" The email address %@ is not available to use. Please try a different email address.", email]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
-    [alert show];
-}
-
-//show reverse sync error
-- (void)showReverseSyncErrorDialog
-{
-    UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Reverse Sync Warning"];
-    [alert setMessage:@"There was a problem when syncing your iVisited data.  Would you like to try again or cancel?"];
-    [alert setDelegate:self];
-    [alert addButtonWithTitle:@"Try Again"];
-    [alert addButtonWithTitle:@"Cancel"];
-    [alert setTag:1];
     [alert show];
 }
 
