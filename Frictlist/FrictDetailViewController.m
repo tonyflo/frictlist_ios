@@ -30,8 +30,14 @@ int col = 0; //local index of frict
 
 int base;
 NSString * fromDate;
-NSString * toDate;
+int rating;
 NSString * notesStr;
+
+-(IBAction)valueChanged:(UISlider*)sender {
+    int discreteValue = roundl([sender value]); // Rounds float to an integer
+    [sender setValue:(float)discreteValue]; // Sets your slider to this value
+    sliderText.text = [NSString stringWithFormat:@"%d", discreteValue ];
+}
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -46,37 +52,25 @@ NSString * notesStr;
         NSLog(@"single frict : %@", frict);
         
         fromDate = frict[0];
-        toDate = frict[1];
+        rating = [frict[1] intValue];
         base = [frict[2] intValue];
         notesStr = frict[3];
         
         baseSwitch.selectedSegmentIndex = base;
         [notes setText:notesStr];
-        NSLog(@"yooo");
+        
         //dates
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy-MM-dd"];
         NSDate * fromAsDate = [formatter dateFromString:fromDate];
-        NSDate * toAsDate = [formatter dateFromString:toDate];
         [fromSwitch setDate:fromAsDate];
-        if([toDate isEqual: @"0000-00-00"])
-        {
-            //current
-            currentSwitch.selected = true;
-            toSwitch.enabled = false;
-            toSwitch.alpha = 0.5;
-        }
-        else
-        {
-            //ended in past
-            [toSwitch setDate:toAsDate];
-        }
-        NSLog(@"dne in here");
         
-        //todo: proally wana show name of mate
         //set the title
-        //self.title = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+        self.title = @"Update Frict";
         
+        //set the slider
+        sliderText.text = [NSString stringWithFormat:@"%d", rating ];
+        ratingSlider.value = rating;
     }
     else
     {
@@ -152,48 +146,26 @@ NSString * notesStr;
     
     int base = baseSwitch.selectedSegmentIndex;
     NSDate * from = fromSwitch.date;
-    NSDate * to = toSwitch.date;
+    int ratingVal = ratingSlider.value;
     NSString * hu_notes = notes.text;
-    
-    //if current frict, set null
-    if(currentSwitch.selected == 1)
+
+    //todo logic seems wack
+    //get the birthday of the user from the plist then format it into a string
+    PlistHelper *plist = [PlistHelper alloc];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate* bday = [formatter dateFromString:[plist getBirthday]];
+    //get now date
+    NSDate* now = [NSDate date];
+
+    if([from compare:bday] == NSOrderedAscending)
     {
-        to = NULL;
+        // from/to before bday
+        rc = 0;
+        [self showDateBeforeBdayDialog];
     }
     
-
-        //get the birthday of the user from the plist then format it into a string
-        PlistHelper *plist = [PlistHelper alloc];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd"];
-        NSDate* bday = [formatter dateFromString:[plist getBirthday]];
-        //get now date
-        NSDate* now = [NSDate date];
-        
-        //validate input dates
-        if([to compare:from] == NSOrderedAscending)
-        {
-            //to before from
-            rc = 0;
-            [self showToBeforeFromDialog];
-        }
-        else if([to compare:now] == NSOrderedDescending ||
-                [from compare:now] == NSOrderedDescending)
-        {
-            //to after now
-            rc = 0;
-            [self showDateAfterNowDialog];
-        }
-        else if([to compare:bday] == NSOrderedAscending ||
-                [from compare:bday] == NSOrderedAscending)
-        {
-            // from/to before bday
-            rc = 0;
-            [self showDateBeforeBdayDialog];
-        }
-    
     NSString *fromFormatted = [formatter stringFromDate:from];
-    NSString *toFormatted = [formatter stringFromDate:to];
     
     //get uid
     int uid = [plist getPk];
@@ -207,8 +179,8 @@ NSString * notesStr;
     {
         //TODO, could distinguish between add and update
         [self showAddingFrictDialog];
-        //TODO
-        rc = [self save_frict:base from:fromFormatted to:toFormatted notes:hu_notes];
+        //TODO?
+        rc = [self save_frict:base from:fromFormatted rating:ratingVal notes:hu_notes];
         
         //take action if something went wrong
         if(!rc)
@@ -221,7 +193,7 @@ NSString * notesStr;
 }
 
 //save frict data
--(BOOL) save_frict:(int)base from:(NSString *)from to:(NSString *)to notes:(NSString *)hu_notes
+-(BOOL) save_frict:(int)base from:(NSString *)from rating:(int)rate notes:(NSString *)hu_notes
 {
     BOOL rc = true;
 
@@ -230,12 +202,12 @@ NSString * notesStr;
     if(self.frict_id > 0)
     {
         //update
-        post = [NSString stringWithFormat:@"&frict_id=%d&mate_id=%d&base=%d&from=%@&to=%@&notes=%@",self.frict_id, self.mate_id, base, from, to, hu_notes];
+        post = [NSString stringWithFormat:@"&frict_id=%d&mate_id=%d&base=%d&from=%@&rating=%d&notes=%@",self.frict_id, self.mate_id, base, from, rate, hu_notes];
     }
     else
     {
         //add
-        post = [NSString stringWithFormat:@"&mate_id=%d&base=%d&from=%@&to=%@&notes=%@",self.mate_id, base, from, to, hu_notes];
+        post = [NSString stringWithFormat:@"&mate_id=%d&base=%d&from=%@&rating=%d&notes=%@",self.mate_id, base, from, rate, hu_notes];
     }
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
@@ -394,30 +366,18 @@ NSString * notesStr;
         NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy-MM-dd"];
         NSString *fromFormatted = [formatter stringFromDate:fromSwitch.date];
-        NSString *toFormatted = [formatter stringFromDate:toSwitch.date];
-        if(currentSwitch.selected == true)
-        {
-            toFormatted = @"0000-00-00";
-        }
         
         SqlHelper * sql = [SqlHelper alloc];
         
         //PlistHelper *plist = [PlistHelper alloc];
         if(self.frict_id > 0)
         {
-            //todo
             //update the local database
-            //[plist updateFrict:intResult index:row first:firstNameText.text last:lastNameText.text base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text gender:genderSwitch.selectedSegmentIndex];
-            [sql update_frict:intResult from:fromFormatted to:toFormatted base:baseSwitch.selectedSegmentIndex notes:notes.text];
+            [sql update_frict:intResult from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text];
         }
         else
         {
-            NSLog(@"adding frict");
-            //insert the data that has already been inserted on the remote database into the plist
-            //[plist addFrict:intResult huid:self.mate_id base:baseSwitch.selectedSegmentIndex accepted:0 from:fromFormatted to:toFormatted notes:notes.text];
-            [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted to:toFormatted base:baseSwitch.selectedSegmentIndex notes:notes.text];
-            NSLog(@"%@", [sql get_frict_list:intResult]);
-            NSLog(@"added frict");
+            [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text];
         }
         
         //enable tabbaar items
@@ -513,46 +473,5 @@ NSString * notesStr;
     [alertView dismissWithClickedButtonIndex:0 animated:YES];
     NSLog(@"Did finish loading");
 }
-
-- (IBAction)checkboxButton:(id)sender{
-    currentSwitch.selected = !currentSwitch.selected;
-    
-    if(currentSwitch.selected == 1)
-    {
-        //enable to picker
-        toSwitch.enabled = false;
-        toSwitch.alpha = 0.5;
-        oneNightStandCheck.enabled = false;
-    }
-    else
-    {
-        //disable to picker
-        toSwitch.enabled = true;
-        toSwitch.alpha = 1;
-        oneNightStandCheck.enabled = true;
-    }
-}
-
-- (IBAction)oneNightStandCheckboxButton:(id)sender
-{
-    oneNightStandCheck.selected = !oneNightStandCheck.selected;
-    
-    if(oneNightStandCheck.selected == 1)
-    {
-        //enable to picker
-        toSwitch.enabled = false;
-        toSwitch.alpha = 0.5;
-        toSwitch.date = fromSwitch.date;
-        currentSwitch.enabled = false;
-    }
-    else
-    {
-        //disable to picker
-        toSwitch.enabled = true;
-        toSwitch.alpha = 1;
-        currentSwitch.enabled = true;
-    }
-}
-
 
 @end

@@ -125,7 +125,7 @@ NSString * dbName = @"frictlist.sqlite";
 {
     NSMutableArray * frict_id_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * from_array = [[NSMutableArray alloc] initWithObjects: nil];
-    NSMutableArray * to_array = [[NSMutableArray alloc] initWithObjects: nil];
+    NSMutableArray * rating_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * base_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * notes_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * frict_list;
@@ -135,7 +135,7 @@ NSString * dbName = @"frictlist.sqlite";
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
         // Get the primary key for all books.
-        const char *sql = [[NSString stringWithFormat:@"select frict_id, frict_from_date, frict_to_date, frict_base, notes from frict where mate_id='%d'", mate_id] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"select frict_id, frict_from_date, frict_rating, frict_base, notes from frict where mate_id='%d'", mate_id] UTF8String];
         sqlite3_stmt *statement;
         // Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
         // The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.
@@ -145,21 +145,20 @@ NSString * dbName = @"frictlist.sqlite";
             // We "step" through the results - once for each row.
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
-                NSLog(@"out");
                 // The second parameter indicates the column index into the result set.
                 NSNumber *frict_id = [NSNumber numberWithInt: sqlite3_column_int(statement, 0)];
                 NSString *from = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
-                NSString *to = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
+                NSNumber *rating = [NSNumber numberWithInt: sqlite3_column_int(statement, 2)];
                 NSNumber *base = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
                 NSString *notes = [NSString stringWithUTF8String:sqlite3_column_text(statement, 4)];
                 [frict_id_array addObject:frict_id];
                 [from_array addObject:from];
-                [to_array addObject:to];
+                [rating_array addObject:rating];
                 [base_array addObject:base];
                 [notes_array addObject:notes];
             }
             
-            frict_list = [[NSMutableArray alloc] initWithObjects:frict_id_array, from_array, to_array, base_array, notes_array, nil];
+            frict_list = [[NSMutableArray alloc] initWithObjects:frict_id_array, from_array, rating_array, base_array, notes_array, nil];
         }
         else
         {
@@ -174,7 +173,6 @@ NSString * dbName = @"frictlist.sqlite";
         sqlite3_close(database);
         NSAssert1(0, @"Failed to open database with message '%s'.", sqlite3_errmsg(database));
     }
-    NSLog(@"sql get_frict_list: %@", frict_list);
     return frict_list;
 }
 
@@ -203,12 +201,12 @@ NSString * dbName = @"frictlist.sqlite";
     sqlite3_close(database);
 }
 
-- (void)add_frict:(int)frict_id mate_id:(int)mate_id from:(NSString *)from to:(NSString *)to base:(int)base notes:(NSString *)notes
+- (void)add_frict:(int)frict_id mate_id:(int)mate_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes
 {
     NSString * path = [self getDbPath];
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
-        const char *sql = [[NSString stringWithFormat:@"INSERT INTO frict(frict_id, mate_id, frict_from_date, frict_to_date, frict_base, notes) VALUES('%d', '%d', '%@', '%@', '%d', '%@')", frict_id, mate_id, from, to, base, [self sanatize:notes]] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO frict(frict_id, mate_id, frict_from_date, frict_rating, frict_base, notes) VALUES('%d', '%d', '%@', '%d', '%d', '%@')", frict_id, mate_id, from, rating, base, [self sanatize:notes]] UTF8String];
         sqlite3_stmt *updateStmt = nil;
         if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
         {
@@ -252,12 +250,12 @@ NSString * dbName = @"frictlist.sqlite";
 }
 
 
-- (void)update_frict:(int)frict_id from:(NSString *)from to:(NSString *)to base:(int)base notes:(NSString *)notes
+- (void)update_frict:(int)frict_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes
 {
     NSString * path = [self getDbPath];
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
-        const char *sql = [[NSString stringWithFormat:@"UPDATE frict SET frict_from_date='%@', frict_to_date='%@', frict_base='%d', notes='%@' where frict_id='%d'", from, to, base, [self sanatize:notes], frict_id] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"UPDATE frict SET frict_from_date='%@', frict_rating='%d', frict_base='%d', notes='%@' where frict_id='%d'", from, rating, base, [self sanatize:notes], frict_id] UTF8String];
         sqlite3_stmt *updateStmt = nil;
         if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
         {
@@ -352,7 +350,7 @@ NSString * dbName = @"frictlist.sqlite";
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
         // Get the primary key for all books.
-        const char *sql = [[NSString stringWithFormat:@"select frict_from_date, frict_to_date, frict_base, notes from frict where frict_id='%d'", frict_id] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"select frict_from_date, frict_rating, frict_base, notes from frict where frict_id='%d'", frict_id] UTF8String];
         sqlite3_stmt *statement;
         // Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
         // The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.
@@ -362,16 +360,14 @@ NSString * dbName = @"frictlist.sqlite";
             // We "step" through the results - once for each row.
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
-                NSLog(@"found a frict for %d", frict_id);
                 // The second parameter indicates the column index into the result set.
                 NSString *from = [NSString stringWithUTF8String:sqlite3_column_text(statement, 0)];
-                NSString *to = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
+                NSNumber *rating = [NSNumber numberWithInt: sqlite3_column_int(statement, 1)];
                 NSNumber *base = [NSNumber numberWithInt: sqlite3_column_int(statement, 2)];
                 NSString *notes = [NSString stringWithUTF8String:sqlite3_column_text(statement, 3)];
             
-                frict = [[NSMutableArray alloc] initWithObjects:from, to, base, notes, nil];
+                frict = [[NSMutableArray alloc] initWithObjects:from, rating, base, notes, nil];
             }
-            NSLog(@"end frict getting");
         }
         else
         {
@@ -386,7 +382,6 @@ NSString * dbName = @"frictlist.sqlite";
         sqlite3_close(database);
         NSAssert1(0, @"Failed to open database with message '%s'.", sqlite3_errmsg(database));
     }
-    NSLog(@"get a frict: %@", frict);
     return frict;
 }
 

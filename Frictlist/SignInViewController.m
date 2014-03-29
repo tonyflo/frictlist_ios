@@ -609,7 +609,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
                 //check for frict data
                 if(frict[4] != NULL)
                 {
-                    [sql add_frict:[frict[4] intValue] mate_id:[frict[0] intValue] from:frict[5] to:frict[6] base:[frict[7] intValue] notes:frict[8]];
+                    [sql add_frict:[frict[4] intValue] mate_id:[frict[0] intValue] from:frict[5] rating:[frict[6] intValue] base:[frict[7] intValue] notes:frict[8]];
                 }
                 
             }

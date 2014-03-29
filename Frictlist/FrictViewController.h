@@ -17,6 +17,8 @@
     IBOutlet UILabel *dateRangeText;
     IBOutlet UIImageView *genderImageView;
     IBOutlet UIImageView *baseImageView;
+    IBOutlet UILabel *scoreText;
+    IBOutlet UILabel *ratingText;
 }
 
 @property (readwrite, assign) NSUInteger frict_id;

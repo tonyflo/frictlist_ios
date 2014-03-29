@@ -22,7 +22,7 @@ NSString *lastName;
 int gender;
 int base;
 NSString * fromDate;
-NSString * toDate;
+int rating;
 NSString * notesStr;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -92,7 +92,7 @@ NSString * notesStr;
         gender = [mate[2] intValue];
         
         fromDate = frict[0];
-        toDate = frict[1];
+        rating = [frict[1] intValue];
         base = [frict[2] intValue];
         notesStr = frict[3];
         
@@ -108,30 +108,22 @@ NSString * notesStr;
         NSString *baseStr = [NSString stringWithFormat:@"base_%d.png", base + 1];
         baseImageView.image = [UIImage imageNamed:baseStr];
         
+        //set score for this frict
+        int score[4] = {1, 3, 5, 9};
+        scoreText.text = [NSString stringWithFormat:@"%d", score[base]];
+        
+        // display rating
+        ratingText.text = [NSString stringWithFormat:@"%d",rating ];
         
         //set notes
         [notesText setText:notesStr];
         
-        //dates
-        if([toDate isEqualToString: @"0000-00-00"])
-        {
-            //current
-            dateRangeText.text = [NSString stringWithFormat:@"Fricting since %@", fromDate];
-        }
-        else
-        {
-            if([fromDate isEqualToString:toDate])
-            {
-                //one night stand
-                dateRangeText.text = [NSString stringWithFormat:@"One night stand on %@", [toDate description]];
-            }
-            else
-            {
-                //ended in past
-                dateRangeText.text = [NSString stringWithFormat:@"%@ to %@", fromDate, toDate];
-            }
-
-        }
+        //show date
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MMMM dd, YYYY"];
+        NSDateFormatter *converter = [[NSDateFormatter alloc] init];
+        [converter setDateFormat:@"yyyy-MM-dd"];
+        dateRangeText.text = [formatter stringFromDate:[converter dateFromString:fromDate]];
         
         //set the title
         self.title = [NSString stringWithFormat:@"%@ %@", firstName, lastName];

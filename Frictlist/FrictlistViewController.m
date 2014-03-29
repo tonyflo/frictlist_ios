@@ -26,7 +26,6 @@ int curRowFrict = -1;
 BOOL sentFromAddFrict = false;
 NSMutableArray *matesFrictIds;
 NSMutableArray *fromArray;
-NSMutableArray *toArray;
 NSMutableArray *baseArray;
 
 - (void)viewDidLoad
@@ -81,7 +80,6 @@ NSMutableArray *baseArray;
     {
         matesFrictIds = fl[0];
         fromArray = fl[1];
-        toArray = fl[2];
         baseArray = fl[3];
         
     }
@@ -163,18 +161,7 @@ NSMutableArray *baseArray;
     [formatter setDateFormat:@"MMM dd, YYYY"];
     NSDateFormatter *converter = [[NSDateFormatter alloc] init];
     [converter setDateFormat:@"yyyy-MM-dd"];
-    NSString *range;
-    if([fromArray[i] isEqual:toArray[i]])
-    {
-        //display single date
-        range = [formatter stringFromDate: [converter dateFromString:fromArray[i]]];
-    }
-    else
-    {
-        //display range
-        range = [NSString stringWithFormat:@"%@ to %@", [formatter stringFromDate: [converter dateFromString:fromArray[i]]], [formatter stringFromDate: [converter dateFromString:toArray[i]]]];
-    }
-    
+    NSString *date = [formatter stringFromDate: [converter dateFromString:fromArray[i]]];
     
     //set text color
     cell.textLabel.textColor = [UIColor greenColor];
@@ -185,7 +172,7 @@ NSMutableArray *baseArray;
     cell.imageView.image = [UIImage imageNamed:base];
     
     //set cell text
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", range];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", date];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
@@ -226,7 +213,6 @@ NSMutableArray *baseArray;
         //remove from local array
         [matesFrictIds removeObjectAtIndex:curRowFrict];
         [fromArray removeObjectAtIndex:curRowFrict];
-        [toArray removeObjectAtIndex:curRowFrict];
         [baseArray removeObjectAtIndex:curRowFrict];
         
         //refresh the table

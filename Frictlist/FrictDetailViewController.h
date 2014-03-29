@@ -16,6 +16,7 @@
     IBOutlet UIDatePicker *fromSwitch;
     IBOutlet UITextView *notes;
     IBOutlet UIButton *saveBtn;
+    IBOutlet UILabel *sliderText;
 }
 
 //image view

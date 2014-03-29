@@ -41,7 +41,6 @@
 		2F66D9F218E0E5D400DE37A4 /* MateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F66D9F118E0E5D300DE37A4 /* MateViewController.m */; };
 		2F66D9F918E3C11900DE37A4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F86FB7217A4A925008A2C8D /* libsqlite3.0.dylib */; };
 		2F66D9FC18E3C64200DE37A4 /* SqlHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F66D9FB18E3C64200DE37A4 /* SqlHelper.m */; };
-		2F66DA0018E3CDA200DE37A4 /* frictlist.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 2F66D9FF18E3CDA200DE37A4 /* frictlist.sqlite */; };
 		2F66DA0218E5F66900DE37A4 /* field.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F66DA0118E5F66800DE37A4 /* field.png */; };
 		2F66DA0618E6084D00DE37A4 /* count.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F66DA0518E6084C00DE37A4 /* count.png */; };
 		2F66DA0818E6085500DE37A4 /* score.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F66DA0718E6085500DE37A4 /* score.png */; };
@@ -52,6 +51,7 @@
 		2F9542171868D3BD0063CE37 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9542161868D3BD0063CE37 /* TabBarController.m */; };
 		2F95421F186A05B20063CE37 /* map_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F95421E186A05B20063CE37 /* map_icon.png */; };
 		2F9DC36418DE4F6700024553 /* FrictViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9DC36318DE4F6700024553 /* FrictViewController.m */; };
+		2FCB43A018E65891007DF46F /* frictlist.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 2FCB439F18E65891007DF46F /* frictlist.sqlite */; };
 		2FDA34E61875D42F00ED5698 /* checkbox-checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E31875D42E00ED5698 /* checkbox-checked.png */; };
 		2FDA34E71875D42F00ED5698 /* checkbox-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E41875D42E00ED5698 /* checkbox-pressed.png */; };
 		2FDA34E81875D42F00ED5698 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E51875D42E00ED5698 /* checkbox.png */; };
@@ -109,7 +109,6 @@
 		2F66D9F118E0E5D300DE37A4 /* MateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MateViewController.m; sourceTree = "<group>"; };
 		2F66D9FA18E3C64100DE37A4 /* SqlHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlHelper.h; sourceTree = "<group>"; };
 		2F66D9FB18E3C64200DE37A4 /* SqlHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SqlHelper.m; sourceTree = "<group>"; };
-		2F66D9FF18E3CDA200DE37A4 /* frictlist.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = frictlist.sqlite; sourceTree = "<group>"; };
 		2F66DA0118E5F66800DE37A4 /* field.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = field.png; sourceTree = "<group>"; };
 		2F66DA0518E6084C00DE37A4 /* count.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = count.png; sourceTree = "<group>"; };
 		2F66DA0718E6085500DE37A4 /* score.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = score.png; sourceTree = "<group>"; };
@@ -123,6 +122,7 @@
 		2F95421E186A05B20063CE37 /* map_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_icon.png; sourceTree = "<group>"; };
 		2F9DC36218DE4F6700024553 /* FrictViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictViewController.h; sourceTree = "<group>"; };
 		2F9DC36318DE4F6700024553 /* FrictViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrictViewController.m; sourceTree = "<group>"; };
+		2FCB439F18E65891007DF46F /* frictlist.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = frictlist.sqlite; sourceTree = "<group>"; };
 		2FDA34E31875D42E00ED5698 /* checkbox-checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-checked.png"; sourceTree = "<group>"; };
 		2FDA34E41875D42E00ED5698 /* checkbox-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-pressed.png"; sourceTree = "<group>"; };
 		2FDA34E51875D42E00ED5698 /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
@@ -151,7 +151,7 @@
 		2F4EE095176E97B100642169 = {
 			isa = PBXGroup;
 			children = (
-				2F66D9FF18E3CDA200DE37A4 /* frictlist.sqlite */,
+				2FCB439F18E65891007DF46F /* frictlist.sqlite */,
 				2F383FB51888DE760010EF15 /* SystemConfiguration.framework */,
 				2F54EBEC187A537600FB4F65 /* icon.png */,
 				2F54EBEA187A536F00FB4F65 /* icon@2x.png */,
@@ -337,11 +337,11 @@
 				2F66D9E118DF8AFF00DE37A4 /* gender_.png in Resources */,
 				2F66D9E818DF929000DE37A4 /* gender_0.png in Resources */,
 				2F66D9E918DF929000DE37A4 /* gender_1.png in Resources */,
-				2F66DA0018E3CDA200DE37A4 /* frictlist.sqlite in Resources */,
 				2F66DA0218E5F66900DE37A4 /* field.png in Resources */,
 				2F66DA0618E6084D00DE37A4 /* count.png in Resources */,
 				2F66DA0818E6085500DE37A4 /* score.png in Resources */,
 				2F66DA0C18E60A3000DE37A4 /* fieldglow.png in Resources */,
+				2FCB43A018E65891007DF46F /* frictlist.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
