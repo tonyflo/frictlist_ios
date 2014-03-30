@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MatelistViewController : UIViewController
+@interface MatelistViewController : UITableViewController
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end

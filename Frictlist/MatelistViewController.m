@@ -29,7 +29,47 @@ NSMutableArray *firstNameArray;
 NSMutableArray *lastNameArray;
 NSMutableArray *genderArray;
 
+- (void)viewDidLoad
+{
+    NSLog(@"view did load");
+    [super viewDidLoad];
+    
+    self.title = @"Matelist";
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(addORDeleteRows)];
+    [self.navigationItem setRightBarButtonItem:addButton];
+    
+    UIRefreshControl *refresh = [[UIRefreshControl alloc] init]; refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    [refresh addTarget:self action:@selector(updateMateList) forControlEvents:UIControlEventValueChanged];
+    refresh.tintColor = [UIColor colorWithRed:33.0/255.0f green:255.0/255.0f blue:0.0/255.0f alpha:1.0];
+    self.refreshControl = refresh;
+    [self stopRefresh];
+}
 
+- (void)stopRefresh
+{
+    [self.refreshControl endRefreshing];
+    [tableView reloadData];
+}
+
+-(void)updateMateList
+{
+    NSLog(@"Update matelist");
+    
+    PlistHelper * plist = [PlistHelper alloc];
+    SqlHelper *sql = [SqlHelper alloc];
+    
+    BOOL success = [sql removeSqliteFile];
+    [sql createEditableCopyOfDatabaseIfNeeded];
+    if(success)
+    {
+        huidArray = [[NSMutableArray alloc] init];
+        firstNameArray = [[NSMutableArray alloc] init];
+        lastNameArray = [[NSMutableArray alloc] init];
+        genderArray = [[NSMutableArray alloc] init];
+        
+        [self get_frictlist:[plist getPk]];
+    }
+}
 
 //send data from table view to detail view
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -92,10 +132,10 @@ NSMutableArray *genderArray;
     // Dispose of any resources that can be recreated.
 }
 
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    [self performSegueWithIdentifier:@"showMateDetail" sender:indexPath];
-//}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"showMateDetail" sender:indexPath];
+}
 
 - (void)addORDeleteRows
 {
@@ -258,6 +298,57 @@ NSMutableArray *genderArray;
     return rc;
 }
 
+//sign in logic
+-(BOOL) get_frictlist:(int) uid
+{
+    BOOL rc = true;
+    
+    NSString *post = [NSString stringWithFormat:@"&uid=%d",uid];
+    
+    //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    //You need to send the actual length of your data. Calculate the length of the post string.
+    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    
+    //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //Set the Url for which your going to send the data to that request.
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_frictlist.php", scripts_url]]];
+    
+    //Now, set HTTP method (POST or GET). Write this lines as it is in your code
+    [request setHTTPMethod:@"POST"];
+    
+    //Set HTTP header field with length of the post data.
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    //Also set the Encoded value for HTTP header Field.
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+    
+    //Set the HTTPBody of the urlrequest with postData.
+    [request setHTTPBody:postData];
+    
+    //4. Now, create URLConnection object. Initialize it with the URLRequest.
+    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    //It returns the initialized url connection and begins to load the data for the url request. You can check that whether you URL connection is done properly or not using just if/else statement as below.
+    if(conn)
+    {
+        NSLog(@"Connection Successful");
+    }
+    else
+    {
+        NSLog(@"Connection could not be made");
+        rc = false;
+    }
+    
+    //5. To receive the data from the HTTP request , you can use the delegate methods provided by the URLConnection Class Reference. Delegate methods are as below
+    return rc;
+}
+
+
 -(void)showRemovingMateDialog
 {
     alertView = [[UIAlertView alloc] initWithTitle:@"Removig Mate"
@@ -324,7 +415,65 @@ NSMutableArray *genderArray;
     NSInteger intResult = [strResult integerValue];
     
     NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
-    if(intResult > 0)
+    NSArray *frictlist = [strResult componentsSeparatedByString:@"\n"];
+    NSString *searchFlag = frictlist[0];
+    
+    if([searchFlag isEqual:@"frictlist"])
+    {
+        //we have received the frictlist because the user has just signed in. now loop over it and save it to the sqlite db
+        SqlHelper *sql = [SqlHelper alloc];
+        
+        //store the mate_ids to avoid adding the same mate more than once
+        NSMutableArray *mateIds = [[NSMutableArray alloc] init];
+        
+        //for each row in the frictlist table
+        //start at 2 to skip over frictlist line and user data array
+        for(int i = 2; i < frictlist.count - 1; i++)
+        {
+            //split the row into columns
+            NSArray *frict = [frictlist[i] componentsSeparatedByString:@"\t"];
+            
+            if(frict.count == 12)
+            {
+                //check if mate has already been added to sqlite
+                if(![mateIds containsObject:frict[0]])
+                {
+                    [sql add_mate:[frict[0] intValue] fn:frict[3] ln:frict[4] gender:[frict[5] intValue] accepted:[frict[1] intValue] mates_uid:[frict[2] intValue]];
+                    [mateIds addObject:frict[0]];
+                    [huidArray addObject:frict[0]];
+                    [firstNameArray addObject:frict[3]];
+                    [lastNameArray addObject:frict[4]];
+                    [genderArray addObject:frict[5]];
+                }
+                
+                //check for frict data
+                if(frict[6] != NULL && frict[6] != nil && ![frict[6] isEqual:@""] && [frict[11] intValue] != 1)
+                {
+                    NSLog(@"FOUND FRICT DATA");
+                    [sql add_frict:[frict[6] intValue] mate_id:[frict[0] intValue] from:frict[7] rating:[frict[8] intValue] base:[frict[9] intValue] notes:frict[10]];
+                }
+                
+            }
+        }
+        
+        //stop animating
+        [self stopRefresh];
+        
+        //get user data
+        //NSArray *user_data = [frictlist[1] componentsSeparatedByString:@"\t"];
+        //PlistHelper *plist = [PlistHelper alloc];
+        
+        //set users birthday
+        //NSString *bdayStr = user_data[2];
+        //[plist setBirthday:bdayStr];
+        //NSLog(@"user fn: %@ ln: %@ bday: %@", user_data[0], user_data[1], bdayStr);
+        
+        //set user's first and last name
+        //[plist setFirstName:user_data[0]];
+        //[plist setLastName:user_data[1]];
+    }
+    //delete mate
+    else if(intResult > 0)
     {
         NSLog(@"Success");
         
@@ -347,7 +496,8 @@ NSMutableArray *genderArray;
             //unknown error
             [self showUnknownFailureDialog];
         }
-        
+        //stop the pull down to refresh in case of error
+        [self stopRefresh];
     }
     //error code was returned
     else

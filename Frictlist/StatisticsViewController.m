@@ -117,7 +117,6 @@ NSString * address = @"http://frictlist.flooreeda.com/scripts/";
     SqlHelper *sql = [SqlHelper alloc];
     BOOL success = [sql removeSqliteFile];
     
-    
     if(uid <= 0 && success)
     {
         //now signed out

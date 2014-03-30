@@ -358,7 +358,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="znp-dn-Af7" kind="relationship" relationship="rootViewController" id="o1p-gr-UF8"/>
+                        <segue destination="AVR-Qa-m1w" kind="relationship" relationship="rootViewController" id="FDr-mq-0dS"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ezj-H3-zpf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1233,53 +1233,42 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <point key="canvasLocation" x="2207" y="-2006"/>
         </scene>
         <!--Matelist View Controller - Matelist-->
-        <scene sceneID="5fr-4C-isZ">
+        <scene sceneID="BbV-VA-T0S">
             <objects>
-                <viewController id="znp-dn-Af7" customClass="MatelistViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="jJ3-vK-nxq">
+                <tableViewController id="AVR-Qa-m1w" customClass="MatelistViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="i5g-KX-nU7">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="UHE-3x-XvW">
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MateCell" id="DpK-Ht-xJy">
-                                        <rect key="frame" x="0.0" y="46" width="320" height="46"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="280" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <connections>
-                                            <segue destination="0H3-am-xjC" kind="push" identifier="showMateDetail" id="Oj3-rZ-NEm"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Bar-yJ-HAA">
+                                <rect key="frame" x="0.0" y="46" width="320" height="46"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="10" y="1" width="280" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
                                 <connections>
-                                    <outlet property="dataSource" destination="znp-dn-Af7" id="ntt-mD-2Yj"/>
-                                    <outlet property="delegate" destination="znp-dn-Af7" id="Ugn-xl-EEK"/>
+                                    <segue destination="0H3-am-xjC" kind="push" identifier="showMateDetail" id="FFg-5g-jqi"/>
                                 </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="UHE-3x-XvW" firstAttribute="leading" secondItem="jJ3-vK-nxq" secondAttribute="leading" type="default" id="68e-B3-nIE"/>
-                            <constraint firstItem="UHE-3x-XvW" firstAttribute="trailing" secondItem="jJ3-vK-nxq" secondAttribute="trailing" type="default" id="AuK-hc-eka"/>
-                            <constraint firstItem="UHE-3x-XvW" firstAttribute="bottom" secondItem="jJ3-vK-nxq" secondAttribute="bottom" type="default" id="Hy8-cL-gkH"/>
-                            <constraint firstItem="UHE-3x-XvW" firstAttribute="top" secondItem="jJ3-vK-nxq" secondAttribute="top" type="default" id="KXv-Zy-Pm7"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Matelist" id="qzr-NT-VFk">
-                        <barButtonItem key="backBarButtonItem" title="Matelist" id="ZzV-cH-qil"/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="AVR-Qa-m1w" id="lWx-Ah-QjG"/>
+                            <outlet property="delegate" destination="AVR-Qa-m1w" id="72q-KC-Prj"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Matelist" id="dpx-DA-Lbb">
+                        <barButtonItem key="backBarButtonItem" title="Matelist" id="PKY-Va-2L2"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="tableView" destination="UHE-3x-XvW" id="MyT-p9-ohF"/>
+                        <outlet property="tableView" destination="i5g-KX-nU7" id="VHR-CV-42y"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bS6-u4-5si" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2ZB-M8-hYw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1029" y="-1242"/>
+            <point key="canvasLocation" x="965" y="-1242"/>
         </scene>
     </scenes>
     <resources>
@@ -1350,7 +1339,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 <relationship kind="outlet" name="thirdScore" candidateClass="UILabel"/>
             </relationships>
         </class>
-        <class className="MatelistViewController" superclassName="UIViewController">
+        <class className="MatelistViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MatelistViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
