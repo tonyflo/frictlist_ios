@@ -177,12 +177,12 @@ NSString * dbName = @"frictlist.sqlite";
 }
 
 
-- (void)add_mate:(int)mate_id fn:(NSString *)fn ln:(NSString *)ln gender:(int)gender
+- (void)add_mate:(int)mate_id fn:(NSString *)fn ln:(NSString *)ln gender:(int)gender accepted:(int)accepted mates_uid:(int)mates_uid
 {
     NSString * path = [self getDbPath];
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
-        const char *sql = [[NSString stringWithFormat:@"INSERT INTO mate(mate_id, mate_first_name, mate_last_name, mate_gender) VALUES('%d', '%@', '%@', '%d')", mate_id, [self sanatize:fn], [self sanatize:ln], gender] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO mate(mate_id, mate_first_name, mate_last_name, mate_gender, accepted, request_uid) VALUES('%d', '%@', '%@', '%d', '%d', '%d')", mate_id, [self sanatize:fn], [self sanatize:ln], gender, accepted, mates_uid] UTF8String];
         sqlite3_stmt *updateStmt = nil;
         if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
         {

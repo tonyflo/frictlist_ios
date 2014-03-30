@@ -688,19 +688,20 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
             //split the row into columns
             NSArray *frict = [frictlist[i] componentsSeparatedByString:@"\t"];
 
-            if(frict.count == 9)
+            if(frict.count == 12)
             {
                 //check if mate has already been added to sqlite
                 if(![mateIds containsObject:frict[0]])
                 {
-                    [sql add_mate:[frict[0] intValue] fn:frict[1] ln:frict[2] gender:[frict[3] intValue] ];
+                    [sql add_mate:[frict[0] intValue] fn:frict[3] ln:frict[4] gender:[frict[5] intValue] accepted:[frict[1] intValue] mates_uid:[frict[2] intValue]];
                     [mateIds addObject:frict[0]];
                 }
 
                 //check for frict data
-                if(frict[4] != NULL && frict[4] != nil && ![frict[4] isEqual:@""])
+                if(frict[6] != NULL && frict[6] != nil && ![frict[6] isEqual:@""] && [frict[11] intValue] != 1)
                 {
-                    [sql add_frict:[frict[4] intValue] mate_id:[frict[0] intValue] from:frict[5] rating:[frict[6] intValue] base:[frict[7] intValue] notes:frict[8]];
+                    NSLog(@"FOUND FRICT DATA");
+                    [sql add_frict:[frict[6] intValue] mate_id:[frict[0] intValue] from:frict[7] rating:[frict[8] intValue] base:[frict[9] intValue] notes:frict[10]];
                 }
                 
             }

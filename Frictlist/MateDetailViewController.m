@@ -328,7 +328,7 @@ int gender;
         {
             //insert the data that has already been inserted on the remote database into the sqlite local db
             //[plist addMate:intResult first:firstNameText.text last:lastNameText.text gender:genderSwitch.selectedSegmentIndex]
-            [sql add_mate:intResult fn:firstNameText.text ln:lastNameText.text gender:genderSwitch.selectedSegmentIndex];
+            [sql add_mate:intResult fn:firstNameText.text ln:lastNameText.text gender:genderSwitch.selectedSegmentIndex accepted:0 mates_uid:0];
         }
 
         

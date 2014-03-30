@@ -29,15 +29,7 @@ NSMutableArray *firstNameArray;
 NSMutableArray *lastNameArray;
 NSMutableArray *genderArray;
 
-- (void)viewDidLoad
-{
-    NSLog(@"view did load");
-    [super viewDidLoad];
-    
-    self.title = @"Matelist";
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(addORDeleteRows)];
-    [self.navigationItem setRightBarButtonItem:addButton];
-}
+
 
 //send data from table view to detail view
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
