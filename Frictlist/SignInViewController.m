@@ -396,61 +396,6 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     return rc;
 }
 
-//get status of requests
--(BOOL) get_outgoing_status
-{
-    BOOL rc = true;
-    
-    PlistHelper *plist = [PlistHelper alloc];
-    int uid = [plist getPk];
-    
-    NSString *post = [NSString stringWithFormat:@"&uid=%d", uid];
-    
-    //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
-    
-    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    
-    //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
-    
-    //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    
-    //search for mate
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_outgoing_status.php", url]]];
-    
-    //Now, set HTTP method (POST or GET). Write this lines as it is in your code
-    [request setHTTPMethod:@"POST"];
-    
-    //Set HTTP header field with length of the post data.
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    
-    //Also set the Encoded value for HTTP header Field.
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
-    
-    //Set the HTTPBody of the urlrequest with postData.
-    [request setHTTPBody:postData];
-    
-    //4. Now, create URLConnection object. Initialize it with the URLRequest.
-    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
-    
-    //It returns the initialized url connection and begins to load the data for the url request. You can check that whether you URL connection is done properly or not using just if/else statement as below.
-    if(conn)
-    {
-        NSLog(@"Connection Successful");
-    }
-    else
-    {
-        NSLog(@"Connection could not be made");
-        rc = false;
-    }
-    
-    //5. To receive the data from the HTTP request , you can use the delegate methods provided by the URLConnection Class Reference. Delegate methods are as below
-    return rc;
-}
-
-
 //check old enough
 -(int) checkAgeLimit:(NSDate *)bday
 {
@@ -720,34 +665,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         [plist setFirstName:user_data[0]];
         [plist setLastName:user_data[1]];
         
-        //next, get the outgoing request statuses
-        [self get_outgoing_status];
-    }
-    //sync outgoing requests
-    else if([searchFlag isEqual:@"outgoing"])
-    {
-        //we have gotten data back from the server
-        NSArray *outgoing_status = [strResult componentsSeparatedByString:@"\n"];
-        SqlHelper *sql = [SqlHelper alloc];
-        
-        //for each row in the table
-        //start at 1 to skip over flag row
-        for(int i = 1; i < outgoing_status.count - 1; i++)
-        {
-            //split the row into columns
-            NSArray *mateMysql = [outgoing_status[i] componentsSeparatedByString:@"\t"];
-            
-            //make sure array is proper length
-            if(mateMysql.count == 3)
-            {
-                //update local sqlite3 db with status of outgoing requests for each mate
-                [sql update_mate_status:[mateMysql[0] intValue] accepted:[mateMysql[1] intValue] request:[mateMysql[2] intValue]];
-            }
-        }
-        
-        
-        //go back to settings view
-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+        //get outa here
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     //sign in success because we got the uid
