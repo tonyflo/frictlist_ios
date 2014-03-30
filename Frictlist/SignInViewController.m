@@ -103,12 +103,14 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         lastNameText.enabled = true;
         genderSwitch.enabled = true;
         birthdatePicker.enabled = true;
+        emailText.enabled = true;
         firstNameText.alpha = 1;
         lastNameText.alpha = 1;
         genderSwitch.alpha = 1;
         birthdatePicker.alpha = 1;
         birthdateLabel.alpha = 1;
         newAccountLabel.alpha = 1;
+        emailText.alpha = 1;
     }
     else
     {
@@ -119,12 +121,14 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         lastNameText.enabled = false;
         genderSwitch.enabled = false;
         birthdatePicker.enabled = false;
+        emailText.enabled = false;
         firstNameText.alpha = 0.5;
         lastNameText.alpha = 0.5;
         genderSwitch.alpha = 0.5;
         birthdatePicker.alpha = 0.5;
         birthdateLabel.alpha = 0.5;
         newAccountLabel.alpha = 0.5;
+        emailText.alpha = 0.5;
     }
 }
 
@@ -541,11 +545,11 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 }
 
 //user entered wrong credentials
-- (void)showEmailNotFoundDialog
+- (void)showUsernameNotFoundDialog
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"I Don't Recognize That Email Address"];
-    [alert setMessage:@"An unknown email address was entered. Please try again."];
+    [alert setTitle:@"I Don't Recognize That Username"];
+    [alert setMessage:@"An unknown username was entered. Please try again."];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
@@ -699,8 +703,8 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
             //sign in errors below until sign up errors
             if(intResult == -1)
             {
-                //email address was not found
-                [self showEmailNotFoundDialog];
+                //username was not found
+                [self showUsernameNotFoundDialog];
             }
             else if(intResult == -2)
             {

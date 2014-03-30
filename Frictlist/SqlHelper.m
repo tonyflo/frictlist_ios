@@ -429,6 +429,51 @@ NSString * dbName = @"frictlist.sqlite";
     return mate;
 }
 
+-(NSArray *) getOutgoingRequestStatus
+{
+    NSMutableArray * outgoing;
+    
+    NSString * path = [self getDbPath];
+    // Open the database. The database was prepared outside the application.
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
+    {
+        // Get the primary key for all books.
+        const char *sql = [[NSString stringWithFormat:@"select mate_id, accepted, request_uid from mate"] UTF8String];
+        sqlite3_stmt *statement;
+        // Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
+        // The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.
+        int result = sqlite3_prepare_v2(database, sql, -1, &statement, NULL);
+        if (result == SQLITE_OK)
+        {
+            // We "step" through the results - once for each row.
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                // The second parameter indicates the column index into the result set.
+                NSNumber *mid = [NSNumber numberWithInt:sqlite3_column_int(statement, 0)];
+                NSNumber *acc = [NSNumber numberWithInt:sqlite3_column_int(statement, 1)];
+                NSNumber *req = [NSNumber numberWithInt: sqlite3_column_int(statement, 2)];
+                
+                outgoing = [[NSMutableArray alloc] initWithObjects:mid, acc, req, nil];
+            }
+        }
+        else
+        {
+            NSLog(@"Prepare$ error #%i: %s", result, sqlite3_errmsg(database));
+        }
+        // "Finalize" the statement - releases the resources associated with the statement.
+        sqlite3_finalize(statement);
+    }
+    else
+    {
+        // Even though the open failed, call close to properly clean up resources.
+        sqlite3_close(database);
+        NSAssert1(0, @"Failed to open database with message '%s'.", sqlite3_errmsg(database));
+    }
+    
+    return outgoing;
+
+}
+
 - (NSString *) sanatize:(NSString*)input
 {
     return [[input stringByReplacingOccurrencesOfString:@"'" withString:@"\'"] stringByReplacingOccurrencesOfString:@"'" withString:@"\""];

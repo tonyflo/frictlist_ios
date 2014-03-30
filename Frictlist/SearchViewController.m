@@ -24,7 +24,9 @@ NSString * frict_scripts_url_str = @"http://frictlist.flooreeda.com/scripts/";
 NSMutableArray * userIdArray;
 NSMutableArray * usernameArray;
 NSMutableArray * userBdayArray;
+NSMutableArray * userAlreadyRequestedArray;
 int selectedMateIndex = -1;
+NSString * sentTo = @"the recipient";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -62,6 +64,7 @@ int selectedMateIndex = -1;
     userIdArray = [[NSMutableArray alloc] init];
     usernameArray = [[NSMutableArray alloc] init];
     userBdayArray = [[NSMutableArray alloc] init];
+    userAlreadyRequestedArray = [[NSMutableArray alloc] init];
     
     SqlHelper *sql = [SqlHelper alloc];
     NSArray * mate_data = [sql get_mate:self.mate_id];
@@ -76,10 +79,13 @@ int selectedMateIndex = -1;
     
     [self showSearchingDialog];
     
+    PlistHelper *plist = [PlistHelper alloc];
+    int uid = [plist getPk];
+    
     SqlHelper *sql = [SqlHelper alloc];
     NSArray * mate_data = [sql get_mate:self.mate_id];
     
-    rc = [self search_mate:mate_data[0] lastname:mate_data[1] gender:[mate_data[2] intValue]];
+    rc = [self search_mate:uid firstname:mate_data[0] lastname:mate_data[1] gender:[mate_data[2] intValue]];
         
     //take action if something went wrong
     if(!rc)
@@ -91,11 +97,11 @@ int selectedMateIndex = -1;
 }
 
 //search for mate
--(BOOL) search_mate:(NSString *) firstname lastname:(NSString *)lastname gender:(int)gender
+-(BOOL) search_mate:(int)uid firstname:(NSString *) firstname lastname:(NSString *)lastname gender:(int)gender
 {
     BOOL rc = true;
     
-    NSString *post = [NSString stringWithFormat:@"&firstname=%@&lastname=%@&gender=%d", firstname, lastname, gender];
+    NSString *post = [NSString stringWithFormat:@"&uid=%d&firstname=%@&lastname=%@&gender=%d", uid, firstname, lastname, gender];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
@@ -260,13 +266,12 @@ int selectedMateIndex = -1;
             NSArray *user = [user_list[i] componentsSeparatedByString:@"\t"];
             
             //make sure array is proper length
-            if(user.count == 3)
+            if(user.count == 4)
             {
                 [userIdArray addObject: user[0]];
                 [usernameArray addObject:user[1]];
                 [userBdayArray addObject:user[2]];
-                
-                
+                [userAlreadyRequestedArray addObject:user[3]];
             }
         }
         
@@ -296,6 +301,7 @@ int selectedMateIndex = -1;
     else if(intResult > 0)
     {
         NSLog(@"request sent");
+        [self showRequestSentConfirmation: sentTo];
     }
     //error code was returned
     else
@@ -387,6 +393,15 @@ int selectedMateIndex = -1;
     //set cell text
     cell.textLabel.text = [NSString stringWithFormat:@"%@ Age: %d", un, age];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    if(![userAlreadyRequestedArray[i] isEqual:@""])
+    {
+        //this request has already been made so disable this row
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.alpha = 0.5;
+        cell.textLabel.enabled = NO;
+        cell.userInteractionEnabled = NO;
+    }
     return cell;
 }
 
@@ -453,7 +468,8 @@ int selectedMateIndex = -1;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     selectedMateIndex = indexPath.row;
-    [self showRequestConfirmationDialog:usernameArray[selectedMateIndex]];
+    sentTo=usernameArray[selectedMateIndex];
+    [self showRequestConfirmationDialog:sentTo];
 }
 
 //the field is too long
@@ -466,6 +482,18 @@ int selectedMateIndex = -1;
     [alert addButtonWithTitle:@"Yes"];
     [alert addButtonWithTitle:@"No"];
     [alert setTag:1];
+    [alert show];
+}
+
+//the field is too long
+-(void) showRequestSentConfirmation:(NSString *)username
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"Your Request Has Been Sent!"];
+    [alert setMessage:[NSString stringWithFormat:@"Your request to %@ was successfully sent.", username]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert setTag:2];
     [alert show];
 }
 
@@ -485,6 +513,11 @@ int selectedMateIndex = -1;
             //Cancel, dismiss
             [self dismissViewControllerAnimated:YES completion:nil];
         }
+    }
+    else if(alertView.tag == 2)
+    {
+        //request has been sent
+        [self.navigationController popViewControllerAnimated:YES];;
     }
 }
 

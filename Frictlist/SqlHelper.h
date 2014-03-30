@@ -24,4 +24,6 @@
 - (void)update_mate:(int)mate_id fn:(NSString *)fn ln:(NSString *)ln gender:(int)gender;
 - (void)update_frict:(int)frict_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes;
 
+-(NSArray *) getOutgoingRequestStatus;
+
 @end
