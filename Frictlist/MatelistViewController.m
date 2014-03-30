@@ -31,7 +31,12 @@ NSMutableArray *genderArray;
 NSMutableArray *acceptedArray;
 NSMutableArray *mate_uidArray;
 
-NSMutableArray *incommingRequestUidsArray;
+NSMutableArray *incommingRequestIdArray;
+NSMutableArray *incommingStatusdArray;
+NSMutableArray *imcommingFirstNameArray;
+NSMutableArray *imcommingLastNameArray;
+NSMutableArray *imcommingGenderArray;
+
 NSMutableArray *acceptedUidsArray;
 NSMutableArray *rejectedUidsArray;
 
@@ -57,7 +62,7 @@ NSMutableArray *rejectedUidsArray;
     [self.refreshControl endRefreshing];
     [tableView reloadData];
     canRefresh = true;
-    NSLog(@"Done refresh muid = %@", mate_uidArray);
+    NSLog(@"Done refres");
 }
 
 -(void)updateMateList
@@ -81,6 +86,12 @@ NSMutableArray *rejectedUidsArray;
             genderArray = [[NSMutableArray alloc] init];
             acceptedArray = [[NSMutableArray alloc] init];
             mate_uidArray = [[NSMutableArray alloc] init];
+            
+            incommingRequestIdArray = [[NSMutableArray alloc] init];
+            incommingStatusdArray = [[NSMutableArray alloc] init];
+            imcommingFirstNameArray = [[NSMutableArray alloc] init];
+            imcommingLastNameArray = [[NSMutableArray alloc] init];
+            imcommingGenderArray = [[NSMutableArray alloc] init];
         
             [self get_frictlist:[plist getPk]];
         }
@@ -139,8 +150,15 @@ NSMutableArray *rejectedUidsArray;
     acceptedArray = mates[4];
     mate_uidArray = mates[5];
     
-    incommingRequestUidsArray = [[NSMutableArray alloc] init];
-
+    //get notifications from sqlite3
+    NSArray * notifs = [sql get_notifications_list];
+    incommingRequestIdArray = notifs[0];
+    incommingStatusdArray = notifs[1];
+    imcommingFirstNameArray = notifs[2];
+    imcommingLastNameArray = notifs[3];
+    imcommingGenderArray = notifs[4];
+    
+    
     [self.tableView reloadData];
     [super viewWillAppear:animated];
     
@@ -158,7 +176,11 @@ NSMutableArray *rejectedUidsArray;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self performSegueWithIdentifier:@"showMateDetail" sender:indexPath];
+    switch ([indexPath section]) {
+        case 0:
+            [self performSegueWithIdentifier:@"showMateDetail" sender:indexPath];
+            break;
+    }
 }
 
 - (void)addORDeleteRows
@@ -187,7 +209,7 @@ NSMutableArray *rejectedUidsArray;
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 4; //personal, pending, accepted, rejected
 }
 
 //count rows
@@ -206,7 +228,7 @@ NSMutableArray *rejectedUidsArray;
             break;
         case 1:
             //incomming notifications
-            count = incommingRequestUidsArray.count;
+            count = incommingRequestIdArray.count;
             break;
         case 2:
             count = acceptedUidsArray.count;
@@ -223,7 +245,7 @@ NSMutableArray *rejectedUidsArray;
     if(section == 0)
         return [NSString stringWithFormat:@"Personal (%d)", huidArray.count];
     else if (section == 1)
-        return [NSString stringWithFormat:@"Notifications (%d)", incommingRequestUidsArray.count];
+        return [NSString stringWithFormat:@"Pending (%d)", incommingRequestIdArray.count];
     else if (section == 2)
         return [NSString stringWithFormat:@"Accepted (%d)", acceptedUidsArray.count];
     else
@@ -263,7 +285,7 @@ NSMutableArray *rejectedUidsArray;
     int count;
     switch ([indexPath section]) {
         case 0:
-            //matelist
+            //personal
             count = 0;
             if(self.editing && indexPath.row != 0)
                 count = 1;
@@ -310,7 +332,27 @@ NSMutableArray *rejectedUidsArray;
                     cell.accessoryView = NULL;
                 }
             }
-
+            break;
+        case 1:
+            //notifications
+   
+            if(imcommingFirstNameArray.count > indexPath.row)
+            {
+                int i = indexPath.row;
+                
+                NSString *name = [NSString stringWithFormat:@"%@ %@", imcommingFirstNameArray[i], imcommingLastNameArray[i]];
+                
+                //set text color
+                cell.textLabel.textColor = [UIColor greenColor];
+                
+                //set cell icon
+                NSString *gender = [NSString stringWithFormat:@"gender_%d.png", [imcommingGenderArray[i] intValue]];
+                cell.imageView.image = [UIImage imageNamed:gender];
+                
+                //set cell text
+                cell.textLabel.text = name;
+                cell.accessoryView = NULL;
+                            }
             break;
         default:
             break;
@@ -319,17 +361,31 @@ NSMutableArray *rejectedUidsArray;
     return cell;
 }
 
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch ([indexPath section]) {
+        case 0:
+            return true;
+            break;
+    }
+    return false;
+}
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.editing == NO || !indexPath)
-        return UITableViewCellEditingStyleNone;
-    
-    if (self.editing && indexPath.row == ([huidArray count]))
-        return UITableViewCellEditingStyleInsert;
-    else
-        return UITableViewCellEditingStyleDelete;
-    
+    switch ([indexPath section]) {
+        case 0:
+            if (self.editing == NO || !indexPath)
+                return UITableViewCellEditingStyleNone;
+            
+            if (self.editing && indexPath.row == ([huidArray count]))
+                return UITableViewCellEditingStyleInsert;
+            else
+                return UITableViewCellEditingStyleDelete;
+            break;
+            
+    }
+
     return UITableViewCellEditingStyleNone;
 }
 
@@ -340,32 +396,36 @@ NSMutableArray *rejectedUidsArray;
 
 - (void)tableView:(UITableView *)tableV commitEditingStyle:(UITableViewCellEditingStyle) editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
-        [self showRemovingMateDialog];
-        
-        //get row
-        curRow = indexPath.row;
-        
-        //get mate_id
-        int mate_id = [[huidArray objectAtIndex:curRow] intValue];
-        
-        //remove mate from mysql db
-        [self remove_mate:mate_id];
-        
-    }
-    else if (editingStyle == UITableViewCellEditingStyleInsert)
-    {
-        //go to detail view to add mate
-        [huidArray insertObject:@"New mate" atIndex:[huidArray count]];
-        //[tableV reloadData];;
-        sentFromAdd = true;
-        [self performSegueWithIdentifier:@"showMateDetail" sender:indexPath];
-        sentFromAdd = false;
+    switch ([indexPath section]) {
+        case 0:
+            if (editingStyle == UITableViewCellEditingStyleDelete)
+            {
+                [self showRemovingMateDialog];
+                
+                //get row
+                curRow = indexPath.row;
+                
+                //get mate_id
+                int mate_id = [[huidArray objectAtIndex:curRow] intValue];
+                
+                //remove mate from mysql db
+                [self remove_mate:mate_id];
+                
+            }
+            else if (editingStyle == UITableViewCellEditingStyleInsert)
+            {
+                //go to detail view to add mate
+                [huidArray insertObject:@"New mate" atIndex:[huidArray count]];
+                //[tableV reloadData];;
+                sentFromAdd = true;
+                [self performSegueWithIdentifier:@"showMateDetail" sender:indexPath];
+                sentFromAdd = false;
+            }
+
+            break;
     }
 }
 
-//todo?
 //remove mate
 -(BOOL) remove_mate:(int)mate_id
 {
@@ -416,7 +476,7 @@ NSMutableArray *rejectedUidsArray;
     return rc;
 }
 
-//sign in logic
+//get frictlist
 -(BOOL) get_frictlist:(int) uid
 {
     BOOL rc = true;
@@ -435,6 +495,56 @@ NSMutableArray *rejectedUidsArray;
     
     //Set the Url for which your going to send the data to that request.
     [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_frictlist.php", scripts_url]]];
+    
+    //Now, set HTTP method (POST or GET). Write this lines as it is in your code
+    [request setHTTPMethod:@"POST"];
+    
+    //Set HTTP header field with length of the post data.
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    //Also set the Encoded value for HTTP header Field.
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+    
+    //Set the HTTPBody of the urlrequest with postData.
+    [request setHTTPBody:postData];
+    
+    //4. Now, create URLConnection object. Initialize it with the URLRequest.
+    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    //It returns the initialized url connection and begins to load the data for the url request. You can check that whether you URL connection is done properly or not using just if/else statement as below.
+    if(conn)
+    {
+        NSLog(@"Connection Successful");
+    }
+    else
+    {
+        NSLog(@"Connection could not be made");
+        rc = false;
+    }
+    
+    //5. To receive the data from the HTTP request , you can use the delegate methods provided by the URLConnection Class Reference. Delegate methods are as below
+    return rc;
+}
+
+//get notifications
+-(BOOL) get_notifications:(int) uid
+{
+    BOOL rc = true;
+    
+    NSString *post = [NSString stringWithFormat:@"&uid=%d",uid];
+    
+    //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    //You need to send the actual length of your data. Calculate the length of the post string.
+    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    
+    //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //Set the Url for which your going to send the data to that request.
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_notifications.php", scripts_url]]];
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];
@@ -533,8 +643,8 @@ NSMutableArray *rejectedUidsArray;
     NSInteger intResult = [strResult integerValue];
     
     NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
-    NSArray *frictlist = [strResult componentsSeparatedByString:@"\n"];
-    NSString *searchFlag = frictlist[0];
+    NSArray *query_result = [strResult componentsSeparatedByString:@"\n"];
+    NSString *searchFlag = query_result[0];
     
     if([searchFlag isEqual:@"frictlist"])
     {
@@ -546,10 +656,10 @@ NSMutableArray *rejectedUidsArray;
         
         //for each row in the frictlist table
         //start at 2 to skip over frictlist line and user data array
-        for(int i = 2; i < frictlist.count - 1; i++)
+        for(int i = 2; i < query_result.count - 1; i++)
         {
             //split the row into columns
-            NSArray *frict = [frictlist[i] componentsSeparatedByString:@"\t"];
+            NSArray *frict = [query_result[i] componentsSeparatedByString:@"\t"];
             
             if(frict.count == 12)
             {
@@ -576,8 +686,9 @@ NSMutableArray *rejectedUidsArray;
             }
         }
         
-        //stop animating
-        [self stopRefresh];
+        //now, get notifications
+        PlistHelper *plist = [PlistHelper alloc];
+        [self get_notifications:[plist getPk]];
         
         //get user data
         //NSArray *user_data = [frictlist[1] componentsSeparatedByString:@"\t"];
@@ -591,6 +702,39 @@ NSMutableArray *rejectedUidsArray;
         //set user's first and last name
         //[plist setFirstName:user_data[0]];
         //[plist setLastName:user_data[1]];
+    }
+    //notifications
+    else if([searchFlag isEqual:@"notifications"])
+    {
+        //we have received the frictlist because the user has just signed in. now loop over it and save it to the sqlite db
+        SqlHelper *sql = [SqlHelper alloc];
+        
+        //store the mate_ids to avoid adding the same mate more than once
+        //NSMutableArray *mateIds = [[NSMutableArray alloc] init];
+        
+        //for each row in the notification table
+        //start at 1 to skip over notification flag line
+        for(int i = 1; i < query_result.count - 1; i++)
+        {
+            //split the row into columns
+            NSArray *notification = [query_result[i] componentsSeparatedByString:@"\t"];
+            
+            if(notification.count == 8)
+            {
+                //todo fix
+                //insert into sqlite
+                [sql add_notification:[notification[0] intValue] mate_id:[notification[1] intValue] status:[notification[2] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                [incommingRequestIdArray addObject:notification[0]];
+                [incommingStatusdArray addObject:notification[2]];
+                [imcommingFirstNameArray addObject:notification[3]];
+                [imcommingLastNameArray addObject:notification[4]];
+                [imcommingGenderArray addObject:notification[6]];
+            }
+        }
+        
+        //stop animating
+        [self stopRefresh];
+
     }
     //delete mate
     else if(intResult > 0)
@@ -646,6 +790,7 @@ NSMutableArray *rejectedUidsArray;
 //This method , you can use to receive the error report in case of connection is not made to server.
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    [self stopRefresh];
     [alertView dismissWithClickedButtonIndex:0 animated:YES];
     NSLog(@"Did fail with error");
     NSLog(@"%@", error);

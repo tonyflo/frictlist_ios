@@ -346,7 +346,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     return rc;
 }
 
-//sign in logic
+//get frictlist
 -(BOOL) get_frictlist:(int) uid
 {
     BOOL rc = true;
@@ -366,6 +366,56 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     //Set the Url for which your going to send the data to that request.
     [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_frictlist.php", url]]];
   
+    //Now, set HTTP method (POST or GET). Write this lines as it is in your code
+    [request setHTTPMethod:@"POST"];
+    
+    //Set HTTP header field with length of the post data.
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    //Also set the Encoded value for HTTP header Field.
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+    
+    //Set the HTTPBody of the urlrequest with postData.
+    [request setHTTPBody:postData];
+    
+    //4. Now, create URLConnection object. Initialize it with the URLRequest.
+    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    //It returns the initialized url connection and begins to load the data for the url request. You can check that whether you URL connection is done properly or not using just if/else statement as below.
+    if(conn)
+    {
+        NSLog(@"Connection Successful");
+    }
+    else
+    {
+        NSLog(@"Connection could not be made");
+        rc = false;
+    }
+    
+    //5. To receive the data from the HTTP request , you can use the delegate methods provided by the URLConnection Class Reference. Delegate methods are as below
+    return rc;
+}
+
+//get notifications
+-(BOOL) get_notifications:(int) uid
+{
+    BOOL rc = true;
+    
+    NSString *post = [NSString stringWithFormat:@"&uid=%d",uid];
+    
+    //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    //You need to send the actual length of your data. Calculate the length of the post string.
+    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    
+    //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //Set the Url for which your going to send the data to that request.
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_notifications.php", url]]];
+    
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];
     
@@ -615,8 +665,8 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     NSInteger intResult = [strResult integerValue];
     
     NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
-    NSArray *frictlist = [strResult componentsSeparatedByString:@"\n"];
-    NSString *searchFlag = frictlist[0];
+    NSArray *query_result = [strResult componentsSeparatedByString:@"\n"];
+    NSString *searchFlag = query_result[0];
     
     if([searchFlag isEqual:@"frictlist"])
     {
@@ -628,10 +678,10 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         
         //for each row in the frictlist table
         //start at 2 to skip over frictlist line and user data array
-        for(int i = 2; i < frictlist.count - 1; i++)
+        for(int i = 2; i < query_result.count - 1; i++)
         {
             //split the row into columns
-            NSArray *frict = [frictlist[i] componentsSeparatedByString:@"\t"];
+            NSArray *frict = [query_result[i] componentsSeparatedByString:@"\t"];
 
             if(frict.count == 12)
             {
@@ -653,7 +703,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         }
         
         //get user data
-        NSArray *user_data = [frictlist[1] componentsSeparatedByString:@"\t"];
+        NSArray *user_data = [query_result[1] componentsSeparatedByString:@"\t"];
         PlistHelper *plist = [PlistHelper alloc];
         
         //set users birthday
@@ -664,6 +714,33 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         //set user's first and last name
         [plist setFirstName:user_data[0]];
         [plist setLastName:user_data[1]];
+        
+        //now, get notifications
+        [self get_notifications:[plist getPk]];
+    }
+    //notifications
+    else if([searchFlag isEqual:@"notifications"])
+    {
+        //we have received the frictlist because the user has just signed in. now loop over it and save it to the sqlite db
+        SqlHelper *sql = [SqlHelper alloc];
+        
+        //store the mate_ids to avoid adding the same mate more than once
+        //NSMutableArray *mateIds = [[NSMutableArray alloc] init];
+        
+        //for each row in the notification table
+        //start at 1 to skip over notification flag line
+        for(int i = 1; i < query_result.count - 1; i++)
+        {
+            //split the row into columns
+            NSArray *notification = [query_result[i] componentsSeparatedByString:@"\t"];
+            
+            if(notification.count == 8)
+            {
+                //todo fix
+                //insert into sqlite
+                [sql add_notification:[notification[0] intValue] mate_id:[notification[1] intValue] status:[notification[2] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+            }
+        }
         
         //get outa here
         [self dismissViewControllerAnimated:YES completion:nil];
