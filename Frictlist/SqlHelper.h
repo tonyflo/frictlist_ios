@@ -25,5 +25,6 @@
 - (void)update_frict:(int)frict_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes;
 
 -(NSArray *) getOutgoingRequestStatus;
+- (void)update_mate_status:(int)mate_id accepted:(int)accepted request:(int)request;
 
 @end

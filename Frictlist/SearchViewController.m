@@ -301,6 +301,11 @@ NSString * sentTo = @"the recipient";
     else if(intResult > 0)
     {
         NSLog(@"request sent");
+        
+        //save request status to sqlite
+        SqlHelper *sql = [SqlHelper alloc];
+        [sql update_mate_status:self.mate_id accepted:0 request:[userIdArray[selectedMateIndex] intValue]];
+        
         [self showRequestSentConfirmation: sentTo];
     }
     //error code was returned
@@ -309,7 +314,7 @@ NSString * sentTo = @"the recipient";
         //known error codes
         if(intResult == -100 || //id was null or not positive
            intResult == -101 || //id doesn't exist or isn't unique
-           intResult == -101) //request insert wasn't successful
+           intResult == -110) //request insert wasn't successful
         {
             [self showErrorCodeDialog:intResult];
         }

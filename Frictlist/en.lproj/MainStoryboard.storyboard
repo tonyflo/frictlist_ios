@@ -375,10 +375,10 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dyo-D0-W78">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="134" id="JhC-me-IRs"/>
+                                    <constraint firstAttribute="width" constant="80" id="Ngd-OQ-n7y"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Email Developer">
+                                <state key="normal" title="Email Me">
                                     <color key="titleColor" red="0.12941176469999999" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <state key="highlighted">
@@ -390,7 +390,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lLr-1a-jed">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="134" id="Zkx-qF-Mxb"/>
+                                    <constraint firstAttribute="width" constant="80" id="Q68-ca-92B"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Sign In">
@@ -513,23 +513,39 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6y-tK-lcL">
                                 <constraints>
+                                    <constraint firstAttribute="width" constant="286" id="D2p-j8-PJo"/>
                                     <constraint firstAttribute="height" constant="21" id="dee-A4-GZc"/>
-                                    <constraint firstAttribute="width" constant="286" id="jiJ-8l-t4Q"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="byh-Ag-9ss">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="1Vn-ZQ-cqx"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="0">
+                                    <color key="titleColor" red="0.12941176469999999" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="checkNotificationsPress:" destination="06D-fv-xo0" eventType="touchUpInside" id="WeS-nv-9iE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="HZh-D9-FVI" firstAttribute="baseline" secondItem="Md5-EG-Jpn" secondAttribute="baseline" type="default" id="2X7-wZ-hGu"/>
-                            <constraint firstItem="VdG-LC-4aH" firstAttribute="centerX" secondItem="lLr-1a-jed" secondAttribute="centerX" type="default" id="3JF-Fi-vbA"/>
                             <constraint firstItem="I61-u6-jba" firstAttribute="centerX" secondItem="v6y-tK-lcL" secondAttribute="centerX" type="default" id="7IW-aV-Q1p"/>
                             <constraint firstItem="kWr-mA-7TN" firstAttribute="trailing" secondItem="KOy-az-AzE" secondAttribute="trailing" type="default" id="83z-EN-O81"/>
                             <constraint firstItem="VdG-LC-4aH" firstAttribute="top" secondItem="EBQ-tp-o3h" secondAttribute="top" type="default" id="8ki-hf-tFv"/>
                             <constraint firstItem="vrf-eg-cUd" firstAttribute="top" secondItem="KOy-az-AzE" secondAttribute="top" constant="49" id="9da-pU-Hhu"/>
                             <constraint firstItem="96x-5Z-nZt" firstAttribute="top" secondItem="KOy-az-AzE" secondAttribute="top" constant="31" id="A9B-HK-MN4"/>
+                            <constraint firstAttribute="bottom" secondItem="byh-Ag-9ss" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="DNs-g0-eGs"/>
                             <constraint firstAttribute="bottom" secondItem="Dyo-D0-W78" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="Eaf-fP-OoD"/>
                             <constraint firstItem="3VM-a7-xbR" firstAttribute="trailing" secondItem="Md5-EG-Jpn" secondAttribute="trailing" type="default" id="F2d-s5-mdH"/>
                             <constraint firstItem="HBw-WV-5Pw" firstAttribute="leading" secondItem="vrf-eg-cUd" secondAttribute="leading" type="default" id="FEn-d6-sa7"/>
@@ -537,6 +553,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             <constraint firstItem="3VM-a7-xbR" firstAttribute="leading" secondItem="KOy-az-AzE" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Gja-1C-txz"/>
                             <constraint firstItem="WAI-Pa-Vv1" firstAttribute="centerX" secondItem="96x-5Z-nZt" secondAttribute="centerX" type="default" id="Mxb-QG-g1a"/>
                             <constraint firstItem="bl7-FO-0e5" firstAttribute="leading" secondItem="lF9-lU-msM" secondAttribute="leading" type="default" id="NEe-8o-GoI"/>
+                            <constraint firstItem="VdG-LC-4aH" firstAttribute="leading" secondItem="KOy-az-AzE" secondAttribute="leading" constant="57" id="NPY-Sy-FJR"/>
                             <constraint firstAttribute="trailing" secondItem="lF9-lU-msM" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="R3g-fm-HFZ"/>
                             <constraint firstAttribute="bottom" secondItem="lLr-1a-jed" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="Tfa-4U-hr1"/>
                             <constraint firstAttribute="trailing" secondItem="v6y-tK-lcL" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="VYM-Z1-HEe"/>
@@ -560,6 +577,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             <constraint firstItem="3VM-a7-xbR" firstAttribute="top" secondItem="Md5-EG-Jpn" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="qHf-aG-LK0"/>
                             <constraint firstItem="kWr-mA-7TN" firstAttribute="top" secondItem="3VM-a7-xbR" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="rh6-D1-Iz3"/>
                             <constraint firstItem="vrf-eg-cUd" firstAttribute="leading" secondItem="KOy-az-AzE" secondAttribute="leading" constant="98" id="sHx-vn-h94"/>
+                            <constraint firstItem="byh-Ag-9ss" firstAttribute="centerX" secondItem="I61-u6-jba" secondAttribute="centerX" type="default" id="tTS-sC-mxs"/>
                             <constraint firstItem="I61-u6-jba" firstAttribute="top" secondItem="KOy-az-AzE" secondAttribute="top" constant="157" id="uMW-pU-hyZ"/>
                             <constraint firstItem="Md5-EG-Jpn" firstAttribute="trailing" secondItem="LKX-a1-ftJ" secondAttribute="trailing" type="default" id="ujo-20-Fao"/>
                             <constraint firstAttribute="trailing" secondItem="HZh-D9-FVI" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="xLi-c3-zMO"/>
@@ -568,6 +586,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="WlC-Jn-F4k"/>
                     <connections>
+                        <outlet property="checkNotificationButton" destination="byh-Ag-9ss" id="hiJ-v9-zUA"/>
                         <outlet property="emailButton" destination="Dyo-D0-W78" id="eHZ-Id-7LM"/>
                         <outlet property="emailLabel" destination="kWr-mA-7TN" id="rum-E5-XMq"/>
                         <outlet property="firstCount" destination="EBQ-tp-o3h" id="FPI-Yi-EhQ"/>
@@ -1017,6 +1036,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <outlet property="frictScore" destination="I0g-vd-LcV" id="1pZ-Wo-fVN"/>
                         <outlet property="homeCount" destination="PEN-R8-K3f" id="ZHN-Q5-QdQ"/>
                         <outlet property="homeScore" destination="He1-eI-crI" id="eIV-zM-D9o"/>
+                        <outlet property="searchButton" destination="ISr-Fo-h31" id="YVJ-Yt-fZ5"/>
                         <outlet property="secondCount" destination="qsW-Wt-0Pq" id="J6m-QI-kra"/>
                         <outlet property="secondScore" destination="pIV-nO-lxd" id="HTz-Nf-P8k"/>
                         <outlet property="thirdCount" destination="KCe-cJ-NXv" id="9FD-ZF-BIe"/>
@@ -1323,6 +1343,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 <relationship kind="outlet" name="frictScore" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="homeCount" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="homeScore" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="secondCount" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="secondScore" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="thirdCount" candidateClass="UILabel"/>
@@ -1375,7 +1396,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <class className="StatisticsViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StatisticsViewController.h"/>
             <relationships>
+                <relationship kind="action" name="checkNotificationsPress:"/>
                 <relationship kind="action" name="emailButtonPress:"/>
+                <relationship kind="outlet" name="checkNotificationButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="emailButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="emailLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="firstCount" candidateClass="UILabel"/>

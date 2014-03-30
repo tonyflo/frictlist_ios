@@ -21,7 +21,7 @@
 //bad globals
 static int uid = -1; //uid (pk) of an user that's not signed in
 UIAlertView *alertView;
-NSString * address = @"http://ivisited.flooreeda.com/scripts/";
+NSString * address = @"http://frictlist.flooreeda.com/scripts/";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -401,6 +401,197 @@ NSString * address = @"http://ivisited.flooreeda.com/scripts/";
 {
     //Add an alert in case of failure
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(IBAction)checkNotificationsPress:(id)sender
+{
+    [self get_outgoing_status];
+}
+
+//get status of requests
+-(BOOL) get_outgoing_status
+{
+    BOOL rc = true;
+    
+    PlistHelper *plist = [PlistHelper alloc];
+    int uid = [plist getPk];
+    
+    NSString *post = [NSString stringWithFormat:@"&uid=%d", uid];
+    
+    //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    //You need to send the actual length of your data. Calculate the length of the post string.
+    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    
+    //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    
+    //search for mate
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_outgoing_status.php", address]]];
+    
+    //Now, set HTTP method (POST or GET). Write this lines as it is in your code
+    [request setHTTPMethod:@"POST"];
+    
+    //Set HTTP header field with length of the post data.
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    //Also set the Encoded value for HTTP header Field.
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+    
+    //Set the HTTPBody of the urlrequest with postData.
+    [request setHTTPBody:postData];
+    
+    //4. Now, create URLConnection object. Initialize it with the URLRequest.
+    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    //It returns the initialized url connection and begins to load the data for the url request. You can check that whether you URL connection is done properly or not using just if/else statement as below.
+    if(conn)
+    {
+        NSLog(@"Connection Successful");
+    }
+    else
+    {
+        NSLog(@"Connection could not be made");
+        rc = false;
+    }
+    
+    //5. To receive the data from the HTTP request , you can use the delegate methods provided by the URLConnection Class Reference. Delegate methods are as below
+    return rc;
+}
+
+//something went wrong, but we have an error code to report
+- (void)showErrorCodeDialog:(int)errorCode
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:[NSString stringWithFormat:@"Error Code %d", errorCode]];
+    [alert setMessage:[NSString stringWithFormat:@"Sorry about this. Things to try:\n %C Check your internet connection\n %C Check your credentials\nIf the problem persists, email the developer and mention the %d error code.", (unichar) 0x2022, (unichar) 0x2022, errorCode]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+    
+    NSArray *subViewArray = alert.subviews;
+    for(int x = 0; x < [subViewArray count]; x++){
+        
+        //If the current subview is a UILabel...
+        if([[[subViewArray objectAtIndex:x] class] isSubclassOfClass:[UILabel class]]) {
+            UILabel *label = [subViewArray objectAtIndex:x];
+            label.textAlignment = NSTextAlignmentLeft;
+        }
+    }
+}
+
+//unknown failure
+- (void)showUnknownFailureDialog
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"Dagnabbit!"];
+    [alert setMessage:[NSString stringWithFormat:@"Something went wrong. Sorry about this. Things to try:\n %C Check your internet connection\n %C Check your credentials\nIf the problem persists, email the developer.", (unichar) 0x2022, (unichar) 0x2022]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+    
+    NSArray *subViewArray = alert.subviews;
+    for(int x = 0; x < [subViewArray count]; x++){
+        
+        //If the current subview is a UILabel...
+        if([[[subViewArray objectAtIndex:x] class] isSubclassOfClass:[UILabel class]]) {
+            UILabel *label = [subViewArray objectAtIndex:x];
+            label.textAlignment = NSTextAlignmentLeft;
+        }
+    }
+}
+
+//Below method is used to receive the data which we get using post method.
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData*)rsp
+{
+    // to receive the returend value
+    NSString *strResult = [[NSString alloc] initWithData:rsp encoding:NSUTF8StringEncoding];
+    
+    NSInteger intResult = [strResult integerValue];
+    
+    NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
+    NSArray *outgoing_status = [strResult componentsSeparatedByString:@"\n"];
+    NSString *searchFlag = outgoing_status[0];
+    NSMutableArray * notifications = [[NSMutableArray alloc] init];
+    SqlHelper *sql = [SqlHelper alloc];
+    NSArray * localStatus = [sql getOutgoingRequestStatus];
+    //NSLog(@"compare sqlite3: %d mysql: %d", ((NSArray *)localStatus[0]).count, outgoing_status.count);
+    NSLog(@"sqlite3: %@", localStatus);
+    
+    if([searchFlag isEqual:@"outgoing"])
+    {
+        //we have gotten data back from the server
+        
+        //for each row in the table
+        //start at 1 to skip over flag row
+        for(int i = 1; i < outgoing_status.count - 1; i++)
+        {
+            //split the row into columns
+            NSArray *mateMysql = [outgoing_status[i] componentsSeparatedByString:@"\t"];
+            
+            //make sure array is proper length
+            if(mateMysql.count == 3)
+            {
+                //todo
+                //compare to and update data in sqlite db
+                NSLog(@"%@\t%@\t%@", localStatus[0][i-1], localStatus[1][i-1], localStatus[2][i-1]);
+                NSLog(@"%@\t%@\t%@", mateMysql[0], mateMysql[1], mateMysql[2]);
+                NSLog(@"---");
+            }
+        }
+        
+        
+        //go back to settings view
+        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+        //[self dismissViewControllerAnimated:YES completion:nil];
+        //[self.navigationController popViewControllerAnimated:YES];
+        //[self.navigationController popToRootViewControllerAnimated:YES];
+        //[self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+    //error code was returned
+    else
+    {
+        //known error codes
+        if(intResult == -100 || //id was null or not positive
+           intResult == -101) //request insert wasn't successful
+        {
+            [self showErrorCodeDialog:intResult];
+        }
+        else
+        {
+            //unknown error
+            [self showUnknownFailureDialog];
+        }
+        
+    }
+    NSLog(@"Result: %@", strResult);
+    [alertView dismissWithClickedButtonIndex:0 animated:YES];
+}
+
+//This method , you can use to receive the error report in case of connection is not made to server.
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [alertView dismissWithClickedButtonIndex:0 animated:YES];
+    NSLog(@"Did fail with error");
+    NSLog(@"%@", error);
+    
+    //most likely a network error
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"Error"];
+    [alert setMessage:[error localizedDescription]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+//This method is used to process the data after connection has made successfully.
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    [alertView dismissWithClickedButtonIndex:0 animated:YES];
+    NSLog(@"Did finish loading");
 }
 
 @end

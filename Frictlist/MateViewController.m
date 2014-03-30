@@ -178,6 +178,17 @@
     frictCount.font = [UIFont fontWithName:@"DBLCDTempBlack" size:27];
     frictScore.text = [NSString stringWithFormat:@"%d", totalScore];
     frictScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:27];
+    
+    //disable sending multiple requests by checking
+    // - if there's a request uid: mate_details[4]
+    // - if accepted is pending (0) or accepted (1). we allow to re-rearch upon a rejection (-1)
+    if([mate_details[4] intValue] > 0 && [mate_details[3] intValue] >=0)
+    {
+        searchButton.enabled = false;
+        searchButton.alpha = 0.5;
+        [searchButton setTitle:@"Pending" forState:UIControlStateNormal];
+    }
+    NSLog(@"mate details %@", mate_details);
 }
 
 - (void)didReceiveMemoryWarning

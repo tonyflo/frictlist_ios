@@ -20,6 +20,7 @@
     IBOutlet UILabel *secondScore;
     IBOutlet UILabel *firstCount;
     IBOutlet UILabel *firstScore;
+    IBOutlet UIButton *searchButton;
     IBOutlet UIButton *editButton;
 }
 
