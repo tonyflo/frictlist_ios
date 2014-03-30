@@ -22,12 +22,14 @@
 NSString * scripts_url = @"http://frictlist.flooreeda.com/scripts/";
 UIAlertView * alertView;
 int curRow = -1;
-
+BOOL canRefresh = true; //if the refresh is happening
 BOOL sentFromAdd = false;
 NSMutableArray *huidArray;
 NSMutableArray *firstNameArray;
 NSMutableArray *lastNameArray;
 NSMutableArray *genderArray;
+NSMutableArray *acceptedArray;
+NSMutableArray *mate_uidArray;
 
 - (void)viewDidLoad
 {
@@ -49,25 +51,33 @@ NSMutableArray *genderArray;
 {
     [self.refreshControl endRefreshing];
     [tableView reloadData];
+    canRefresh = true;
 }
 
 -(void)updateMateList
 {
     NSLog(@"Update matelist");
     
-    PlistHelper * plist = [PlistHelper alloc];
-    SqlHelper *sql = [SqlHelper alloc];
     
-    BOOL success = [sql removeSqliteFile];
-    [sql createEditableCopyOfDatabaseIfNeeded];
-    if(success)
+    if(canRefresh)
     {
-        huidArray = [[NSMutableArray alloc] init];
-        firstNameArray = [[NSMutableArray alloc] init];
-        lastNameArray = [[NSMutableArray alloc] init];
-        genderArray = [[NSMutableArray alloc] init];
+        canRefresh = false;
+        PlistHelper * plist = [PlistHelper alloc];
+        SqlHelper *sql = [SqlHelper alloc];
+    
+        BOOL success = [sql removeSqliteFile];
+        [sql createEditableCopyOfDatabaseIfNeeded];
+        if(success)
+        {
+            huidArray = [[NSMutableArray alloc] init];
+            firstNameArray = [[NSMutableArray alloc] init];
+            lastNameArray = [[NSMutableArray alloc] init];
+            genderArray = [[NSMutableArray alloc] init];
+            acceptedArray = [[NSMutableArray alloc] init];
+            mate_uidArray = [[NSMutableArray alloc] init];
         
-        [self get_frictlist:[plist getPk]];
+            [self get_frictlist:[plist getPk]];
+        }
     }
 }
 
@@ -116,6 +126,8 @@ NSMutableArray *genderArray;
     firstNameArray = mates[1];
     lastNameArray = mates[2];
     genderArray = mates[3];
+    acceptedArray = mates[4];
+    mate_uidArray = mates[5];
 
     [self.tableView reloadData];
     [super viewWillAppear:animated];
@@ -189,18 +201,38 @@ NSMutableArray *genderArray;
     
     int i = indexPath.row;
     
-    NSString *name = [NSString stringWithFormat:@"%@ %@", firstNameArray[i], lastNameArray[i]];
+    if(firstNameArray.count > i)
+    {
+        NSString *name = [NSString stringWithFormat:@"%@ %@", firstNameArray[i], lastNameArray[i]];
     
-    //set text color
-    cell.textLabel.textColor = [UIColor greenColor];
+        //set text color
+        cell.textLabel.textColor = [UIColor greenColor];
     
-    //set cell icon
-    NSString *base = [NSString stringWithFormat:@"gender_%d.png", [genderArray[i] intValue]];
-    cell.imageView.image = [UIImage imageNamed:base];
+        //set cell icon
+        NSString *base = [NSString stringWithFormat:@"gender_%d.png", [genderArray[i] intValue]];
+        cell.imageView.image = [UIImage imageNamed:base];
     
-    //set cell text
-    cell.textLabel.text = name;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        //set cell text
+        cell.textLabel.text = name;
+        
+        
+        //right image
+        if(mate_uidArray[i] != NULL && ![mate_uidArray[i] isEqual: @""] && [mate_uidArray[i] intValue] != 0)
+        {
+            if([acceptedArray[i] intValue] == 1)
+            {
+                cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_accepted.png"]];
+            }
+            else if([acceptedArray[i] intValue] == -1)
+            {
+                cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_rejected.png"]];
+            }
+            else
+            {
+                cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_sent.png"]];
+            }
+        }
+    }
     return cell;
 }
 
@@ -216,6 +248,11 @@ NSMutableArray *genderArray;
         return UITableViewCellEditingStyleDelete;
     
     return UITableViewCellEditingStyleNone;
+}
+
+-(void)changeSorting
+{
+    
 }
 
 - (void)tableView:(UITableView *)tableV commitEditingStyle:(UITableViewCellEditingStyle) editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -444,6 +481,8 @@ NSMutableArray *genderArray;
                     [firstNameArray addObject:frict[3]];
                     [lastNameArray addObject:frict[4]];
                     [genderArray addObject:frict[5]];
+                    [acceptedArray addObject:frict[1]];
+                    [mate_uidArray addObject:frict[2]];
                 }
                 
                 //check for frict data

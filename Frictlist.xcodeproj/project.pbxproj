@@ -20,6 +20,8 @@
 		2F4EE0BB176E97B100642169 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0B9176E97B100642169 /* MainStoryboard.storyboard */; };
 		2F4EE0BE176E97B100642169 /* FrictlistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0BD176E97B100642169 /* FrictlistViewController.m */; };
 		2F4EE0CC176EA2AF00642169 /* FrictDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */; };
+		2F52B94218E891C000FEC16F /* request_accepted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F52B94118E891C000FEC16F /* request_accepted.png */; };
+		2F52B94418E8920600FEC16F /* request_sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F52B94318E8920600FEC16F /* request_sent.png */; };
 		2F66D9D118DF75A000DE37A4 /* bg.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2F66D9D018DF75A000DE37A4 /* bg.gif */; };
 		2F66D9EC18E0E33900DE37A4 /* MatelistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F66D9EB18E0E33900DE37A4 /* MatelistViewController.m */; };
 		2F66D9EF18E0E54400DE37A4 /* MateDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F66D9EE18E0E54200DE37A4 /* MateDetailViewController.m */; };
@@ -78,6 +80,8 @@
 		2F4EE0BD176E97B100642169 /* FrictlistViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrictlistViewController.m; sourceTree = "<group>"; };
 		2F4EE0CA176EA2AF00642169 /* FrictDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictDetailViewController.h; sourceTree = "<group>"; };
 		2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrictDetailViewController.m; sourceTree = "<group>"; };
+		2F52B94118E891C000FEC16F /* request_accepted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = request_accepted.png; sourceTree = "<group>"; };
+		2F52B94318E8920600FEC16F /* request_sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = request_sent.png; sourceTree = "<group>"; };
 		2F66D9D018DF75A000DE37A4 /* bg.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = bg.gif; sourceTree = "<group>"; };
 		2F66D9EA18E0E33900DE37A4 /* MatelistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatelistViewController.h; sourceTree = "<group>"; };
 		2F66D9EB18E0E33900DE37A4 /* MatelistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatelistViewController.m; sourceTree = "<group>"; };
@@ -196,6 +200,8 @@
 				2FDA34E51875D42E00ED5698 /* checkbox.png */,
 				2FDA34E31875D42E00ED5698 /* checkbox-checked.png */,
 				2FDA34E41875D42E00ED5698 /* checkbox-pressed.png */,
+				2F52B94318E8920600FEC16F /* request_sent.png */,
+				2F52B94118E891C000FEC16F /* request_accepted.png */,
 				2F4EE0A9176E97B100642169 /* Frictlist-Info.plist */,
 				2F4EE0B0176E97B100642169 /* FrictlistAppDelegate.h */,
 				2F4EE0B1176E97B100642169 /* FrictlistAppDelegate.m */,
@@ -323,6 +329,8 @@
 				2F9A89C718E7016000309D13 /* icon-120.png in Resources */,
 				2F9A89C818E7016000309D13 /* icon.png in Resources */,
 				2F9A89C918E7016000309D13 /* icon@2x.png in Resources */,
+				2F52B94218E891C000FEC16F /* request_accepted.png in Resources */,
+				2F52B94418E8920600FEC16F /* request_sent.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

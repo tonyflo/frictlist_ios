@@ -74,6 +74,8 @@ NSString * dbName = @"frictlist.sqlite";
     NSMutableArray * mate_fn_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * mate_ln_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * mate_gender_array = [[NSMutableArray alloc] initWithObjects: nil];
+     NSMutableArray * mate_accepted_array = [[NSMutableArray alloc] initWithObjects: nil];
+     NSMutableArray * mate_uid_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * mate_list;
     
     NSString * path = [self getDbPath];
@@ -96,13 +98,17 @@ NSString * dbName = @"frictlist.sqlite";
                 NSString *mate_fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
                 NSString *mate_ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
                 NSNumber *mate_gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
+                NSNumber *mate_accepted = [NSNumber numberWithInt: sqlite3_column_int(statement, 4)];
+                NSNumber *mate_uid = [NSNumber numberWithInt: sqlite3_column_int(statement, 5)];
                 [mate_id_array addObject:mate_id];
                 [mate_fn_array addObject:mate_fn];
                 [mate_ln_array addObject:mate_ln];
                 [mate_gender_array addObject:mate_gender];
+                [mate_accepted_array addObject:mate_accepted];
+                [mate_uid_array addObject:mate_uid];
             }
             
-            mate_list = [[NSMutableArray alloc] initWithObjects:mate_id_array, mate_fn_array, mate_ln_array, mate_gender_array, nil];
+            mate_list = [[NSMutableArray alloc] initWithObjects:mate_id_array, mate_fn_array, mate_ln_array, mate_gender_array, mate_accepted_array, mate_uid_array, nil];
         }
         else
         {
