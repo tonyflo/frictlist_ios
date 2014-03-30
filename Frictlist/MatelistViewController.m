@@ -31,6 +31,10 @@ NSMutableArray *genderArray;
 NSMutableArray *acceptedArray;
 NSMutableArray *mate_uidArray;
 
+NSMutableArray *incommingRequestUidsArray;
+NSMutableArray *acceptedUidsArray;
+NSMutableArray *rejectedUidsArray;
+
 - (void)viewDidLoad
 {
     NSLog(@"view did load");
@@ -45,6 +49,7 @@ NSMutableArray *mate_uidArray;
     refresh.tintColor = [UIColor colorWithRed:33.0/255.0f green:255.0/255.0f blue:0.0/255.0f alpha:1.0];
     self.refreshControl = refresh;
     [self stopRefresh];
+    canRefresh = true;
 }
 
 - (void)stopRefresh
@@ -52,6 +57,7 @@ NSMutableArray *mate_uidArray;
     [self.refreshControl endRefreshing];
     [tableView reloadData];
     canRefresh = true;
+    NSLog(@"Done refresh muid = %@", mate_uidArray);
 }
 
 -(void)updateMateList
@@ -78,6 +84,10 @@ NSMutableArray *mate_uidArray;
         
             [self get_frictlist:[plist getPk]];
         }
+    }
+    else
+    {
+        [self.refreshControl endRefreshing];    
     }
 }
 
@@ -128,6 +138,8 @@ NSMutableArray *mate_uidArray;
     genderArray = mates[3];
     acceptedArray = mates[4];
     mate_uidArray = mates[5];
+    
+    incommingRequestUidsArray = [[NSMutableArray alloc] init];
 
     [self.tableView reloadData];
     [super viewWillAppear:animated];
@@ -153,31 +165,90 @@ NSMutableArray *mate_uidArray;
 {
     if(self.editing)
     {
+        NSLog(@"done");
         [super setEditing:NO animated:NO];
         [tableView setEditing:NO animated:NO];
         [tableView reloadData];
         [self.navigationItem.leftBarButtonItem setTitle:@"Edit"];
         [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStylePlain];
+        //canRefresh = true; //prevent pull down to refresh
     }
     else
     {
+        NSLog(@"editing");
         [super setEditing:YES animated:YES];
         [tableView setEditing:YES animated:YES];
         [tableView reloadData];
         [self.navigationItem.leftBarButtonItem setTitle:@"Done"];
         [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStyleDone];
+        //canRefresh = false; //allow pull down to refresh
     }
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 4;
 }
 
 //count rows
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    int count = [huidArray count];
-    if(self.editing) {
-        count++;
+    int count = 0;
+    switch(section)
+    {
+        case 0:
+            //personal matelist
+            count = [huidArray count];
+            if(self.editing)
+            {
+                count++;
+            }
+            break;
+        case 1:
+            //incomming notifications
+            count = incommingRequestUidsArray.count;
+            break;
+        case 2:
+            count = acceptedUidsArray.count;
+            break;
+        case 3:
+            count = rejectedUidsArray.count;
+            break;
     }
     return count;
 }
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    
+    if(section == 0)
+        return [NSString stringWithFormat:@"Personal (%d)", huidArray.count];
+    else if (section == 1)
+        return [NSString stringWithFormat:@"Notifications (%d)", incommingRequestUidsArray.count];
+    else if (section == 2)
+        return [NSString stringWithFormat:@"Accepted (%d)", acceptedUidsArray.count];
+    else
+        return [NSString stringWithFormat:@"Rejected (%d)", rejectedUidsArray.count];
+}
+
+//- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+//    
+//    if(section == 0)
+//    {
+//        return @"Notifications";
+//    }
+//    else if (section == 1)
+//    {
+//        return @"Personal";
+//    }
+//    else if (section == 2)
+//    {
+//        return @"Accepted";
+//    }
+//    else
+//    {
+//        return @"Rejected";
+//    }
+//}
 
 //code for each row
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -189,50 +260,62 @@ NSMutableArray *mate_uidArray;
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.editingAccessoryType = YES;
     }
-    
-    int count = 0;
-    if(self.editing && indexPath.row != 0)
-        count = 1;
-    
-    if(indexPath.row == ([huidArray count]) && self.editing){
-        cell.textLabel.text = @"Add a Mate";
-        return cell;
+    int count;
+    switch ([indexPath section]) {
+        case 0:
+            //matelist
+            count = 0;
+            if(self.editing && indexPath.row != 0)
+                count = 1;
+            
+            if(indexPath.row == ([huidArray count]) && self.editing){
+                cell.textLabel.text = @"Add a Mate";
+                return cell;
+            }
+            
+            int i = indexPath.row;
+            
+            if(firstNameArray.count > i)
+            {
+                NSString *name = [NSString stringWithFormat:@"%@ %@", firstNameArray[i], lastNameArray[i]];
+                
+                //set text color
+                cell.textLabel.textColor = [UIColor greenColor];
+                
+                //set cell icon
+                NSString *base = [NSString stringWithFormat:@"gender_%d.png", [genderArray[i] intValue]];
+                cell.imageView.image = [UIImage imageNamed:base];
+                
+                //set cell text
+                cell.textLabel.text = name;
+                
+                //right image
+                if(mate_uidArray[i] != NULL && ![mate_uidArray[i] isEqual: @""] && [mate_uidArray[i] intValue] != 0)
+                {
+                    if([acceptedArray[i] intValue] == 1)
+                    {
+                        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_accepted.png"]];
+                    }
+                    else if([acceptedArray[i] intValue] == -1)
+                    {
+                        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_rejected.png"]];
+                    }
+                    else
+                    {
+                        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_sent.png"]];
+                    }
+                }
+                else
+                {
+                    cell.accessoryView = NULL;
+                }
+            }
+
+            break;
+        default:
+            break;
     }
     
-    int i = indexPath.row;
-    
-    if(firstNameArray.count > i)
-    {
-        NSString *name = [NSString stringWithFormat:@"%@ %@", firstNameArray[i], lastNameArray[i]];
-    
-        //set text color
-        cell.textLabel.textColor = [UIColor greenColor];
-    
-        //set cell icon
-        NSString *base = [NSString stringWithFormat:@"gender_%d.png", [genderArray[i] intValue]];
-        cell.imageView.image = [UIImage imageNamed:base];
-    
-        //set cell text
-        cell.textLabel.text = name;
-        
-        
-        //right image
-        if(mate_uidArray[i] != NULL && ![mate_uidArray[i] isEqual: @""] && [mate_uidArray[i] intValue] != 0)
-        {
-            if([acceptedArray[i] intValue] == 1)
-            {
-                cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_accepted.png"]];
-            }
-            else if([acceptedArray[i] intValue] == -1)
-            {
-                cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_rejected.png"]];
-            }
-            else
-            {
-                cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_sent.png"]];
-            }
-        }
-    }
     return cell;
 }
 
@@ -270,8 +353,6 @@ NSMutableArray *mate_uidArray;
         //remove mate from mysql db
         [self remove_mate:mate_id];
         
-        //refresh the table
-        [tableV reloadData];
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert)
     {
@@ -284,7 +365,7 @@ NSMutableArray *mate_uidArray;
     }
 }
 
-//todo
+//todo?
 //remove mate
 -(BOOL) remove_mate:(int)mate_id
 {
@@ -527,16 +608,17 @@ NSMutableArray *mate_uidArray;
             [firstNameArray removeObjectAtIndex:curRow];
             [lastNameArray removeObjectAtIndex:curRow];
             
-            [tableView reloadData];
+            //refresh the table
+            [self updateMateList];
             NSLog(@"done removing mate");
         }
         else
         {
             //unknown error
             [self showUnknownFailureDialog];
+            //stop the pull down to refresh in case of error
+            [self stopRefresh];
         }
-        //stop the pull down to refresh in case of error
-        [self stopRefresh];
     }
     //error code was returned
     else
@@ -553,6 +635,8 @@ NSMutableArray *mate_uidArray;
             //unknown error
             [self showUnknownFailureDialog];
         }
+        //stop the pull down to refresh in case of error
+        [self stopRefresh];
         
     }
     NSLog(@"Result: %@", strResult);
