@@ -10,6 +10,7 @@
 #import "MateViewController.h"
 #import "PlistHelper.h"
 #import "SqlHelper.h"
+#import "RequestViewController.h"
 
 @interface MatelistViewController ()
 
@@ -126,6 +127,14 @@ NSMutableArray *rejectedUidsArray;
         
         destViewController.hu_id = remote_hid;
     }
+    else if([segue.identifier isEqualToString:@"viewRequest"])
+    {
+        NSLog(@"Going to request view");
+        RequestViewController *destViewController = segue.destinationViewController;
+        
+        destViewController.request_id = [incommingRequestIdArray[[[self.tableView indexPathForSelectedRow] row]] intValue];
+
+    }
     else
     {
         NSLog(@"Down her");
@@ -179,6 +188,9 @@ NSMutableArray *rejectedUidsArray;
     switch ([indexPath section]) {
         case 0:
             [self performSegueWithIdentifier:@"showMateDetail" sender:indexPath];
+            break;
+        case 1:
+            [self performSegueWithIdentifier:@"viewRequest" sender:indexPath];
             break;
     }
 }

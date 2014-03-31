@@ -22,6 +22,7 @@
 		2F4EE0CC176EA2AF00642169 /* FrictDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */; };
 		2F52B94218E891C000FEC16F /* request_accepted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F52B94118E891C000FEC16F /* request_accepted.png */; };
 		2F52B94418E8920600FEC16F /* request_sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F52B94318E8920600FEC16F /* request_sent.png */; };
+		2F52B94718E8DFAE00FEC16F /* RequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F52B94618E8DFAE00FEC16F /* RequestViewController.m */; };
 		2F66D9D118DF75A000DE37A4 /* bg.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2F66D9D018DF75A000DE37A4 /* bg.gif */; };
 		2F66D9EC18E0E33900DE37A4 /* MatelistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F66D9EB18E0E33900DE37A4 /* MatelistViewController.m */; };
 		2F66D9EF18E0E54400DE37A4 /* MateDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F66D9EE18E0E54200DE37A4 /* MateDetailViewController.m */; };
@@ -82,6 +83,8 @@
 		2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrictDetailViewController.m; sourceTree = "<group>"; };
 		2F52B94118E891C000FEC16F /* request_accepted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = request_accepted.png; sourceTree = "<group>"; };
 		2F52B94318E8920600FEC16F /* request_sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = request_sent.png; sourceTree = "<group>"; };
+		2F52B94518E8DFAE00FEC16F /* RequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestViewController.h; sourceTree = "<group>"; };
+		2F52B94618E8DFAE00FEC16F /* RequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestViewController.m; sourceTree = "<group>"; };
 		2F66D9D018DF75A000DE37A4 /* bg.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = bg.gif; sourceTree = "<group>"; };
 		2F66D9EA18E0E33900DE37A4 /* MatelistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatelistViewController.h; sourceTree = "<group>"; };
 		2F66D9EB18E0E33900DE37A4 /* MatelistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatelistViewController.m; sourceTree = "<group>"; };
@@ -232,6 +235,8 @@
 				2F4EE0A8176E97B100642169 /* Supporting Files */,
 				2F9A89CA18E71DC500309D13 /* SearchViewController.h */,
 				2F9A89CB18E71DC500309D13 /* SearchViewController.m */,
+				2F52B94518E8DFAE00FEC16F /* RequestViewController.h */,
+				2F52B94618E8DFAE00FEC16F /* RequestViewController.m */,
 			);
 			path = Frictlist;
 			sourceTree = "<group>";
@@ -355,6 +360,7 @@
 				2F66D9F218E0E5D400DE37A4 /* MateViewController.m in Sources */,
 				2F66D9FC18E3C64200DE37A4 /* SqlHelper.m in Sources */,
 				2F9A89CC18E71DC600309D13 /* SearchViewController.m in Sources */,
+				2F52B94718E8DFAE00FEC16F /* RequestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
