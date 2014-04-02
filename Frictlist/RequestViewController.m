@@ -37,14 +37,12 @@ UIAlertView * alertView;
     SqlHelper *sql = [SqlHelper alloc];
     
     NSMutableArray * requst = [sql get_notification:self.request_id];
-    
-    int status = [requst[0] intValue];
-    NSString *fn = requst[1];
-    NSString *ln = requst[2];
-    NSString *un = requst[3];
-    int gender = [requst[4] intValue];
-    NSString *bday = requst[5];
-    mate_id = [requst[6] intValue];
+    NSString *fn = requst[0];
+    NSString *ln = requst[1];
+    NSString *un = requst[2];
+    int gender = [requst[3] intValue];
+    NSString *bday = requst[4];
+    mate_id = [requst[5] intValue];
     
     nameText.text = [NSString stringWithFormat:@"%@ %@", fn, ln];
     usernameText.text = un;
@@ -221,7 +219,23 @@ UIAlertView * alertView;
         
         //save request status to sqlite
         SqlHelper *sql = [SqlHelper alloc];
-        [sql update_request_status:self.request_id accepted:intResult];
+        //get the data from this request
+        NSArray * request = [sql get_notification:self.request_id];
+        //delete the request from the table
+        [sql remove_notification:self.request_id];
+        //add the reqeust to the appropriate table
+        if(intResult == 1)
+        {
+            NSLog(@"accepted");
+            //accepted
+            [sql add_accepted:self.request_id mate_id:[request[5] intValue] first:request[0] last:request[1] un:request[2] gender:[request[3] intValue] birthdate:request[4]];
+        }
+        else
+        {
+            NSLog(@"rejected");
+            //rejected
+            [sql add_rejected:self.request_id mate_id:[request[5] intValue] first:request[0] last:request[1] un:request[2] gender:[request[3] intValue] birthdate:request[4]];
+        }
         
         //go back on success
         [alertView dismissWithClickedButtonIndex:0 animated:YES];

@@ -33,13 +33,19 @@ NSMutableArray *acceptedArray;
 NSMutableArray *mate_uidArray;
 
 NSMutableArray *incommingRequestIdArray;
-NSMutableArray *incommingStatusdArray;
 NSMutableArray *imcommingFirstNameArray;
 NSMutableArray *imcommingLastNameArray;
 NSMutableArray *imcommingGenderArray;
 
-NSMutableArray *acceptedUidsArray;
-NSMutableArray *rejectedUidsArray;
+NSMutableArray *acceptedRequestIdArray;
+NSMutableArray *acceptedFirstNameArray;
+NSMutableArray *acceptedLastNameArray;
+NSMutableArray *acceptedGenderArray;
+
+NSMutableArray *rejectedRequestIdArray;
+NSMutableArray *rejectedFirstNameArray;
+NSMutableArray *rejectedLastNameArray;
+NSMutableArray *rejectedGenderArray;
 
 - (void)viewDidLoad
 {
@@ -89,10 +95,19 @@ NSMutableArray *rejectedUidsArray;
             mate_uidArray = [[NSMutableArray alloc] init];
             
             incommingRequestIdArray = [[NSMutableArray alloc] init];
-            incommingStatusdArray = [[NSMutableArray alloc] init];
             imcommingFirstNameArray = [[NSMutableArray alloc] init];
             imcommingLastNameArray = [[NSMutableArray alloc] init];
             imcommingGenderArray = [[NSMutableArray alloc] init];
+            
+            acceptedRequestIdArray = [[NSMutableArray alloc] init];
+            acceptedFirstNameArray = [[NSMutableArray alloc] init];
+            acceptedLastNameArray = [[NSMutableArray alloc] init];
+            acceptedGenderArray = [[NSMutableArray alloc] init];
+            
+            rejectedRequestIdArray = [[NSMutableArray alloc] init];
+            rejectedFirstNameArray = [[NSMutableArray alloc] init];
+            rejectedLastNameArray = [[NSMutableArray alloc] init];
+            rejectedGenderArray = [[NSMutableArray alloc] init];
         
             [self get_frictlist:[plist getPk]];
         }
@@ -146,12 +161,9 @@ NSMutableArray *rejectedUidsArray;
     NSLog(@"view will appear");
     
     SqlHelper * sql = [SqlHelper alloc];
+    
+    //get personal from sqlite3
     NSMutableArray * mates = [sql get_mate_list];
-    //    int count = ((NSArray *)mates[0]).count;
-    //    for(int i = 0; i < count; i++)
-    //    {
-    //        NSLog(@"%@ %@ %@ %@", mates[0][i], mates[1][i], mates[2][i], mates[3][i]);
-    //    }
     huidArray = mates[0];
     firstNameArray = mates[1];
     lastNameArray = mates[2];
@@ -161,11 +173,24 @@ NSMutableArray *rejectedUidsArray;
     
     //get notifications from sqlite3
     NSArray * notifs = [sql get_notifications_list];
-    incommingRequestIdArray = notifs[0];
-    incommingStatusdArray = notifs[1];
-    imcommingFirstNameArray = notifs[2];
-    imcommingLastNameArray = notifs[3];
-    imcommingGenderArray = notifs[4];
+    incommingRequestIdArray = notifs[0]; //rid
+    imcommingFirstNameArray = notifs[1]; //fn
+    imcommingLastNameArray = notifs[2]; //ln
+    imcommingGenderArray = notifs[3]; //gender
+    
+    //get accepted from sqlite3
+    NSArray * accepts = [sql get_accepted_list];
+    acceptedRequestIdArray = accepts[0]; //rid
+    acceptedFirstNameArray = accepts[1]; //fn
+    acceptedLastNameArray = accepts[2]; //ln
+    acceptedGenderArray = accepts[3]; //gender
+    
+    //get rejected from sqlite3
+    NSArray * rejects = [sql get_rejected_list];
+    rejectedRequestIdArray = rejects[0]; //rid
+    rejectedFirstNameArray = rejects[1]; //fn
+    rejectedLastNameArray = rejects[2]; //ln
+    rejectedGenderArray = rejects[3]; //gender
     
     [self.tableView reloadData];
     [super viewWillAppear:animated];
@@ -242,10 +267,10 @@ NSMutableArray *rejectedUidsArray;
             count = incommingRequestIdArray.count;
             break;
         case 2:
-            count = acceptedUidsArray.count;
+            count = acceptedRequestIdArray.count;
             break;
         case 3:
-            count = rejectedUidsArray.count;
+            count = rejectedRequestIdArray.count;
             break;
     }
     return count;
@@ -258,9 +283,9 @@ NSMutableArray *rejectedUidsArray;
     else if (section == 1)
         return [NSString stringWithFormat:@"Pending (%d)", incommingRequestIdArray.count];
     else if (section == 2)
-        return [NSString stringWithFormat:@"Accepted (%d)", acceptedUidsArray.count];
+        return [NSString stringWithFormat:@"Accepted (%d)", acceptedRequestIdArray.count];
     else
-        return [NSString stringWithFormat:@"Rejected (%d)", rejectedUidsArray.count];
+        return [NSString stringWithFormat:@"Rejected (%d)", rejectedRequestIdArray.count];
 }
 
 //- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
@@ -344,9 +369,7 @@ NSMutableArray *rejectedUidsArray;
                 }
             }
             break;
-        case 1:
-            //notifications
-   
+        case 1://pending
             if(imcommingFirstNameArray.count > indexPath.row)
             {
                 int i = indexPath.row;
@@ -363,7 +386,45 @@ NSMutableArray *rejectedUidsArray;
                 //set cell text
                 cell.textLabel.text = name;
                 cell.accessoryView = NULL;
-                            }
+            }
+            break;
+        case 2://accepted
+            if(acceptedFirstNameArray.count > indexPath.row)
+            {
+                int i = indexPath.row;
+                
+                NSString *name = [NSString stringWithFormat:@"%@ %@", acceptedFirstNameArray[i], acceptedLastNameArray[i]];
+                
+                //set text color
+                cell.textLabel.textColor = [UIColor greenColor];
+                
+                //set cell icon
+                NSString *gender = [NSString stringWithFormat:@"gender_%d.png", [acceptedGenderArray[i] intValue]];
+                cell.imageView.image = [UIImage imageNamed:gender];
+                
+                //set cell text
+                cell.textLabel.text = name;
+                cell.accessoryView = NULL;
+            }
+            break;
+        case 3://rejected
+            if(rejectedFirstNameArray.count > indexPath.row)
+            {
+                int i = indexPath.row;
+                
+                NSString *name = [NSString stringWithFormat:@"%@ %@", rejectedFirstNameArray[i], rejectedLastNameArray[i]];
+                
+                //set text color
+                cell.textLabel.textColor = [UIColor greenColor];
+                
+                //set cell icon
+                NSString *gender = [NSString stringWithFormat:@"gender_%d.png", [rejectedGenderArray[i] intValue]];
+                cell.imageView.image = [UIImage imageNamed:gender];
+                
+                //set cell text
+                cell.textLabel.text = name;
+                cell.accessoryView = NULL;
+            }
             break;
         default:
             break;
@@ -731,19 +792,48 @@ NSMutableArray *rejectedUidsArray;
             
             if(notification.count == 8)
             {
-                //insert into sqlite
-                [sql add_notification:[notification[0] intValue] mate_id:[notification[1] intValue] status:[notification[2] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
-                [incommingRequestIdArray addObject:notification[0]];
-                [incommingStatusdArray addObject:notification[2]];
-                [imcommingFirstNameArray addObject:notification[3]];
-                [imcommingLastNameArray addObject:notification[4]];
-                [imcommingGenderArray addObject:notification[6]];
+                int status = [notification[2] intValue];
+                if(status == 0)
+                {
+                    NSLog(@"heres a pending: %@", notification[3]);
+                    //this is a new or untouched notification that hasn't been accepted or rejected
+                    [sql add_notification:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                    [incommingRequestIdArray addObject:notification[0]];
+                    [imcommingFirstNameArray addObject:notification[3]];
+                    [imcommingLastNameArray addObject:notification[4]];
+                    [imcommingGenderArray addObject:notification[6]];
+                }
+                else if(status == 1)
+                {
+                    NSLog(@"heres a accepted: %@", notification[3]);
+                    //this is an incomming request that has already been accepted
+                    [sql add_accepted:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                    [acceptedRequestIdArray addObject:notification[0]];
+                    [acceptedFirstNameArray addObject:notification[3]];
+                    [acceptedLastNameArray addObject:notification[4]];
+                    [acceptedGenderArray addObject:notification[6]];
+                }
+                else if(status == -1)
+                {
+                    NSLog(@"heres a rejected: %@", notification[3]);
+                    //this is an incomming request that has already been accepted
+                    [sql add_rejected:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                    [rejectedRequestIdArray addObject:notification[0]];
+                    [rejectedFirstNameArray addObject:notification[3]];
+                    [rejectedLastNameArray addObject:notification[4]];
+                    [rejectedGenderArray addObject:notification[6]];
+                }
+                else
+                {
+                    //unknown error
+                    //todo
+                }
+                
             }
         }
         
         //stop animating
         [self stopRefresh];
-
     }
     //delete mate
     else if(intResult > 0)

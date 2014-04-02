@@ -736,9 +736,28 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
             
             if(notification.count == 8)
             {
-                //todo fix
-                //insert into sqlite
-                [sql add_notification:[notification[0] intValue] mate_id:[notification[1] intValue] status:[notification[2] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                int status = [notification[2] intValue];
+                if(status == 0)
+                {
+                    //this is a new or untouched notification that hasn't been accepted or rejected
+                    [sql add_notification:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                }
+                else if(status == 1)
+                {
+                    //this is an incomming request that has already been accepted
+                    [sql add_accepted:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                }
+                else if(status == -1)
+                {
+                    //this is an incomming request that has already been accepted
+                    [sql add_rejected:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                }
+                else
+                {
+                    //unknown error
+                    //todo
+                }
+                
             }
         }
         
