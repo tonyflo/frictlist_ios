@@ -30,6 +30,7 @@
 
 - (void)update_mate:(int)mate_id fn:(NSString *)fn ln:(NSString *)ln gender:(int)gender;
 - (void)update_frict:(int)frict_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes;
+- (void)update_request_status:(int)request_id accepted:(int)status;
 
 - (NSArray *) getOutgoingRequestStatus;
 - (void)update_mate_status:(int)mate_id accepted:(int)accepted request:(int)request;

@@ -167,7 +167,6 @@ NSMutableArray *rejectedUidsArray;
     imcommingLastNameArray = notifs[3];
     imcommingGenderArray = notifs[4];
     
-    
     [self.tableView reloadData];
     [super viewWillAppear:animated];
     
@@ -694,7 +693,6 @@ NSMutableArray *rejectedUidsArray;
                     NSLog(@"FOUND FRICT DATA");
                     [sql add_frict:[frict[6] intValue] mate_id:[frict[0] intValue] from:frict[7] rating:[frict[8] intValue] base:[frict[9] intValue] notes:frict[10]];
                 }
-                
             }
         }
         
@@ -733,7 +731,6 @@ NSMutableArray *rejectedUidsArray;
             
             if(notification.count == 8)
             {
-                //todo fix
                 //insert into sqlite
                 [sql add_notification:[notification[0] intValue] mate_id:[notification[1] intValue] status:[notification[2] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
                 [incommingRequestIdArray addObject:notification[0]];

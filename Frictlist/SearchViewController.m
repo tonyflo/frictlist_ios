@@ -199,28 +199,6 @@ NSString * sentTo = @"the recipient";
     }
 }
 
-//the field is too long
--(void) showFieldTooLong:(NSString *)fieldName
-{
-    UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:[NSString stringWithFormat:@"%@ Too Long", fieldName]];
-    [alert setMessage:[NSString stringWithFormat:@"The %@ that you entered is too long. The max is %d characters.", fieldName, maxFieldLen]];
-    [alert setDelegate:self];
-    [alert addButtonWithTitle:@"Okay"];
-    [alert show];
-}
-
-//the field is null
--(void) showFieldTooShort:(NSString *)fieldName
-{
-    UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:[NSString stringWithFormat:@"%@ Is Empty", fieldName]];
-    [alert setMessage:[NSString stringWithFormat:@"Please enter a %@.", fieldName]];
-    [alert setDelegate:self];
-    [alert addButtonWithTitle:@"Okay"];
-    [alert show];
-}
-
 //something went wrong, but we have an error code to report
 - (void)showErrorCodeDialog:(int)errorCode
 {
@@ -477,7 +455,7 @@ NSString * sentTo = @"the recipient";
     [self showRequestConfirmationDialog:sentTo];
 }
 
-//the field is too long
+//show final warning before making request
 -(void) showRequestConfirmationDialog:(NSString *)username
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
@@ -490,7 +468,7 @@ NSString * sentTo = @"the recipient";
     [alert show];
 }
 
-//the field is too long
+//show request sent dialog
 -(void) showRequestSentConfirmation:(NSString *)username
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
@@ -522,7 +500,7 @@ NSString * sentTo = @"the recipient";
     else if(alertView.tag == 2)
     {
         //request has been sent
-        [self.navigationController popViewControllerAnimated:YES];;
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

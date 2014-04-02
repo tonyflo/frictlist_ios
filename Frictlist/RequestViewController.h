@@ -19,6 +19,7 @@
     IBOutlet UILabel *usernameText;
 
 }
+
 @property (readwrite, assign) NSUInteger request_id;
 
 - (IBAction)acceptPressed:(id)sender;

@@ -189,6 +189,7 @@ NSString * dbName = @"frictlist.sqlite";
     NSMutableArray * fn_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * ln_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * gender_array = [[NSMutableArray alloc] initWithObjects: nil];
+    NSMutableArray * mate_id_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * notification_list;
     
     NSString * path = [self getDbPath];
@@ -196,7 +197,7 @@ NSString * dbName = @"frictlist.sqlite";
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
         // Get the primary key for all books.
-        const char *sql = "SELECT request_id, request_status, first_name, last_name, gender FROM notification ORDER BY first_name ASC";
+        const char *sql = "SELECT request_id, request_status, first_name, last_name, gender, mate_id FROM notification ORDER BY first_name ASC";
         sqlite3_stmt *statement;
         // Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
         // The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.
@@ -212,14 +213,16 @@ NSString * dbName = @"frictlist.sqlite";
                 NSString *fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
                 NSString *ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 3)];
                 NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 4)];
+                NSNumber *mid = [NSNumber numberWithInt:sqlite3_column_int(statement, 5)];
                 [request_id_array addObject:rid];
                 [status_array addObject:status];
                 [fn_array addObject:fn];
                 [ln_array addObject:ln];
                 [gender_array addObject:gender];
+                [mate_id_array addObject:mid];
             }
             
-            notification_list = [[NSMutableArray alloc] initWithObjects:request_id_array, status_array, fn_array, ln_array, gender_array, nil];
+            notification_list = [[NSMutableArray alloc] initWithObjects:request_id_array, status_array, fn_array, ln_array, gender_array, mate_id_array, nil];
         }
         else
         {
@@ -526,7 +529,7 @@ NSString * dbName = @"frictlist.sqlite";
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
         // Get the primary key for all books.
-        const char *sql = [[NSString stringWithFormat:@"select request_status, first_name, last_name, username, gender, birthdate from notification where request_id='%d'", request_id] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"select request_status, first_name, last_name, username, gender, birthdate, mate_id from notification where request_id='%d'", request_id] UTF8String];
         sqlite3_stmt *statement;
         // Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
         // The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.
@@ -543,9 +546,9 @@ NSString * dbName = @"frictlist.sqlite";
                 NSString *un = [NSString stringWithUTF8String:sqlite3_column_text(statement, 3)];
                 NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 4)];
                 NSString *bday = [NSString stringWithUTF8String:sqlite3_column_text(statement, 5)];
+                NSNumber *mid = [NSNumber numberWithInt: sqlite3_column_int(statement, 6)];
                 
-                
-                notification = [[NSMutableArray alloc] initWithObjects:status, fn, ln, un, gender, bday, nil];
+                notification = [[NSMutableArray alloc] initWithObjects:status, fn, ln, un, gender, bday, mid, nil];
             }
         }
         else
@@ -622,6 +625,31 @@ NSString * dbName = @"frictlist.sqlite";
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
         const char *sql = [[NSString stringWithFormat:@"UPDATE mate SET accepted='%d', request_uid='%d' where mate_id='%d'", accepted, request, mate_id] UTF8String];
+        sqlite3_stmt *updateStmt = nil;
+        if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
+        {
+            NSLog(@"Error while creating insert statement. '%s'", sqlite3_errmsg(database));
+        }
+        if (SQLITE_DONE != sqlite3_step(updateStmt)){
+            NSLog(@"Error while creating database. '%s'", sqlite3_errmsg(database));
+        }
+        sqlite3_reset(updateStmt);
+        sqlite3_finalize(updateStmt);
+    }
+    else
+    {
+        NSLog(@"Error while opening database '%s'", sqlite3_errmsg(database));
+    }
+    sqlite3_close(database);
+}
+
+//after responding to a request (incomming requests)
+- (void)update_request_status:(int)request_id accepted:(int)status
+{
+    NSString * path = [self getDbPath];
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
+    {
+        const char *sql = [[NSString stringWithFormat:@"UPDATE notification SET request_status='%d' where request_id='%d'", status, request_id] UTF8String];
         sqlite3_stmt *updateStmt = nil;
         if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
         {
