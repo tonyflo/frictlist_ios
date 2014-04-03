@@ -362,7 +362,7 @@ NSMutableArray *baseArray;
         else
         {
             //unknown error
-            [self showUnknownFailureDialog];
+            [self showErrorCodeDialog:-405];
         }
         
     }

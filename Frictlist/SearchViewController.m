@@ -251,6 +251,11 @@ NSString * sentTo = @"the recipient";
                 [userBdayArray addObject:user[2]];
                 [userAlreadyRequestedArray addObject:user[3]];
             }
+            else
+            {
+                [self showErrorCodeDialog:-412];
+                break;
+            }
         }
         
         statusText.text = @"No luck? Invite your mate to Frictlist by text or email.";
@@ -299,9 +304,8 @@ NSString * sentTo = @"the recipient";
         else
         {
             //unknown error
-            [self showUnknownFailureDialog];
+            [self showErrorCodeDialog:-413];
         }
-        
     }
     NSLog(@"Result: %@", strResult);
     [alertView dismissWithClickedButtonIndex:0 animated:YES];

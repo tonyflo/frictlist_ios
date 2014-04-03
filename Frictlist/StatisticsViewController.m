@@ -404,7 +404,7 @@ NSString * address = @"http://frictlist.flooreeda.com/scripts/";
 
 -(IBAction)checkNotificationsPress:(id)sender
 {
-
+ //todo remove
 }
 
 

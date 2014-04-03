@@ -188,9 +188,7 @@ NSString * notesStr;
     //add the frict to the remote db
     if(rc)
     {
-        //TODO, could distinguish between add and update
         [self showAddingFrictDialog];
-        //TODO?
         rc = [self save_frict:base from:fromFormatted rating:ratingVal notes:hu_notes];
         
         //take action if something went wrong
@@ -411,7 +409,7 @@ NSString * notesStr;
         else
         {
             //unknown error
-            [self showUnknownFailureDialog];
+            [self showErrorCodeDialog:-404];
         }
 
     }

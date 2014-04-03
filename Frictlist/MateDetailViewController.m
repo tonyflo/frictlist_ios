@@ -320,18 +320,15 @@ int gender;
         if(self.hu_id > 0)
         {
             //todo
-            //update the local database
-            //[plist updateMate:intResult index:row_num first:firstNameText.text last:lastNameText.text gender:genderSwitch.selectedSegmentIndex];
+            //update the mate in local database
             [sql update_mate:intResult fn:firstNameText.text ln:lastNameText.text gender:genderSwitch.selectedSegmentIndex];
         }
         else
         {
-            //insert the data that has already been inserted on the remote database into the sqlite local db
-            //[plist addMate:intResult first:firstNameText.text last:lastNameText.text gender:genderSwitch.selectedSegmentIndex]
+            //insert the data that has already been inserted on the remote database into the sqlite local db for this new mate
             [sql add_mate:intResult fn:firstNameText.text ln:lastNameText.text gender:genderSwitch.selectedSegmentIndex accepted:0 mates_uid:0];
         }
 
-        
         //enable tabbaar items
         [[self.tabBarController.tabBar.items objectAtIndex:0] setEnabled:TRUE];
         [[self.tabBarController.tabBar.items objectAtIndex:1] setEnabled:TRUE];
@@ -357,7 +354,7 @@ int gender;
         else
         {
             //unknown error
-            [self showUnknownFailureDialog];
+            [self showErrorCodeDialog:-406];
         }
         
     }

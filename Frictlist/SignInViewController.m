@@ -700,6 +700,11 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
                 }
                 
             }
+            else
+            {
+                //number of columns in frictlist is not correct
+                [self showErrorCodeDialog:-402];
+            }
         }
         
         //get user data
@@ -723,10 +728,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     {
         //we have received the frictlist because the user has just signed in. now loop over it and save it to the sqlite db
         SqlHelper *sql = [SqlHelper alloc];
-        
-        //store the mate_ids to avoid adding the same mate more than once
-        //NSMutableArray *mateIds = [[NSMutableArray alloc] init];
-        
+                
         //for each row in the notification table
         //start at 1 to skip over notification flag line
         for(int i = 1; i < query_result.count - 1; i++)
@@ -754,10 +756,16 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
                 }
                 else
                 {
-                    //unknown error
-                    //todo
+                    //status is not -1, 0, or 1
+                    [self showErrorCodeDialog:-400];
+                    break;
                 }
                 
+            }
+            else
+            {
+                //number of columns in notification is not correct
+                [self showErrorCodeDialog:-401];
             }
         }
         
@@ -824,10 +832,15 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
                 //insert into db was not successful
                 [self showSignupFailureDialog];
             }
+            else if(intResult == -10)
+            {
+                //insert into db was not successful
+                [self showErrorCodeDialog:intResult];
+            }
             else
             {
-                //unknown error
-                [self showUnknownFailureDialog];
+                //unknown error code returned from server
+                [self showErrorCodeDialog:-403];
             }
     }
     NSLog(@"Result: %@", strResult);
@@ -908,6 +921,27 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+}
+
+//something went wrong, but we have an error code to report
+- (void)showErrorCodeDialog:(int)errorCode
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:[NSString stringWithFormat:@"Error Code %d", errorCode]];
+    [alert setMessage:[NSString stringWithFormat:@"Sorry about this. Things to try:\n %C Check your internet connection\n %C Check your credentials\nIf the problem persists, email the developer and mention the %d error code.", (unichar) 0x2022, (unichar) 0x2022, errorCode]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+    
+    NSArray *subViewArray = alert.subviews;
+    for(int x = 0; x < [subViewArray count]; x++){
+        
+        //If the current subview is a UILabel...
+        if([[[subViewArray objectAtIndex:x] class] isSubclassOfClass:[UILabel class]]) {
+            UILabel *label = [subViewArray objectAtIndex:x];
+            label.textAlignment = NSTextAlignmentLeft;
+        }
+    }
 }
 
 

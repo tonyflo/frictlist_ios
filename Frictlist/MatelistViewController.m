@@ -755,24 +755,16 @@ NSMutableArray *rejectedGenderArray;
                     [sql add_frict:[frict[6] intValue] mate_id:[frict[0] intValue] from:frict[7] rating:[frict[8] intValue] base:[frict[9] intValue] notes:frict[10]];
                 }
             }
+            else
+            {
+                //number of columns in frictlist is not correct
+                [self showErrorCodeDialog:-407];
+            }
         }
         
         //now, get notifications
         PlistHelper *plist = [PlistHelper alloc];
         [self get_notifications:[plist getPk]];
-        
-        //get user data
-        //NSArray *user_data = [frictlist[1] componentsSeparatedByString:@"\t"];
-        //PlistHelper *plist = [PlistHelper alloc];
-        
-        //set users birthday
-        //NSString *bdayStr = user_data[2];
-        //[plist setBirthday:bdayStr];
-        //NSLog(@"user fn: %@ ln: %@ bday: %@", user_data[0], user_data[1], bdayStr);
-        
-        //set user's first and last name
-        //[plist setFirstName:user_data[0]];
-        //[plist setLastName:user_data[1]];
     }
     //notifications
     else if([searchFlag isEqual:@"notifications"])
@@ -825,10 +817,16 @@ NSMutableArray *rejectedGenderArray;
                 }
                 else
                 {
-                    //unknown error
-                    //todo
+                    //status is not -1, 0, or 1
+                    [self showErrorCodeDialog:-409];
+                    break;
                 }
                 
+            }
+            else
+            {
+                //number of columns in notification is not correct
+                [self showErrorCodeDialog:-408];
             }
         }
         
@@ -858,7 +856,7 @@ NSMutableArray *rejectedGenderArray;
         else
         {
             //unknown error
-            [self showUnknownFailureDialog];
+            [self showErrorCodeDialog:-410];
             //stop the pull down to refresh in case of error
             [self stopRefresh];
         }
@@ -876,7 +874,7 @@ NSMutableArray *rejectedGenderArray;
         else
         {
             //unknown error
-            [self showUnknownFailureDialog];
+            [self showErrorCodeDialog:-411];
         }
         //stop the pull down to refresh in case of error
         [self stopRefresh];

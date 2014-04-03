@@ -255,7 +255,7 @@ UIAlertView * alertView;
         else
         {
             //unknown error
-            [self showUnknownFailureDialog];
+            [self showErrorCodeDialog:-414];
         }
         
     }
@@ -284,6 +284,5 @@ UIAlertView * alertView;
     [alertView dismissWithClickedButtonIndex:0 animated:YES];
     NSLog(@"Did finish loading");
 }
-
 
 @end
