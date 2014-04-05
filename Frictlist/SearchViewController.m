@@ -437,9 +437,25 @@ NSString * sentTo = @"the recipient";
 {
     switch(result)
     {
-        case MessageComposeResultCancelled: break; //handle cancelled event
-        case MessageComposeResultFailed: break; //handle failed event
-        case MessageComposeResultSent: break; //handle sent event
+        case MessageComposeResultCancelled:
+        {
+            //handle cancelled event
+            NSLog(@"Message cancelled");
+            break;
+        }
+        case MessageComposeResultFailed:
+        {
+            //handle failed event
+            NSLog(@"Message failed");
+            break;
+        }
+        case MessageComposeResultSent:
+        {
+            //handle sent event
+            NSLog(@"Message sent");
+            break;
+        }
+
     }
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -447,6 +463,32 @@ NSString * sentTo = @"the recipient";
 //catch result of email
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
+    switch(result)
+    {
+        case MFMailComposeResultCancelled:
+        {
+            NSLog(@"Mail cancelled");
+            break;
+        }
+        case MFMailComposeResultSaved:
+        {
+            NSLog(@"Mail saved");
+            break;
+        }
+        case MFMailComposeResultFailed:
+        {
+            NSLog(@"Mail failed");
+            break;
+        }
+        case MFMailComposeResultSent:
+        {
+            NSLog(@"Mail sent");
+            break;
+        }
+            
+            
+    }
+    
     //Add an alert in case of failure
     [self dismissViewControllerAnimated:YES completion:nil];
 }
