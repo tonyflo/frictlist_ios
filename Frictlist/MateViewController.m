@@ -65,6 +65,7 @@
         destViewConroller.hu_id = self.hu_id;
         destViewConroller.request_id = self.request_id;
         destViewConroller.accepted = self.accepted;
+        destViewConroller.creator = self.creator;
     }
     else if([segue.identifier isEqualToString:@"searchMate"])
     {
@@ -98,7 +99,7 @@
     NSArray * mate_details;
     
     //get mate info
-    if(self.accepted)
+    if(self.creator == 0)
     {
         NSLog(@"Accpted this incomming request");
         //if coming from an accepted incomming request row, use the request id to get the data for the accepted mate
@@ -120,15 +121,7 @@
     }
     else
     {
-        if(self.accepted)
-        {
-            mate_name = [NSString stringWithFormat:@"%@ %@", mate_details[0], mate_details[1]];
-        }
-        else
-        {
-            mate_name = [NSString stringWithFormat:@"%@ %@", mate_details[0], mate_details[1]];
-        }
-        
+        mate_name = [NSString stringWithFormat:@"%@ %@", mate_details[0], mate_details[1]];
     }
     
     //set back button text
@@ -198,7 +191,7 @@
     frictScore.text = [NSString stringWithFormat:@"%d", totalScore];
     frictScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:27];
     
-    if(self.accepted == false)
+    if(self.creator == 1)
     {
         //disable sending multiple requests or editing a mate by checking
         // - if there's a request uid: mate_details[4]

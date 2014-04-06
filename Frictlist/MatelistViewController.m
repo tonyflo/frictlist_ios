@@ -126,6 +126,9 @@ NSMutableArray *rejectedGenderArray;
     if([segue.identifier isEqualToString:@"showMateDetail"])
     {
         NSIndexPath *indexPath;
+        int accepted;
+        
+        //hack
         if(sentFromAdd)
         {
             indexPath = sender;
@@ -137,13 +140,26 @@ NSMutableArray *rejectedGenderArray;
         
         int local_hid = [indexPath row];
         int remote_hid = [huidArray[local_hid] intValue];
+        NSLog(@"%@", acceptedArray);
+        
+        //hack on a hack
+        if(sentFromAdd)
+        {
+            accepted = 0;
+        }
+        else
+        {
+            accepted = [acceptedArray[local_hid] intValue];
+        }
+        
         
         NSLog(@"going to show mate detail from personal fl");
         
         MateViewController *destViewController = segue.destinationViewController;
         
         destViewController.hu_id = remote_hid;
-        destViewController.accepted = false;
+        destViewController.accepted = accepted;
+        destViewController.creator = 1; //this user is the creator
     }
     else if([segue.identifier isEqualToString:@"viewRequest"])
     {
@@ -160,7 +176,8 @@ NSMutableArray *rejectedGenderArray;
         
         destViewController.request_id = [acceptedRequestIdArray[[[self.tableView indexPathForSelectedRow] row]] intValue];
         destViewController.hu_id = [acceptedMateIdArray[[[self.tableView indexPathForSelectedRow] row]] intValue];
-        destViewController.accepted = true;
+        destViewController.accepted = 1;
+        destViewController.creator = 0; //this user is not the creator
     }
     else
     {

@@ -72,6 +72,14 @@ NSString * notesStr;
         //set the slider
         sliderText.text = [NSString stringWithFormat:@"%d", rating ];
         ratingSlider.value = rating;
+        
+        if(self.accepted == 1)
+        {
+            fromSwitch.enabled = false;
+            fromSwitch.alpha = 0.5;
+            baseSwitch.enabled = false;
+            baseSwitch.alpha = 0.5;
+        }
     }
     else
     {
@@ -202,12 +210,12 @@ NSString * notesStr;
     if(self.frict_id > 0)
     {
         //update
-        post = [NSString stringWithFormat:@"&frict_id=%d&mate_id=%d&base=%d&from=%@&rating=%d&notes=%@",self.frict_id, self.mate_id, base, from, rate, hu_notes];
+        post = [NSString stringWithFormat:@"&frict_id=%d&mate_id=%d&base=%d&from=%@&rating=%d&notes=%@&creator=%d",self.frict_id, self.mate_id, base, from, rate, hu_notes, self.creator];
     }
     else
     {
         //add
-        post = [NSString stringWithFormat:@"&mate_id=%d&base=%d&from=%@&rating=%d&notes=%@",self.mate_id, base, from, rate, hu_notes];
+        post = [NSString stringWithFormat:@"&mate_id=%d&base=%d&from=%@&rating=%d&notes=%@&creator=%d",self.mate_id, base, from, rate, hu_notes, self.creator];
     }
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.

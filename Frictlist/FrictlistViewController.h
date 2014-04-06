@@ -15,6 +15,7 @@
 
 @property (readwrite, assign) NSUInteger hu_id;
 @property (readwrite, assign) NSUInteger request_id;
-@property (readwrite, assign) BOOL accepted;
+@property (readwrite, assign) NSUInteger creator;
+@property (readwrite, assign) NSUInteger accepted;
 
 @end

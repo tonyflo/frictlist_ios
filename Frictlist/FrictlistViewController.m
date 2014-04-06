@@ -66,6 +66,7 @@ NSMutableArray *baseArray;
         destViewController.mate_id = self.hu_id;
         destViewController.accepted = self.accepted;
         destViewController.request_id = self.request_id;
+        destViewController.creator = self.creator;
     }
 }
 
@@ -238,7 +239,7 @@ NSMutableArray *baseArray;
 {
     BOOL rc = true;
     
-    NSString * post = [NSString stringWithFormat:@"&frict_id=%d", frict_id];
+    NSString * post = [NSString stringWithFormat:@"&frict_id=%d&creator=%d", frict_id, self.creator];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     

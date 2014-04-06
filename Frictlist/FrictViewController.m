@@ -74,6 +74,8 @@ NSString * notesStr;
         FrictDetailViewController *destViewController = segue.destinationViewController;
         destViewController.mate_id = self.mate_id;
         destViewController.frict_id = self.frict_id;
+        destViewController.accepted = self.accepted;
+        destViewController.creator = self.creator;
     }
 }
 

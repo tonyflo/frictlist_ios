@@ -23,6 +23,8 @@
 
 @property (readwrite, assign) NSUInteger frict_id;
 @property (readwrite, assign) NSUInteger mate_id;
+@property (readwrite, assign) NSUInteger creator;
+@property (readwrite, assign) NSUInteger accepted;
 
 - (IBAction)savePressed:(id)sender;
 

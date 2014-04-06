@@ -26,6 +26,7 @@
 
 @property (readwrite, assign) NSUInteger request_id; //will be null if accepted is false
 @property (readwrite, assign) NSUInteger hu_id; //mate id
-@property (readwrite, assign) BOOL accepted; //if this mate is from the personal fl, accepted is false, if the mate is from an incomming shared frictlist that has been accepted, accepted is true
+@property (readwrite, assign) NSUInteger accepted; //1 if the mate accepted, 0 otherwise
+@property (readwrite, assign) NSUInteger creator; //1 if coming from personal, 0 if coming from accepted
 
 @end
