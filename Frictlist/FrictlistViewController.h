@@ -14,5 +14,7 @@
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 
 @property (readwrite, assign) NSUInteger hu_id;
+@property (readwrite, assign) NSUInteger request_id;
+@property (readwrite, assign) BOOL accepted;
 
 @end

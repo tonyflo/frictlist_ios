@@ -364,7 +364,6 @@ NSString * notesStr;
         
         SqlHelper * sql = [SqlHelper alloc];
         
-        //PlistHelper *plist = [PlistHelper alloc];
         if(self.frict_id > 0)
         {
             //update the local database
@@ -372,7 +371,7 @@ NSString * notesStr;
         }
         else
         {
-            [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text];
+            [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text mate_rating:0 mate_notes:NULL mate_deleted:0];
         }
         
         //enable tabbaar items

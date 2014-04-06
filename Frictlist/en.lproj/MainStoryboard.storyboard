@@ -1343,6 +1343,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <connections>
                         <outlet property="tableView" destination="i5g-KX-nU7" id="VHR-CV-42y"/>
                         <segue destination="GH2-UR-Lkq" kind="push" identifier="viewRequest" id="3B4-UG-VHD"/>
+                        <segue destination="0H3-am-xjC" kind="push" identifier="showAcceptedDetail" id="tXX-OL-KZ6"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ZB-M8-hYw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1477,9 +1478,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <class className="StatisticsViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StatisticsViewController.h"/>
             <relationships>
-                <relationship kind="action" name="checkNotificationsPress:"/>
                 <relationship kind="action" name="emailButtonPress:"/>
-                <relationship kind="outlet" name="checkNotificationButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="emailButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="emailLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="firstCount" candidateClass="UILabel"/>
@@ -1504,4 +1503,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="tXX-OL-KZ6"/>
+    </inferredMetricsTieBreakers>
 </document>

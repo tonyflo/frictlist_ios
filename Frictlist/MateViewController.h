@@ -24,6 +24,8 @@
     IBOutlet UIButton *editButton;
 }
 
-@property (readwrite, assign) NSUInteger hu_id;
+@property (readwrite, assign) NSUInteger request_id; //will be null if accepted is false
+@property (readwrite, assign) NSUInteger hu_id; //mate id
+@property (readwrite, assign) BOOL accepted; //if this mate is from the personal fl, accepted is false, if the mate is from an incomming shared frictlist that has been accepted, accepted is true
 
 @end

@@ -84,12 +84,29 @@ NSString * notesStr;
     if(self.frict_id > 0)
     {
         SqlHelper *sql = [SqlHelper alloc];
-        NSArray *mate = [sql get_mate:self.mate_id];
+        NSArray *mate;
+        //if this is an incomming request that has been accepted, get the data for the mate from the accepted table
+        if(self.accepted)
+        {
+            mate = [sql get_accepted:self.request_id];
+        }
+        else
+        {
+            mate = [sql get_mate:self.mate_id];    
+        }
         NSArray *frict = [sql get_frict:self.frict_id];
         NSLog(@"okay frict id is %d", self.frict_id);
         firstName = mate[0];
         lastName = mate[1];
-        gender = [mate[2] intValue];
+        if(self.accepted)
+        {
+            gender = [mate[3] intValue];
+        }
+        else
+        {
+            gender = [mate[2] intValue];
+        }
+        
         
         fromDate = frict[0];
         rating = [frict[1] intValue];

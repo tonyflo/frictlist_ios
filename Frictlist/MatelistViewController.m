@@ -37,6 +37,7 @@ NSMutableArray *imcommingFirstNameArray;
 NSMutableArray *imcommingLastNameArray;
 NSMutableArray *imcommingGenderArray;
 
+NSMutableArray *acceptedMateIdArray; //mate id of the mate in the sender's fl
 NSMutableArray *acceptedRequestIdArray;
 NSMutableArray *acceptedFirstNameArray;
 NSMutableArray *acceptedLastNameArray;
@@ -99,6 +100,7 @@ NSMutableArray *rejectedGenderArray;
             imcommingLastNameArray = [[NSMutableArray alloc] init];
             imcommingGenderArray = [[NSMutableArray alloc] init];
             
+            acceptedMateIdArray = [[NSMutableArray alloc] init];
             acceptedRequestIdArray = [[NSMutableArray alloc] init];
             acceptedFirstNameArray = [[NSMutableArray alloc] init];
             acceptedLastNameArray = [[NSMutableArray alloc] init];
@@ -136,11 +138,12 @@ NSMutableArray *rejectedGenderArray;
         int local_hid = [indexPath row];
         int remote_hid = [huidArray[local_hid] intValue];
         
-        NSLog(@"going to show mate detail");
+        NSLog(@"going to show mate detail from personal fl");
         
         MateViewController *destViewController = segue.destinationViewController;
         
         destViewController.hu_id = remote_hid;
+        destViewController.accepted = false;
     }
     else if([segue.identifier isEqualToString:@"viewRequest"])
     {
@@ -149,6 +152,15 @@ NSMutableArray *rejectedGenderArray;
         
         destViewController.request_id = [incommingRequestIdArray[[[self.tableView indexPathForSelectedRow] row]] intValue];
 
+    }
+    else if([segue.identifier isEqualToString:@"showAcceptedDetail"])
+    {
+        NSLog(@"Going to show mate detail from accepted fl");
+        MateViewController *destViewController = segue.destinationViewController;
+        
+        destViewController.request_id = [acceptedRequestIdArray[[[self.tableView indexPathForSelectedRow] row]] intValue];
+        destViewController.hu_id = [acceptedMateIdArray[[[self.tableView indexPathForSelectedRow] row]] intValue];
+        destViewController.accepted = true;
     }
     else
     {
@@ -184,6 +196,7 @@ NSMutableArray *rejectedGenderArray;
     acceptedFirstNameArray = accepts[1]; //fn
     acceptedLastNameArray = accepts[2]; //ln
     acceptedGenderArray = accepts[3]; //gender
+    acceptedMateIdArray = accepts[4]; //sender's mate id of this user
     
     //get rejected from sqlite3
     NSArray * rejects = [sql get_rejected_list];
@@ -216,6 +229,10 @@ NSMutableArray *rejectedGenderArray;
         case 1:
             [self performSegueWithIdentifier:@"viewRequest" sender:indexPath];
             break;
+        case 2:
+            [self performSegueWithIdentifier:@"showAcceptedDetail" sender:indexPath];
+            break;
+            
     }
 }
 
@@ -433,7 +450,7 @@ NSMutableArray *rejectedGenderArray;
     
     return cell;
 }
-
+//todo eventually adble to edit accepted section (2)
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch ([indexPath section]) {
@@ -733,9 +750,8 @@ NSMutableArray *rejectedGenderArray;
         {
             //split the row into columns
             NSArray *frict = [query_result[i] componentsSeparatedByString:@"\t"];
-            
-            //TODO: add mate rating, notes, deleted, and last update to sqlite3 and do something with the new data
-            if(frict.count == 16)
+            NSLog(@"Frict count = %d", frict.count);
+            if(frict.count == 15)
             {
                 //check if mate has already been added to sqlite
                 if(![mateIds containsObject:frict[0]])
@@ -754,7 +770,7 @@ NSMutableArray *rejectedGenderArray;
                 if(frict[6] != NULL && frict[6] != nil && ![frict[6] isEqual:@""] && [frict[11] intValue] != 1)
                 {
                     NSLog(@"FOUND FRICT DATA");
-                    [sql add_frict:[frict[6] intValue] mate_id:[frict[0] intValue] from:frict[7] rating:[frict[8] intValue] base:[frict[9] intValue] notes:frict[10]];
+                    [sql add_frict:[frict[6] intValue] mate_id:[frict[0] intValue] from:frict[7] rating:[frict[8] intValue] base:[frict[9] intValue] notes:frict[10] mate_rating:[frict[12] intValue] mate_notes:frict[13] mate_deleted:[frict[14] intValue]];
                 }
             }
             else
@@ -775,9 +791,6 @@ NSMutableArray *rejectedGenderArray;
         //we have received the frictlist because the user has just signed in. now loop over it and save it to the sqlite db
         SqlHelper *sql = [SqlHelper alloc];
         
-        //store the mate_ids to avoid adding the same mate more than once
-        //NSMutableArray *mateIds = [[NSMutableArray alloc] init];
-        
         //for each row in the notification table
         //start at 1 to skip over notification flag line
         for(int i = 1; i < query_result.count - 1; i++)
@@ -785,39 +798,61 @@ NSMutableArray *rejectedGenderArray;
             //split the row into columns
             NSArray *notification = [query_result[i] componentsSeparatedByString:@"\t"];
             
-            //TODO: BIG changes
-            if(notification.count == 20)
+            if(notification.count == 17)
             {
                 int status = [notification[2] intValue];
+                //pending
                 if(status == 0)
                 {
-                    NSLog(@"heres a pending: %@", notification[3]);
-                    //this is a new or untouched notification that hasn't been accepted or rejected
-                    [sql add_notification:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
-                    [incommingRequestIdArray addObject:notification[0]];
-                    [imcommingFirstNameArray addObject:notification[3]];
-                    [imcommingLastNameArray addObject:notification[4]];
-                    [imcommingGenderArray addObject:notification[6]];
+                    //check if pending mate has already been added to sqlite
+                    if(![incommingRequestIdArray containsObject:notification[0]])
+                    {
+                        NSLog(@"heres a pending: %@", notification[3]);
+                        //this is a new or untouched notification that hasn't been accepted or rejected
+                        [sql add_notification:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                        [incommingRequestIdArray addObject:notification[0]];
+                        [imcommingFirstNameArray addObject:notification[3]];
+                        [imcommingLastNameArray addObject:notification[4]];
+                        [imcommingGenderArray addObject:notification[6]];
+                    }
                 }
+                //accepted
                 else if(status == 1)
                 {
-                    NSLog(@"heres a accepted: %@", notification[3]);
-                    //this is an incomming request that has already been accepted
-                    [sql add_accepted:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
-                    [acceptedRequestIdArray addObject:notification[0]];
-                    [acceptedFirstNameArray addObject:notification[3]];
-                    [acceptedLastNameArray addObject:notification[4]];
-                    [acceptedGenderArray addObject:notification[6]];
+                    //check if accepted mate has already been added to sqlite
+                    if(![acceptedRequestIdArray containsObject:notification[0]])
+                    {
+                        NSLog(@"heres a new accepted: %@", notification[3]);
+                        //this is an incomming request that has already been accepted
+                        [sql add_accepted:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                        [acceptedRequestIdArray addObject:notification[0]];
+                        [acceptedMateIdArray addObject:notification[1]];
+                        [acceptedFirstNameArray addObject:notification[3]];
+                        [acceptedLastNameArray addObject:notification[4]];
+                        [acceptedGenderArray addObject:notification[6]];
+                    }
+                    
+                    //check for frict data. make sure frict_id is not null and that the recipient hasn't already deleted this frict
+                    if(notification[8] != NULL && notification[8] != nil && ![notification[8] isEqual:@""] && [notification[16] intValue] != 1)
+                    {
+                        NSLog(@"FOUND FRICT DATA");
+                        [sql add_frict:[notification[8] intValue] mate_id:[notification[1] intValue] from:notification[9] rating:[notification[10] intValue] base:[notification[11] intValue] notes:notification[12] mate_rating:[notification[14] intValue] mate_notes:notification[15] mate_deleted:[notification[16] intValue]];
+                    }
                 }
+                //rejected
                 else if(status == -1)
                 {
-                    NSLog(@"heres a rejected: %@", notification[3]);
-                    //this is an incomming request that has already been accepted
-                    [sql add_rejected:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
-                    [rejectedRequestIdArray addObject:notification[0]];
-                    [rejectedFirstNameArray addObject:notification[3]];
-                    [rejectedLastNameArray addObject:notification[4]];
-                    [rejectedGenderArray addObject:notification[6]];
+                    //check if pending mate has already been added to sqlite
+                    if(![rejectedRequestIdArray containsObject:notification[0]])
+                    {
+                        NSLog(@"heres a rejected: %@", notification[3]);
+                        //this is an incomming request that has already been accepted
+                        [sql add_rejected:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                        [rejectedRequestIdArray addObject:notification[0]];
+                        [rejectedFirstNameArray addObject:notification[3]];
+                        [rejectedLastNameArray addObject:notification[4]];
+                        [rejectedGenderArray addObject:notification[6]];
+                    }
                 }
                 else
                 {

@@ -36,10 +36,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    //UIBarButtonItem *backButton = [[UIBarButtonItem alloc]  initWithBarButtonSystemItem:UIBarButton target:self action:@selector(goBack:)];
-    //self.navigationItem.leftBarButtonItem = backButton;
-    //self.navigationItem.hidesBackButton = YES;
     
     UIBarButtonItem *frictlistButton = [[UIBarButtonItem alloc] initWithTitle:@"Frictlist" style:UIBarButtonItemStyleBordered target:self action:@selector(goToFrictlist)];
     [self.navigationItem setRightBarButtonItem:frictlistButton];
@@ -67,6 +63,8 @@
         NSLog(@"show frictlist segue");
         FrictlistViewController *destViewConroller = segue.destinationViewController;
         destViewConroller.hu_id = self.hu_id;
+        destViewConroller.request_id = self.request_id;
+        destViewConroller.accepted = self.accepted;
     }
     else if([segue.identifier isEqualToString:@"searchMate"])
     {
@@ -96,9 +94,22 @@
     //set background
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
     
-    //get mate info
     SqlHelper *sql = [SqlHelper alloc];
-    NSArray * mate_details =[sql get_mate:self.hu_id];
+    NSArray * mate_details;
+    
+    //get mate info
+    if(self.accepted)
+    {
+        NSLog(@"Accpted this incomming request");
+        //if coming from an accepted incomming request row, use the request id to get the data for the accepted mate
+        mate_details=[sql get_accepted:self.request_id];
+    }
+    else
+    {
+        //if coming from a personal row, use the mate id to get the data for this mate
+        mate_details=[sql get_mate:self.hu_id];
+    }
+     
     
     //get mate name
     NSString *mate_name;
@@ -109,7 +120,15 @@
     }
     else
     {
-        mate_name = [NSString stringWithFormat:@"%@ %@", mate_details[0], mate_details[1]];
+        if(self.accepted)
+        {
+            mate_name = [NSString stringWithFormat:@"%@ %@", mate_details[0], mate_details[1]];
+        }
+        else
+        {
+            mate_name = [NSString stringWithFormat:@"%@ %@", mate_details[0], mate_details[1]];
+        }
+        
     }
     
     //set back button text
@@ -179,34 +198,43 @@
     frictScore.text = [NSString stringWithFormat:@"%d", totalScore];
     frictScore.font = [UIFont fontWithName:@"DBLCDTempBlack" size:27];
     
-    //disable sending multiple requests or editing a mate by checking
-    // - if there's a request uid: mate_details[4]
-    // - if accepted is pending (0) or accepted (1). we allow to re-rearch upon a rejection (-1)
-    if([mate_details[4] intValue] > 0)
+    if(self.accepted == false)
     {
-        if([mate_details[3] intValue] == 1)
+        //disable sending multiple requests or editing a mate by checking
+        // - if there's a request uid: mate_details[4]
+        // - if accepted is pending (0) or accepted (1). we allow to re-rearch upon a rejection (-1)
+        if([mate_details[4] intValue] > 0)
         {
-            searchButton.enabled = false;
-            searchButton.alpha = 0.5;
-            [searchButton setTitle:@"Accepted" forState:UIControlStateNormal];
+            if([mate_details[3] intValue] == 1)
+            {
+                searchButton.enabled = false;
+                searchButton.alpha = 0.5;
+                [searchButton setTitle:@"Accepted" forState:UIControlStateNormal];
             
-            editButton.enabled = false;
-            editButton.alpha = 0.5;
-        }
-        else if([mate_details[3] intValue] == 0)
-        {
-            searchButton.enabled = false;
-            searchButton.alpha = 0.5;
-            [searchButton setTitle:@"Pending" forState:UIControlStateNormal];
+                editButton.enabled = false;
+                editButton.alpha = 0.5;
+            }
+            else if([mate_details[3] intValue] == 0)
+            {
+                searchButton.enabled = false;
+                searchButton.alpha = 0.5;
+                [searchButton setTitle:@"Pending" forState:UIControlStateNormal];
             
-            editButton.enabled = false;
-            editButton.alpha = 0.5;
+                editButton.enabled = false;
+                editButton.alpha = 0.5;
+            }
         }
-        
-        
-        
     }
-    NSLog(@"mate details %@", mate_details);
+    else
+    {
+        searchButton.enabled = false;
+        searchButton.alpha = 0.5;
+        [searchButton setTitle:@"Accepted" forState:UIControlStateNormal];
+        
+        editButton.enabled = false;
+        editButton.alpha = 0.5;
+    }
+
 }
 
 - (void)didReceiveMemoryWarning

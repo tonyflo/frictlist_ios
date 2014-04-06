@@ -64,6 +64,8 @@ NSMutableArray *baseArray;
         
         destViewController.frict_id = remote_frict;
         destViewController.mate_id = self.hu_id;
+        destViewController.accepted = self.accepted;
+        destViewController.request_id = self.request_id;
     }
 }
 

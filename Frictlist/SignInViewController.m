@@ -684,7 +684,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
             NSArray *frict = [query_result[i] componentsSeparatedByString:@"\t"];
 
             //todo: change logic to match extra params (used to be 12)
-            if(frict.count == 16)
+            if(frict.count == 15)
             {
                 //check if mate has already been added to sqlite
                 if(![mateIds containsObject:frict[0]])
@@ -697,7 +697,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
                 if(frict[6] != NULL && frict[6] != nil && ![frict[6] isEqual:@""] && [frict[11] intValue] != 1)
                 {
                     NSLog(@"FOUND FRICT DATA");
-                    [sql add_frict:[frict[6] intValue] mate_id:[frict[0] intValue] from:frict[7] rating:[frict[8] intValue] base:[frict[9] intValue] notes:frict[10]];
+                    [sql add_frict:[frict[6] intValue] mate_id:[frict[0] intValue] from:frict[7] rating:[frict[8] intValue] base:[frict[9] intValue] notes:frict[10] mate_rating:[frict[12] intValue] mate_notes:frict[13] mate_deleted:[frict[14] intValue]];
                 }
                 
             }
@@ -739,7 +739,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
             NSArray *notification = [query_result[i] componentsSeparatedByString:@"\t"];
             
             //TODO change logic to match extra params( used to be 8)
-            if(notification.count == 20)
+            if(notification.count == 17)
             {
                 int status = [notification[2] intValue];
                 if(status == 0)
