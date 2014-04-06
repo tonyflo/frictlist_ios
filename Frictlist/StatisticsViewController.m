@@ -45,7 +45,7 @@ NSString * address = @"http://frictlist.flooreeda.com/scripts/";
     
     //tab bar icons
     [[self.tabBarController.tabBar.items objectAtIndex:0] setImage:[UIImage imageNamed:@"list_icon.png"]];
-    [[self.tabBarController.tabBar.items objectAtIndex:1] setImage:[UIImage imageNamed:@"gear_icon.png"]];
+    [[self.tabBarController.tabBar.items objectAtIndex:1] setImage:[UIImage imageNamed:@"baseball_tab_icon.png"]];
 }
 
 -(void)checkFirstAppOpen
@@ -401,12 +401,5 @@ NSString * address = @"http://frictlist.flooreeda.com/scripts/";
     //Add an alert in case of failure
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
--(IBAction)checkNotificationsPress:(id)sender
-{
- //todo remove
-}
-
-
 
 @end

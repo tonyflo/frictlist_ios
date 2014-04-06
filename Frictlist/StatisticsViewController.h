@@ -12,7 +12,6 @@
 
 @interface StatisticsViewController : UIViewController<MFMailComposeViewControllerDelegate>
 {
-    IBOutlet UIButton *checkNotificationButton;
     IBOutlet UILabel *totalScore;
     IBOutlet UILabel *totalCount;
     IBOutlet UILabel *thirdCount;
@@ -29,6 +28,5 @@
 @property (strong, nonatomic) IBOutlet UIButton *emailButton;
 
 -(IBAction)emailButtonPress:(id)sender;
--(IBAction)checkNotificationsPress:(id)sender;
 
 @end

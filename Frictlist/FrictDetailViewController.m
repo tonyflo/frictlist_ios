@@ -27,6 +27,7 @@ int maxStringLen = 255;
 int minAge = 14;
 int row = 0; //local index of mate
 int col = 0; //local index of frict
+int MAX_LENGTH_NOTES = 1024;
 
 int base;
 NSString * fromDate;
@@ -130,16 +131,6 @@ NSString * notesStr;
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(BOOL)textView:(UITextView *)textView  shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if([text isEqualToString:@"\n"])
-    {
-        [textView resignFirstResponder];
-        return NO;
-    }
-    return YES;
 }
 
 - (IBAction)savePressed:(id)sender
@@ -471,6 +462,27 @@ NSString * notesStr;
 {
     [alertView dismissWithClickedButtonIndex:0 animated:YES];
     NSLog(@"Did finish loading");
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if([text isEqualToString:@"\n"])
+    {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    NSUInteger newLength = (textView.text.length - range.length) + text.length;
+    if(newLength <= MAX_LENGTH_NOTES)
+    {
+        return YES;
+    } else {
+        NSUInteger emptySpace = MAX_LENGTH_NOTES - (textView.text.length - range.length);
+        textView.text = [[[textView.text substringToIndex:range.location]
+                          stringByAppendingString:[text substringToIndex:emptySpace]]
+                         stringByAppendingString:[textView.text substringFromIndex:(range.location + range.length)]];
+        return NO;
+    }
 }
 
 @end

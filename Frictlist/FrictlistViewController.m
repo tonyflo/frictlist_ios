@@ -151,6 +151,7 @@ NSMutableArray *baseArray;
     
     if(indexPath.row == ([matesFrictIds count]) && self.editing){
         cell.textLabel.text = @"Add a Frict";
+        cell.imageView.image = [UIImage imageNamed:@"base_0.png"];
         return cell;
     }
     

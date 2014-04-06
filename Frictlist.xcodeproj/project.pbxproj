@@ -21,7 +21,6 @@
 		2F4EE0BE176E97B100642169 /* FrictlistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0BD176E97B100642169 /* FrictlistViewController.m */; };
 		2F4EE0CC176EA2AF00642169 /* FrictDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */; };
 		2F52B94218E891C000FEC16F /* request_accepted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F52B94118E891C000FEC16F /* request_accepted.png */; };
-		2F52B94418E8920600FEC16F /* request_sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F52B94318E8920600FEC16F /* request_sent.png */; };
 		2F52B94718E8DFAE00FEC16F /* RequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F52B94618E8DFAE00FEC16F /* RequestViewController.m */; };
 		2F66D9D118DF75A000DE37A4 /* bg.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2F66D9D018DF75A000DE37A4 /* bg.gif */; };
 		2F66D9EC18E0E33900DE37A4 /* MatelistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F66D9EB18E0E33900DE37A4 /* MatelistViewController.m */; };
@@ -31,6 +30,9 @@
 		2F66D9FC18E3C64200DE37A4 /* SqlHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F66D9FB18E3C64200DE37A4 /* SqlHelper.m */; };
 		2F66DA0218E5F66900DE37A4 /* field.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F66DA0118E5F66800DE37A4 /* field.png */; };
 		2F66DA0C18E60A3000DE37A4 /* fieldglow.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F66DA0B18E60A2F00DE37A4 /* fieldglow.png */; };
+		2F8540F718F0C190007AE3C4 /* request_rejected.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F8540F618F0C190007AE3C4 /* request_rejected.png */; };
+		2F8540F918F0C1C8007AE3C4 /* request_sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F8540F818F0C1C8007AE3C4 /* request_sent.png */; };
+		2F8540FD18F0C63A007AE3C4 /* baseball_tab_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F8540FC18F0C63A007AE3C4 /* baseball_tab_icon.png */; };
 		2F9542101868B84A0063CE37 /* gear_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F95420F1868B8490063CE37 /* gear_icon.png */; };
 		2F9542121868B8670063CE37 /* list_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F9542111868B8670063CE37 /* list_icon.png */; };
 		2F9542171868D3BD0063CE37 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9542161868D3BD0063CE37 /* TabBarController.m */; };
@@ -82,7 +84,6 @@
 		2F4EE0CA176EA2AF00642169 /* FrictDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictDetailViewController.h; sourceTree = "<group>"; };
 		2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrictDetailViewController.m; sourceTree = "<group>"; };
 		2F52B94118E891C000FEC16F /* request_accepted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = request_accepted.png; sourceTree = "<group>"; };
-		2F52B94318E8920600FEC16F /* request_sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = request_sent.png; sourceTree = "<group>"; };
 		2F52B94518E8DFAE00FEC16F /* RequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestViewController.h; sourceTree = "<group>"; };
 		2F52B94618E8DFAE00FEC16F /* RequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestViewController.m; sourceTree = "<group>"; };
 		2F66D9D018DF75A000DE37A4 /* bg.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = bg.gif; sourceTree = "<group>"; };
@@ -96,6 +97,9 @@
 		2F66D9FB18E3C64200DE37A4 /* SqlHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SqlHelper.m; sourceTree = "<group>"; };
 		2F66DA0118E5F66800DE37A4 /* field.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = field.png; sourceTree = "<group>"; };
 		2F66DA0B18E60A2F00DE37A4 /* fieldglow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fieldglow.png; sourceTree = "<group>"; };
+		2F8540F618F0C190007AE3C4 /* request_rejected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = request_rejected.png; sourceTree = "<group>"; };
+		2F8540F818F0C1C8007AE3C4 /* request_sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = request_sent.png; sourceTree = "<group>"; };
+		2F8540FC18F0C63A007AE3C4 /* baseball_tab_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baseball_tab_icon.png; sourceTree = "<group>"; };
 		2F86FB7217A4A925008A2C8D /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		2F95420F1868B8490063CE37 /* gear_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear_icon.png; sourceTree = "<group>"; };
 		2F9542111868B8670063CE37 /* list_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list_icon.png; sourceTree = "<group>"; };
@@ -187,6 +191,9 @@
 		2F4EE0A7176E97B100642169 /* Frictlist */ = {
 			isa = PBXGroup;
 			children = (
+				2F8540F618F0C190007AE3C4 /* request_rejected.png */,
+				2F8540F818F0C1C8007AE3C4 /* request_sent.png */,
+				2F52B94118E891C000FEC16F /* request_accepted.png */,
 				2F66D9D018DF75A000DE37A4 /* bg.gif */,
 				2F9A89AC18E67D3C00309D13 /* base_0.png */,
 				2F9A89AD18E67D3C00309D13 /* base_1.png */,
@@ -198,13 +205,12 @@
 				2F9A89BC18E67E2100309D13 /* gender_1.png */,
 				2F66DA0118E5F66800DE37A4 /* field.png */,
 				2F66DA0B18E60A2F00DE37A4 /* fieldglow.png */,
+				2F8540FC18F0C63A007AE3C4 /* baseball_tab_icon.png */,
 				2F9542111868B8670063CE37 /* list_icon.png */,
 				2F95420F1868B8490063CE37 /* gear_icon.png */,
 				2FDA34E51875D42E00ED5698 /* checkbox.png */,
 				2FDA34E31875D42E00ED5698 /* checkbox-checked.png */,
 				2FDA34E41875D42E00ED5698 /* checkbox-pressed.png */,
-				2F52B94318E8920600FEC16F /* request_sent.png */,
-				2F52B94118E891C000FEC16F /* request_accepted.png */,
 				2F4EE0A9176E97B100642169 /* Frictlist-Info.plist */,
 				2F4EE0B0176E97B100642169 /* FrictlistAppDelegate.h */,
 				2F4EE0B1176E97B100642169 /* FrictlistAppDelegate.m */,
@@ -335,7 +341,9 @@
 				2F9A89C818E7016000309D13 /* icon.png in Resources */,
 				2F9A89C918E7016000309D13 /* icon@2x.png in Resources */,
 				2F52B94218E891C000FEC16F /* request_accepted.png in Resources */,
-				2F52B94418E8920600FEC16F /* request_sent.png in Resources */,
+				2F8540F718F0C190007AE3C4 /* request_rejected.png in Resources */,
+				2F8540F918F0C1C8007AE3C4 /* request_sent.png in Resources */,
+				2F8540FD18F0C63A007AE3C4 /* baseball_tab_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

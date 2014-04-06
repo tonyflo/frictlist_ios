@@ -683,7 +683,8 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
             //split the row into columns
             NSArray *frict = [query_result[i] componentsSeparatedByString:@"\t"];
 
-            if(frict.count == 12)
+            //todo: change logic to match extra params (used to be 12)
+            if(frict.count == 16)
             {
                 //check if mate has already been added to sqlite
                 if(![mateIds containsObject:frict[0]])
@@ -704,6 +705,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
             {
                 //number of columns in frictlist is not correct
                 [self showErrorCodeDialog:-402];
+                break;
             }
         }
         
@@ -736,7 +738,8 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
             //split the row into columns
             NSArray *notification = [query_result[i] componentsSeparatedByString:@"\t"];
             
-            if(notification.count == 8)
+            //TODO change logic to match extra params( used to be 8)
+            if(notification.count == 20)
             {
                 int status = [notification[2] intValue];
                 if(status == 0)
@@ -766,6 +769,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
             {
                 //number of columns in notification is not correct
                 [self showErrorCodeDialog:-401];
+                break;
             }
         }
         
