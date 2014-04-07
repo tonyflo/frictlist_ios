@@ -379,7 +379,7 @@ NSString * notesStr;
         }
         else
         {
-            [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text mate_rating:0 mate_notes:NULL mate_deleted:0];
+            [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text mate_rating:0 mate_notes:NULL mate_deleted:0 creator:self.creator];
         }
         
         //enable tabbaar items

@@ -11,14 +11,16 @@
 @interface FrictViewController : UIViewController
 {
     
-    IBOutlet NSLayoutConstraint *editButton;
+    IBOutlet UIButton *editButton;
     IBOutlet UILabel *nameText;
+    IBOutlet UILabel *mateNameText;
     IBOutlet UITextView *notesText;
+    IBOutlet UITextView *mateNotesText;
     IBOutlet UILabel *dateRangeText;
-    IBOutlet UIImageView *genderImageView;
     IBOutlet UIImageView *baseImageView;
     IBOutlet UILabel *scoreText;
     IBOutlet UILabel *ratingText;
+    IBOutlet UILabel *mateRatingText;
 }
 
 @property (readwrite, assign) NSUInteger frict_id;
