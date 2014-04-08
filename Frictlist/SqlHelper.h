@@ -38,7 +38,8 @@
 - (NSMutableArray *)get_rejected:(int)request_id;
 
 - (void)update_mate:(int)mate_id fn:(NSString *)fn ln:(NSString *)ln gender:(int)gender;
-- (void)update_frict:(int)frict_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes; //no update needed
+- (void)update_frict_as_fl_creator:(int)frict_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes;
+- (void)update_frict_as_fl_recipient:(int)frict_id from:(NSString *)from base:(int)base mate_rating:(int)mate_rating mate_notes:(NSString *)mate_notes mate_deleted:(int)mate_deleted;
 
 - (NSArray *) getOutgoingRequestStatus;
 - (void)update_mate_status:(int)mate_id accepted:(int)accepted request:(int)request;

@@ -156,7 +156,7 @@ NSString * dbName = @"frictlist.sqlite";
                 NSString *from = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
                 NSNumber *rating = [NSNumber numberWithInt: sqlite3_column_int(statement, 2)];
                 NSNumber *base = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
-                NSString *notes = [NSString stringWithUTF8String:sqlite3_column_text(statement, 4)];
+                NSString *notes = [self unsanatize:[NSString stringWithUTF8String:sqlite3_column_text(statement, 4)]];
                 [frict_id_array addObject:frict_id];
                 [from_array addObject:from];
                 [rating_array addObject:rating];
@@ -562,7 +562,7 @@ NSString * dbName = @"frictlist.sqlite";
 }
 
 
-- (void)update_frict:(int)frict_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes
+- (void)update_frict_as_fl_creator:(int)frict_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes
 {
     NSString * path = [self getDbPath];
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
@@ -588,6 +588,31 @@ NSString * dbName = @"frictlist.sqlite";
     NSLog(@"by update frict");
 }
 
+- (void)update_frict_as_fl_recipient:(int)frict_id from:(NSString *)from base:(int)base mate_rating:(int)mate_rating mate_notes:(NSString *)mate_notes mate_deleted:(int)mate_deleted
+{
+    NSString * path = [self getDbPath];
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
+    {
+        const char *sql = [[NSString stringWithFormat:@"UPDATE frict SET frict_from_date='%@', frict_base='%d', mate_rating='%d', mate_notes='%@' where frict_id='%d'", from, base, mate_rating, [self sanatize:mate_notes], frict_id] UTF8String];
+        sqlite3_stmt *updateStmt = nil;
+        if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
+        {
+            NSLog(@"Error while creating insert statement. '%s'", sqlite3_errmsg(database));
+            NSLog(@"done update frict");
+        }
+        if (SQLITE_DONE != sqlite3_step(updateStmt)){
+            NSLog(@"Error while creating database. '%s'", sqlite3_errmsg(database));
+        }
+        sqlite3_reset(updateStmt);
+        sqlite3_finalize(updateStmt);
+    }
+    else
+    {
+        NSLog(@"Error while opening database '%s'", sqlite3_errmsg(database));
+    }
+    sqlite3_close(database);
+    NSLog(@"by update frict");
+}
 
 - (void)remove_mate:(int)mate_id
 {
@@ -676,9 +701,9 @@ NSString * dbName = @"frictlist.sqlite";
                 NSString *from = [NSString stringWithUTF8String:sqlite3_column_text(statement, 0)];
                 NSNumber *rating = [NSNumber numberWithInt: sqlite3_column_int(statement, 1)];
                 NSNumber *base = [NSNumber numberWithInt: sqlite3_column_int(statement, 2)];
-                NSString *notes = [NSString stringWithUTF8String:sqlite3_column_text(statement, 3)];
+                NSString *notes = [self unsanatize:[NSString stringWithUTF8String:sqlite3_column_text(statement, 3)]];
                 NSNumber *mateRating = [NSNumber numberWithInt: sqlite3_column_int(statement, 4)];
-                NSString *mateNotes = [NSString stringWithUTF8String:sqlite3_column_text(statement, 5)];
+                NSString *mateNotes = [self unsanatize:[NSString stringWithUTF8String:sqlite3_column_text(statement, 5)]];
                 NSNumber *mateDeleted = [NSNumber numberWithInt: sqlite3_column_int(statement, 6)];
                 NSNumber *creator = [NSNumber numberWithInt: sqlite3_column_int(statement, 7)];
                 frict = [[NSMutableArray alloc] initWithObjects:from, rating, base, notes, mateRating, mateNotes, mateDeleted, creator, nil];
@@ -964,7 +989,12 @@ NSString * dbName = @"frictlist.sqlite";
 
 - (NSString *) sanatize:(NSString*)input
 {
-    return [[input stringByReplacingOccurrencesOfString:@"'" withString:@"\'"] stringByReplacingOccurrencesOfString:@"'" withString:@"\""];
+    return [[input stringByReplacingOccurrencesOfString:@"'" withString:@"&.&"] stringByReplacingOccurrencesOfString:@"\"" withString:@"&:&"];
+}
+
+- (NSString *) unsanatize:(NSString*)input
+{
+    return [[input stringByReplacingOccurrencesOfString:@"&.&" withString:@"'"] stringByReplacingOccurrencesOfString:@"&:&" withString:@"\""];
 }
 
 @end

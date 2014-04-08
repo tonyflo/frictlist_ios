@@ -43,36 +43,13 @@ NSString * notesStr;
 -(void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"view will appear frict detail");
-    //check if this is an existing hookup
-    //this mean that we have to display the data for edit
+    
+    //if the frict exists
     if(self.frict_id > 0)
     {
-        SqlHelper *sql = [SqlHelper alloc];
-        NSArray *frict = [sql get_frict:self.frict_id];
-        
-        NSLog(@"single frict : %@", frict);
-        
-        fromDate = frict[0];
-        rating = [frict[1] intValue];
-        base = [frict[2] intValue];
-        notesStr = frict[3];
-        
-        baseSwitch.selectedSegmentIndex = base;
-        [notes setText:notesStr];
-        
-        //dates
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd"];
-        NSDate * fromAsDate = [formatter dateFromString:fromDate];
-        [fromSwitch setDate:fromAsDate];
-        
-        //set the title
         self.title = @"Update Frict";
         
-        //set the slider
-        sliderText.text = [NSString stringWithFormat:@"%d", rating ];
-        ratingSlider.value = rating;
-        
+        //disable editing date and base of a shared frict
         if(self.accepted == 1)
         {
             fromSwitch.enabled = false;
@@ -80,10 +57,99 @@ NSString * notesStr;
             baseSwitch.enabled = false;
             baseSwitch.alpha = 0.5;
         }
+        
+        //initialize helpers
+        SqlHelper *sql = [SqlHelper alloc];
+        
+        //get mate data
+        NSArray *mate = [sql get_mate:self.mate_id];
+        NSString *mateFirstName = mate[0];
+        NSString *mateLastName = mate[1];
+        //int mateGender = [mate[2] intValue];
+        
+        //declare frict data
+        NSArray *frict;
+        NSString * fromDate = @"";
+        int rating = 0;
+        int base = -1;
+        NSString * notesStr = @"";
+        int mateRating = 0;
+        NSString * mateNotesStr = @"";
+        int mateDeleted = 0;
+        int creator = 1;
+        
+        //get frict data
+        frict = [sql get_frict:self.frict_id];
+        fromDate = frict[0];
+        rating = [frict[1] intValue];
+        base = [frict[2] intValue];
+        notesStr = frict[3];
+        mateRating = [frict[4] intValue];
+        mateNotesStr = frict[5];
+        mateDeleted = [frict[6] intValue];
+        creator = [frict[7] intValue];
+            
+        if(mateNotesStr == nil || mateNotesStr == NULL || [mateNotesStr isEqualToString: @"(null)"])
+        {
+            mateNotesStr = @"";
+        }
+            
+        //show date
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        NSDate * fromAsDate = [formatter dateFromString:fromDate];
+        [fromSwitch setDate:fromAsDate];
+            
+        //set base
+        baseSwitch.selectedSegmentIndex = base;
+        
+        //creator: the creator of the frict | 1 if the creator of the frictlist, 0 otherwise
+        //self.creator: the creator of the frictlist | 1 if this user, 0 otherwise
+        if(creator == 1 && self.creator == 1)
+        {
+            //I created this frict and I created this frictlist
+            NSLog(@"I created this frict and I created this frictlist");//
+            
+            sliderText.text = [NSString stringWithFormat:@"%d", rating ];
+            ratingSlider.value = rating;
+            [notes setText:notesStr];
+        }
+        else if(creator == 0 && self.creator == 1)
+        {
+            //My mate created this frict but I created this frictlist
+            NSLog(@"My mate created this frict but I created this frictlist");////
+            
+            sliderText.text = [NSString stringWithFormat:@"%d", rating ];
+            ratingSlider.value = rating;
+            [notes setText:notesStr];
+        }
+        else if(creator == 1 && self.creator == 0)
+        {
+            //My mate created this frict and my mate created the frictlist
+            NSLog(@"My mate created this frict and my mate created the frictlist");//
+            
+            sliderText.text = [NSString stringWithFormat:@"%d", mateRating ];
+            ratingSlider.value = mateRating;
+            [notes setText:mateNotesStr];
+        }
+        else if(creator == 0 && self.creator == 0)
+        {
+            //I created this frict but my mate created the frictlist
+            NSLog(@"I created this frict but my mate created the frictlist");////
+            
+            sliderText.text = [NSString stringWithFormat:@"%d", mateRating ];
+            ratingSlider.value = mateRating;
+            [notes setText:mateNotesStr];
+        }
+        else
+        {
+            //todo, should never happen, throw error code
+            NSLog(@"BAD");
+        }
+
     }
     else
     {
-        //set the title
         self.title = @"New Frict";
     }
     
@@ -150,7 +216,6 @@ NSString * notesStr;
     int ratingVal = ratingSlider.value;
     NSString * hu_notes = notes.text;
 
-    //todo logic seems wack
     //get the birthday of the user from the plist then format it into a string
     PlistHelper *plist = [PlistHelper alloc];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -374,12 +439,40 @@ NSString * notesStr;
         
         if(self.frict_id > 0)
         {
-            //update the local database
-            [sql update_frict:intResult from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text];
+            if(self.creator == 1)
+            {
+                //the creator of the frictlist is updating this frict
+                [sql update_frict_as_fl_creator:intResult from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text];
+                NSLog(@"updating frict as creator");
+            }
+            else if(self.creator == 0)
+            {
+                //the recipient of the frictlist is updating this frict
+                [sql update_frict_as_fl_recipient:intResult from:fromFormatted base:baseSwitch.selectedSegmentIndex mate_rating:ratingSlider.value mate_notes:notes.text mate_deleted:0];
+                NSLog(@"updating frict as recipient");
+            }
+            else
+            {
+                 //bad error, todo: error code
+            }
+
         }
         else
         {
-            [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text mate_rating:0 mate_notes:NULL mate_deleted:0 creator:self.creator];
+            if(self.creator == 1)
+            {
+                //creator of the frictlist is adding a frict
+                [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text mate_rating:0 mate_notes:NULL mate_deleted:0 creator:self.creator];
+            }
+            else if(self.creator == 0)
+            {
+                //recipient of the frictlist is adding a frict
+                [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:0 base:baseSwitch.selectedSegmentIndex notes:@"" mate_rating:ratingSlider.value mate_notes:notes.text mate_deleted:0 creator:self.creator];
+            }
+            else
+            {
+                //bad error, todo: error code
+            }
         }
         
         //enable tabbaar items

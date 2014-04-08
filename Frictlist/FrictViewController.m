@@ -165,37 +165,54 @@
     else if(creator == 0 && self.creator == 1)
     {
         //My mate created this frict but I created this frictlist
-        NSLog(@"My mate created this frict but I created this frictlist");////
-
-        //left
-        nameText.text = mateFirstName;
-        [notesText setText:mateNotesStr];
-        ratingText.text = [NSString stringWithFormat:@"%d",mateRating];
-
+         NSLog(@"My mate created this frict but I created this frictlist");////
         
-        //right
-        mateNameText.text = userFirstName;
-        [mateNotesText setText:notesStr];
-        mateRatingText.text = [NSString stringWithFormat:@"%d",rating];        
+        if(mateDeleted == 1)
+        {
+            //the mate deleted this frict
+            [notesText setText:@"Deleted"];
+        }
+        else
+        {
+            //left
+            nameText.text = mateFirstName;
+            [notesText setText:mateNotesStr];
+            ratingText.text = [NSString stringWithFormat:@"%d",mateRating];
+            
+            //right
+            mateNameText.text = userFirstName;
+            [mateNotesText setText:notesStr];
+            mateRatingText.text = [NSString stringWithFormat:@"%d",rating];
+        }
     }
     else if(creator == 1 && self.creator == 0)
     {
         //My mate created this frict and my mate created the frictlist
         NSLog(@"My mate created this frict and my mate created the frictlist");//
         
-        NSArray * accepted = [sql get_accepted:self.request_id];
-        mateFirstName = accepted[0];
-        mateLastName = accepted[1];
-        
-        //left
-        nameText.text = mateFirstName;
-        [notesText setText:notesStr];
-        ratingText.text = [NSString stringWithFormat:@"%d",rating];
-        
-        //right
-        mateNameText.text = userFirstName;
-        [mateNotesText setText:mateNotesStr];
-        mateRatingText.text = [NSString stringWithFormat:@"%d",mateRating];
+        //My mate created this frict but I created this frictlist
+        if(mateDeleted == 1)
+        {
+            //the mate deleted this frict
+            [notesText setText:@"Deleted"];
+            
+        }
+        else
+        {
+            NSArray * accepted = [sql get_accepted:self.request_id];
+            mateFirstName = accepted[0];
+            mateLastName = accepted[1];
+            
+            //left
+            nameText.text = mateFirstName;
+            [notesText setText:notesStr];
+            ratingText.text = [NSString stringWithFormat:@"%d",rating];
+            
+            //right
+            mateNameText.text = userFirstName;
+            [mateNotesText setText:mateNotesStr];
+            mateRatingText.text = [NSString stringWithFormat:@"%d",mateRating];
+        }
     }
     else if(creator == 0 && self.creator == 0)
     {
@@ -223,61 +240,6 @@
     }
     
         
-    /*
-    //check if this is an existing hookup
-    //this mean that we have to display the data for edit
-    if(self.frict_id > 0)
-    {
-        SqlHelper *sql = [SqlHelper alloc];
-        NSArray *mate;
-        //if this is an incomming request that has been accepted, get the data for the mate from the accepted table
-        if(self.accepted == 1)
-        {
-            mate = [sql get_accepted:self.request_id];
-        }
-        else
-        {
-            mate = [sql get_mate:self.mate_id];    
-        }
-        
-        
-        
-        
-        
-        
-        NSLog(@"okay frict id is %d", self.frict_id);
-        firstName = mate[0];
-        lastName = mate[1];
-        if(self.accepted)
-        {
-            gender = [mate[3] intValue];
-        }
-        else
-        {
-            gender = [mate[2] intValue];
-        }
-        
-        
-
-        
-        //set name
-        //nameText.text = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
-        
-        //set gender
-        //NSString *genderStr = [NSString stringWithFormat:@"gender_%d.png", gender];
-        //genderImageView.image = [UIImage imageNamed:genderStr];
-        //NSLog(@"GENDER IMAGE: %@", genderStr);
-        
-
-        
-        // display rating
-        ratingText.text = [NSString stringWithFormat:@"%d",rating ];
-        
-        //set notes
-        [notesText setText:notesStr];
-        
-*/
-
     self.title = [NSString stringWithFormat:@"%@ %@", mateFirstName, mateLastName];
     
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
