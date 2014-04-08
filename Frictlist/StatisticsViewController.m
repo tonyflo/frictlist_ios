@@ -282,10 +282,11 @@ NSString * address = @"http://frictlist.flooreeda.com/scripts/";
 -(void)statistics
 {
     SqlHelper *sql = [SqlHelper alloc];
+    int counts[4] = {0,0,0,0};
+    
+    //for personal
     NSArray *mateList = [sql get_mate_list];
     NSArray *mate_ids = mateList[0];
-    
-    int counts[4] = {0,0,0,0};
     
     //loop over all fricts
     for(int mate_index = 0; mate_index < mate_ids.count; mate_index++)
@@ -298,6 +299,26 @@ NSString * address = @"http://frictlist.flooreeda.com/scripts/";
             for(int i = 0; i < count; i++)
             {
                 //sick logic
+                counts[[fl[3][i] intValue]]++;
+            }
+        }
+    }
+    
+    //for accepted
+    NSArray *acceptedList = [sql get_accepted_list];
+    NSArray *accepted_mate_ids = acceptedList[4];
+    
+    //loop over all fricts
+    for(int accepted_index = 0; accepted_index < accepted_mate_ids.count; accepted_index++)
+    {
+        //get frict bases count
+        NSArray *fl = [sql get_frict_list:[accepted_mate_ids[accepted_index] intValue]];
+        if(fl != NULL)
+        {
+            int count = ((NSArray *)fl[0]).count;
+            for(int i = 0; i < count; i++)
+            {
+                //reused sick logic
                 counts[[fl[3][i] intValue]]++;
             }
         }

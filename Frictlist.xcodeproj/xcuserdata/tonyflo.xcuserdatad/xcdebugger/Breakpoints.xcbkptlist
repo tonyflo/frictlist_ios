@@ -175,11 +175,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/StatisticsViewController.m"
-         timestampString = "417888825.303782"
+         timestampString = "418610869.1226"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "373"
-         endingLineNumber = "373"
+         startingLineNumber = "394"
+         endingLineNumber = "394"
          landmarkName = "-emailButtonPress:"
          landmarkType = "5">
       </FileBreakpoint>
