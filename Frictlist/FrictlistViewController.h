@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FrictlistViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface FrictlistViewController : UITableViewController
+//@interface FrictlistViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;

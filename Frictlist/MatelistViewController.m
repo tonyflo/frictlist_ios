@@ -72,7 +72,7 @@ NSMutableArray *rejectedGenderArray;
     canRefresh = true;
     NSLog(@"Done refres");
 }
-
+ 
 -(void)updateMateList
 {
     NSLog(@"Update matelist");

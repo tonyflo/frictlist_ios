@@ -4,52 +4,41 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--Frictlist View Controller - Frictlist-->
-        <scene sceneID="mhi-H2-09N">
+        <!--Frictlist View Controller-->
+        <scene sceneID="ibr-g3-gfg">
             <objects>
-                <viewController id="Bml-PA-3bk" customClass="FrictlistViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="3Pe-RL-z0Z">
+                <tableViewController id="y8c-FO-0R7" customClass="FrictlistViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="mfX-Ne-AJ0">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="aIe-KC-s5b">
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FrictCell" id="Kac-vT-XZh">
-                                        <rect key="frame" x="0.0" y="46" width="320" height="46"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="280" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <connections>
-                                            <segue destination="ifs-vp-4ql" kind="push" identifier="showFrictDetail" id="erm-ZJ-yon"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="aLG-dQ-l8z">
+                                <rect key="frame" x="0.0" y="46" width="320" height="46"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="10" y="1" width="280" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
                                 <connections>
-                                    <outlet property="dataSource" destination="Bml-PA-3bk" id="Qlz-Qe-oee"/>
-                                    <outlet property="delegate" destination="Bml-PA-3bk" id="n0r-bL-ej4"/>
+                                    <segue destination="ifs-vp-4ql" kind="push" identifier="showFrictDetail" id="T2j-Fa-Z0e"/>
                                 </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="aIe-KC-s5b" firstAttribute="bottom" secondItem="3Pe-RL-z0Z" secondAttribute="bottom" type="default" id="Vx8-Cq-tfQ"/>
-                            <constraint firstItem="aIe-KC-s5b" firstAttribute="trailing" secondItem="3Pe-RL-z0Z" secondAttribute="trailing" type="default" id="Y0v-zB-apx"/>
-                            <constraint firstItem="aIe-KC-s5b" firstAttribute="top" secondItem="3Pe-RL-z0Z" secondAttribute="top" type="default" id="n29-OY-dG6"/>
-                            <constraint firstItem="aIe-KC-s5b" firstAttribute="leading" secondItem="3Pe-RL-z0Z" secondAttribute="leading" type="default" id="v4d-4P-CsR"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Frictlist" id="EGU-JW-Ma1"/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="y8c-FO-0R7" id="Mwq-aA-RrV"/>
+                            <outlet property="delegate" destination="y8c-FO-0R7" id="g97-pX-Xkr"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="9yP-f1-i68"/>
                     <connections>
-                        <outlet property="tableView" destination="aIe-KC-s5b" id="ypl-QT-Ott"/>
+                        <outlet property="tableView" destination="mfX-Ne-AJ0" id="aAg-It-isP"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Kpl-uA-cOU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xo3-NK-yFB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2201" y="-518"/>
+            <point key="canvasLocation" x="2207" y="-518"/>
         </scene>
         <!--Frict View Controller-->
         <scene sceneID="jeY-Vp-Z3h">
@@ -96,19 +85,21 @@
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lra-Yk-Jn3">
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="129" id="bRx-ld-ZdS"/>
                                     <constraint firstAttribute="height" constant="136" id="r8i-Au-PTg"/>
                                 </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFM-jm-fPT">
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="129" id="6Lq-5x-n5r"/>
                                 </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -875,9 +866,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <segue destination="Bml-PA-3bk" kind="push" identifier="showFrictlist" id="EBf-T5-YZ9"/>
-                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="fieldglow.png" translatesAutoresizingMaskIntoConstraints="NO" id="e2p-G7-kVX">
                                 <constraints>
@@ -1050,6 +1038,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <outlet property="secondScore" destination="pIV-nO-lxd" id="HTz-Nf-P8k"/>
                         <outlet property="thirdCount" destination="KCe-cJ-NXv" id="9FD-ZF-BIe"/>
                         <outlet property="thirdScore" destination="0ay-Lo-Mld" id="Z3E-N8-zth"/>
+                        <segue destination="y8c-FO-0R7" kind="push" identifier="showFrictlist" id="tbl-AT-53g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9hS-Xe-Bcm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1417,7 +1406,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 <relationship kind="outlet" name="scoreText" candidateClass="UILabel"/>
             </relationships>
         </class>
-        <class className="FrictlistViewController" superclassName="UIViewController">
+        <class className="FrictlistViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictlistViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
