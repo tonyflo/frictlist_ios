@@ -319,7 +319,6 @@ int gender;
         SqlHelper * sql = [SqlHelper alloc];
         if(self.hu_id > 0)
         {
-            //todo
             //update the mate in local database
             [sql update_mate:intResult fn:firstNameText.text ln:lastNameText.text gender:genderSwitch.selectedSegmentIndex];
         }

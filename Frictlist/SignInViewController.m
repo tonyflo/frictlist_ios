@@ -667,11 +667,11 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
     NSArray *query_result = [strResult componentsSeparatedByString:@"\n"];
     NSString *searchFlag = query_result[0];
+    SqlHelper *sql = [SqlHelper alloc];
     
     if([searchFlag isEqual:@"frictlist"])
     {
         //we have received the frictlist because the user has just signed in. now loop over it and save it to the sqlite db
-        SqlHelper *sql = [SqlHelper alloc];
         
         //store the mate_ids to avoid adding the same mate more than once
         NSMutableArray *mateIds = [[NSMutableArray alloc] init];
@@ -682,24 +682,23 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
         {
             //split the row into columns
             NSArray *frict = [query_result[i] componentsSeparatedByString:@"\t"];
-
-            //todo: change logic to match extra params (used to be 12)
+            NSLog(@"Frict count = %d", frict.count);
             if(frict.count == 16)
             {
                 //check if mate has already been added to sqlite
                 if(![mateIds containsObject:frict[0]])
                 {
+                    NSLog(@"New mate %@", frict[0]);
                     [sql add_mate:[frict[0] intValue] fn:frict[3] ln:frict[4] gender:[frict[5] intValue] accepted:[frict[1] intValue] mates_uid:[frict[2] intValue]];
                     [mateIds addObject:frict[0]];
                 }
-
+                
                 //check for frict data
                 if(frict[6] != NULL && frict[6] != nil && ![frict[6] isEqual:@""] && [frict[11] intValue] != 1)
                 {
                     NSLog(@"FOUND FRICT DATA");
                     [sql add_frict:[frict[6] intValue] mate_id:[frict[0] intValue] from:frict[7] rating:[frict[8] intValue] base:[frict[9] intValue] notes:frict[10] mate_rating:[frict[12] intValue] mate_notes:frict[13] mate_deleted:[frict[14] intValue] creator:[frict[15] intValue]];
                 }
-                
             }
             else
             {
@@ -728,9 +727,12 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     //notifications
     else if([searchFlag isEqual:@"notifications"])
     {
-        //we have received the frictlist because the user has just signed in. now loop over it and save it to the sqlite db
-        SqlHelper *sql = [SqlHelper alloc];
-                
+        //we have received the notification list because the user has just signed in. now loop over it and save it to the sqlite db
+        
+        NSMutableArray *incommingRequestIdArray = [[NSMutableArray alloc] init];
+        NSMutableArray *acceptedRequestIdArray = [[NSMutableArray alloc] init];
+        NSMutableArray *rejectedRequestIdArray = [[NSMutableArray alloc] init];
+        
         //for each row in the notification table
         //start at 1 to skip over notification flag line
         for(int i = 1; i < query_result.count - 1; i++)
@@ -738,24 +740,51 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
             //split the row into columns
             NSArray *notification = [query_result[i] componentsSeparatedByString:@"\t"];
             
-            //TODO change logic to match extra params( used to be 8)
             if(notification.count == 18)
             {
                 int status = [notification[2] intValue];
+                //pending
                 if(status == 0)
                 {
-                    //this is a new or untouched notification that hasn't been accepted or rejected
-                    [sql add_notification:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                    //check if pending mate has already been added to sqlite
+                    if(![incommingRequestIdArray containsObject:notification[0]])
+                    {
+                        NSLog(@"heres a pending: %@", notification[3]);
+                        //this is a new or untouched notification that hasn't been accepted or rejected
+                        [sql add_notification:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                        [incommingRequestIdArray addObject:notification[0]];
+                    }
                 }
+                //accepted
                 else if(status == 1)
                 {
-                    //this is an incomming request that has already been accepted
-                    [sql add_accepted:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                    //check if accepted mate has already been added to sqlite
+                    if(![acceptedRequestIdArray containsObject:notification[0]])
+                    {
+                        NSLog(@"heres a new accepted: %@", notification[3]);
+                        //this is an incomming request that has already been accepted
+                        [sql add_accepted:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                        [acceptedRequestIdArray addObject:notification[0]];
+                    }
+                    
+                    //check for frict data. make sure frict_id is not null and that the recipient hasn't already deleted this frict
+                    if(notification[8] != NULL && notification[8] != nil && ![notification[8] isEqual:@""] && [notification[16] intValue] != 1)
+                    {
+                        NSLog(@"FOUND FRICT DATA");
+                        [sql add_frict:[notification[8] intValue] mate_id:[notification[1] intValue] from:notification[9] rating:[notification[10] intValue] base:[notification[11] intValue] notes:notification[12] mate_rating:[notification[14] intValue] mate_notes:notification[15] mate_deleted:[notification[16] intValue] creator:[notification[17] intValue]];
+                    }
                 }
+                //rejected
                 else if(status == -1)
                 {
-                    //this is an incomming request that has already been accepted
-                    [sql add_rejected:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                    //check if pending mate has already been added to sqlite
+                    if(![rejectedRequestIdArray containsObject:notification[0]])
+                    {
+                        NSLog(@"heres a rejected: %@", notification[3]);
+                        //this is an incomming request that has already been accepted
+                        [sql add_rejected:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                        [rejectedRequestIdArray addObject:notification[0]];
+                    }
                 }
                 else
                 {

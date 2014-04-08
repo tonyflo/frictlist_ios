@@ -755,7 +755,7 @@ NSMutableArray *rejectedGenderArray;
     
     if([searchFlag isEqual:@"frictlist"])
     {
-        //we have received the frictlist because the user has just signed in. now loop over it and save it to the sqlite db
+        //we have received the frictlist because the user has just pulled down to refresh. now loop over it and save it to the sqlite db
         SqlHelper *sql = [SqlHelper alloc];
         
         //store the mate_ids to avoid adding the same mate more than once
@@ -805,7 +805,7 @@ NSMutableArray *rejectedGenderArray;
     //notifications
     else if([searchFlag isEqual:@"notifications"])
     {
-        //we have received the frictlist because the user has just signed in. now loop over it and save it to the sqlite db
+        //we have received the notification list because the user has just pulled down to refresh. now loop over it and save it to the sqlite db
         SqlHelper *sql = [SqlHelper alloc];
         
         //for each row in the notification table
