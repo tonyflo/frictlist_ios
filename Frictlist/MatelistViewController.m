@@ -23,6 +23,7 @@
 NSString * scripts_url = @"http://frictlist.flooreeda.com/scripts/";
 UIAlertView * alertView;
 int curRow = -1;
+int creator = -1;
 BOOL canRefresh = true; //if the refresh is happening
 BOOL sentFromAdd = false;
 NSMutableArray *huidArray;
@@ -363,6 +364,7 @@ NSMutableArray *rejectedGenderArray;
             if(indexPath.row == ([huidArray count]) && self.editing){
                 cell.textLabel.text = @"Add a Mate";
                 cell.imageView.image = [UIImage imageNamed:@"gender_.png"];
+                cell.accessoryView = UITableViewCellAccessoryNone;
                 return cell;
             }
             
@@ -393,6 +395,11 @@ NSMutableArray *rejectedGenderArray;
                     {
                         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_rejected.png"]];
                     }
+                    else if([acceptedArray[i] intValue] == -2)
+                    {
+                        //accepted then deleted
+                        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_deleted.png"]];
+                    }
                     else
                     {
                         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_sent.png"]];
@@ -400,7 +407,7 @@ NSMutableArray *rejectedGenderArray;
                 }
                 else
                 {
-                    cell.accessoryView = NULL;
+                    cell.accessoryView = UITableViewCellAccessoryNone;
                 }
             }
             break;
@@ -420,7 +427,7 @@ NSMutableArray *rejectedGenderArray;
                 
                 //set cell text
                 cell.textLabel.text = name;
-                cell.accessoryView = NULL;
+                cell.accessoryView = UITableViewCellAccessoryNone;
             }
             break;
         case 2://accepted
@@ -439,7 +446,7 @@ NSMutableArray *rejectedGenderArray;
                 
                 //set cell text
                 cell.textLabel.text = name;
-                cell.accessoryView = NULL;
+                cell.accessoryView = UITableViewCellAccessoryNone;
             }
             break;
         case 3://rejected
@@ -458,20 +465,22 @@ NSMutableArray *rejectedGenderArray;
                 
                 //set cell text
                 cell.textLabel.text = name;
-                cell.accessoryView = NULL;
+                cell.accessoryView = UITableViewCellAccessoryNone;
             }
             break;
         default:
+            cell.accessoryView = UITableViewCellAccessoryNone;
             break;
     }
     
     return cell;
 }
-//todo eventually adble to edit accepted section (2)
+
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch ([indexPath section]) {
         case 0:
+        case 2:
             return true;
             break;
     }
@@ -486,6 +495,16 @@ NSMutableArray *rejectedGenderArray;
                 return UITableViewCellEditingStyleNone;
             
             if (self.editing && indexPath.row == ([huidArray count]))
+                return UITableViewCellEditingStyleInsert;
+            else
+                return UITableViewCellEditingStyleDelete;
+            break;
+            
+        case 2:
+            if (self.editing == NO || !indexPath)
+                return UITableViewCellEditingStyleNone;
+            
+            if (self.editing && indexPath.row == ([acceptedMateIdArray count]))
                 return UITableViewCellEditingStyleInsert;
             else
                 return UITableViewCellEditingStyleDelete;
@@ -516,6 +535,7 @@ NSMutableArray *rejectedGenderArray;
                 int mate_id = [[huidArray objectAtIndex:curRow] intValue];
                 
                 //remove mate from mysql db
+                creator = 1;
                 [self remove_mate:mate_id];
                 
             }
@@ -530,6 +550,23 @@ NSMutableArray *rejectedGenderArray;
             }
 
             break;
+        case 2:
+            if (editingStyle == UITableViewCellEditingStyleDelete)
+            {
+                [self showRemovingMateDialog];
+                
+                //get row
+                curRow = indexPath.row;
+                
+                //get mate_id
+                int mate_id = [[acceptedMateIdArray objectAtIndex:curRow] intValue];
+                
+                //remove mate from mysql db
+                creator = 0;
+                [self remove_mate:mate_id];
+                
+            }
+            break;
     }
 }
 
@@ -538,7 +575,7 @@ NSMutableArray *rejectedGenderArray;
 {
     BOOL rc = true;
     
-    NSString * post = [NSString stringWithFormat:@"&mate_id=%d",mate_id];
+    NSString * post = [NSString stringWithFormat:@"&mate_id=%d&creator=%d",mate_id, creator];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
@@ -895,28 +932,65 @@ NSMutableArray *rejectedGenderArray;
     {
         NSLog(@"Success");
         
-        if(curRow >= 0)
+        if(creator == 1)
         {
-            NSLog(@"removing mate!");
-            SqlHelper * sql = [SqlHelper alloc];
-            [sql remove_mate:intResult];
-            
-            //remove mate data from local arrays
-            [huidArray removeObjectAtIndex:curRow];
-            [firstNameArray removeObjectAtIndex:curRow];
-            [lastNameArray removeObjectAtIndex:curRow];
-            
-            //refresh the table
-            [self updateMateList];
-            NSLog(@"done removing mate");
+            if(curRow >= 0)
+            {
+                NSLog(@"removing mate!");
+                SqlHelper * sql = [SqlHelper alloc];
+                [sql remove_mate:intResult];
+                
+                //remove mate data from local arrays
+                [huidArray removeObjectAtIndex:curRow];
+                [firstNameArray removeObjectAtIndex:curRow];
+                [lastNameArray removeObjectAtIndex:curRow];
+                
+                //refresh the table
+                [self updateMateList];
+                NSLog(@"done removing mate");
+            }
+            else
+            {
+                //unknown error
+                [self showErrorCodeDialog:-410];
+                //stop the pull down to refresh in case of error
+                [self stopRefresh];
+            }
+        }
+        else if(creator == 0)
+        {
+            if(curRow >= 0)
+            {
+                NSLog(@"removing accepted!");
+                SqlHelper * sql = [SqlHelper alloc];
+                [sql remove_accepted:intResult];
+                
+                //remove mate data from local arrays
+                [acceptedRequestIdArray removeObjectAtIndex:curRow];
+                [acceptedMateIdArray removeObjectAtIndex:curRow];
+                [acceptedFirstNameArray removeObjectAtIndex:curRow];
+                [acceptedLastNameArray removeObjectAtIndex:curRow];
+                
+                //refresh the table
+                [self updateMateList];
+                NSLog(@"done removing accepted mate");
+            }
+            else
+            {
+                //unknown error
+                [self showErrorCodeDialog:-410];
+                //stop the pull down to refresh in case of error
+                [self stopRefresh];
+            }
         }
         else
         {
             //unknown error
-            [self showErrorCodeDialog:-410];
+            [self showErrorCodeDialog:-418];
             //stop the pull down to refresh in case of error
             [self stopRefresh];
         }
+
     }
     //error code was returned
     else

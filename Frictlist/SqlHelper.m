@@ -489,12 +489,12 @@ NSString * dbName = @"frictlist.sqlite";
     sqlite3_close(database);
 }
 
-- (void)remove_accepted:(int)request_id
+- (void)remove_accepted:(int)mate_id
 {
     NSString * path = [self getDbPath];
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
-        const char *sql = [[NSString stringWithFormat:@"DELETE FROM accepted WHERE request_id='%d'", request_id] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"DELETE FROM accepted WHERE mate_id='%d'", mate_id] UTF8String];
         sqlite3_stmt *removeStatement = nil;
         if(sqlite3_prepare_v2(database, sql, -1, &removeStatement, NULL) != SQLITE_OK)
         {

@@ -28,7 +28,7 @@
 - (void)remove_mate:(int)mate_id;
 - (void)remove_frict:(int)frict_id; //no update needed
 - (void)remove_notification:(int)request_id;
-- (void)remove_accepted:(int)request_id;
+- (void)remove_accepted:(int)mate_id;
 - (void)remove_rejected:(int)request_id;
 
 - (NSMutableArray *)get_mate:(int)mate_id;

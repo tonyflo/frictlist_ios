@@ -22,6 +22,7 @@
 		2F4EE0CC176EA2AF00642169 /* FrictDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0CB176EA2AF00642169 /* FrictDetailViewController.m */; };
 		2F52B94218E891C000FEC16F /* request_accepted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F52B94118E891C000FEC16F /* request_accepted.png */; };
 		2F52B94718E8DFAE00FEC16F /* RequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F52B94618E8DFAE00FEC16F /* RequestViewController.m */; };
+		2F5ADCFD18F4EC71005DF959 /* request_deleted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F5ADCFC18F4EC71005DF959 /* request_deleted.png */; };
 		2F66D9D118DF75A000DE37A4 /* bg.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2F66D9D018DF75A000DE37A4 /* bg.gif */; };
 		2F66D9EC18E0E33900DE37A4 /* MatelistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F66D9EB18E0E33900DE37A4 /* MatelistViewController.m */; };
 		2F66D9EF18E0E54400DE37A4 /* MateDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F66D9EE18E0E54200DE37A4 /* MateDetailViewController.m */; };
@@ -86,6 +87,7 @@
 		2F52B94118E891C000FEC16F /* request_accepted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = request_accepted.png; sourceTree = "<group>"; };
 		2F52B94518E8DFAE00FEC16F /* RequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestViewController.h; sourceTree = "<group>"; };
 		2F52B94618E8DFAE00FEC16F /* RequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestViewController.m; sourceTree = "<group>"; };
+		2F5ADCFC18F4EC71005DF959 /* request_deleted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = request_deleted.png; sourceTree = "<group>"; };
 		2F66D9D018DF75A000DE37A4 /* bg.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = bg.gif; sourceTree = "<group>"; };
 		2F66D9EA18E0E33900DE37A4 /* MatelistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatelistViewController.h; sourceTree = "<group>"; };
 		2F66D9EB18E0E33900DE37A4 /* MatelistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatelistViewController.m; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				2F8540F618F0C190007AE3C4 /* request_rejected.png */,
+				2F5ADCFC18F4EC71005DF959 /* request_deleted.png */,
 				2F8540F818F0C1C8007AE3C4 /* request_sent.png */,
 				2F52B94118E891C000FEC16F /* request_accepted.png */,
 				2F66D9D018DF75A000DE37A4 /* bg.gif */,
@@ -344,6 +347,7 @@
 				2F8540F718F0C190007AE3C4 /* request_rejected.png in Resources */,
 				2F8540F918F0C1C8007AE3C4 /* request_sent.png in Resources */,
 				2F8540FD18F0C63A007AE3C4 /* baseball_tab_icon.png in Resources */,
+				2F5ADCFD18F4EC71005DF959 /* request_deleted.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,7 +29,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
+    UIBarButtonItem *editFrictButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editFrictButtonPressed)];
+    [self.navigationItem setRightBarButtonItem:editFrictButton];
+    
+}
+
+-(void)editFrictButtonPressed
+{
+    NSLog(@"going to frict detail view");
+    [self performSegueWithIdentifier:@"editFrict" sender:editButton];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -38,8 +47,7 @@
     //jump to the edit view if this is a new row in the list
     if(self.frict_id <= 0)
     {
-        NSLog(@"going to frict detail view");
-        [self performSegueWithIdentifier:@"editFrict" sender:editButton];
+        [self editFrictButtonPressed];
     }
     else{
         NSLog(@"Staying at frict view");
@@ -166,52 +174,48 @@
     {
         //My mate created this frict but I created this frictlist
          NSLog(@"My mate created this frict but I created this frictlist");////
+
+        //left
+        nameText.text = mateFirstName;
+        [notesText setText:mateNotesStr];
+        ratingText.text = [NSString stringWithFormat:@"%d",mateRating];
+        
+        //right
+        mateNameText.text = userFirstName;
+        [mateNotesText setText:notesStr];
+        mateRatingText.text = [NSString stringWithFormat:@"%d",rating];
         
         if(mateDeleted == 1)
         {
             //the mate deleted this frict
             [notesText setText:@"Deleted"];
         }
-        else
-        {
-            //left
-            nameText.text = mateFirstName;
-            [notesText setText:mateNotesStr];
-            ratingText.text = [NSString stringWithFormat:@"%d",mateRating];
-            
-            //right
-            mateNameText.text = userFirstName;
-            [mateNotesText setText:notesStr];
-            mateRatingText.text = [NSString stringWithFormat:@"%d",rating];
-        }
+
     }
     else if(creator == 1 && self.creator == 0)
     {
         //My mate created this frict and my mate created the frictlist
         NSLog(@"My mate created this frict and my mate created the frictlist");//
         
-        //My mate created this frict but I created this frictlist
+        NSArray * accepted = [sql get_accepted:self.request_id];
+        mateFirstName = accepted[0];
+        mateLastName = accepted[1];
+        
+        //left
+        nameText.text = mateFirstName;
+        [notesText setText:notesStr];
+        ratingText.text = [NSString stringWithFormat:@"%d",rating];
+        
+        //right
+        mateNameText.text = userFirstName;
+        [mateNotesText setText:mateNotesStr];
+        mateRatingText.text = [NSString stringWithFormat:@"%d",mateRating];
+
         if(mateDeleted == 1)
         {
             //the mate deleted this frict
             [notesText setText:@"Deleted"];
             
-        }
-        else
-        {
-            NSArray * accepted = [sql get_accepted:self.request_id];
-            mateFirstName = accepted[0];
-            mateLastName = accepted[1];
-            
-            //left
-            nameText.text = mateFirstName;
-            [notesText setText:notesStr];
-            ratingText.text = [NSString stringWithFormat:@"%d",rating];
-            
-            //right
-            mateNameText.text = userFirstName;
-            [mateNotesText setText:mateNotesStr];
-            mateRatingText.text = [NSString stringWithFormat:@"%d",mateRating];
         }
     }
     else if(creator == 0 && self.creator == 0)
