@@ -38,7 +38,7 @@
 -(void)editFrictButtonPressed
 {
     NSLog(@"going to frict detail view");
-    [self performSegueWithIdentifier:@"editFrict" sender:editButton];
+    [self performSegueWithIdentifier:@"editFrict" sender:self];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -101,10 +101,11 @@
     NSString * mateNotesStr = @"";
     int mateDeleted = 0;
     int creator = 1;
+    int deleted = 0;
     
     //override the creator variable if this is a new frict
     if(self.frict_id > 0)
-    {
+    { 
         //get frict data
         frict = [sql get_frict:self.frict_id];
         fromDate = frict[0];
@@ -114,7 +115,9 @@
         mateRating = [frict[4] intValue];
         mateNotesStr = frict[5];
         mateDeleted = [frict[6] intValue];
+        NSLog(@"Mate deleted %d frict id %d", mateDeleted,self.frict_id);
         creator = [frict[7] intValue];
+        deleted = [frict[8] intValue];
         
         if(mateNotesStr == nil || mateNotesStr == NULL || [mateNotesStr isEqualToString: @"(null)"])
         {
@@ -169,6 +172,26 @@
         mateNameText.text = mateFirstName;
         [mateNotesText setText:mateNotesStr];
         mateRatingText.text = [NSString stringWithFormat:@"%d",mateRating];
+        
+        if(mateRating == 0)
+        {
+            [mateNotesText setText:@"Not acknowledged"];
+            mateRatingText.hidden = true;
+            mateNotesText.hidden = true;
+            mateStatusImage.image = [UIImage imageNamed:@"waiting.png"];
+            mateStatusImage.hidden = false;
+        }
+        
+        if(mateDeleted == 1)
+        {
+            //the mate deleted this frict
+            //[mateNotesText setText:@"Deleted"];
+            mateNotesText.hidden = true;
+            mateRatingText.hidden = true;
+            mateStatusImage.image = [UIImage imageNamed:@"request_deleted.png"];
+            mateStatusImage.hidden = false;
+        }
+
     }
     else if(creator == 0 && self.creator == 1)
     {
@@ -185,10 +208,23 @@
         [mateNotesText setText:notesStr];
         mateRatingText.text = [NSString stringWithFormat:@"%d",rating];
         
+        if(rating == 0)
+        {
+            [mateNotesText setText:@"Not acknowledged"];
+            mateRatingText.hidden = true;
+            mateNotesText.hidden = true;
+            mateStatusImage.image = [UIImage imageNamed:@"waiting.png"];
+            mateStatusImage.hidden = false;
+        }
+        
         if(mateDeleted == 1)
         {
             //the mate deleted this frict
-            [notesText setText:@"Deleted"];
+            //[notesText setText:@"Deleted"];
+            notesText.hidden = true;
+            ratingText.hidden = true;
+            creatorStatusImage.image = [UIImage imageNamed:@"request_deleted.png"];
+            creatorStatusImage.hidden = false;
         }
 
     }
@@ -210,12 +246,24 @@
         mateNameText.text = userFirstName;
         [mateNotesText setText:mateNotesStr];
         mateRatingText.text = [NSString stringWithFormat:@"%d",mateRating];
-
-        if(mateDeleted == 1)
+        
+        if(mateRating == 0)
+        {
+            [mateNotesText setText:@"Not acknowledged"];
+            mateRatingText.hidden = true;
+            mateNotesText.hidden = true;
+            mateStatusImage.image = [UIImage imageNamed:@"waiting.png"];
+            mateStatusImage.hidden = false;
+        }
+        
+        if(deleted == 1)
         {
             //the mate deleted this frict
-            [notesText setText:@"Deleted"];
-            
+            //[notesText setText:@"Deleted"];
+            notesText.hidden = true;
+            ratingText.hidden = true;
+            creatorStatusImage.image = [UIImage imageNamed:@"request_deleted.png"];
+            creatorStatusImage.hidden = false;
         }
     }
     else if(creator == 0 && self.creator == 0)
@@ -236,6 +284,25 @@
         mateNameText.text = mateFirstName;
         [mateNotesText setText:notesStr];
         mateRatingText.text = [NSString stringWithFormat:@"%d",rating];
+        
+        if(rating == 0)
+        {
+            [mateNotesText setText:@"Not acknowledged"];
+            mateRatingText.hidden = true;
+            mateNotesText.hidden = true;
+            mateStatusImage.image = [UIImage imageNamed:@"waiting.png"];
+            mateStatusImage.hidden = false;
+        }
+        
+        if(deleted == 1)
+        {
+            //the mate deleted this frict
+            //[mateNotesText setText:@"Deleted"];
+            mateNotesText.hidden = true;
+            mateRatingText.hidden = true;
+            mateStatusImage.image = [UIImage imageNamed:@"request_deleted.png"];
+            mateStatusImage.hidden = false;
+        }
     }
     else
     {

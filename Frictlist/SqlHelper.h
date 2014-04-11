@@ -20,7 +20,7 @@
 - (NSMutableArray *)get_rejected_list;
 
 - (void)add_mate:(int)mate_id fn:(NSString *)fn ln:(NSString *)ln gender:(int)gender accepted:(int)accepted mates_uid:(int)mates_uid;
-- (void)add_frict:(int)frict_id mate_id:(int)mate_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes mate_rating:(int)mate_rating mate_notes:(NSString *)mate_notes mate_deleted:(int)mate_deleted creator:(int)creator; //updated
+- (void)add_frict:(int)frict_id mate_id:(int)mate_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes mate_rating:(int)mate_rating mate_notes:(NSString *)mate_notes mate_deleted:(int)mate_deleted creator:(int)creator deleted:(int)deleted;
 - (void)add_notification:(int)request_id mate_id:(int)mate_id first:(NSString *)first last:(NSString *)last un:(NSString *)un gender:(int)gender birthdate:(NSString *)birthdate;
 - (void)add_accepted:(int)request_id mate_id:(int)mate_id first:(NSString *)first last:(NSString *)last un:(NSString *)un gender:(int)gender birthdate:(NSString *)birthdate;
 - (void)add_rejected:(int)request_id mate_id:(int)mate_id first:(NSString *)first last:(NSString *)last un:(NSString *)un gender:(int)gender birthdate:(NSString *)birthdate;

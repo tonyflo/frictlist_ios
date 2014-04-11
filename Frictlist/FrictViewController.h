@@ -11,7 +11,8 @@
 @interface FrictViewController : UIViewController
 {
     
-    IBOutlet UIButton *editButton;
+    IBOutlet UIImageView *creatorStatusImage;
+    IBOutlet UIImageView *mateStatusImage;
     IBOutlet UILabel *nameText;
     IBOutlet UILabel *mateNameText;
     IBOutlet UITextView *notesText;

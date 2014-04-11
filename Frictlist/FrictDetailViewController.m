@@ -462,12 +462,12 @@ NSString * notesStr;
             if(self.creator == 1)
             {
                 //creator of the frictlist is adding a frict
-                [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text mate_rating:0 mate_notes:NULL mate_deleted:0 creator:self.creator];
+                [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text mate_rating:0 mate_notes:NULL mate_deleted:0 creator:self.creator deleted:0];
             }
             else if(self.creator == 0)
             {
                 //recipient of the frictlist is adding a frict
-                [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:0 base:baseSwitch.selectedSegmentIndex notes:@"" mate_rating:ratingSlider.value mate_notes:notes.text mate_deleted:0 creator:self.creator];
+                [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:0 base:baseSwitch.selectedSegmentIndex notes:@"" mate_rating:ratingSlider.value mate_notes:notes.text mate_deleted:0 creator:self.creator deleted:0];
             }
             else
             {
