@@ -11,6 +11,8 @@
 #import "PlistHelper.h"
 #import "SqlHelper.h"
 
+#define ZOOM (0.001)
+
 @interface FrictDetailViewController ()
 
 @end
@@ -28,6 +30,7 @@ int minAge = 14;
 int row = 0; //local index of mate
 int col = 0; //local index of frict
 int MAX_LENGTH_NOTES = 1024;
+bool able_to_drop = true;
 
 int base;
 NSString * fromDate;
@@ -40,52 +43,78 @@ NSString * notesStr;
     sliderText.text = [NSString stringWithFormat:@"%d", discreteValue ];
 }
 
-//zoom into location and enable touch for pin
+//get user's location
 -(void)mapView:(MKMapView *)mv didUpdateUserLocation:(MKUserLocation *)userLocation
+{
+    if(!(self.frict_id > 0))
+    {
+        MKCoordinateRegion mapRegion;
+        mapRegion.center = mapView.userLocation.coordinate;
+        mapRegion.span.latitudeDelta = ZOOM;
+        mapRegion.span.longitudeDelta = ZOOM;
+        
+        [mapView setRegion:mapRegion animated: YES];
+    }
+}
+
+-(void)goToPin
+{
+    NSLog(@"pintoremember %@", pinToRemember);
+    NSLog(@"lat %f", (double)pinToRemember.coordinate.latitude);
+    NSLog(@"lon %f", (double)pinToRemember.coordinate.longitude);
+    
+    //zoom into current location
+    MKCoordinateRegion mapRegion;
+    mapRegion.center = pinToRemember.coordinate;
+    mapRegion.span.latitudeDelta = ZOOM;
+    mapRegion.span.longitudeDelta = ZOOM;
+    
+    [mapView setRegion:mapRegion animated: YES];
+}
+
+-(void)registerTouch
 {
     //register touch
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
                                           initWithTarget:self action:@selector(handleLongPress:)];
     lpgr.minimumPressDuration = 1.0; //user needs to press for 1 seconds
     [mapView addGestureRecognizer:lpgr];
-    
-    //zoom into current location
-    MKCoordinateRegion mapRegion;
-    mapRegion.center = mv.userLocation.coordinate;
-    mapRegion.span.latitudeDelta = 0.001;
-    mapRegion.span.longitudeDelta = 0.001;
-    
-    [mv setRegion:mapRegion animated: YES];
-    mv.showsUserLocation = NO;
 }
 
 //animate pin drop
-- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views {    
-    //remove pin if it exists
-    if(pinToRemember != NULL)
+- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views {
+    if(able_to_drop)
     {
-        [mapView removeAnnotation:pinToRemember];
-        pinToRemember = NULL;
-    }
-    
-    MKAnnotationView *aV;
-    for (aV in views) {
-        CGRect endFrame = aV.frame;
-        
-        aV.frame = CGRectMake(aV.frame.origin.x, aV.frame.origin.y - 230.0, aV.frame.size.width, aV.frame.size.height);
-        
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.45];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-        [aV setFrame:endFrame];
-        [UIView commitAnimations];
-        
+        MKAnnotationView *aV;
+        for (aV in views) {
+            CGRect endFrame = aV.frame;
+            
+            aV.frame = CGRectMake(aV.frame.origin.x, aV.frame.origin.y - 230.0, aV.frame.size.width, aV.frame.size.height);
+            
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.45];
+            [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+            [aV setFrame:endFrame];
+            [UIView commitAnimations];
+            
+        }
     }
 }
 
 //add pin
 - (void)handleLongPress:(UIGestureRecognizer *)gestureRecognizer
-{    
+{
+    if(gestureRecognizer.state == UIGestureRecognizerStateBegan)
+    {
+        //remove pin if it exists
+        if(pinToRemember != NULL)
+        {
+            [mapView removeAnnotation:pinToRemember];
+            pinToRemember = NULL;
+            NSLog(@"Pin is now null");
+        }
+    }
+    
     if (gestureRecognizer.state != UIGestureRecognizerStateBegan)
         return;
     
@@ -100,26 +129,49 @@ NSString * notesStr;
     
     NSLog(@"coords: %f, %f", pinToRemember.coordinate.latitude, pinToRemember.coordinate.longitude);
 }
+-(void)viewDidAppear:(BOOL)animated
+{
+    NSLog(@"pintoremember %@", pinToRemember);
+    NSLog(@"lat %f", (double)pinToRemember.coordinate.latitude);
+    NSLog(@"lon %f", (double)pinToRemember.coordinate.longitude);
+    
+    //show user's location if a new frict
+    if(!(self.frict_id > 0))
+    {
+        //wait for user's location
+    }
+    else
+    {
+        //add pin
+        [mapView addAnnotation:pinToRemember];
+        //go to the location of the "pin"
+        [self goToPin];
+    }
+}
 
 -(void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"view will appear frict detail");
     
-    //[self setVisibleArea];
+    //disable editing date, location, and base of a shared frict
+    if(self.accepted == 1)
+    {
+        fromSwitch.enabled = false;
+        fromSwitch.alpha = 0.5;
+        baseSwitch.enabled = false;
+        baseSwitch.alpha = 0.5;
+    }
+    
+    //allow droping of new pins if new frict or not accepted (shared)
+    if(!(self.frict_id > 0) || !(self.accepted))
+    {
+        [self registerTouch];
+    }
     
     //if the frict exists
     if(self.frict_id > 0)
     {
         self.title = @"Update Frict";
-        
-        //disable editing date and base of a shared frict
-        if(self.accepted == 1)
-        {
-            fromSwitch.enabled = false;
-            fromSwitch.alpha = 0.5;
-            baseSwitch.enabled = false;
-            baseSwitch.alpha = 0.5;
-        }
         
         //initialize helpers
         SqlHelper *sql = [SqlHelper alloc];
@@ -140,6 +192,8 @@ NSString * notesStr;
         NSString * mateNotesStr = @"";
         int mateDeleted = 0;
         int creator = 1;
+        double lat = 0;
+        double lon = 0;
         
         //get frict data
         frict = [sql get_frict:self.frict_id];
@@ -151,7 +205,9 @@ NSString * notesStr;
         mateNotesStr = frict[5];
         mateDeleted = [frict[6] intValue];
         creator = [frict[7] intValue];
-            
+        lat = [frict[9] doubleValue];
+        lon = [frict[10] doubleValue];
+        
         if(mateNotesStr == nil || mateNotesStr == NULL || [mateNotesStr isEqualToString: @"(null)"])
         {
             mateNotesStr = @"";
@@ -165,6 +221,16 @@ NSString * notesStr;
             
         //set base
         baseSwitch.selectedSegmentIndex = base;
+        
+        //set lat/lon
+        MKPointAnnotation *annot = [[MKPointAnnotation alloc] init];
+        CLLocationCoordinate2D pin;
+        pin.latitude = lat;
+        pin.longitude = lon;
+        annot.coordinate = pin;
+        //set the pin as the pintoremember
+        pinToRemember = annot;
+        NSLog(@"lat %f lon %f in viewwillappear", lat, lon);
         
         //creator: the creator of the frict | 1 if the creator of the frictlist, 0 otherwise
         //self.creator: the creator of the frictlist | 1 if this user, 0 otherwise
@@ -230,6 +296,7 @@ NSString * notesStr;
 
 - (void)viewDidLoad
 {
+    NSLog(@"view did load frict edit");
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
@@ -339,12 +406,12 @@ NSString * notesStr;
     if(self.frict_id > 0)
     {
         //update
-        post = [NSString stringWithFormat:@"&frict_id=%d&mate_id=%d&base=%d&from=%@&rating=%d&notes=%@&creator=%d",self.frict_id, self.mate_id, base, from, rate, hu_notes, self.creator];
+        post = [NSString stringWithFormat:@"&frict_id=%d&mate_id=%d&base=%d&from=%@&rating=%d&notes=%@&creator=%d&lat=%f&lon=%f",self.frict_id, self.mate_id, base, from, rate, hu_notes, self.creator, pinToRemember.coordinate.latitude, pinToRemember.coordinate.longitude];
     }
     else
     {
         //add
-        post = [NSString stringWithFormat:@"&mate_id=%d&base=%d&from=%@&rating=%d&notes=%@&creator=%d",self.mate_id, base, from, rate, hu_notes, self.creator];
+        post = [NSString stringWithFormat:@"&mate_id=%d&base=%d&from=%@&rating=%d&notes=%@&creator=%d&lat=%f&lon=%f",self.mate_id, base, from, rate, hu_notes, self.creator, pinToRemember.coordinate.latitude, pinToRemember.coordinate.longitude];
     }
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
@@ -506,7 +573,7 @@ NSString * notesStr;
             if(self.creator == 1)
             {
                 //the creator of the frictlist is updating this frict
-                [sql update_frict_as_fl_creator:intResult from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text];
+                [sql update_frict_as_fl_creator:intResult from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text lat:pinToRemember.coordinate.latitude lon:pinToRemember.coordinate.longitude];
                 NSLog(@"updating frict as creator");
             }
             else if(self.creator == 0)
@@ -526,12 +593,12 @@ NSString * notesStr;
             if(self.creator == 1)
             {
                 //creator of the frictlist is adding a frict
-                [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text mate_rating:0 mate_notes:NULL mate_deleted:0 creator:self.creator deleted:0];
+                [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text mate_rating:0 mate_notes:NULL mate_deleted:0 creator:self.creator deleted:0 lat:pinToRemember.coordinate.latitude lon:pinToRemember.coordinate.longitude];
             }
             else if(self.creator == 0)
             {
                 //recipient of the frictlist is adding a frict
-                [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:0 base:baseSwitch.selectedSegmentIndex notes:@"" mate_rating:ratingSlider.value mate_notes:notes.text mate_deleted:0 creator:self.creator deleted:0];
+                [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:0 base:baseSwitch.selectedSegmentIndex notes:@"" mate_rating:ratingSlider.value mate_notes:notes.text mate_deleted:0 creator:self.creator deleted:0 lat:pinToRemember.coordinate.latitude lon:pinToRemember.coordinate.longitude];
             }
             else
             {

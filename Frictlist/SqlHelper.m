@@ -368,13 +368,13 @@ NSString * dbName = @"frictlist.sqlite";
     }
     sqlite3_close(database);
 }
- 
-- (void)add_frict:(int)frict_id mate_id:(int)mate_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes mate_rating:(int)mate_rating mate_notes:(NSString *)mate_notes mate_deleted:(int)mate_deleted creator:(int)creator deleted:(int)deleted
+
+- (void)add_frict:(int)frict_id mate_id:(int)mate_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes mate_rating:(int)mate_rating mate_notes:(NSString *)mate_notes mate_deleted:(int)mate_deleted creator:(int)creator deleted:(int)deleted lat:(double)lat lon:(double)lon
 {
     NSString * path = [self getDbPath];
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
-        const char *sql = [[NSString stringWithFormat:@"INSERT INTO frict(frict_id, mate_id, frict_from_date, frict_rating, frict_base, notes, mate_rating, mate_notes, mate_deleted, creator, deleted) VALUES('%d', '%d', '%@', '%d', '%d', '%@', '%d', '%@', '%d', '%d', '%d')", frict_id, mate_id, from, rating, base, [self sanatize:notes], mate_rating, [self sanatize:mate_notes], mate_deleted, creator, deleted] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO frict(frict_id, mate_id, frict_from_date, frict_rating, frict_base, notes, mate_rating, mate_notes, mate_deleted, creator, deleted, lat, lon) VALUES('%d', '%d', '%@', '%d', '%d', '%@', '%d', '%@', '%d', '%d', '%d', '%f', '%f')", frict_id, mate_id, from, rating, base, [self sanatize:notes], mate_rating, [self sanatize:mate_notes], mate_deleted, creator, deleted, lat, lon] UTF8String];
         sqlite3_stmt *updateStmt = nil;
         if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
         {
@@ -561,13 +561,12 @@ NSString * dbName = @"frictlist.sqlite";
     sqlite3_close(database);
 }
 
-
-- (void)update_frict_as_fl_creator:(int)frict_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes
+- (void)update_frict_as_fl_creator:(int)frict_id from:(NSString *)from rating:(int)rating base:(int)base notes:(NSString *)notes lat:(double)lat lon:(double)lon
 {
     NSString * path = [self getDbPath];
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
-        const char *sql = [[NSString stringWithFormat:@"UPDATE frict SET frict_from_date='%@', frict_rating='%d', frict_base='%d', notes='%@' where frict_id='%d'", from, rating, base, [self sanatize:notes], frict_id] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"UPDATE frict SET frict_from_date='%@', frict_rating='%d', frict_base='%d', notes='%@', lat='%f', lon='%f' where frict_id='%d'", from, rating, base, [self sanatize:notes], lat, lon, frict_id] UTF8String];
         sqlite3_stmt *updateStmt = nil;
         if(sqlite3_prepare_v2(database, sql, -1, &updateStmt, NULL) != SQLITE_OK)
         {
@@ -687,7 +686,7 @@ NSString * dbName = @"frictlist.sqlite";
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
         // Get the primary key for all books.
-        const char *sql = [[NSString stringWithFormat:@"select frict_from_date, frict_rating, frict_base, notes, mate_rating, mate_notes, mate_deleted, creator, deleted from frict where frict_id='%d'", frict_id] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"select frict_from_date, frict_rating, frict_base, notes, mate_rating, mate_notes, mate_deleted, creator, deleted, lat, lon from frict where frict_id='%d'", frict_id] UTF8String];
         sqlite3_stmt *statement;
         // Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
         // The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.
@@ -707,7 +706,10 @@ NSString * dbName = @"frictlist.sqlite";
                 NSNumber *mateDeleted = [NSNumber numberWithInt: sqlite3_column_int(statement, 6)];
                 NSNumber *creator = [NSNumber numberWithInt: sqlite3_column_int(statement, 7)];
                 NSNumber *deleted = [NSNumber numberWithInt: sqlite3_column_int(statement, 8)];
-                frict = [[NSMutableArray alloc] initWithObjects:from, rating, base, notes, mateRating, mateNotes, mateDeleted, creator, deleted, nil];
+                NSNumber *lat = [NSNumber numberWithDouble: sqlite3_column_double(statement, 9)];
+                NSNumber *lon = [NSNumber numberWithDouble: sqlite3_column_double(statement, 10)];
+                NSLog(@"in sqlite3 lat %@ lon %@", lat, lon);
+                frict = [[NSMutableArray alloc] initWithObjects:from, rating, base, notes, mateRating, mateNotes, mateDeleted, creator, deleted, lat, lon, nil];
             }
         }
         else

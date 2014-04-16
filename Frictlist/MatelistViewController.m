@@ -805,7 +805,7 @@ NSMutableArray *rejectedGenderArray;
             //split the row into columns
             NSArray *frict = [query_result[i] componentsSeparatedByString:@"\t"];
             NSLog(@"Frict count = %d", frict.count);
-            if(frict.count == 16)
+            if(frict.count == 18)
             {
                 //check if mate has already been added to sqlite
                 if(![mateIds containsObject:frict[0]])
@@ -824,7 +824,7 @@ NSMutableArray *rejectedGenderArray;
                 if(frict[6] != NULL && frict[6] != nil && ![frict[6] isEqual:@""] && [frict[11] intValue] != 1)
                 {
                     NSLog(@"FOUND FRICT DATA");
-                    [sql add_frict:[frict[6] intValue] mate_id:[frict[0] intValue] from:frict[7] rating:[frict[8] intValue] base:[frict[9] intValue] notes:frict[10] mate_rating:[frict[12] intValue] mate_notes:frict[13] mate_deleted:[frict[14] intValue] creator:[frict[15] intValue] deleted:[frict[11] intValue]];
+                    [sql add_frict:[frict[6] intValue] mate_id:[frict[0] intValue] from:frict[7] rating:[frict[8] intValue] base:[frict[9] intValue] notes:frict[10] mate_rating:[frict[12] intValue] mate_notes:frict[13] mate_deleted:[frict[14] intValue] creator:[frict[15] intValue] deleted:[frict[11] intValue] lat:[frict[16] doubleValue] lon:[frict[17] doubleValue]];
                 }
             }
             else
@@ -852,7 +852,7 @@ NSMutableArray *rejectedGenderArray;
             //split the row into columns
             NSArray *notification = [query_result[i] componentsSeparatedByString:@"\t"];
             
-            if(notification.count == 18)
+            if(notification.count == 20)
             {
                 int status = [notification[2] intValue];
                 //pending
@@ -890,7 +890,7 @@ NSMutableArray *rejectedGenderArray;
                     if(notification[8] != NULL && notification[8] != nil && ![notification[8] isEqual:@""] && [notification[16] intValue] != 1)
                     {
                         NSLog(@"FOUND FRICT DATA");
-                        [sql add_frict:[notification[8] intValue] mate_id:[notification[1] intValue] from:notification[9] rating:[notification[10] intValue] base:[notification[11] intValue] notes:notification[12] mate_rating:[notification[14] intValue] mate_notes:notification[15] mate_deleted:[notification[16] intValue] creator:[notification[17] intValue] deleted:[notification[13] intValue]];
+                        [sql add_frict:[notification[8] intValue] mate_id:[notification[1] intValue] from:notification[9] rating:[notification[10] intValue] base:[notification[11] intValue] notes:notification[12] mate_rating:[notification[14] intValue] mate_notes:notification[15] mate_deleted:[notification[16] intValue] creator:[notification[17] intValue] deleted:[notification[13] intValue] lat:[notification[18] doubleValue] lon:[notification[19] doubleValue]];
                     } 
                 }
                 //rejected
