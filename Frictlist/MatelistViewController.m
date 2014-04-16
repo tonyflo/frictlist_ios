@@ -26,6 +26,8 @@ int curRow = -1;
 int creator = -1;
 BOOL canRefresh = true; //if the refresh is happening
 BOOL sentFromAdd = false;
+int accepted = 0; //will be 1 if removing an accepted mate, -1 if removing a rejected mate
+
 NSMutableArray *huidArray;
 NSMutableArray *firstNameArray;
 NSMutableArray *lastNameArray;
@@ -44,6 +46,7 @@ NSMutableArray *acceptedFirstNameArray;
 NSMutableArray *acceptedLastNameArray;
 NSMutableArray *acceptedGenderArray;
 
+NSMutableArray *rejectedMateIdArray; //mate id of the mate in the sender's fl
 NSMutableArray *rejectedRequestIdArray;
 NSMutableArray *rejectedFirstNameArray;
 NSMutableArray *rejectedLastNameArray;
@@ -107,6 +110,7 @@ NSMutableArray *rejectedGenderArray;
             acceptedLastNameArray = [[NSMutableArray alloc] init];
             acceptedGenderArray = [[NSMutableArray alloc] init];
             
+            rejectedMateIdArray = [[NSMutableArray alloc] init];
             rejectedRequestIdArray = [[NSMutableArray alloc] init];
             rejectedFirstNameArray = [[NSMutableArray alloc] init];
             rejectedLastNameArray = [[NSMutableArray alloc] init];
@@ -222,6 +226,7 @@ NSMutableArray *rejectedGenderArray;
     rejectedFirstNameArray = rejects[1]; //fn
     rejectedLastNameArray = rejects[2]; //ln
     rejectedGenderArray = rejects[3]; //gender
+    rejectedMateIdArray = rejects[4]; //sender's mate id of this user 
     
     [self.tableView reloadData];
     [super viewWillAppear:animated];
@@ -249,6 +254,9 @@ NSMutableArray *rejectedGenderArray;
             break;
         case 2:
             [self performSegueWithIdentifier:@"showAcceptedDetail" sender:indexPath];
+            break;
+        case 3:
+            [self performSegueWithIdentifier:@"viewRequest" sender:indexPath];
             break;
             
     }
@@ -481,6 +489,7 @@ NSMutableArray *rejectedGenderArray;
     switch ([indexPath section]) {
         case 0:
         case 2:
+        case 3: //todo implement and test this
             return true;
             break;
     }
@@ -505,6 +514,16 @@ NSMutableArray *rejectedGenderArray;
                 return UITableViewCellEditingStyleNone;
             
             if (self.editing && indexPath.row == ([acceptedMateIdArray count]))
+                return UITableViewCellEditingStyleInsert;
+            else
+                return UITableViewCellEditingStyleDelete;
+            break;
+            
+        case 3:
+            if (self.editing == NO || !indexPath)
+                return UITableViewCellEditingStyleNone;
+            
+            if (self.editing && indexPath.row == ([rejectedMateIdArray count]))
                 return UITableViewCellEditingStyleInsert;
             else
                 return UITableViewCellEditingStyleDelete;
@@ -560,6 +579,26 @@ NSMutableArray *rejectedGenderArray;
                 
                 //get mate_id
                 int mate_id = [[acceptedMateIdArray objectAtIndex:curRow] intValue];
+                accepted = 1;
+                
+                //remove mate from mysql db
+                creator = 0;
+                [self remove_mate:mate_id];
+                
+            }
+            break;
+        case 3:
+            if (editingStyle == UITableViewCellEditingStyleDelete)
+            {
+                [self showRemovingMateDialog];
+                
+                //get row
+                curRow = indexPath.row;
+                
+                //get mate_id
+                int mate_id = [[rejectedMateIdArray objectAtIndex:curRow] intValue];
+                
+                accepted = -1;
                 
                 //remove mate from mysql db
                 creator = 0;
@@ -903,6 +942,7 @@ NSMutableArray *rejectedGenderArray;
                         //this is an incomming request that has already been accepted
                         [sql add_rejected:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
                         [rejectedRequestIdArray addObject:notification[0]];
+                        [rejectedMateIdArray addObject:notification[1]];
                         [rejectedFirstNameArray addObject:notification[3]];
                         [rejectedLastNameArray addObject:notification[4]];
                         [rejectedGenderArray addObject:notification[6]];
@@ -961,19 +1001,47 @@ NSMutableArray *rejectedGenderArray;
         {
             if(curRow >= 0)
             {
-                NSLog(@"removing accepted!");
-                SqlHelper * sql = [SqlHelper alloc];
-                [sql remove_accepted:intResult];
-                
-                //remove mate data from local arrays
-                [acceptedRequestIdArray removeObjectAtIndex:curRow];
-                [acceptedMateIdArray removeObjectAtIndex:curRow];
-                [acceptedFirstNameArray removeObjectAtIndex:curRow];
-                [acceptedLastNameArray removeObjectAtIndex:curRow];
-                
-                //refresh the table
-                [self updateMateList];
-                NSLog(@"done removing accepted mate");
+                if(accepted == 1)
+                {
+                    NSLog(@"removing accepted!");
+                    SqlHelper * sql = [SqlHelper alloc];
+                    [sql remove_accepted:intResult];
+                    
+                    //remove mate data from local arrays
+                    [acceptedRequestIdArray removeObjectAtIndex:curRow];
+                    [acceptedMateIdArray removeObjectAtIndex:curRow];
+                    [acceptedFirstNameArray removeObjectAtIndex:curRow];
+                    [acceptedLastNameArray removeObjectAtIndex:curRow];
+                    
+                    //refresh the table
+                    [self updateMateList];
+                    NSLog(@"done removing accepted mate");
+                }
+                else if(accepted == -1)
+                {
+                    NSLog(@"removing rejected!");
+                    SqlHelper * sql = [SqlHelper alloc];
+                    [sql remove_rejected:intResult];
+                    
+                    //remove mate data from local arrays
+                    [rejectedRequestIdArray removeObjectAtIndex:curRow];
+                    [rejectedMateIdArray removeObjectAtIndex:curRow];
+                    [rejectedFirstNameArray removeObjectAtIndex:curRow];
+                    [rejectedLastNameArray removeObjectAtIndex:curRow];
+                    
+                    //refresh the table
+                    [self updateMateList];
+                    NSLog(@"done removing rejected mate");
+                }
+                else
+                {
+                    //unknown error
+                    [self showErrorCodeDialog:-419];
+                    //stop the pull down to refresh in case of error
+                    [self stopRefresh];
+                }
+                //reset accepted var
+                accepted = 0;
             }
             else
             {

@@ -297,6 +297,8 @@ NSString * dbName = @"frictlist.sqlite";
     NSMutableArray * fn_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * ln_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * gender_array = [[NSMutableArray alloc] initWithObjects: nil];
+    NSMutableArray * mate_id_array = [[NSMutableArray alloc] initWithObjects: nil];
+
     NSMutableArray * notification_list;
     
     NSString * path = [self getDbPath];
@@ -304,7 +306,7 @@ NSString * dbName = @"frictlist.sqlite";
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
         // Get the primary key for all books.
-        const char *sql = "SELECT request_id, first_name, last_name, gender FROM rejected ORDER BY first_name ASC";
+        const char *sql = "SELECT request_id, first_name, last_name, gender, mate_id FROM rejected ORDER BY first_name ASC";
         sqlite3_stmt *statement;
         // Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
         // The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.
@@ -319,13 +321,17 @@ NSString * dbName = @"frictlist.sqlite";
                 NSString *fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
                 NSString *ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
                 NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
+                NSNumber *mate_id = [NSNumber numberWithInt: sqlite3_column_int(statement, 4)];
+
                 [request_id_array addObject:rid];
                 [fn_array addObject:fn];
                 [ln_array addObject:ln];
                 [gender_array addObject:gender];
+                [mate_id_array addObject:mate_id];
+
             }
             
-            notification_list = [[NSMutableArray alloc] initWithObjects:request_id_array, fn_array, ln_array, gender_array, nil];
+            notification_list = [[NSMutableArray alloc] initWithObjects:request_id_array, fn_array, ln_array, gender_array, mate_id_array, nil];
         }
         else
         {
