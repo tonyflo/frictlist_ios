@@ -11,6 +11,8 @@
 #import "PlistHelper.h"
 #import "SqlHelper.h"
 
+#define PLATFORM (1) //iOS
+
 @interface SignInViewController ()
 
 @end
@@ -299,7 +301,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     BOOL rc = true;
 
     //1. Set post string with actual username and password.
-    NSString *post = [NSString stringWithFormat:@"&firstname=%@&lastname=%@&email=%@&username=%@&password=%@&gender=%d&birthdate=%@",firstName, lastName, email, username, password, gender, [birthdate description]];
+    NSString *post = [NSString stringWithFormat:@"&firstname=%@&lastname=%@&email=%@&username=%@&password=%@&gender=%d&birthdate=%@&platform=%d",firstName, lastName, email, username, password, gender, [birthdate description], PLATFORM];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     

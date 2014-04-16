@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 
 @interface FrictDetailViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate>
 {
@@ -21,10 +22,13 @@
 
 //image view
 
+@property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property (readwrite, assign) NSUInteger frict_id;
 @property (readwrite, assign) NSUInteger mate_id;
 @property (readwrite, assign) NSUInteger creator;
 @property (readwrite, assign) NSUInteger accepted;
+
+@property (retain) MKPointAnnotation * pinToRemember;
 
 - (IBAction)savePressed:(id)sender;
 

@@ -55,6 +55,8 @@
 		2F9A89CC18E71DC600309D13 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A89CB18E71DC500309D13 /* SearchViewController.m */; };
 		2F9A89CE18E7651200309D13 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9A89CD18E7651100309D13 /* MessageUI.framework */; };
 		2F9DC36418DE4F6700024553 /* FrictViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9DC36318DE4F6700024553 /* FrictViewController.m */; };
+		2FAD77F918FDEC1B00EC3C86 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FAD77F818FDEC1B00EC3C86 /* MapKit.framework */; };
+		2FAD77FB18FDEEAA00EC3C86 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FAD77FA18FDEEA900EC3C86 /* CoreLocation.framework */; };
 		2FCB43A018E65891007DF46F /* frictlist.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 2FCB439F18E65891007DF46F /* frictlist.sqlite */; };
 		2FDA34E61875D42F00ED5698 /* checkbox-checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E31875D42E00ED5698 /* checkbox-checked.png */; };
 		2FDA34E71875D42F00ED5698 /* checkbox-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E41875D42E00ED5698 /* checkbox-pressed.png */; };
@@ -128,6 +130,8 @@
 		2F9A89CD18E7651100309D13 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		2F9DC36218DE4F6700024553 /* FrictViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictViewController.h; sourceTree = "<group>"; };
 		2F9DC36318DE4F6700024553 /* FrictViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrictViewController.m; sourceTree = "<group>"; };
+		2FAD77F818FDEC1B00EC3C86 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		2FAD77FA18FDEEA900EC3C86 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		2FCB439F18E65891007DF46F /* frictlist.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = frictlist.sqlite; sourceTree = "<group>"; };
 		2FDA34E31875D42E00ED5698 /* checkbox-checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-checked.png"; sourceTree = "<group>"; };
 		2FDA34E41875D42E00ED5698 /* checkbox-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-pressed.png"; sourceTree = "<group>"; };
@@ -144,6 +148,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FAD77FB18FDEEAA00EC3C86 /* CoreLocation.framework in Frameworks */,
+				2FAD77F918FDEC1B00EC3C86 /* MapKit.framework in Frameworks */,
 				2F9A89CE18E7651200309D13 /* MessageUI.framework in Frameworks */,
 				2F66D9F918E3C11900DE37A4 /* libsqlite3.0.dylib in Frameworks */,
 				2F4EE0A2176E97B100642169 /* UIKit.framework in Frameworks */,
@@ -158,6 +164,8 @@
 		2F4EE095176E97B100642169 = {
 			isa = PBXGroup;
 			children = (
+				2FAD77FA18FDEEA900EC3C86 /* CoreLocation.framework */,
+				2FAD77F818FDEC1B00EC3C86 /* MapKit.framework */,
 				2F9A89CD18E7651100309D13 /* MessageUI.framework */,
 				2FCB439F18E65891007DF46F /* frictlist.sqlite */,
 				2F9A89BE18E7015F00309D13 /* icon-29.png */,
@@ -461,12 +469,14 @@
 		2F4EE0C2176E97B100642169 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Tony Florida (XXEFHFARHA)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Frictlist/Frictlist-Prefix.pch";
 				INFOPLIST_FILE = "Frictlist/Frictlist-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Frictlist;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C47938EF-ABF5-41C4-831A-B39434982A51";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

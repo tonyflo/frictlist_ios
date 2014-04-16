@@ -190,15 +190,12 @@
             <objects>
                 <viewController id="6uw-zG-BVk" customClass="FrictDetailViewController" sceneMemberID="viewController">
                     <view key="view" tag="3" contentMode="scaleToFill" id="Paz-mG-6RD">
-                        <rect key="frame" x="0.0" y="64" width="320" height="700"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="1200"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ttw-Cq-cTD">
                                 <subviews>
                                     <segmentedControl opaque="NO" tag="3" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SDC-78-fTO">
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="280" id="ulx-Cc-lHJ"/>
-                                        </constraints>
                                         <segments>
                                             <segment title="1st"/>
                                             <segment title="2nd"/>
@@ -208,9 +205,6 @@
                                         <color key="tintColor" red="0.12941176470588234" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </segmentedControl>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enter information about your Frict:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbX-QE-lcS">
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="480" id="F08-dV-cCB"/>
-                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -288,37 +282,47 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <color key="textColor" red="0.12941176470588234" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nmo-06-EWk">
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="233" id="VyR-OG-mQF"/>
+                                            <constraint firstAttribute="width" constant="279" id="cJ5-nd-wje"/>
+                                        </constraints>
+                                    </mapView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="a35-qx-Xwh" firstAttribute="centerX" secondItem="ttw-Cq-cTD" secondAttribute="centerX" type="default" id="17J-IF-0At"/>
-                                    <constraint firstItem="NbA-7r-e92" firstAttribute="top" secondItem="a35-qx-Xwh" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="4JP-Nd-pTJ"/>
-                                    <constraint firstItem="a35-qx-Xwh" firstAttribute="centerX" secondItem="NbA-7r-e92" secondAttribute="centerX" type="default" id="5r0-13-QKZ"/>
+                                    <constraint firstItem="qbX-QE-lcS" firstAttribute="centerX" secondItem="ttw-Cq-cTD" secondAttribute="centerX" type="default" id="2Jp-2Z-sbc"/>
+                                    <constraint firstItem="SDC-78-fTO" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="54M-JQ-01f"/>
+                                    <constraint firstAttribute="bottom" secondItem="oSC-aX-Zkm" secondAttribute="bottom" constant="237" id="55d-6O-UQ2"/>
+                                    <constraint firstItem="CTE-cO-70K" firstAttribute="top" secondItem="qwl-o0-ucZ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="67d-8h-WUc"/>
                                     <constraint firstItem="qbX-QE-lcS" firstAttribute="centerX" secondItem="SDC-78-fTO" secondAttribute="centerX" type="default" id="8Fl-Ib-PeN"/>
-                                    <constraint firstItem="a35-qx-Xwh" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="8Oe-8h-Izd"/>
                                     <constraint firstItem="NbA-7r-e92" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="B1a-Fa-4wN"/>
-                                    <constraint firstItem="qwl-o0-ucZ" firstAttribute="top" secondItem="SDC-78-fTO" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Kor-3o-Q8r"/>
-                                    <constraint firstItem="1UE-Kh-7Br" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="158" id="LRo-QS-Lzx"/>
-                                    <constraint firstItem="SDC-78-fTO" firstAttribute="top" secondItem="qbX-QE-lcS" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="NeW-Po-QbJ"/>
-                                    <constraint firstItem="a35-qx-Xwh" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="404" id="R1Y-Bd-u7g"/>
-                                    <constraint firstItem="CTE-cO-70K" firstAttribute="top" secondItem="qwl-o0-ucZ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="ZSR-pI-a7c"/>
-                                    <constraint firstItem="a35-qx-Xwh" firstAttribute="centerX" secondItem="1UE-Kh-7Br" secondAttribute="centerX" type="default" id="bUm-eB-aiE"/>
-                                    <constraint firstItem="qbX-QE-lcS" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="13" id="cwW-GX-CQX"/>
-                                    <constraint firstAttribute="trailing" secondItem="a35-qx-Xwh" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="ekW-N8-w2c"/>
-                                    <constraint firstItem="oSC-aX-Zkm" firstAttribute="centerX" secondItem="NbA-7r-e92" secondAttribute="centerX" type="default" id="iEa-M0-I3R"/>
-                                    <constraint firstItem="CTE-cO-70K" firstAttribute="trailing" secondItem="SDC-78-fTO" secondAttribute="trailing" type="default" id="iVM-TZ-EqK"/>
-                                    <constraint firstItem="NbA-7r-e92" firstAttribute="trailing" secondItem="CTE-cO-70K" secondAttribute="trailing" type="default" id="jDM-gF-zxn"/>
-                                    <constraint firstItem="oSC-aX-Zkm" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="637" id="kvf-0p-I6D"/>
-                                    <constraint firstItem="CTE-cO-70K" firstAttribute="centerX" secondItem="qwl-o0-ucZ" secondAttribute="centerX" type="default" id="nrC-R6-x0d"/>
-                                    <constraint firstAttribute="bottom" secondItem="oSC-aX-Zkm" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="xFu-yu-asY"/>
-                                    <constraint firstItem="CTE-cO-70K" firstAttribute="leading" secondItem="SDC-78-fTO" secondAttribute="leading" type="default" id="yfz-MC-rQC"/>
+                                    <constraint firstItem="CTE-cO-70K" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="BRq-VN-xZh"/>
+                                    <constraint firstItem="a35-qx-Xwh" firstAttribute="centerX" secondItem="nmo-06-EWk" secondAttribute="centerX" type="default" id="BsJ-Gy-jFT"/>
+                                    <constraint firstItem="nmo-06-EWk" firstAttribute="centerX" secondItem="qwl-o0-ucZ" secondAttribute="centerX" type="default" id="COe-fB-h7s"/>
+                                    <constraint firstItem="qbX-QE-lcS" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="22" id="Lkz-2q-Guh"/>
+                                    <constraint firstItem="nmo-06-EWk" firstAttribute="trailing" secondItem="a35-qx-Xwh" secondAttribute="trailing" type="default" id="Ozx-rP-nc9"/>
+                                    <constraint firstAttribute="trailing" secondItem="CTE-cO-70K" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="PC0-Cb-nkB"/>
+                                    <constraint firstItem="qbX-QE-lcS" firstAttribute="leading" secondItem="1UE-Kh-7Br" secondAttribute="leading" type="default" id="QoS-hu-cn8"/>
+                                    <constraint firstItem="nmo-06-EWk" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="429" id="RKD-Kg-jKF"/>
+                                    <constraint firstItem="NbA-7r-e92" firstAttribute="top" secondItem="a35-qx-Xwh" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="WY6-72-DhS"/>
+                                    <constraint firstAttribute="trailing" secondItem="SDC-78-fTO" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="XYa-Zt-5HU"/>
+                                    <constraint firstItem="SDC-78-fTO" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="72" id="Ykt-QY-vj8"/>
+                                    <constraint firstItem="nmo-06-EWk" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="a2c-mi-0Vu"/>
+                                    <constraint firstItem="1UE-Kh-7Br" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="187" id="aHe-0r-Y5U"/>
+                                    <constraint firstItem="1UE-Kh-7Br" firstAttribute="trailing" secondItem="qbX-QE-lcS" secondAttribute="trailing" type="default" id="amd-Wq-7V6"/>
+                                    <constraint firstItem="oSC-aX-Zkm" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="920" id="b2F-x4-G9z"/>
+                                    <constraint firstItem="a35-qx-Xwh" firstAttribute="centerX" secondItem="oSC-aX-Zkm" secondAttribute="centerX" type="default" id="gdb-2Z-11M"/>
+                                    <constraint firstItem="qwl-o0-ucZ" firstAttribute="top" secondItem="SDC-78-fTO" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="hAl-VU-xkT"/>
+                                    <constraint firstItem="a35-qx-Xwh" firstAttribute="top" secondItem="nmo-06-EWk" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="nH2-TD-zAf"/>
+                                    <constraint firstAttribute="trailing" secondItem="NbA-7r-e92" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="tEg-1H-EB9"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ttw-Cq-cTD" firstAttribute="top" secondItem="Paz-mG-6RD" secondAttribute="top" type="default" id="2oB-Ax-IdD"/>
-                            <constraint firstItem="ttw-Cq-cTD" firstAttribute="bottom" secondItem="Paz-mG-6RD" secondAttribute="bottom" type="default" id="dZg-dN-BRI"/>
+                            <constraint firstItem="ttw-Cq-cTD" firstAttribute="bottom" secondItem="Paz-mG-6RD" secondAttribute="bottom" type="default" id="LMl-ZF-vYG"/>
                             <constraint firstItem="ttw-Cq-cTD" firstAttribute="trailing" secondItem="Paz-mG-6RD" secondAttribute="trailing" type="default" id="j6C-aa-Hhf"/>
+                            <constraint firstItem="ttw-Cq-cTD" firstAttribute="top" secondItem="Paz-mG-6RD" secondAttribute="top" type="default" id="shr-gY-z0n"/>
                             <constraint firstItem="ttw-Cq-cTD" firstAttribute="leading" secondItem="Paz-mG-6RD" secondAttribute="leading" type="default" id="zfj-8V-JDV"/>
                         </constraints>
                     </view>
@@ -327,6 +331,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <connections>
                         <outlet property="baseSwitch" destination="SDC-78-fTO" id="1hA-Do-sk7"/>
                         <outlet property="fromSwitch" destination="1UE-Kh-7Br" id="Mih-J6-HrY"/>
+                        <outlet property="mapView" destination="nmo-06-EWk" id="2pp-4q-8YE"/>
                         <outlet property="notes" destination="NbA-7r-e92" id="i5V-bV-YZ7"/>
                         <outlet property="ratingSlider" destination="CTE-cO-70K" id="fmO-go-sfG"/>
                         <outlet property="saveBtn" destination="oSC-aX-Zkm" id="ZNu-mg-rtJ"/>
@@ -1376,6 +1381,149 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="fieldglow.png" width="600" height="600"/>
         <image name="gender_.png" width="100" height="100"/>
     </resources>
+    <classes>
+        <class className="FrictDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="savePressed:"/>
+                <relationship kind="outlet" name="baseSwitch" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="fromSwitch" candidateClass="UIDatePicker"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="notes" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="ratingSlider" candidateClass="UISlider"/>
+                <relationship kind="outlet" name="saveBtn" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="sliderText" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FrictViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="baseImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="creatorStatusImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="dateRangeText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mateNameText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mateNotesText" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="mateRatingText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mateStatusImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="nameText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="notesText" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="ratingText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="scoreText" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FrictlistViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictlistViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="MateDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MateDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="savePressed:"/>
+                <relationship kind="outlet" name="firstNameText" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="genderSwitch" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="lastNameText" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="saveButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="MateViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MateViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="editButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="firstCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="firstScore" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="frictCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="frictScore" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="homeCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="homeScore" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="secondCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="secondScore" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="thirdCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="thirdScore" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="MatelistViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MatelistViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="RequestViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RequestViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="acceptPressed:"/>
+                <relationship kind="action" name="rejectPressed:"/>
+                <relationship kind="outlet" name="acceptButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="ageText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="genderImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="nameText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="rejectButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="usernameText" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="SearchViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="emailPressed:"/>
+                <relationship kind="action" name="textPressed:"/>
+                <relationship kind="outlet" name="emailButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="resultsText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="statusText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="textButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="SignInViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SignInViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="backButonClick:"/>
+                <relationship kind="action" name="checkboxButton:"/>
+                <relationship kind="action" name="signInButtonClick:"/>
+                <relationship kind="outlet" name="activeField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="bakcButton" candidateClass="UINavigationItem"/>
+                <relationship kind="outlet" name="birthdateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="birthdatePicker" candidateClass="UIDatePicker"/>
+                <relationship kind="outlet" name="checkboxButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="emailText" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="firstNameText" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="genderSwitch" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="lastNameText" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="newAccountLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="passwordText" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="signinButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="usernameText" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="StatisticsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StatisticsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="emailButtonPress:"/>
+                <relationship kind="outlet" name="emailButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="emailLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="firstCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="firstScore" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="homeCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="homeScore" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="secondCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="secondScore" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="signinBtn" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="thirdCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="thirdScore" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="totalCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="totalScore" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="TabBarController" superclassName="UITabBarController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TabBarController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -17,7 +17,7 @@
 
 @implementation FrictDetailViewController
 
-@synthesize frict_id;
+@synthesize frict_id, mapView, pinToRemember;
 
 
 //bad globals
@@ -40,9 +40,72 @@ NSString * notesStr;
     sliderText.text = [NSString stringWithFormat:@"%d", discreteValue ];
 }
 
+//zoom into location and enable touch for pin
+-(void)mapView:(MKMapView *)mv didUpdateUserLocation:(MKUserLocation *)userLocation
+{
+    //register touch
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(handleLongPress:)];
+    lpgr.minimumPressDuration = 1.0; //user needs to press for 1 seconds
+    [mapView addGestureRecognizer:lpgr];
+    
+    //zoom into current location
+    MKCoordinateRegion mapRegion;
+    mapRegion.center = mv.userLocation.coordinate;
+    mapRegion.span.latitudeDelta = 0.001;
+    mapRegion.span.longitudeDelta = 0.001;
+    
+    [mv setRegion:mapRegion animated: YES];
+    mv.showsUserLocation = NO;
+}
+
+//animate pin drop
+- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views {    
+    //remove pin if it exists
+    if(pinToRemember != NULL)
+    {
+        [mapView removeAnnotation:pinToRemember];
+        pinToRemember = NULL;
+    }
+    
+    MKAnnotationView *aV;
+    for (aV in views) {
+        CGRect endFrame = aV.frame;
+        
+        aV.frame = CGRectMake(aV.frame.origin.x, aV.frame.origin.y - 230.0, aV.frame.size.width, aV.frame.size.height);
+        
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.45];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [aV setFrame:endFrame];
+        [UIView commitAnimations];
+        
+    }
+}
+
+//add pin
+- (void)handleLongPress:(UIGestureRecognizer *)gestureRecognizer
+{    
+    if (gestureRecognizer.state != UIGestureRecognizerStateBegan)
+        return;
+    
+    CGPoint touchPoint = [gestureRecognizer locationInView:mapView];
+    CLLocationCoordinate2D touchMapCoordinate =
+    [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
+    
+    MKPointAnnotation *annot = [[MKPointAnnotation alloc] init];
+    annot.coordinate = touchMapCoordinate;
+    [mapView addAnnotation:annot];
+    pinToRemember = annot;
+    
+    NSLog(@"coords: %f, %f", pinToRemember.coordinate.latitude, pinToRemember.coordinate.longitude);
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"view will appear frict detail");
+    
+    //[self setVisibleArea];
     
     //if the frict exists
     if(self.frict_id > 0)
@@ -171,6 +234,7 @@ NSString * notesStr;
 	// Do any additional setup after loading the view.
     
     notes.delegate = self;
+    mapView.delegate = self;
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc]  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(goBack:)];
     self.navigationItem.leftBarButtonItem = backButton;
@@ -474,6 +538,9 @@ NSString * notesStr;
                 //bad error, todo: error code
             }
         }
+        
+        //todo: testing
+
         
         //enable tabbaar items
         [[self.tabBarController.tabBar.items objectAtIndex:0] setEnabled:TRUE];
