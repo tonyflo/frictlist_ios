@@ -626,6 +626,7 @@ NSString * notesStr;
         //known error codes
         if(intResult == -80 || //adding frict may have failed
            intResult == -90 || //updating frict may have failed
+           intResult == -91 || //creator flag wasn't 1 or 0 when updating frict
            intResult == -100 || //id was null or not positive
            intResult == -101) //id doesn't exist or isn't unique
         {

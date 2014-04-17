@@ -681,6 +681,7 @@ NSMutableArray *baseArray;
     {
         //known error codes
         if(intResult == -50 || //removing frict may have failed
+           intResult == -51 || //creator flag wasn't 1 or 0
            intResult == -100 || //id was null or not positive
            intResult == -101) //id doesn't exist or isn't unique
         {

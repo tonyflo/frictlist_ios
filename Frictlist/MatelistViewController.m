@@ -1065,6 +1065,7 @@ NSMutableArray *rejectedGenderArray;
     {
         //known error codes
         if(intResult == -40 || //removing mate may have failed
+           intResult == -41 || //creator flag wasn not 0 or 1
            intResult == -100 || //id was null or not positive
            intResult == -101) //id doesn't exist or isn't unique
         {
