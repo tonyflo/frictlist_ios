@@ -11,8 +11,6 @@
 #import "PlistHelper.h"
 #import "SqlHelper.h"
 
-#define PLATFORM (1) //iOS
-
 @interface SignInViewController ()
 
 @end
@@ -28,7 +26,6 @@ int maxPwLen = 255;
 int maxEmailLen = 35;
 int ageLimit = 14;
 int maxUnLen = 20;
-NSString * url = @"http://frictlist.flooreeda.com/scripts/";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -262,7 +259,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     //Set the Url for which your going to send the data to that request.
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@signin.php", url]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@signin.php", SCRIPTS_URL]]];
     NSLog(@"Sign in");
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
@@ -314,7 +311,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     //Set the Url for which your going to send the data to that request.
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@signup.php", url]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@signup.php", SCRIPTS_URL]]];
     NSLog(@"Sign up");
 
     
@@ -366,7 +363,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     //Set the Url for which your going to send the data to that request.
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_frictlist.php", url]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_frictlist.php", SCRIPTS_URL]]];
   
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];
@@ -416,7 +413,7 @@ NSString * url = @"http://frictlist.flooreeda.com/scripts/";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     //Set the Url for which your going to send the data to that request.
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_notifications.php", url]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_notifications.php", SCRIPTS_URL]]];
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];

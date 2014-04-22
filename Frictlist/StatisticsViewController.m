@@ -21,7 +21,6 @@
 //bad globals
 static int uid = -1; //uid (pk) of an user that's not signed in
 UIAlertView *alertView;
-NSString * address = @"http://frictlist.flooreeda.com/scripts/";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

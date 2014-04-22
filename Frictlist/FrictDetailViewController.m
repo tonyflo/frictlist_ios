@@ -10,6 +10,7 @@
 #import "FrictViewController.h"
 #import "PlistHelper.h"
 #import "SqlHelper.h"
+#import "version.h"
 
 #define ZOOM (0.001)
 
@@ -24,7 +25,6 @@
 
 //bad globals
 UIAlertView * alertView;
-NSString * frict_url = @"http://frictlist.flooreeda.com/scripts/";
 int maxStringLen = 255;
 int minAge = 14;
 int row = 0; //local index of mate
@@ -427,12 +427,12 @@ NSString * notesStr;
     if(self.frict_id > 0)
     {
         //this hookup has already been written to the mysql db, updated it now
-        [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@update_frict.php", frict_url]]];
+        [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@update_frict.php", SCRIPTS_URL]]];
     }
     else
     {
         //this hookup is new hookup, insert it into the mysql db
-        [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@add_frict.php", frict_url]]];
+        [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@add_frict.php", SCRIPTS_URL]]];
     }
 
     

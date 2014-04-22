@@ -9,6 +9,7 @@
 #import "MateDetailViewController.h"
 #import "PlistHelper.h"
 #import "SqlHelper.h"
+#import "version.h"
 
 @interface MateDetailViewController ()
 
@@ -21,7 +22,6 @@
 
 //bad globals
 UIAlertView * alertView;
-NSString * frict_url_str = @"http://frictlist.flooreeda.com/scripts/";
 int maxStringLength = 255;
 int row_num = 0; //local index of frict (the row of the frict)
 
@@ -201,12 +201,12 @@ int gender;
     if(self.hu_id > 0)
     {
         //this hookup has already been written to the mysql db, updated it now
-        [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@update_mate.php", frict_url_str]]];
+        [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@update_mate.php", SCRIPTS_URL]]];
     }
     else
     {
         //this hookup is new hookup, insert it into the mysql db
-        [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@add_mate.php", frict_url_str]]];
+        [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@add_mate.php", SCRIPTS_URL]]];
     }
     
     

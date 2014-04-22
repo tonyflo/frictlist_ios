@@ -14,7 +14,8 @@
 
 }
 
-//#define FREE
+#define SCRIPTS_URL (@"http://frictlist.flooreeda.com/scripts/")
+#define PLATFORM (1) //iOS
 
 #endif
 

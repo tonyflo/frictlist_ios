@@ -10,6 +10,7 @@
 #import "FrictViewController.h" //for segue
 #import "PlistHelper.h"
 #import "SqlHelper.h"
+#import "version.h"
 
 @interface FrictlistViewController ()
 
@@ -19,7 +20,6 @@
 
 @synthesize tableView;
 
-NSString * scripts_url_frict = @"http://frictlist.flooreeda.com/scripts/";
 UIAlertView * alertView;
 int curRowFrict = -1;
 BOOL ableToRefresh = true; //if the refresh is happening
@@ -304,7 +304,7 @@ NSMutableArray *baseArray;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     //call the remove script
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@remove_frict.php", scripts_url_frict]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@remove_frict.php", SCRIPTS_URL]]];
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];
@@ -354,7 +354,7 @@ NSMutableArray *baseArray;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     //Set the Url for which your going to send the data to that request.
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_frictlist.php", scripts_url_frict]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_frictlist.php", SCRIPTS_URL]]];
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];
@@ -404,7 +404,7 @@ NSMutableArray *baseArray;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     //Set the Url for which your going to send the data to that request.
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_notifications.php", scripts_url_frict]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_notifications.php", SCRIPTS_URL]]];
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];

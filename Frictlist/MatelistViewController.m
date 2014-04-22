@@ -11,6 +11,7 @@
 #import "PlistHelper.h"
 #import "SqlHelper.h"
 #import "RequestViewController.h"
+#import "version.h"
 
 @interface MatelistViewController ()
 
@@ -20,7 +21,6 @@
 
 @synthesize tableView;
 
-NSString * scripts_url = @"http://frictlist.flooreeda.com/scripts/";
 UIAlertView * alertView;
 int curRow = -1;
 int creator = -1;
@@ -627,7 +627,7 @@ NSMutableArray *rejectedGenderArray;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     //call the remove script
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@remove_mate.php", scripts_url]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@remove_mate.php", SCRIPTS_URL]]];
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];
@@ -677,7 +677,7 @@ NSMutableArray *rejectedGenderArray;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     //Set the Url for which your going to send the data to that request.
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_frictlist.php", scripts_url]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_frictlist.php", SCRIPTS_URL]]];
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];
@@ -727,7 +727,7 @@ NSMutableArray *rejectedGenderArray;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     //Set the Url for which your going to send the data to that request.
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_notifications.php", scripts_url]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_notifications.php", SCRIPTS_URL]]];
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];
