@@ -164,11 +164,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/RequestViewController.m"
-         timestampString = "418185700.37483"
+         timestampString = "419911282.551696"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "667"
-         endingLineNumber = "667">
+         startingLineNumber = "711"
+         endingLineNumber = "711">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"

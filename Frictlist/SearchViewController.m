@@ -9,6 +9,7 @@
 #import "SearchViewController.h"
 #import "PlistHelper.h"
 #import "SqlHelper.h"
+#import "version.h"
 
 @interface SearchViewController ()
 
@@ -20,7 +21,6 @@
 
 int maxFieldLen = 255;
 UIAlertView * alertView;
-NSString * frict_scripts_url_str = @"http://frictlist.flooreeda.com/scripts/";
 NSMutableArray * userIdArray;
 NSMutableArray * usernameArray;
 NSMutableArray * userBdayArray;
@@ -115,7 +115,7 @@ NSString * sentTo = @"the recipient";
     
 
     //search for mate
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@search_mate.php", frict_scripts_url_str]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@search_mate.php", SCRIPTS_URL]]];
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];
@@ -572,7 +572,7 @@ NSString * sentTo = @"the recipient";
     
     
     //search for mate
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@send_mate_request.php", frict_scripts_url_str]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@send_mate_request.php", SCRIPTS_URL]]];
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];

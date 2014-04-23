@@ -27,6 +27,7 @@ int creator = -1;
 BOOL canRefresh = true; //if the refresh is happening
 BOOL sentFromAdd = false;
 int accepted = 0; //will be 1 if removing an accepted mate, -1 if removing a rejected mate
+int viewRequest = 0; //will be 1 if responding to a request, -1 if changing a rejected request
 
 NSMutableArray *huidArray;
 NSMutableArray *firstNameArray;
@@ -170,8 +171,20 @@ NSMutableArray *rejectedGenderArray;
     {
         NSLog(@"Going to request view");
         RequestViewController *destViewController = segue.destinationViewController;
+        destViewController.viewRequest = viewRequest;
         
-        destViewController.request_id = [incommingRequestIdArray[[[self.tableView indexPathForSelectedRow] row]] intValue];
+        if(viewRequest == 1)
+        {
+            destViewController.request_id = [incommingRequestIdArray[[[self.tableView indexPathForSelectedRow] row]] intValue];
+        }
+        else if(viewRequest == -1)
+        {
+            destViewController.request_id = [rejectedRequestIdArray[[[self.tableView indexPathForSelectedRow] row]] intValue];
+        }
+        else
+        {
+            [self showErrorCodeDialog:-420];
+        }
 
     }
     else if([segue.identifier isEqualToString:@"showAcceptedDetail"])
@@ -219,6 +232,7 @@ NSMutableArray *rejectedGenderArray;
     acceptedLastNameArray = accepts[2]; //ln
     acceptedGenderArray = accepts[3]; //gender
     acceptedMateIdArray = accepts[4]; //sender's mate id of this user
+    NSLog(@"accepted %@", accepts);
     
     //get rejected from sqlite3
     NSArray * rejects = [sql get_rejected_list];
@@ -250,12 +264,14 @@ NSMutableArray *rejectedGenderArray;
             [self performSegueWithIdentifier:@"showMateDetail" sender:indexPath];
             break;
         case 1:
+            viewRequest = 1;
             [self performSegueWithIdentifier:@"viewRequest" sender:indexPath];
             break;
         case 2:
             [self performSegueWithIdentifier:@"showAcceptedDetail" sender:indexPath];
             break;
         case 3:
+            viewRequest = -1;
             [self performSegueWithIdentifier:@"viewRequest" sender:indexPath];
             break;
             

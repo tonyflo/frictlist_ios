@@ -1246,7 +1246,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="First Last" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="285" translatesAutoresizingMaskIntoConstraints="NO" id="hcf-RX-hJL">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="TMy-P5-iBw"/>
-                                    <constraint firstAttribute="width" constant="285" id="Z9a-ip-9N4"/>
+                                    <constraint firstAttribute="width" constant="285" id="sQh-ge-tqM"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -1262,69 +1262,47 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <constraint firstAttribute="height" constant="92" id="8KM-VU-BuZ"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="auJ-nu-W0E">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="73" id="20L-dB-T2r"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Accept">
-                                    <color key="titleColor" red="0.12941176469999999" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="acceptPressed:" destination="GH2-UR-Lkq" eventType="touchUpInside" id="E2C-a9-07u"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BOn-Uv-oeA">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="73" id="Ehx-Fm-bZA"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Reject">
-                                    <color key="titleColor" red="0.89814028530000001" green="0.084433411269999994" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="rejectPressed:" destination="GH2-UR-Lkq" eventType="touchUpInside" id="Coy-zG-xu0"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YSy-gH-Tgf">
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="xke-Ql-Qhe">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="282" id="LQZ-fz-Whn"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Reject"/>
+                                    <segment title="Pending"/>
+                                    <segment title="Accept"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentSwitch:" destination="GH2-UR-Lkq" eventType="valueChanged" id="LYf-yC-aG6"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="YSy-gH-Tgf" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="0oV-be-s8h"/>
-                            <constraint firstItem="auJ-nu-W0E" firstAttribute="leading" secondItem="GpX-ff-t8s" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="CMF-KM-3pR"/>
+                            <constraint firstItem="xke-Ql-Qhe" firstAttribute="centerX" secondItem="Cb2-ix-hTN" secondAttribute="centerX" type="default" id="6hw-ke-ocj"/>
                             <constraint firstItem="YSy-gH-Tgf" firstAttribute="top" secondItem="hcf-RX-hJL" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="SYY-3C-gdY"/>
-                            <constraint firstItem="auJ-nu-W0E" firstAttribute="baseline" secondItem="BOn-Uv-oeA" secondAttribute="baseline" type="default" id="W3J-Ng-eXq"/>
-                            <constraint firstItem="BOn-Uv-oeA" firstAttribute="top" secondItem="GpX-ff-t8s" secondAttribute="top" constant="190" id="ekh-wU-kiK"/>
+                            <constraint firstItem="z8p-Dq-jAb" firstAttribute="centerX" secondItem="Cb2-ix-hTN" secondAttribute="centerX" type="default" id="XKI-J4-dCb"/>
+                            <constraint firstAttribute="bottom" secondItem="xke-Ql-Qhe" secondAttribute="bottom" constant="133" id="iuQ-Aj-OnN"/>
                             <constraint firstItem="z8p-Dq-jAb" firstAttribute="top" secondItem="YSy-gH-Tgf" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="j7u-w9-B5c"/>
                             <constraint firstItem="z8p-Dq-jAb" firstAttribute="leading" secondItem="GpX-ff-t8s" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="lfh-Ik-t8E"/>
                             <constraint firstItem="hcf-RX-hJL" firstAttribute="centerX" secondItem="YSy-gH-Tgf" secondAttribute="centerX" type="default" id="rUe-ss-Rgn"/>
                             <constraint firstAttribute="trailing" secondItem="z8p-Dq-jAb" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="rfH-0r-1b8"/>
-                            <constraint firstItem="Cb2-ix-hTN" firstAttribute="top" secondItem="z8p-Dq-jAb" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="riv-7w-B26"/>
-                            <constraint firstItem="z8p-Dq-jAb" firstAttribute="centerX" secondItem="Cb2-ix-hTN" secondAttribute="centerX" type="default" id="sTX-h4-9v2"/>
+                            <constraint firstAttribute="trailing" secondItem="YSy-gH-Tgf" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="t94-SP-heE"/>
                             <constraint firstItem="hcf-RX-hJL" firstAttribute="top" secondItem="GpX-ff-t8s" secondAttribute="top" constant="20" symbolic="YES" type="default" id="vp9-Mx-iUe"/>
                             <constraint firstItem="YSy-gH-Tgf" firstAttribute="leading" secondItem="GpX-ff-t8s" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="ypw-ck-jaY"/>
-                            <constraint firstAttribute="trailing" secondItem="BOn-Uv-oeA" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="zf5-Aa-TiC"/>
+                            <constraint firstItem="Cb2-ix-hTN" firstAttribute="top" secondItem="GpX-ff-t8s" secondAttribute="top" constant="163" id="zxy-KE-gHv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="otX-KD-Yqu"/>
                     <connections>
-                        <outlet property="acceptButton" destination="auJ-nu-W0E" id="8d5-5C-rpP"/>
                         <outlet property="ageText" destination="z8p-Dq-jAb" id="AiC-Y2-qf0"/>
                         <outlet property="genderImage" destination="Cb2-ix-hTN" id="HfT-Vn-ncW"/>
                         <outlet property="nameText" destination="hcf-RX-hJL" id="RYC-DC-uRm"/>
-                        <outlet property="rejectButton" destination="BOn-Uv-oeA" id="W3T-Vg-dtX"/>
+                        <outlet property="segmentedControl" destination="xke-Ql-Qhe" id="pIQ-Te-6ED"/>
                         <outlet property="usernameText" destination="YSy-gH-Tgf" id="eMB-zR-D3A"/>
                     </connections>
                 </viewController>
@@ -1386,6 +1364,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictDetailViewController.h"/>
             <relationships>
                 <relationship kind="action" name="savePressed:"/>
+                <relationship kind="action" name="valueChanged:" candidateClass="UISlider"/>
                 <relationship kind="outlet" name="baseSwitch" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="fromSwitch" candidateClass="UIDatePicker"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
@@ -1459,11 +1438,11 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <relationships>
                 <relationship kind="action" name="acceptPressed:"/>
                 <relationship kind="action" name="rejectPressed:"/>
-                <relationship kind="outlet" name="acceptButton" candidateClass="UIButton"/>
+                <relationship kind="action" name="segmentSwitch:"/>
                 <relationship kind="outlet" name="ageText" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="genderImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="nameText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="rejectButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="segmentedControl" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="usernameText" candidateClass="UILabel"/>
             </relationships>
         </class>

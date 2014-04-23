@@ -9,6 +9,7 @@
 #import "RequestViewController.h"
 #import "SqlHelper.h"
 #import "PlistHelper.h"
+#import "version.h"
 
 #define ACCEPT (1)
 #define REJECT (-1)
@@ -19,7 +20,6 @@
 
 @implementation RequestViewController
 
-NSString * url_str = @"http://frictlist.flooreeda.com/scripts/";
 int mate_id = -1; //mate id of the user who made the request
 UIAlertView * alertView;
 
@@ -36,11 +36,31 @@ UIAlertView * alertView;
 {
     SqlHelper *sql = [SqlHelper alloc];
     
-    NSMutableArray * requst = [sql get_notification:self.request_id];
+    NSMutableArray * requst;
+    if(self.viewRequest == 1)
+    {
+        //responding to request
+        requst = [sql get_notification:self.request_id];
+    }
+    else if(self.viewRequest == -1)
+    {
+        //changing rejected
+        requst = [sql get_rejected:self.request_id];
+        //disable pending index of segmented control
+        [segmentedControl setEnabled:NO forSegmentAtIndex:1];
+        [segmentedControl setSelectedSegmentIndex:0]; //set rejected as selected
+    }
+    else
+    {
+        [self showErrorCodeDialog:-421];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
     NSString *fn = requst[0];
     NSString *ln = requst[1];
     NSString *un = requst[2];
     int gender = [requst[3] intValue];
+    NSLog(@"request: %@", requst);
     NSString *bday = requst[4];
     mate_id = [requst[5] intValue];
     
@@ -80,15 +100,26 @@ UIAlertView * alertView;
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)acceptPressed:(id)sender
+-(IBAction)segmentSwitch:(id)sender
 {
-    [self showResponding:@"Accepting"];
-    [self respond_mate_request:ACCEPT];
-}
-- (IBAction)rejectPressed:(id)sender
-{
-    [self showResponding:@"Rejecting"];
-    [self respond_mate_request:REJECT];
+    NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
+    
+    if(selectedSegment == 0)
+    {
+        //accepted
+        [self showResponding:@"Rejecting"];
+        [self respond_mate_request:REJECT];
+    }
+    else if(selectedSegment == 2)
+    {
+        //rejected
+        [self showResponding:@"Accepting"];
+        [self respond_mate_request:ACCEPT];
+    }
+    else
+    {
+        //do nothing
+    }
 }
 
 //respond mate request
@@ -113,7 +144,7 @@ UIAlertView * alertView;
     
     
     //search for mate
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@respond_mate_request.php", url_str]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@respond_mate_request.php", SCRIPTS_URL]]];
     
     //Now, set HTTP method (POST or GET). Write this lines as it is in your code
     [request setHTTPMethod:@"POST"];
@@ -220,7 +251,24 @@ UIAlertView * alertView;
         //save request status to sqlite
         SqlHelper *sql = [SqlHelper alloc];
         //get the data from this request
-        NSArray * request = [sql get_notification:self.request_id];
+        NSMutableArray * request;
+        if(self.viewRequest == 1)
+        {
+            //responding to request
+            request = [sql get_notification:self.request_id];
+        }
+        else if(self.viewRequest == -1)
+        {
+            //changing reject to accept
+            request = [sql get_rejected:self.request_id];
+            
+            //remove rejected frict
+            [sql remove_rejected:self.request_id];
+        }
+        else
+        {
+            [self showErrorCodeDialog:-422];
+        }
         //delete the request from the table
         [sql remove_notification:self.request_id];
         //add the reqeust to the appropriate table

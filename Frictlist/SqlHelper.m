@@ -894,12 +894,12 @@ NSString * dbName = @"frictlist.sqlite";
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 // The second parameter indicates the column index into the result set.
-                NSString *fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
-                NSString *ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
-                NSString *un = [NSString stringWithUTF8String:sqlite3_column_text(statement, 3)];
-                NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 4)];
-                NSString *bday = [NSString stringWithUTF8String:sqlite3_column_text(statement, 5)];
-                NSNumber *mid = [NSNumber numberWithInt: sqlite3_column_int(statement, 6)];
+                NSString *fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 0)];
+                NSString *ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
+                NSString *un = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
+                NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
+                NSString *bday = [NSString stringWithUTF8String:sqlite3_column_text(statement, 4)];
+                NSNumber *mid = [NSNumber numberWithInt: sqlite3_column_int(statement, 5)];
                 
                 rejected = [[NSMutableArray alloc] initWithObjects:fn, ln, un, gender, bday, mid, nil];
             }
