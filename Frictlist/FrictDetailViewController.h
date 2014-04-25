@@ -18,6 +18,7 @@
     IBOutlet UITextView *notes;
     IBOutlet UIButton *saveBtn;
     IBOutlet UILabel *sliderText;
+    IBOutlet UISegmentedControl *locationToggle;
 }
 
 //image view
@@ -31,6 +32,5 @@
 @property (retain) MKPointAnnotation * pinToRemember;
 
 - (IBAction)savePressed:(id)sender;
-
-
+-(IBAction)locationToggled:(id)sender;
 @end

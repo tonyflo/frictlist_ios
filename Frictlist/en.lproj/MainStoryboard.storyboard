@@ -285,35 +285,51 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nmo-06-EWk">
                                         <constraints>
                                             <constraint firstAttribute="height" constant="233" id="VyR-OG-mQF"/>
-                                            <constraint firstAttribute="width" constant="279" id="cJ5-nd-wje"/>
                                         </constraints>
                                     </mapView>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="fHp-FF-NZ8">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="104" id="1ly-tZ-MDK"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="Pin"/>
+                                            <segment title="Both"/>
+                                            <segment title="Loc"/>
+                                        </segments>
+                                        <color key="tintColor" red="0.12941176469999999" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="locationToggled:" destination="6uw-zG-BVk" eventType="valueChanged" id="qJS-I0-I4j"/>
+                                        </connections>
+                                    </segmentedControl>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="NbA-7r-e92" firstAttribute="centerX" secondItem="oSC-aX-Zkm" secondAttribute="centerX" type="default" id="0mW-5j-cv4"/>
+                                    <constraint firstItem="nmo-06-EWk" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="428" id="53v-ni-pX5"/>
                                     <constraint firstItem="SDC-78-fTO" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="54M-JQ-01f"/>
-                                    <constraint firstAttribute="bottom" secondItem="oSC-aX-Zkm" secondAttribute="bottom" constant="237" id="55d-6O-UQ2"/>
                                     <constraint firstItem="CTE-cO-70K" firstAttribute="top" secondItem="qwl-o0-ucZ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="67d-8h-WUc"/>
                                     <constraint firstItem="qbX-QE-lcS" firstAttribute="centerX" secondItem="SDC-78-fTO" secondAttribute="centerX" type="default" id="8Fl-Ib-PeN"/>
+                                    <constraint firstItem="qbX-QE-lcS" firstAttribute="centerX" secondItem="ttw-Cq-cTD" secondAttribute="centerX" type="default" id="8xN-la-KZN"/>
+                                    <constraint firstAttribute="bottom" secondItem="oSC-aX-Zkm" secondAttribute="bottom" constant="174" id="9wL-vG-gDU"/>
+                                    <constraint firstItem="CTE-cO-70K" firstAttribute="centerX" secondItem="qwl-o0-ucZ" secondAttribute="centerX" type="default" id="Ap8-3R-9Wm"/>
                                     <constraint firstItem="NbA-7r-e92" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="B1a-Fa-4wN"/>
+                                    <constraint firstAttribute="trailing" secondItem="nmo-06-EWk" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="B89-Cw-ouS"/>
                                     <constraint firstItem="CTE-cO-70K" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="BRq-VN-xZh"/>
-                                    <constraint firstItem="a35-qx-Xwh" firstAttribute="centerX" secondItem="nmo-06-EWk" secondAttribute="centerX" type="default" id="BsJ-Gy-jFT"/>
-                                    <constraint firstItem="nmo-06-EWk" firstAttribute="centerX" secondItem="qwl-o0-ucZ" secondAttribute="centerX" type="default" id="COe-fB-h7s"/>
+                                    <constraint firstItem="a35-qx-Xwh" firstAttribute="top" secondItem="fHp-FF-NZ8" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="ION-wP-iiW"/>
                                     <constraint firstItem="qbX-QE-lcS" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="22" id="Lkz-2q-Guh"/>
-                                    <constraint firstItem="nmo-06-EWk" firstAttribute="trailing" secondItem="a35-qx-Xwh" secondAttribute="trailing" type="default" id="Ozx-rP-nc9"/>
                                     <constraint firstAttribute="trailing" secondItem="CTE-cO-70K" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="PC0-Cb-nkB"/>
+                                    <constraint firstItem="fHp-FF-NZ8" firstAttribute="top" secondItem="nmo-06-EWk" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="PcV-MG-K6E"/>
                                     <constraint firstItem="qbX-QE-lcS" firstAttribute="leading" secondItem="1UE-Kh-7Br" secondAttribute="leading" type="default" id="QoS-hu-cn8"/>
-                                    <constraint firstItem="nmo-06-EWk" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="429" id="RKD-Kg-jKF"/>
-                                    <constraint firstItem="SDC-78-fTO" firstAttribute="centerX" secondItem="ttw-Cq-cTD" secondAttribute="centerX" type="default" id="RtB-3T-LDo"/>
-                                    <constraint firstItem="NbA-7r-e92" firstAttribute="top" secondItem="a35-qx-Xwh" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="WY6-72-DhS"/>
                                     <constraint firstAttribute="trailing" secondItem="SDC-78-fTO" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="XYa-Zt-5HU"/>
                                     <constraint firstItem="SDC-78-fTO" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="72" id="Ykt-QY-vj8"/>
+                                    <constraint firstAttribute="trailing" secondItem="a35-qx-Xwh" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="ZHx-ww-Wdc"/>
                                     <constraint firstItem="nmo-06-EWk" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="a2c-mi-0Vu"/>
                                     <constraint firstItem="1UE-Kh-7Br" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="187" id="aHe-0r-Y5U"/>
                                     <constraint firstItem="1UE-Kh-7Br" firstAttribute="trailing" secondItem="qbX-QE-lcS" secondAttribute="trailing" type="default" id="amd-Wq-7V6"/>
-                                    <constraint firstItem="oSC-aX-Zkm" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="920" id="b2F-x4-G9z"/>
-                                    <constraint firstItem="a35-qx-Xwh" firstAttribute="centerX" secondItem="oSC-aX-Zkm" secondAttribute="centerX" type="default" id="gdb-2Z-11M"/>
+                                    <constraint firstItem="a35-qx-Xwh" firstAttribute="leading" secondItem="ttw-Cq-cTD" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="gum-Oz-zCZ"/>
                                     <constraint firstItem="qwl-o0-ucZ" firstAttribute="top" secondItem="SDC-78-fTO" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="hAl-VU-xkT"/>
-                                    <constraint firstItem="a35-qx-Xwh" firstAttribute="top" secondItem="nmo-06-EWk" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="nH2-TD-zAf"/>
+                                    <constraint firstItem="oSC-aX-Zkm" firstAttribute="top" secondItem="ttw-Cq-cTD" secondAttribute="top" constant="983" id="j3K-vj-ZjC"/>
+                                    <constraint firstItem="NbA-7r-e92" firstAttribute="top" secondItem="a35-qx-Xwh" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="lui-WA-Sxt"/>
+                                    <constraint firstItem="fHp-FF-NZ8" firstAttribute="centerX" secondItem="a35-qx-Xwh" secondAttribute="centerX" type="default" id="rSE-3j-tnl"/>
                                     <constraint firstAttribute="trailing" secondItem="NbA-7r-e92" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="tEg-1H-EB9"/>
                                 </constraints>
                             </scrollView>
@@ -331,6 +347,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <connections>
                         <outlet property="baseSwitch" destination="SDC-78-fTO" id="1hA-Do-sk7"/>
                         <outlet property="fromSwitch" destination="1UE-Kh-7Br" id="Mih-J6-HrY"/>
+                        <outlet property="locationToggle" destination="fHp-FF-NZ8" id="QMl-7f-hIH"/>
                         <outlet property="mapView" destination="nmo-06-EWk" id="2pp-4q-8YE"/>
                         <outlet property="notes" destination="NbA-7r-e92" id="i5V-bV-YZ7"/>
                         <outlet property="ratingSlider" destination="CTE-cO-70K" id="fmO-go-sfG"/>
@@ -1363,10 +1380,12 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <class className="FrictDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictDetailViewController.h"/>
             <relationships>
+                <relationship kind="action" name="locationToggled:"/>
                 <relationship kind="action" name="savePressed:"/>
                 <relationship kind="action" name="valueChanged:" candidateClass="UISlider"/>
                 <relationship kind="outlet" name="baseSwitch" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="fromSwitch" candidateClass="UIDatePicker"/>
+                <relationship kind="outlet" name="locationToggle" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="notes" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="ratingSlider" candidateClass="UISlider"/>

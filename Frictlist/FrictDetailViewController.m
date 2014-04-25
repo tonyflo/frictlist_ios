@@ -13,6 +13,9 @@
 #import "version.h"
 
 #define ZOOM (0.001)
+#define PIN_INDEX (0)
+#define BOTH_INDEX (1)
+#define LOC_INDEX (2)
 
 @interface FrictDetailViewController ()
 
@@ -48,13 +51,18 @@ NSString * notesStr;
 {
     if(!(self.frict_id > 0))
     {
-        MKCoordinateRegion mapRegion;
-        mapRegion.center = mapView.userLocation.coordinate;
-        mapRegion.span.latitudeDelta = ZOOM;
-        mapRegion.span.longitudeDelta = ZOOM;
-        
-        [mapView setRegion:mapRegion animated: YES];
+        [self goToUserLocation];
     }
+}
+
+-(void)goToUserLocation
+{
+    MKCoordinateRegion mapRegion;
+    mapRegion.center = mapView.userLocation.coordinate;
+    mapRegion.span.latitudeDelta = ZOOM;
+    mapRegion.span.longitudeDelta = ZOOM;
+    
+    [mapView setRegion:mapRegion animated: YES];
 }
 
 -(void)goToPin
@@ -106,9 +114,18 @@ NSString * notesStr;
 {
     if(gestureRecognizer.state == UIGestureRecognizerStateBegan)
     {
+        //unhide pin if necessary
+        if(locationToggle.selectedSegmentIndex == LOC_INDEX)
+        {
+            NSLog(@"hereee");
+            //[[mapView viewForAnnotation:pinToRemember] setHidden:NO];
+            [locationToggle setSelectedSegmentIndex:BOTH_INDEX];
+        }
+        
         //remove pin if it exists
         if(pinToRemember != NULL)
         {
+            //then remove it
             [mapView removeAnnotation:pinToRemember];
             pinToRemember = NULL;
             NSLog(@"Pin is now null");
@@ -126,9 +143,146 @@ NSString * notesStr;
     annot.coordinate = touchMapCoordinate;
     [mapView addAnnotation:annot];
     pinToRemember = annot;
+    [[mapView viewForAnnotation:pinToRemember] setHidden:NO];
     
     NSLog(@"coords: %f, %f", pinToRemember.coordinate.latitude, pinToRemember.coordinate.longitude);
 }
+
+//location segmented control was changed
+-(IBAction)locationToggled:(id)sender
+{
+    NSInteger selectedSegment = locationToggle.selectedSegmentIndex;
+    MKAnnotationView *ulv = [mapView viewForAnnotation:mapView.userLocation];
+    
+    
+    switch (selectedSegment) {
+        case PIN_INDEX:
+            NSLog(@"PIN LOCATION");
+            
+            if(pinToRemember != NULL)
+            {
+                //show pin
+                [[mapView viewForAnnotation:pinToRemember] setHidden:NO];
+                
+                //go to pin
+                [self goToPin];
+            }
+            
+            //hide blue dot
+            ulv.hidden = YES;
+            
+            break;
+        case BOTH_INDEX:
+            NSLog(@"BOTH LOCATIONS");
+            //note: pin is shown in regionDidChangeAnimated
+            
+            bool pinExists = (pinToRemember == NULL) ? false : true;
+            
+            if(pinExists)
+            {
+                //show both pin and user location in map view
+                [self zoomToFitMapAnnotations];
+                
+                //show pin
+                [[mapView viewForAnnotation:pinToRemember] setHidden:NO];
+                
+            }
+            else
+            {
+                //move view to user location
+                [self goToUserLocation];
+            }
+ 
+            break;
+        case LOC_INDEX:
+            NSLog(@"USER LOCATION");
+            //go to the blue dot
+            [self goToUserLocation];
+            
+            //show blue dot
+            ulv.hidden = NO;
+            
+            if(pinToRemember != NULL)
+            {
+                //hide pin
+                [[mapView viewForAnnotation:pinToRemember] setHidden:YES];
+            }
+            
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
+//finish animation
+-(void)mapView:(MKMapView *)mv regionDidChangeAnimated:(BOOL)animated
+{
+    NSLog(@"done animating");
+    int index = locationToggle.selectedSegmentIndex;
+    if(index == BOTH_INDEX)
+    {
+        //show blue dot
+        MKAnnotationView *ulv = [mapView viewForAnnotation:mapView.userLocation];
+        ulv.hidden = NO;
+        
+        //show pin if exists
+        if(pinToRemember != NULL)
+        {
+            [[mapView viewForAnnotation:pinToRemember] setHidden:NO];
+        }
+    }
+    
+    if(index == LOC_INDEX)
+    {
+        MKAnnotationView *ulv = [mapView viewForAnnotation:mapView.userLocation];
+        ulv.hidden = NO;
+    }
+    
+    if(index == PIN_INDEX)
+    {
+        //show pin if exists
+        if(pinToRemember != NULL)
+        {
+            [[mapView viewForAnnotation:pinToRemember] setHidden:NO];
+        }
+    }
+
+    
+}
+
+- (void)zoomToFitMapAnnotations {
+    if ([mapView.annotations count] == 0) return;
+    
+    CLLocationCoordinate2D topLeftCoord;
+    topLeftCoord.latitude = -90;
+    topLeftCoord.longitude = 180;
+    
+    CLLocationCoordinate2D bottomRightCoord;
+    bottomRightCoord.latitude = 90;
+    bottomRightCoord.longitude = -180;
+    
+    for(id<MKAnnotation> annotation in mapView.annotations) {
+        topLeftCoord.longitude = fmin(topLeftCoord.longitude, annotation.coordinate.longitude);
+        topLeftCoord.latitude = fmax(topLeftCoord.latitude, annotation.coordinate.latitude);
+        bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, annotation.coordinate.longitude);
+        bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, annotation.coordinate.latitude);
+    }
+    
+    MKCoordinateRegion region;
+    region.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
+    region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
+    region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.1;
+    
+    // Add a little extra space on the sides
+    region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.1;
+    
+    region = [mapView regionThatFits:region];
+    [mapView setRegion:region animated:YES];
+    NSLog(@"Done zooming");
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     NSLog(@"pintoremember %@", pinToRemember);
@@ -139,13 +293,20 @@ NSString * notesStr;
     if(!(self.frict_id > 0))
     {
         //wait for user's location
+        
+        //set toggle to both
+        [locationToggle setSelectedSegmentIndex:LOC_INDEX];
     }
     else
     {
         //add pin
         [mapView addAnnotation:pinToRemember];
+        
         //go to the location of the "pin"
         [self goToPin];
+        
+        //set segmented control to index pin
+        [locationToggle setSelectedSegmentIndex:PIN_INDEX];
     }
 }
 
@@ -165,6 +326,7 @@ NSString * notesStr;
     //allow droping of new pins if new frict or not accepted (shared)
     if(!(self.frict_id > 0) || !(self.accepted))
     {
+        //only allow changing location of frict on new fricts
         [self registerTouch];
     }
     
@@ -220,7 +382,7 @@ NSString * notesStr;
         [fromSwitch setDate:fromAsDate];
             
         //set base
-        baseSwitch.selectedSegmentIndex = base;
+        [baseSwitch setSelectedSegmentIndex:base];
         
         //set lat/lon
         MKPointAnnotation *annot = [[MKPointAnnotation alloc] init];
@@ -377,6 +539,13 @@ NSString * notesStr;
     int uid = [plist getPk];
     if(rc && uid < 0)
     {
+        rc = 0;
+    }
+    
+    //ensure a location was selected
+    if(pinToRemember == NULL)
+    {
+        [self showNeedALocationDialog];
         rc = 0;
     }
     
@@ -665,6 +834,17 @@ NSString * notesStr;
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:[NSString stringWithFormat:@"%@ Too Long", fieldName]];
     [alert setMessage:[NSString stringWithFormat:@"The %@ that you entered is too long. The max is %d characters.", fieldName, maxStringLen]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+//user needs to select a locatin before saving a frict
+-(void) showNeedALocationDialog
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"Need a Pin"];
+    [alert setMessage:@"Please add a pin to the map before continuing."];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
