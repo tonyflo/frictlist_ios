@@ -315,7 +315,7 @@ NSString * notesStr;
     NSLog(@"view will appear frict detail");
     
     //disable editing date, location, and base of a shared frict
-    if(self.accepted == 1)
+    if(self.frict_id > 0)
     {
         fromSwitch.enabled = false;
         fromSwitch.alpha = 0.5;

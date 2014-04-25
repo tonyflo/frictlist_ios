@@ -12,16 +12,13 @@
 {
     
     IBOutlet UIImageView *creatorStatusImage;
-    IBOutlet UIImageView *mateStatusImage;
     IBOutlet UILabel *nameText;
-    IBOutlet UILabel *mateNameText;
     IBOutlet UITextView *notesText;
-    IBOutlet UITextView *mateNotesText;
     IBOutlet UILabel *dateRangeText;
     IBOutlet UIImageView *baseImageView;
     IBOutlet UILabel *scoreText;
     IBOutlet UILabel *ratingText;
-    IBOutlet UILabel *mateRatingText;
+    IBOutlet UIView *frictView;
 }
 
 @property (readwrite, assign) NSUInteger frict_id;

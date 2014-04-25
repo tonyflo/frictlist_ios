@@ -201,11 +201,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/FrictViewController.m"
-         timestampString = "418873802.664563"
+         timestampString = "420085355.992298"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "107"
-         endingLineNumber = "107"
+         startingLineNumber = "169"
+         endingLineNumber = "169"
          landmarkName = "-viewWillAppear:"
          landmarkType = "5">
       </FileBreakpoint>

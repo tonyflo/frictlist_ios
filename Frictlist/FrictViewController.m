@@ -11,11 +11,18 @@
 #import "PlistHelper.h"
 #import "SqlHelper.h"
 
+#define FRICT_CREATOR_INDEX (0)
+#define FRICT_MATE_INDEX (1)
+#define NUM_SWIPE_INDEX_ZERO_BASED (2)
+
 @interface FrictViewController ()
 
 @end
 
 @implementation FrictViewController
+
+NSMutableArray * frictInfo; //array of creator and mate data
+int swipeIndex = 0;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -24,6 +31,57 @@
         // Custom initialization
     }
     return self;
+}
+
+- (IBAction)handleSwipeRight:(id)sender {
+    NSLog(@"right");
+    swipeIndex--;
+    if(swipeIndex < 0)
+    {
+        swipeIndex = NUM_SWIPE_INDEX_ZERO_BASED;
+    }
+    
+    [self checkDisplay];
+}
+- (IBAction)handleSwipeLeft:(id)sender {
+    NSLog(@"left");
+    swipeIndex++;
+    if(swipeIndex > NUM_SWIPE_INDEX_ZERO_BASED)
+    {
+        swipeIndex = 0;
+    }
+    
+    [self checkDisplay];
+}
+
+-(void)checkDisplay
+{
+    if(swipeIndex < NUM_SWIPE_INDEX_ZERO_BASED)
+    {
+        [self showFields];
+        [self setAppropirateFrictInfo];
+    }
+    else
+    {
+        [self hideFields];
+    }
+}
+
+-(void)hideFields
+{
+    nameText.hidden = true;
+    notesText.hidden = true;
+    ratingText.hidden = true;
+    notesText.hidden = true;
+    creatorStatusImage.hidden = true;
+}
+
+-(void)showFields
+{
+    nameText.hidden = false;
+    notesText.hidden = false;
+    ratingText.hidden = false;
+    notesText.hidden = false;
 }
 
 - (void)viewDidLoad
@@ -78,6 +136,10 @@
 
 -(void) viewWillAppear:(BOOL)animated
 {
+    
+    NSMutableArray * creatorOfFrict = [[NSMutableArray alloc] init];
+    NSMutableArray * mateOfFrict = [[NSMutableArray alloc] init];
+    
     //initialize helpers
     PlistHelper * plist = [PlistHelper alloc];
     SqlHelper *sql = [SqlHelper alloc];
@@ -153,8 +215,8 @@
         scoreText.text = [NSString stringWithFormat:@"%d", 0];
         scoreText.font = [UIFont fontWithName:@"DBLCDTempBlack" size:28.0];
     }
-    
-    //creator of frict goes on the left
+        
+    //creator of frict used to go on the left
     
     //creator: the creator of the frict | 1 if the creator of the frictlist, 0 otherwise
     //self.creator: the creator of the frictlist | 1 if this user, 0 otherwise
@@ -164,32 +226,38 @@
         NSLog(@"I created this frict and I created this frictlist");//
 
         //left
-        nameText.text = userFirstName;
-        [notesText setText:notesStr];
-        ratingText.text = [NSString stringWithFormat:@"%d",rating];
+        [creatorOfFrict addObject:userFirstName];
+        [creatorOfFrict addObject:notesStr];
+        [creatorOfFrict addObject:[NSString stringWithFormat:@"%d",rating]];
+        //nameText.text = userFirstName;
+        //[notesText setText:notesStr];
+        //ratingText.text = ;
         
         //right
-        mateNameText.text = mateFirstName;
-        [mateNotesText setText:mateNotesStr];
-        mateRatingText.text = [NSString stringWithFormat:@"%d",mateRating];
+        [mateOfFrict addObject:mateFirstName];
+        [mateOfFrict addObject:mateNotesStr];
+        [mateOfFrict addObject:[NSString stringWithFormat:@"%d",mateRating]];
+        //mateNameText.text = mateFirstName;
+        //[mateNotesText setText:mateNotesStr];
+        //mateRatingText.text = ;
         
         if(mateRating == 0)
         {
-            [mateNotesText setText:@"Not acknowledged"];
-            mateRatingText.hidden = true;
-            mateNotesText.hidden = true;
-            mateStatusImage.image = [UIImage imageNamed:@"waiting.png"];
-            mateStatusImage.hidden = false;
+            //[mateNotesText setText:@"Not acknowledged"];
+            //mateRatingText.hidden = true;
+            //mateNotesText.hidden = true;
+            //mateStatusImage.image = [UIImage imageNamed:@"waiting.png"];
+            //mateStatusImage.hidden = false;
         }
         
         if(mateDeleted == 1)
         {
             //the mate deleted this frict
             //[mateNotesText setText:@"Deleted"];
-            mateNotesText.hidden = true;
-            mateRatingText.hidden = true;
-            mateStatusImage.image = [UIImage imageNamed:@"request_deleted.png"];
-            mateStatusImage.hidden = false;
+            //mateNotesText.hidden = true;
+            //mateRatingText.hidden = true;
+            //mateStatusImage.image = [UIImage imageNamed:@"request_deleted.png"];
+            //mateStatusImage.hidden = false;
         }
 
     }
@@ -199,32 +267,38 @@
          NSLog(@"My mate created this frict but I created this frictlist");////
 
         //left
-        nameText.text = mateFirstName;
-        [notesText setText:mateNotesStr];
-        ratingText.text = [NSString stringWithFormat:@"%d",mateRating];
+        //nameText.text = mateFirstName;
+        //[notesText setText:mateNotesStr];
+        //ratingText.text = [NSString stringWithFormat:@"%d",mateRating];
+        [creatorOfFrict addObject:mateFirstName];
+        [creatorOfFrict addObject:mateNotesStr];
+        [creatorOfFrict addObject:[NSString stringWithFormat:@"%d",mateRating]];
         
         //right
-        mateNameText.text = userFirstName;
-        [mateNotesText setText:notesStr];
-        mateRatingText.text = [NSString stringWithFormat:@"%d",rating];
+        //mateNameText.text = userFirstName;
+        //[mateNotesText setText:notesStr];
+        //mateRatingText.text = [NSString stringWithFormat:@"%d",rating];
+        [mateOfFrict addObject:userFirstName];
+        [mateOfFrict addObject:notesStr];
+        [mateOfFrict addObject:[NSString stringWithFormat:@"%d",rating]];
         
         if(rating == 0)
         {
-            [mateNotesText setText:@"Not acknowledged"];
-            mateRatingText.hidden = true;
-            mateNotesText.hidden = true;
-            mateStatusImage.image = [UIImage imageNamed:@"waiting.png"];
-            mateStatusImage.hidden = false;
+            //[mateNotesText setText:@"Not acknowledged"];
+            //mateRatingText.hidden = true;
+            //mateNotesText.hidden = true;
+            //mateStatusImage.image = [UIImage imageNamed:@"waiting.png"];
+            //mateStatusImage.hidden = false;
         }
         
         if(mateDeleted == 1)
         {
             //the mate deleted this frict
             //[notesText setText:@"Deleted"];
-            notesText.hidden = true;
-            ratingText.hidden = true;
-            creatorStatusImage.image = [UIImage imageNamed:@"request_deleted.png"];
-            creatorStatusImage.hidden = false;
+            //notesText.hidden = true;
+            //ratingText.hidden = true;
+            //creatorStatusImage.image = [UIImage imageNamed:@"request_deleted.png"];
+            //creatorStatusImage.hidden = false;
         }
 
     }
@@ -238,32 +312,38 @@
         mateLastName = accepted[1];
         
         //left
-        nameText.text = mateFirstName;
-        [notesText setText:notesStr];
-        ratingText.text = [NSString stringWithFormat:@"%d",rating];
+        //nameText.text = mateFirstName;
+        //[notesText setText:notesStr];
+        //ratingText.text = [NSString stringWithFormat:@"%d",rating];
+        [creatorOfFrict addObject:mateFirstName];
+        [creatorOfFrict addObject:notesStr];
+        [creatorOfFrict addObject:[NSString stringWithFormat:@"%d",rating]];
         
         //right
-        mateNameText.text = userFirstName;
-        [mateNotesText setText:mateNotesStr];
-        mateRatingText.text = [NSString stringWithFormat:@"%d",mateRating];
+        //mateNameText.text = userFirstName;
+        //[mateNotesText setText:mateNotesStr];
+        //mateRatingText.text = [NSString stringWithFormat:@"%d",mateRating];
+        [mateOfFrict addObject:userFirstName];
+        [mateOfFrict addObject:mateNotesStr];
+        [mateOfFrict addObject:[NSString stringWithFormat:@"%d",mateRating]];
         
         if(mateRating == 0)
         {
-            [mateNotesText setText:@"Not acknowledged"];
-            mateRatingText.hidden = true;
-            mateNotesText.hidden = true;
-            mateStatusImage.image = [UIImage imageNamed:@"waiting.png"];
-            mateStatusImage.hidden = false;
+            //[mateNotesText setText:@"Not acknowledged"];
+            //mateRatingText.hidden = true;
+            //mateNotesText.hidden = true;
+            //mateStatusImage.image = [UIImage imageNamed:@"waiting.png"];
+            //mateStatusImage.hidden = false;
         }
         
         if(deleted == 1)
         {
             //the mate deleted this frict
             //[notesText setText:@"Deleted"];
-            notesText.hidden = true;
-            ratingText.hidden = true;
-            creatorStatusImage.image = [UIImage imageNamed:@"request_deleted.png"];
-            creatorStatusImage.hidden = false;
+            //notesText.hidden = true;
+            //ratingText.hidden = true;
+            //creatorStatusImage.image = [UIImage imageNamed:@"request_deleted.png"];
+            //creatorStatusImage.hidden = false;
         }
     }
     else if(creator == 0 && self.creator == 0)
@@ -274,34 +354,42 @@
         NSArray * accepted = [sql get_accepted:self.request_id];
         mateFirstName = accepted[0];
         mateLastName = accepted[1];
-        
+         NSLog(@"ok = here");
         //left
-        nameText.text = userFirstName;
-        [notesText setText:mateNotesStr];
-        ratingText.text = [NSString stringWithFormat:@"%d",mateRating];
-        
+        //nameText.text = userFirstName;
+        //[notesText setText:mateNotesStr];
+        //ratingText.text = [NSString stringWithFormat:@"%d",mateRating];
+        [creatorOfFrict addObject:userFirstName];
+        [creatorOfFrict addObject:mateNotesStr];
+        [creatorOfFrict addObject:[NSString stringWithFormat:@"%d",mateRating]];
+         NSLog(@"mid here");
         //right
-        mateNameText.text = mateFirstName;
-        [mateNotesText setText:notesStr];
-        mateRatingText.text = [NSString stringWithFormat:@"%d",rating];
+        //mateNameText.text = mateFirstName;
+        //[mateNotesText setText:notesStr];
+        //mateRatingText.text = [NSString stringWithFormat:@"%d",rating];
+        [mateOfFrict addObject:mateFirstName];
+        [mateOfFrict addObject:notesStr];
+        [mateOfFrict addObject:[NSString stringWithFormat:@"%d",rating]];
         
+        
+        NSLog(@"got down here");
         if(rating == 0)
         {
-            [mateNotesText setText:@"Not acknowledged"];
-            mateRatingText.hidden = true;
-            mateNotesText.hidden = true;
-            mateStatusImage.image = [UIImage imageNamed:@"waiting.png"];
-            mateStatusImage.hidden = false;
+            //[mateNotesText setText:@"Not acknowledged"];
+            //mateRatingText.hidden = true;
+            //mateNotesText.hidden = true;
+            //mateStatusImage.image = [UIImage imageNamed:@"waiting.png"];
+            //mateStatusImage.hidden = false;
         }
         
         if(deleted == 1)
         {
             //the mate deleted this frict
             //[mateNotesText setText:@"Deleted"];
-            mateNotesText.hidden = true;
-            mateRatingText.hidden = true;
-            mateStatusImage.image = [UIImage imageNamed:@"request_deleted.png"];
-            mateStatusImage.hidden = false;
+            //mateNotesText.hidden = true;
+            //mateRatingText.hidden = true;
+            //mateStatusImage.image = [UIImage imageNamed:@"request_deleted.png"];
+            //mateStatusImage.hidden = false;
         }
     }
     else
@@ -310,10 +398,23 @@
         NSLog(@"BAD");
     }
     
+    frictInfo = [[NSMutableArray alloc] initWithObjects:creatorOfFrict, mateOfFrict, nil];
+
+    [self setAppropirateFrictInfo];
         
     self.title = [NSString stringWithFormat:@"%@ %@", mateFirstName, mateLastName];
     
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
+    
+    
+}
+
+//populate visible text fields
+-(void) setAppropirateFrictInfo
+{
+    nameText.text = frictInfo[swipeIndex][0];
+    [notesText setText:frictInfo[swipeIndex][1]];
+    ratingText.text = frictInfo[swipeIndex][2];
 }
 
 @end
