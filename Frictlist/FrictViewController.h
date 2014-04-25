@@ -12,6 +12,7 @@
 {
     
     IBOutlet UIImageView *creatorStatusImage;
+    IBOutlet UIImageView *statusImage;
     IBOutlet UILabel *nameText;
     IBOutlet UITextView *notesText;
     IBOutlet UILabel *dateRangeText;

@@ -149,6 +149,7 @@
                         <outlet property="notesText" destination="lra-Yk-Jn3" id="s7z-DO-jRq"/>
                         <outlet property="ratingText" destination="M0P-Dx-xoC" id="HKr-rT-cY9"/>
                         <outlet property="scoreText" destination="609-kB-rLy" id="wMA-TL-8Jf"/>
+                        <outlet property="statusImage" destination="8Ch-AN-vVQ" id="o4R-rT-cM5"/>
                         <segue destination="6uw-zG-BVk" kind="push" identifier="editFrict" id="0q6-q4-zPE"/>
                     </connections>
                 </viewController>
@@ -254,7 +255,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <action selector="valueChanged:" destination="6uw-zG-BVk" eventType="valueChanged" id="Six-Ic-ma4"/>
                                         </connections>
                                     </slider>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qwl-o0-ucZ">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qwl-o0-ucZ">
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="UVA-nq-ihM"/>
                                             <constraint firstAttribute="width" constant="42" id="VGF-3F-uPd"/>
@@ -1375,6 +1376,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 <relationship kind="outlet" name="notesText" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="ratingText" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="scoreText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="statusImage" candidateClass="UIImageView"/>
             </relationships>
         </class>
         <class className="FrictlistViewController" superclassName="UITableViewController">

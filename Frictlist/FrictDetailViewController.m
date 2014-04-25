@@ -543,9 +543,15 @@ NSString * notesStr;
     }
     
     //ensure a location was selected
-    if(pinToRemember == NULL)
+    if(rc && pinToRemember == NULL)
     {
         [self showNeedALocationDialog];
+        rc = 0;
+    }
+    
+    if(rc && [sliderText.text intValue] == 0)
+    {
+        [self showNeedSliderValueDialog];
         rc = 0;
     }
     
@@ -834,6 +840,17 @@ NSString * notesStr;
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:[NSString stringWithFormat:@"%@ Too Long", fieldName]];
     [alert setMessage:[NSString stringWithFormat:@"The %@ that you entered is too long. The max is %d characters.", fieldName, maxStringLen]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+//need a rating before pressing save
+-(void) showNeedSliderValueDialog
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"Need a Rating"];
+    [alert setMessage:@"Please give this frict a rating before continuing."];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
