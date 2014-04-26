@@ -12,7 +12,6 @@
 #import "SqlHelper.h"
 #import "version.h"
 
-#define ZOOM (0.001)
 #define PIN_INDEX (0)
 #define BOTH_INDEX (1)
 #define LOC_INDEX (2)

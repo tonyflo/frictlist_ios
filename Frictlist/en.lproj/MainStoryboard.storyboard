@@ -103,6 +103,7 @@
                                             <constraint firstAttribute="height" constant="50" id="MGc-a8-TWs"/>
                                         </constraints>
                                     </imageView>
+                                    <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcP-Ru-yAN"/>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <gestureRecognizers/>
@@ -110,14 +111,18 @@
                                     <constraint firstItem="M0P-Dx-xoC" firstAttribute="centerX" secondItem="8Ch-AN-vVQ" secondAttribute="centerX" type="default" id="2rB-dE-8G5"/>
                                     <constraint firstItem="ZKQ-5O-YMW" firstAttribute="leading" secondItem="sT8-0d-DAW" secondAttribute="leading" type="default" id="3Z1-fc-B2t"/>
                                     <constraint firstItem="M0P-Dx-xoC" firstAttribute="top" secondItem="sT8-0d-DAW" secondAttribute="top" constant="34" id="6Kz-A3-w5t"/>
+                                    <constraint firstItem="qcP-Ru-yAN" firstAttribute="leading" secondItem="sT8-0d-DAW" secondAttribute="leading" type="default" id="7Wv-hZ-Pkk"/>
                                     <constraint firstAttribute="trailing" secondItem="lra-Yk-Jn3" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="80X-iQ-up8"/>
                                     <constraint firstItem="lra-Yk-Jn3" firstAttribute="top" secondItem="8Ch-AN-vVQ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="CNt-vy-w8z"/>
+                                    <constraint firstItem="qcP-Ru-yAN" firstAttribute="trailing" secondItem="sT8-0d-DAW" secondAttribute="trailing" type="default" id="II3-Cy-Cco"/>
                                     <constraint firstItem="ZKQ-5O-YMW" firstAttribute="trailing" secondItem="sT8-0d-DAW" secondAttribute="trailing" type="default" id="M8Q-WK-iNH"/>
                                     <constraint firstItem="lra-Yk-Jn3" firstAttribute="leading" secondItem="sT8-0d-DAW" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="OcA-cE-QlF"/>
+                                    <constraint firstItem="qcP-Ru-yAN" firstAttribute="bottom" secondItem="sT8-0d-DAW" secondAttribute="bottom" type="default" id="XEp-PY-0Ci"/>
                                     <constraint firstItem="8Ch-AN-vVQ" firstAttribute="centerX" secondItem="ZKQ-5O-YMW" secondAttribute="centerX" type="default" id="aoT-kp-lzG"/>
                                     <constraint firstAttribute="bottom" secondItem="lra-Yk-Jn3" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="dcd-JA-8Ku"/>
                                     <constraint firstItem="8Ch-AN-vVQ" firstAttribute="top" secondItem="ZKQ-5O-YMW" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="exT-dB-F69"/>
                                     <constraint firstItem="ZKQ-5O-YMW" firstAttribute="top" secondItem="sT8-0d-DAW" secondAttribute="top" type="default" id="iDZ-eJ-UKm"/>
+                                    <constraint firstItem="qcP-Ru-yAN" firstAttribute="top" secondItem="sT8-0d-DAW" secondAttribute="top" type="default" id="nhv-VR-1ZJ"/>
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="LwA-00-h1e" appends="YES" id="OmN-0c-AbP"/>
@@ -145,6 +150,7 @@
                         <outlet property="creatorStatusImage" destination="8Ch-AN-vVQ" id="lUj-zo-qmu"/>
                         <outlet property="dateRangeText" destination="aPc-a0-scr" id="fCM-Qk-SZ2"/>
                         <outlet property="frictView" destination="sT8-0d-DAW" id="CsE-pr-uNz"/>
+                        <outlet property="mapView" destination="qcP-Ru-yAN" id="Uqe-xr-5JB"/>
                         <outlet property="nameText" destination="ZKQ-5O-YMW" id="3Ew-50-nNM"/>
                         <outlet property="notesText" destination="lra-Yk-Jn3" id="s7z-DO-jRq"/>
                         <outlet property="ratingText" destination="M0P-Dx-xoC" id="HKr-rT-cY9"/>
@@ -1348,148 +1354,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="fieldglow.png" width="600" height="600"/>
         <image name="gender_.png" width="100" height="100"/>
     </resources>
-    <classes>
-        <class className="FrictDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictDetailViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="locationToggled:"/>
-                <relationship kind="action" name="savePressed:"/>
-                <relationship kind="outlet" name="baseSwitch" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="fromSwitch" candidateClass="UIDatePicker"/>
-                <relationship kind="outlet" name="locationToggle" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
-                <relationship kind="outlet" name="notes" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="ratingSlider" candidateClass="UISlider"/>
-                <relationship kind="outlet" name="saveBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="sliderText" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FrictViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="baseImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="creatorStatusImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dateRangeText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="frictView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="nameText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="notesText" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="ratingText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="scoreText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="statusImage" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="FrictlistViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FrictlistViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="MateDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MateDetailViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="savePressed:"/>
-                <relationship kind="outlet" name="firstNameText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="genderSwitch" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="lastNameText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="saveButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="MateViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MateViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="editButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="firstCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="firstScore" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="frictCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="frictScore" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="homeCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="homeScore" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="secondCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="secondScore" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="thirdCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="thirdScore" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="MatelistViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MatelistViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="RequestViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RequestViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="acceptPressed:"/>
-                <relationship kind="action" name="rejectPressed:"/>
-                <relationship kind="outlet" name="ageText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="genderImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="nameText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="segmentedControl" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="usernameText" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SearchViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="emailPressed:"/>
-                <relationship kind="action" name="textPressed:"/>
-                <relationship kind="outlet" name="emailButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="resultsText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="statusText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="textButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="SignInViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SignInViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="backButonClick:"/>
-                <relationship kind="action" name="checkboxButton:"/>
-                <relationship kind="action" name="signInButtonClick:"/>
-                <relationship kind="outlet" name="activeField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="bakcButton" candidateClass="UINavigationItem"/>
-                <relationship kind="outlet" name="birthdateLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="birthdatePicker" candidateClass="UIDatePicker"/>
-                <relationship kind="outlet" name="checkboxButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="emailText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="firstNameText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="genderSwitch" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="lastNameText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="newAccountLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="passwordText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="signinButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="usernameText" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="StatisticsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/StatisticsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="emailButtonPress:"/>
-                <relationship kind="outlet" name="emailButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="emailLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="firstCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="firstScore" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="homeCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="homeScore" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="secondCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="secondScore" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="signinBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="thirdCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="thirdScore" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="totalCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="totalScore" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="TabBarController" superclassName="UITabBarController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TabBarController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

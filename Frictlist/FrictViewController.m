@@ -10,6 +10,7 @@
 #import "FrictDetailViewController.h"
 #import "PlistHelper.h"
 #import "SqlHelper.h"
+#import "version.h"
 
 #define FRICT_CREATOR_INDEX (0)
 #define FRICT_MATE_INDEX (1)
@@ -28,6 +29,8 @@
 @end
 
 @implementation FrictViewController
+
+@synthesize pinToRemember;
 
 NSMutableArray * frictInfo; //array of creator and mate data
 int swipeIndex = 0;
@@ -68,10 +71,12 @@ int swipeIndex = 0;
     {
         [self showFields];
         [self setAppropirateFrictInfo];
+        mapView.hidden = true;
     }
     else
     {
         [self hideFields];
+        mapView.hidden = false;
     }
 }
 
@@ -96,9 +101,11 @@ int swipeIndex = 0;
 {
     [super viewDidLoad];
     
+    mapView.delegate = self;
+
+    
     UIBarButtonItem *editFrictButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editFrictButtonPressed)];
     [self.navigationItem setRightBarButtonItem:editFrictButton];
-    
 }
 
 -(void)editFrictButtonPressed
@@ -117,6 +124,7 @@ int swipeIndex = 0;
     }
     else{
         NSLog(@"Staying at frict view");
+        [self goToPin];
     }
   
 }
@@ -140,6 +148,21 @@ int swipeIndex = 0;
         destViewController.accepted = self.accepted;
         destViewController.creator = self.creator;
     }
+}
+
+-(void)goToPin
+{
+    NSLog(@"pintoremember %@", pinToRemember);
+    NSLog(@"lat %f", (double)pinToRemember.coordinate.latitude);
+    NSLog(@"lon %f", (double)pinToRemember.coordinate.longitude);
+    
+    //zoom into current location
+    MKCoordinateRegion mapRegion;
+    mapRegion.center = pinToRemember.coordinate;
+    mapRegion.span.latitudeDelta = ZOOM;
+    mapRegion.span.longitudeDelta = ZOOM;
+    
+    [mapView setRegion:mapRegion animated: YES];
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -173,6 +196,8 @@ int swipeIndex = 0;
     int mateDeleted = 0;
     int creator = 1;
     int deleted = 0;
+    double lat = 0;
+    double lon = 0;
     
     //override the creator variable if this is a new frict
     if(self.frict_id > 0)
@@ -189,6 +214,8 @@ int swipeIndex = 0;
         NSLog(@"Mate deleted %d frict id %d", mateDeleted,self.frict_id);
         creator = [frict[7] intValue];
         deleted = [frict[8] intValue];
+        lat = [frict[9] doubleValue];
+        lon = [frict[10] doubleValue];
         
         if(mateNotesStr == nil || mateNotesStr == NULL || [mateNotesStr isEqualToString: @"(null)"])
         {
@@ -224,7 +251,18 @@ int swipeIndex = 0;
         scoreText.text = [NSString stringWithFormat:@"%d", 0];
         scoreText.font = [UIFont fontWithName:@"DBLCDTempBlack" size:28.0];
     }
-        
+    
+    //set lat/lon
+    MKPointAnnotation *annot = [[MKPointAnnotation alloc] init];
+    CLLocationCoordinate2D pin;
+    pin.latitude = lat;
+    pin.longitude = lon;
+    annot.coordinate = pin;
+    //set the pin as the pintoremember
+    pinToRemember = annot;
+    NSLog(@"lat %f lon %f in viewwillappear", lat, lon);
+    [mapView addAnnotation:annot];
+    
     //creator of frict used to go on the left
     
     //creator: the creator of the frict | 1 if the creator of the frict, 0 otherwise

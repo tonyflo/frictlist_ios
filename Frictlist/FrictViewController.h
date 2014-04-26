@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 
 @interface FrictViewController : UIViewController
 {
     
+    IBOutlet MKMapView *mapView;
     IBOutlet UIImageView *creatorStatusImage;
     IBOutlet UIImageView *statusImage;
     IBOutlet UILabel *nameText;
@@ -27,6 +29,9 @@
 @property (readwrite, assign) NSUInteger request_id;
 @property (readwrite, assign) NSUInteger creator;
 @property (readwrite, assign) NSUInteger accepted;
+
+@property (retain) MKPointAnnotation * pinToRemember;
+
 
 
 @end
