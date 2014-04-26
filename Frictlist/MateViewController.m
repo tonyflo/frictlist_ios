@@ -11,12 +11,20 @@
 #import "FrictlistViewController.h"
 #import "SqlHelper.h"
 #import "SearchViewController.h"
+#import "version.h"
+
+#define NUM_SWIPE_ZERO_BASED (1)
 
 @interface MateViewController ()
 
 @end
 
 @implementation MateViewController
+
+@synthesize pinToRemember;
+NSMutableArray * pinArray;
+
+int curSwipeIndex = 0;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,6 +48,7 @@
     UIBarButtonItem *frictlistButton = [[UIBarButtonItem alloc] initWithTitle:@"Frictlist" style:UIBarButtonItemStyleBordered target:self action:@selector(goToFrictlist)];
     [self.navigationItem setRightBarButtonItem:frictlistButton];
     
+    mapView.delegate = self; 
 }
 
 -(void)goBack:(id)sender
@@ -75,6 +84,134 @@
     }
 }
 
+- (IBAction)swipeRight:(id)sender
+{
+    NSLog(@"Swipe right");
+    curSwipeIndex--;
+    if(curSwipeIndex < 0)
+    {
+        curSwipeIndex = NUM_SWIPE_ZERO_BASED;
+    }
+    
+    [self checkDisplay];
+}
+
+- (IBAction)swipeLeft:(id)sender
+{
+    NSLog(@"Swipe left");
+    curSwipeIndex++;
+    if(curSwipeIndex > NUM_SWIPE_ZERO_BASED)
+    {
+        curSwipeIndex = 0;
+    }
+    
+    [self checkDisplay]; 
+}
+
+-(void)checkDisplay
+{
+    if(curSwipeIndex < NUM_SWIPE_ZERO_BASED)
+    {
+        [self showFields];
+        mapView.hidden = true;
+    }
+    else
+    {
+        [self hideFields];
+        mapView.hidden = false;
+    }
+}
+
+-(void)hideFields
+{
+    firstCount.hidden = true;
+    secondCount.hidden = true;
+    thirdCount.hidden = true;
+    homeCount.hidden = true;
+    firstScore.hidden = true;
+    secondScore.hidden = true;
+    thirdScore.hidden = true;
+    homeScore.hidden = true;
+    fieldImage.hidden = true;
+}
+
+-(void)showFields
+{
+    firstCount.hidden = false;
+    secondCount.hidden = false;
+    thirdCount.hidden = false;
+    homeCount.hidden = false;
+    firstScore.hidden = false;
+    secondScore.hidden = false;
+    thirdScore.hidden = false;
+    homeScore.hidden = false;
+    fieldImage.hidden = false;
+}
+
+- (void)zoomToFitMapAnnotations {
+    if ([mapView.annotations count] == 0) return;
+    
+    CLLocationCoordinate2D topLeftCoord;
+    topLeftCoord.latitude = -90;
+    topLeftCoord.longitude = 180;
+    
+    CLLocationCoordinate2D bottomRightCoord;
+    bottomRightCoord.latitude = 90;
+    bottomRightCoord.longitude = -180;
+    
+    for(id<MKAnnotation> annotation in mapView.annotations) {
+        topLeftCoord.longitude = fmin(topLeftCoord.longitude, annotation.coordinate.longitude);
+        topLeftCoord.latitude = fmax(topLeftCoord.latitude, annotation.coordinate.latitude);
+        bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, annotation.coordinate.longitude);
+        bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, annotation.coordinate.latitude);
+    }
+    
+    MKCoordinateRegion region;
+    region.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
+    region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
+    region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.1;
+    
+    // Add a little extra space on the sides
+    region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.1;
+    
+    //validate region
+    
+    if(region.center.latitude >= 90.0 || region.center.latitude <= -90.0)
+    {
+        //invalid latitude center
+        region.center.latitude = 0.0;
+        NSLog(@"Invalid center latatude");
+    }
+    
+    if(region.center.longitude >= 180.0 || region.center.longitude <= -180.0)
+    {
+        //invalid longitude center
+        region.center.longitude = 0.0;
+        NSLog(@"Invalid center longitude");
+    }
+    
+    float map_span_lat = mapView.region.span.latitudeDelta;
+    float map_span_lon = mapView.region.span.longitudeDelta;
+    
+    if(region.span.latitudeDelta > map_span_lat || region.span.latitudeDelta <= 0.0)
+    {
+        //invalid latitude span
+        NSLog(@"Invalid span latitude %f", region.span.latitudeDelta);
+        region.span.latitudeDelta = map_span_lat;
+    }
+    
+    if(region.span.longitudeDelta >= map_span_lon || region.span.longitudeDelta <= 0.0)
+    {
+        //invalid longitude span
+        NSLog(@"Invalid span longitude %f", region.span.longitudeDelta);
+        region.span.longitudeDelta = map_span_lon;
+    }
+    
+    region = [mapView regionThatFits:region];
+    [mapView setRegion:region animated:YES];
+    NSLog(@"Done zooming");
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     //jump to the edit view if this is a new row in the list
@@ -87,7 +224,19 @@
     {
         NSLog(@"staying here");
         NSLog(@"Mate ID: %d", self.hu_id);
+        
+        [self populateMapWithPins];
     }
+}
+
+-(void)populateMapWithPins
+{
+    for(int i = 0; i < pinArray.count; i++)
+    {
+        [mapView addAnnotation:[pinArray objectAtIndex:i]];
+    }
+    
+    [self zoomToFitMapAnnotations];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -138,15 +287,30 @@
     
     //get frict bases count
     NSArray *fl = [sql get_frict_list:self.hu_id];
+    
     if(fl != NULL)
     {
+        //init pin array
+        pinArray = [[NSMutableArray alloc] init];
+        
         int count = ((NSArray *)fl[0]).count;
         for(int i = 0; i < count; i++)
         {
-            //sick logic
+            //sick logic to determine score and base count
             counts[[fl[3][i] intValue]]++;
+            
+            //add pin to map
+            MKPointAnnotation *annot = [[MKPointAnnotation alloc] init];
+            CLLocationCoordinate2D pin;
+            NSLog(@"lat: %f lon: %f", [fl[5][i] doubleValue], [fl[6][i] doubleValue]);
+            pin.latitude = [fl[5][i] doubleValue];
+            pin.longitude = [fl[6][i] doubleValue];;
+            annot.coordinate = pin;
+            if(annot != nil && annot != NULL)
+            {
+                [pinArray addObject:annot];
+            }
         }
-        
     }
     
     //determine scores
@@ -201,11 +365,14 @@
             if([mate_details[3] intValue] == 1)
             {
                 searchButton.enabled = false;
-                searchButton.alpha = 0.5;
                 [searchButton setTitle:@"Accepted" forState:UIControlStateNormal];
-            
+                searchButton.hidden = true;
+                
                 editButton.enabled = false;
-                editButton.alpha = 0.5;
+                editButton.hidden = true;
+                
+                sharedInfo.hidden = false;
+                sharedText.hidden = false;
             }
             else if([mate_details[3] intValue] == 0)
             {
@@ -221,13 +388,51 @@
     else
     {
         searchButton.enabled = false;
-        searchButton.alpha = 0.5;
+        searchButton.hidden = true;
         [searchButton setTitle:@"Accepted" forState:UIControlStateNormal];
         
         editButton.enabled = false;
-        editButton.alpha = 0.5;
+        editButton.hidden = true;
+        
+        sharedInfo.hidden = false;
+        sharedText.hidden = false;
     }
 
+}
+
+- (IBAction)sharedInfoPress:(id)sender
+{SqlHelper *sql = [SqlHelper alloc];
+    NSArray * mate_details;
+    
+    //get mate info
+    if(self.creator == 0)
+    {
+        NSLog(@"Accpted this incomming request");
+        //if coming from an accepted incomming request row, use the request id to get the data for the accepted mate
+        mate_details=[sql get_accepted:self.request_id];
+    }
+    else
+    {
+        //if coming from a personal row, use the mate id to get the data for this mate
+        mate_details=[sql get_mate:self.hu_id];
+    }
+    
+    
+    //get mate name
+    NSString *mate_name = mate_details[0];
+        
+    [self showSharedInfoDialog:mate_name];
+}
+
+//explain what a shared mate is
+- (void)showSharedInfoDialog:(NSString *)name
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"What does Shared mean?"];
+    [alert setMessage:[NSString stringWithFormat:@"All Fricts associated with this Mate are visible to both you and %@.", name]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
 }
 
 - (void)didReceiveMemoryWarning

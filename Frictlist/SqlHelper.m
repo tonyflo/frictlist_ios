@@ -134,6 +134,8 @@ NSString * dbName = @"frictlist.sqlite";
     NSMutableArray * rating_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * base_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * notes_array = [[NSMutableArray alloc] initWithObjects: nil];
+    NSMutableArray * lat_array = [[NSMutableArray alloc] initWithObjects: nil];
+    NSMutableArray * lon_array = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray * frict_list;
     
     NSString * path = [self getDbPath];
@@ -141,7 +143,7 @@ NSString * dbName = @"frictlist.sqlite";
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK)
     {
         // Get the primary key for all books.
-        const char *sql = [[NSString stringWithFormat:@"SELECT frict_id, frict_from_date, frict_rating, frict_base, notes FROM frict WHERE mate_id='%d' ORDER BY frict_from_date DESC", mate_id] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"SELECT frict_id, frict_from_date, frict_rating, frict_base, notes, lat, lon FROM frict WHERE mate_id='%d' ORDER BY frict_from_date DESC", mate_id] UTF8String];
         sqlite3_stmt *statement;
         // Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
         // The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.
@@ -157,14 +159,18 @@ NSString * dbName = @"frictlist.sqlite";
                 NSNumber *rating = [NSNumber numberWithInt: sqlite3_column_int(statement, 2)];
                 NSNumber *base = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
                 NSString *notes = [self unsanatize:[NSString stringWithUTF8String:sqlite3_column_text(statement, 4)]];
+                NSNumber *lat = [NSNumber numberWithDouble:sqlite3_column_double(statement, 5)];
+                NSNumber *lon = [NSNumber numberWithDouble:sqlite3_column_double(statement, 6)];
                 [frict_id_array addObject:frict_id];
                 [from_array addObject:from];
                 [rating_array addObject:rating];
                 [base_array addObject:base];
                 [notes_array addObject:notes];
+                [lat_array addObject:lat];
+                [lon_array addObject:lon];
             }
             
-            frict_list = [[NSMutableArray alloc] initWithObjects:frict_id_array, from_array, rating_array, base_array, notes_array, nil];
+            frict_list = [[NSMutableArray alloc] initWithObjects:frict_id_array, from_array, rating_array, base_array, notes_array, lat_array, lon_array, nil];
         }
         else
         {

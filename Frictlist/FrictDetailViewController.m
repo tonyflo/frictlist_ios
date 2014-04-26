@@ -277,6 +277,41 @@ NSString * notesStr;
     // Add a little extra space on the sides
     region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.1;
     
+    //validate region
+    
+    if(region.center.latitude >= 90.0 || region.center.latitude <= -90.0)
+    {
+        //invalid latitude center
+        region.center.latitude = 0.0;
+        NSLog(@"Invalid center latatude");
+    }
+    
+    if(region.center.longitude >= 180.0 || region.center.longitude <= -180.0)
+    {
+        //invalid longitude center
+        region.center.longitude = 0.0;
+        NSLog(@"Invalid center longitude");
+    }
+    
+    float map_span_lat = mapView.region.span.latitudeDelta;
+    float map_span_lon = mapView.region.span.longitudeDelta;
+    NSLog(@"map span lat: %f", map_span_lat);
+    NSLog(@"map span lon: %f", map_span_lon);
+    
+    if(region.span.latitudeDelta > map_span_lat || region.span.latitudeDelta <= 0.0)
+    {
+        //invalid latitude span
+        NSLog(@"Invalid span latitude %f", region.span.latitudeDelta);
+        region.span.latitudeDelta = map_span_lat;
+    }
+    
+    if(region.span.longitudeDelta >= map_span_lon || region.span.longitudeDelta <= 0.0)
+    {
+        //invalid longitude span
+        NSLog(@"Invalid span longitude %f", region.span.longitudeDelta);
+        region.span.longitudeDelta = map_span_lon;
+    }
+    
     region = [mapView regionThatFits:region];
     [mapView setRegion:region animated:YES];
     NSLog(@"Done zooming");

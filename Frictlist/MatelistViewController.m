@@ -347,6 +347,41 @@ NSMutableArray *rejectedGenderArray;
         return [NSString stringWithFormat:@"Rejected (%d)", rejectedRequestIdArray.count];
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
+    if (sectionTitle == nil) {
+        return nil;
+    }
+    
+    // Create label with section title
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(20, 6, 300, 30);
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [UIColor whiteColor];
+    label.shadowColor = [UIColor blackColor];
+    label.shadowOffset = CGSizeMake(0.0, 1.0);
+    label.font = [UIFont systemFontOfSize:17];
+    label.text = sectionTitle;
+    
+    // Create header view and add label as a subview
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
+    [view addSubview:label];
+    
+    return view;
+}
+
+/*
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    view.backgroundColor = [UIColor blueColor];
+    
+    // if you have index/header text in your tableview change your index text color
+    UITableViewHeaderFooterView *headerIndexText = (UITableViewHeaderFooterView *)view;
+    [headerIndexText.textLabel setTextColor:[UIColor blackColor]];
+    
+}
+ */
+
 //- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
 //    
 //    if(section == 0)

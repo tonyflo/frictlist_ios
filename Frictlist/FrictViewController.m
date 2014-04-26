@@ -63,7 +63,7 @@ int swipeIndex = 0;
     }
     
     [self checkDisplay];
-}
+} 
 
 -(void)checkDisplay
 {
