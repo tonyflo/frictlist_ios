@@ -911,6 +911,9 @@ int maxUnLen = 20;
 
 - (IBAction)backButonClick:(id)sender
 {
+    PlistHelper * plist = [PlistHelper alloc];
+    [plist resetLoggedIn];
+    NSLog(@"Back presed in signin");
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -952,7 +955,9 @@ int maxUnLen = 20;
         else if (buttonIndex == 1)
         {
             //Cancel, dismiss
-            [self dismissViewControllerAnimated:YES completion:nil];
+            //[self dismissViewControllerAnimated:YES completion:nil];
+
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }
 }

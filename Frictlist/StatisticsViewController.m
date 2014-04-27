@@ -55,10 +55,28 @@ UIAlertView *alertView;
 - (void)appDidBecomeActive:(NSNotification *)notification {
     NSLog(@"did become active notification");
     [self checkFirstAppOpen];
+
 }
 
 - (void)appDidEnterForeground:(NSNotification *)notification {
     NSLog(@"did enter foreground notification");
+    PlistHelper * plist = [PlistHelper alloc];
+    if([plist getPk] <= 0)
+    {
+        //reset all fields
+        firstCount.text = [NSString stringWithFormat:@"%d",0];
+        secondCount.text = [NSString stringWithFormat:@"%d",0];
+        thirdCount.text = [NSString stringWithFormat:@"%d",0];
+        homeCount.text = [NSString stringWithFormat:@"%d",0];
+        firstScore.text = [NSString stringWithFormat:@"%d",0];
+        secondScore.text = [NSString stringWithFormat:@"%d",0];
+        thirdScore.text = [NSString stringWithFormat:@"%d", 0];
+        homeScore.text = [NSString stringWithFormat:@"%d",0];
+        totalCount.text = [NSString stringWithFormat:@"%d", 0];
+        totalScore.text = [NSString stringWithFormat:@"%d", 0];
+        emailLabel.text = [plist getEmail];
+        [signinBtn setTitle:@"Sign In" forState:UIControlStateNormal];
+    }
 }
 
 -(void)checkFirstAppOpen
@@ -69,19 +87,24 @@ UIAlertView *alertView;
     //check first sign in
     PlistHelper *plist = [[PlistHelper alloc] initDefaults];
 
-    if([plist getPk] <= 0)
+    if([plist getPk] <= 0 && [plist getLoggedIn] != 1)
     {
+        [alertView dismissWithClickedButtonIndex:0 animated:YES];
         [self showWelcomeDialog];
         NSLog(@"first");
     }
     else
     {
-        NSLog(@"not first");
+        NSLog(@"not first or welcome screen is already showing");
     }
+    
+    //this sets the "setLoggedIn" flag so that we dont' show welcome multiple times
+    [plist setLoggedIn:1];
 }
 
 - (void) showWelcomeDialog
 {
+    /*
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:@"Welcome to Frictlist!"];
     [alert setMessage:@"Thank you for downloading Frictlist. You will now be directed to the sign in screen.  There you will be able to create your account.  If you already have an account, you will be able to sign in."];
@@ -89,6 +112,17 @@ UIAlertView *alertView;
     [alert addButtonWithTitle:@"Sign In"];
     [alert setTag:8];
     [alert show];
+     */
+    
+    alertView = [[UIAlertView alloc] initWithTitle:@"Welcome to Frictlist!"
+                                           message:@"Thank you for downloading Frictlist. You will now be directed to the sign in screen.  There you will be able to create your account.  If you already have an account, you will be able to sign in."
+                                          delegate:self
+                                 cancelButtonTitle:nil
+                                 otherButtonTitles:nil]
+    ;
+    [alertView addButtonWithTitle:@"Sign In"];
+    [alertView setTag:8];
+    [alertView show];
 }
 
 //Sign in
@@ -262,14 +296,15 @@ UIAlertView *alertView;
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    //[self checkFirstAppOpen];
+    NSLog(@"will appear");
+    [self checkFirstAppOpen];
     
     //check signed in
     PlistHelper * plist = [PlistHelper alloc];
 
     //assign static uid to plist pk
     uid = [plist getPk];
-    NSLog(@"will appear uid = %d", uid);
+    NSLog(@" uid = %d", uid);
     
     //check if signed in
     if(uid >= 0)

@@ -16,6 +16,7 @@ NSString *defaultBirthday = @"0000-00-00";
 NSString *defaultFirstName = @"";
 NSString *defaultLastName = @"";
 int defaultSaveLogin = 1;
+int defaultLoggedIn = 0;
 
 //getters
 -(NSString *)getEmail
@@ -71,6 +72,15 @@ int defaultSaveLogin = 1;
     return saveLogin;
 }
 
+-(int)getLoggedIn
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
+    int loggedIn = [[plistDict objectForKey:@"logged_in"] intValue];
+    
+    return loggedIn;
+}
+
 //setters
 -(void)setEmail:(NSString *)email
 {
@@ -117,6 +127,14 @@ int defaultSaveLogin = 1;
     NSString * path = [self getPlistPath];
     NSMutableDictionary *data = [self getPlistData:path];
     [data setObject:[NSString stringWithFormat:@"%d", saveLogin] forKey:@"save_login"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)setLoggedIn:(int)loggedIn
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    [data setObject:[NSString stringWithFormat:@"%d", loggedIn] forKey:@"logged_in"];
     [data writeToFile: path atomically:YES];
 }
 
@@ -172,8 +190,18 @@ int defaultSaveLogin = 1;
     NSMutableDictionary *data = [self getPlistData:path];
     [data setObject:[NSNumber numberWithInt:defaultSaveLogin ] forKey:@"save_login"];
     [data writeToFile: path atomically:YES];
-    return defaultPk;
+    return defaultSaveLogin;
 }
+
+-(int)resetLoggedIn
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    [data setObject:[NSNumber numberWithInt:defaultLoggedIn ] forKey:@"logged_in"];
+    [data writeToFile: path atomically:YES];
+    return defaultLoggedIn;
+}
+
 
 -(id)initDefaults
 {
@@ -242,6 +270,8 @@ int defaultSaveLogin = 1;
         [data setObject:[NSNumber numberWithInt:defaultPk ] forKey:@"pk"]; //primary key
         [data setObject:defaultBirthday forKey:@"bday"]; //birthday
         [data setObject:[NSNumber numberWithInt:defaultSaveLogin ] forKey:@"save_login"]; //save login
+        [data setObject:[NSNumber numberWithInt:defaultLoggedIn ] forKey:@"logged_in"]; //currently logged in?
+
         NSLog(@"default pk is %@", [NSNumber numberWithInt:defaultPk ]);
     }
     

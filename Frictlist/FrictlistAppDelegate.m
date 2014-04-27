@@ -9,6 +9,7 @@
 #import "FrictlistAppDelegate.h"
 #import "PlistHelper.h"
 #import "SqlHelper.h"
+#import "StatisticsViewController.h"
 
 @implementation FrictlistAppDelegate
 
@@ -39,13 +40,17 @@
     if([plist getSaveLogin] != 1)
     {
         //sign out
-        [plist setPk:-1];
-        [plist setSaveLogin:0];
+        [plist resetPlist];
         
-        SqlHelper *sql = [SqlHelper alloc];
+        SqlHelper *sql = [[SqlHelper alloc] init];
         [sql removeSqliteFile];
         
+        //go to home screen
         [self goToHomeTab];
+        
+        //logout
+        [plist resetLoggedIn];
+        
         NSLog(@"Bye");
     }
 }
