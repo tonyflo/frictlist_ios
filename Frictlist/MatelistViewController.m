@@ -506,6 +506,17 @@ NSMutableArray *rejectedGenderArray;
                 //set cell text
                 cell.textLabel.text = name;
                 cell.accessoryView = UITableViewCellAccessoryNone;
+                
+                //show trash icon if the creator of this frictlist deleted it
+                if([acceptedArray[i] intValue] != 1)
+                {
+                    //accepted then deleted
+                    cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_deleted.png"]];
+                }
+                else
+                {
+                    cell.accessoryView = UITableViewCellAccessoryNone;
+                }
             }
             break;
         case 3://rejected

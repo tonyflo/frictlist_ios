@@ -364,11 +364,7 @@ int curSwipeIndex = 0;
         {
             if([mate_details[3] intValue] == 1)
             {
-                searchButton.enabled = false;
-                [searchButton setTitle:@"Accepted" forState:UIControlStateNormal];
                 searchButton.hidden = true;
-                
-                editButton.enabled = false;
                 editButton.hidden = true;
                 
                 sharedInfo.hidden = false;
@@ -376,22 +372,18 @@ int curSwipeIndex = 0;
             }
             else if([mate_details[3] intValue] == 0)
             {
-                searchButton.enabled = false;
-                searchButton.alpha = 0.5;
-                [searchButton setTitle:@"Pending" forState:UIControlStateNormal];
-            
-                editButton.enabled = false;
-                editButton.alpha = 0.5;
+                searchButton.hidden = true;
+                editButton.hidden = true;
+                
+                sharedInfo.hidden = false;
+                sharedText.hidden = false;
+                [sharedText setText:@"Pending"];
             }
         }
     }
     else
     {
-        searchButton.enabled = false;
         searchButton.hidden = true;
-        [searchButton setTitle:@"Accepted" forState:UIControlStateNormal];
-        
-        editButton.enabled = false;
         editButton.hidden = true;
         
         sharedInfo.hidden = false;
@@ -420,8 +412,16 @@ int curSwipeIndex = 0;
     
     //get mate name
     NSString *mate_name = mate_details[0];
-        
-    [self showSharedInfoDialog:mate_name];
+    
+    if([sharedText.text isEqualToString:@"Pending"])
+    {
+        [self showPendingInfoDialog:mate_name];
+    }
+    else
+    {
+        [self showSharedInfoDialog:mate_name];
+    }
+    
 }
 
 //explain what a shared mate is
@@ -430,6 +430,17 @@ int curSwipeIndex = 0;
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:@"What does Shared mean?"];
     [alert setMessage:[NSString stringWithFormat:@"All Fricts associated with this Mate are visible to both you and %@.", name]];
+    [alert setDelegate:self];
+    [alert addButtonWithTitle:@"Okay"];
+    [alert show];
+}
+
+//explain what a pending mate is
+- (void)showPendingInfoDialog:(NSString *)name
+{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"What does Pending mean?"];
+    [alert setMessage:[NSString stringWithFormat:@"You are waiting for %@ to respond to the request that you sent.", name]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];

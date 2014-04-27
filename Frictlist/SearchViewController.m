@@ -506,7 +506,7 @@ NSString * sentTo = @"the recipient";
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:@"Is That Your Final Answer?"];
-    [alert setMessage:[NSString stringWithFormat:@"Do you want to send a request to %@?", username]];
+    [alert setMessage:[NSString stringWithFormat:@"You are about to send a request to %@. In doing so, your Frictlist will be shared privately amongst the two of you.  Do you want continue?", username]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Yes"];
     [alert addButtonWithTitle:@"No"];

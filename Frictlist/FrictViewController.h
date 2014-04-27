@@ -12,6 +12,7 @@
 @interface FrictViewController : UIViewController
 {
     
+    IBOutlet UIButton *searchButton;
     IBOutlet MKMapView *mapView;
     IBOutlet UIImageView *creatorStatusImage;
     IBOutlet UIImageView *statusImage;
@@ -31,6 +32,7 @@
 @property (readwrite, assign) NSUInteger accepted;
 
 @property (retain) MKPointAnnotation * pinToRemember;
+@property (strong, nonatomic) IBOutlet UIButton *searchButtonPress;
 
 
 

@@ -8,6 +8,7 @@
 
 #import "FrictViewController.h"
 #import "FrictDetailViewController.h"
+#import "SearchViewController.h"
 #import "PlistHelper.h"
 #import "SqlHelper.h"
 #import "version.h"
@@ -77,6 +78,7 @@ int swipeIndex = 0;
     {
         [self hideFields];
         mapView.hidden = false;
+        searchButton.hidden = true;
     }
 }
 
@@ -147,6 +149,12 @@ int swipeIndex = 0;
         destViewController.frict_id = self.frict_id;
         destViewController.accepted = self.accepted;
         destViewController.creator = self.creator;
+    }
+    else if([segue.identifier isEqualToString:@"searchMate"])
+    {
+        NSLog(@"search mate segue");
+        SearchViewController *destViewConroller = segue.destinationViewController;
+        destViewConroller.mate_id = self.mate_id;
     }
 }
 
@@ -428,6 +436,54 @@ int swipeIndex = 0;
     
 }
 
+//0 if user cannot invite mate
+//1 if user can invite mate
+//2 if user already invited mate and the status is pending
+-(int)canUserInviteMate
+{
+    SqlHelper *sql = [SqlHelper alloc];
+    NSArray * mate_details;
+    
+    //get mate info
+    if(self.creator == 0)
+    {
+        //Accpted this incomming request
+        return 0;
+    }
+    else
+    {
+        //if coming from a personal row, use the mate id to get the data for this mate
+        mate_details=[sql get_mate:self.mate_id];
+    }
+    
+    if(self.creator == 1)
+    {
+        //disable sending multiple requests or editing a mate by checking
+        // - if there's a request uid: mate_details[4]
+        // - if accepted is pending (0) or accepted (1). we allow to re-rearch upon a rejection (-1)
+        if([mate_details[4] intValue] > 0)
+        {
+            if([mate_details[3] intValue] == 1)
+            {
+                //accepted
+                return 0;
+            }
+            else if([mate_details[3] intValue] == 0)
+            {
+                //pending
+                return 2;
+            }
+        }
+    }
+    else
+    {
+        //this user already accepted
+        return 1;
+    }
+
+    return true;
+}
+
 //populate visible text fields
 -(void) setAppropirateFrictInfo
 {
@@ -441,6 +497,7 @@ int swipeIndex = 0;
     ratingText.text = rating;
     
     statusImage.hidden = true;
+    searchButton.hidden = true;
     
     if([rating intValue] == 0)
     {
@@ -454,6 +511,40 @@ int swipeIndex = 0;
         statusImage.image = [UIImage imageNamed:@"request_deleted.png"];
         statusImage.hidden = false;
         ratingText.hidden = true;
+    }
+    
+    //give the option to search for a frict if the following conditions are met
+    // - the frict hasn't been previously or isn't currently accepted
+    // - this isn't a share frictlist
+    if([rating intValue] == 0 && [deleted intValue] != 1)
+    {
+        
+        //if this user if the creator of the frictlist and is looking at his uninvited mate
+        if(swipeIndex == 1 && self.creator == 1)
+        {
+            statusImage.hidden = true;
+            
+            int status = [self canUserInviteMate];
+            if(status == 1)
+            {
+                //user is able to search for this mate
+                searchButton.hidden = false;
+                [notesText setText:[NSString stringWithFormat:@"Click the Search button to find and share your Frictlist with %@!", name]];
+            }
+            else if(status == 2)
+            {
+                //user has already sent a request to this mate
+                searchButton.hidden = false;
+                searchButton.enabled = false;
+                searchButton.alpha = 0.5;
+                [searchButton setTitle:@"Pending" forState:UIControlStateNormal];
+                [notesText setText:[NSString stringWithFormat:@"You have already sent a request to %@.", name]];
+            }
+            else
+            {
+                statusImage.hidden = false;
+            }
+        }
     }
 }
 
