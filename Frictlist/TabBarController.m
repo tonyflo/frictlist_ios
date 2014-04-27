@@ -7,6 +7,7 @@
 //
 
 #import "TabBarController.h"
+#import "PlistHelper.h"
 
 @interface TabBarController ()
 
@@ -22,6 +23,18 @@
     }
     return self;
 }
+
+/*
+-(void)viewWillAppear:(BOOL)animated
+{
+    PlistHelper * plist = [[PlistHelper alloc] initDefaults];
+    if([plist getSaveLogin] != 1)
+    {
+        NSLog(@"tabbar showing setting view");
+        [self setSelectedIndex:1];
+    }
+}
+ */
 
 - (void)viewDidLoad
 {

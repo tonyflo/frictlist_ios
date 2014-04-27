@@ -40,7 +40,6 @@ int maxUnLen = 20;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    checkboxSelected = 0;
     self.view.userInteractionEnabled = TRUE;
     
     lastNameText.delegate = self;
@@ -217,9 +216,17 @@ int maxUnLen = 20;
         }
     }
     
+    //save save login preference to plist
+    PlistHelper *plist = [PlistHelper alloc];
+    [plist setSaveLogin:stayLoggedInButton.selected];
+    
     if(rc)
     {
         [self showSigningInSpinnerDialog];
+        
+        SqlHelper *sql = [SqlHelper alloc];
+        [sql removeSqliteFile];
+        [sql createEditableCopyOfDatabaseIfNeeded];
         
         if(checkboxButton.selected == 1)
         {
@@ -905,6 +912,17 @@ int maxUnLen = 20;
 - (IBAction)backButonClick:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)forgotPasswordPress:(id)sender
+{
+    
+}
+
+- (IBAction)stayLoggedInPress:(id)sender
+{
+    stayLoggedInButton.selected = !stayLoggedInButton.selected;
+    NSLog(@"%d", stayLoggedInButton.selected);
 }
 
 //take an action when a choice is made in an alert dialog

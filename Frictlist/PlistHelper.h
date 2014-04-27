@@ -36,4 +36,8 @@
 -(void)setPk:(int)pk;
 -(int)resetPk;
 
+-(int)getSaveLogin;
+-(void)setSaveLogin:(int)pk;
+-(int)resetSaveLogin;
+
 @end

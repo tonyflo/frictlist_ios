@@ -10,7 +10,8 @@
 
 @interface SignInViewController : UIViewController<UITextFieldDelegate>
 {
-    BOOL checkboxSelected;
+    IBOutlet UIButton *forgotPasswordButton;
+    IBOutlet UIButton *stayLoggedInButton;
     IBOutlet UIButton *checkboxButton;
     IBOutlet UITextField *usernameText;
     IBOutlet UITextField *passwordText;
@@ -31,5 +32,7 @@
 - (IBAction)checkboxButton:(id)sender;
 - (IBAction)signInButtonClick:(id)sender;
 - (IBAction)backButonClick:(id)sender;
+- (IBAction)forgotPasswordPress:(id)sender;
+- (IBAction)stayLoggedInPress:(id)sender;
 
 @end

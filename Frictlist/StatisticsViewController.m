@@ -38,6 +38,10 @@ UIAlertView *alertView;
 	// Do any additional setup after loading the view.
     NSLog(@"View did load");
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+
+    
     //tab bar titles
     [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:@"Frictlist"];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Settings"];
@@ -45,19 +49,30 @@ UIAlertView *alertView;
     //tab bar icons
     [[self.tabBarController.tabBar.items objectAtIndex:0] setImage:[UIImage imageNamed:@"list_icon.png"]];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setImage:[UIImage imageNamed:@"baseball_tab_icon.png"]];
+    
+}
+
+- (void)appDidBecomeActive:(NSNotification *)notification {
+    NSLog(@"did become active notification");
+    [self checkFirstAppOpen];
+}
+
+- (void)appDidEnterForeground:(NSNotification *)notification {
+    NSLog(@"did enter foreground notification");
 }
 
 -(void)checkFirstAppOpen
 {
-    SqlHelper * sql = [SqlHelper alloc];
+    SqlHelper *sql = [SqlHelper alloc];
     [sql createEditableCopyOfDatabaseIfNeeded];
     
     //check first sign in
     PlistHelper *plist = [[PlistHelper alloc] initDefaults];
 
-    if([plist getPk] == -1)
+    if([plist getPk] <= 0)
     {
         [self showWelcomeDialog];
+        NSLog(@"first");
     }
     else
     {
@@ -247,7 +262,7 @@ UIAlertView *alertView;
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self checkFirstAppOpen];
+    //[self checkFirstAppOpen];
     
     //check signed in
     PlistHelper * plist = [PlistHelper alloc];

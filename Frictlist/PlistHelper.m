@@ -15,6 +15,7 @@ NSString *defaultEmail = @"Not Signed In";
 NSString *defaultBirthday = @"0000-00-00";
 NSString *defaultFirstName = @"";
 NSString *defaultLastName = @"";
+int defaultSaveLogin = 1;
 
 //getters
 -(NSString *)getEmail
@@ -61,6 +62,15 @@ NSString *defaultLastName = @"";
     return uid;
 }
 
+-(int)getSaveLogin
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
+    int saveLogin = [[plistDict objectForKey:@"save_login"] intValue];
+
+    return saveLogin;
+}
+
 //setters
 -(void)setEmail:(NSString *)email
 {
@@ -99,6 +109,14 @@ NSString *defaultLastName = @"";
     NSString * path = [self getPlistPath];
     NSMutableDictionary *data = [self getPlistData:path];
     [data setObject:[NSString stringWithFormat:@"%d", pk] forKey:@"pk"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)setSaveLogin:(int)saveLogin
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    [data setObject:[NSString stringWithFormat:@"%d", saveLogin] forKey:@"save_login"];
     [data writeToFile: path atomically:YES];
 }
 
@@ -144,6 +162,15 @@ NSString *defaultLastName = @"";
     NSString * path = [self getPlistPath];
     NSMutableDictionary *data = [self getPlistData:path];
     [data setObject:[NSNumber numberWithInt:defaultPk ] forKey:@"pk"];
+    [data writeToFile: path atomically:YES];
+    return defaultPk;
+}
+
+-(int)resetSaveLogin
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    [data setObject:[NSNumber numberWithInt:defaultSaveLogin ] forKey:@"save_login"];
     [data writeToFile: path atomically:YES];
     return defaultPk;
 }
@@ -214,6 +241,7 @@ NSString *defaultLastName = @"";
         [data setObject:defaultLastName forKey:@"last"]; //last name
         [data setObject:[NSNumber numberWithInt:defaultPk ] forKey:@"pk"]; //primary key
         [data setObject:defaultBirthday forKey:@"bday"]; //birthday
+        [data setObject:[NSNumber numberWithInt:defaultSaveLogin ] forKey:@"save_login"]; //save login
         NSLog(@"default pk is %@", [NSNumber numberWithInt:defaultPk ]);
     }
     
