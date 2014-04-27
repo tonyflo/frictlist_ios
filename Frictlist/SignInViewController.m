@@ -939,12 +939,6 @@ int maxUnLen = 20;
     }
 }
 
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    activeField = textField;
-    [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
-}
-
 -(void)viewWillAppear:(BOOL)animated
 {
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
@@ -976,5 +970,10 @@ int maxUnLen = 20;
     }
 }
 
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+ activeField = textField;
+    [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
+}
 
 @end

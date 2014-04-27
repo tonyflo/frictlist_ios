@@ -20,6 +20,7 @@
 #define RED (33.0/255.0f)
 #define GREEN (255.0/255.0f)
 #define BLUE (0.0/255.0f)
+#define TAB_BAR_HEIGHT (30)
 
 #endif
 
