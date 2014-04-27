@@ -490,12 +490,16 @@ int swipeIndex = 0;
     
     if([rating intValue] == 0)
     {
-        statusImage.image = [UIImage imageNamed:@"waiting.png"];
-        statusImage.hidden = false;
-        ratingText.hidden = true;
-        notesText.textColor = [UIColor colorWithRed:RED green:GREEN blue:BLUE alpha:1.0f];
-        notesText.textAlignment = NSTextAlignmentCenter;
-        [notesText setText:[NSString stringWithFormat:@"%@ hasn't acknowledged this Frict yet", name]];
+        //todo only show status message for recipient of frict
+        //if(self.creator == 0)
+        //{
+            statusImage.image = [UIImage imageNamed:@"waiting.png"];
+            statusImage.hidden = false;
+            ratingText.hidden = true;
+            notesText.textColor = [UIColor colorWithRed:RED green:GREEN blue:BLUE alpha:1.0f];
+            notesText.textAlignment = NSTextAlignmentCenter;
+            [notesText setText:[NSString stringWithFormat:@"%@ hasn't acknowledged this Frict yet", name]];
+        //}
     }
     
     if([deleted intValue] == 1)

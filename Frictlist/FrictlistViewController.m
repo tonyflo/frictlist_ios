@@ -8,6 +8,7 @@
 
 #import "FrictlistViewController.h"
 #import "FrictViewController.h" //for segue
+#import "FrictDetailViewController.h" //for segue
 #import "PlistHelper.h"
 #import "SqlHelper.h"
 #import "version.h"
@@ -96,7 +97,7 @@ NSMutableArray *baseArray;
         
         NSLog(@"index path row %d", indexPath.row);
         
-        //todo pass frictid
+        // pass frictid
         int local_frict_id = [indexPath row];
         int remote_frict = [matesFrictIds[local_frict_id] intValue];
         NSLog(@"bye from fl vc local frict %d remote frict %d", local_frict_id, remote_frict);
@@ -107,6 +108,16 @@ NSMutableArray *baseArray;
         destViewController.mate_id = self.hu_id;
         destViewController.accepted = self.accepted;
         destViewController.request_id = self.request_id;
+        destViewController.creator = self.creator;
+    }
+    else if([segue.identifier isEqualToString:@"editFrict"])
+    {
+        NSLog(@"segue to edit frict view");
+                
+        FrictDetailViewController *destViewController = segue.destinationViewController;
+        destViewController.mate_id = self.hu_id;
+        destViewController.frict_id = 0;  //new frict has an id of 0
+        destViewController.accepted = self.accepted;
         destViewController.creator = self.creator;
     }
 }
@@ -281,7 +292,7 @@ NSMutableArray *baseArray;
         [matesFrictIds insertObject:@"New Frict" atIndex:[matesFrictIds count]];
         //[tableV reloadData];;
         sentFromAddFrict = true;
-        [self performSegueWithIdentifier:@"showFrictDetail" sender:indexPath];
+        [self performSegueWithIdentifier:@"editFrict" sender:indexPath];
         sentFromAddFrict = false;
     }
 }
