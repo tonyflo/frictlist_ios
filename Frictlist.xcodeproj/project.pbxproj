@@ -55,6 +55,8 @@
 		2F9A89CC18E71DC600309D13 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A89CB18E71DC500309D13 /* SearchViewController.m */; };
 		2F9A89CE18E7651200309D13 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9A89CD18E7651100309D13 /* MessageUI.framework */; };
 		2F9DC36418DE4F6700024553 /* FrictViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9DC36318DE4F6700024553 /* FrictViewController.m */; };
+		2FA62107190C8A2500973E6E /* selected_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FA62105190C8A2400973E6E /* selected_0.png */; };
+		2FA62108190C8A2500973E6E /* selected_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FA62106190C8A2500973E6E /* selected_1.png */; };
 		2FAD77F918FDEC1B00EC3C86 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FAD77F818FDEC1B00EC3C86 /* MapKit.framework */; };
 		2FAD77FB18FDEEAA00EC3C86 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FAD77FA18FDEEA900EC3C86 /* CoreLocation.framework */; };
 		2FCB43A018E65891007DF46F /* frictlist.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 2FCB439F18E65891007DF46F /* frictlist.sqlite */; };
@@ -130,6 +132,8 @@
 		2F9A89CD18E7651100309D13 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		2F9DC36218DE4F6700024553 /* FrictViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictViewController.h; sourceTree = "<group>"; };
 		2F9DC36318DE4F6700024553 /* FrictViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrictViewController.m; sourceTree = "<group>"; };
+		2FA62105190C8A2400973E6E /* selected_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected_0.png; sourceTree = "<group>"; };
+		2FA62106190C8A2500973E6E /* selected_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected_1.png; sourceTree = "<group>"; };
 		2FAD77F818FDEC1B00EC3C86 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		2FAD77FA18FDEEA900EC3C86 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		2FCB439F18E65891007DF46F /* frictlist.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = frictlist.sqlite; sourceTree = "<group>"; };
@@ -209,6 +213,8 @@
 				2F52B94118E891C000FEC16F /* request_accepted.png */,
 				2F5ADCFE18F78AF8005DF959 /* waiting.png */,
 				2F66D9D018DF75A000DE37A4 /* bg.gif */,
+				2FA62105190C8A2400973E6E /* selected_0.png */,
+				2FA62106190C8A2500973E6E /* selected_1.png */,
 				2F9A89AC18E67D3C00309D13 /* base_0.png */,
 				2F9A89AD18E67D3C00309D13 /* base_1.png */,
 				2F9A89AE18E67D3C00309D13 /* base_2.png */,
@@ -360,6 +366,8 @@
 				2F8540FD18F0C63A007AE3C4 /* baseball_tab_icon.png in Resources */,
 				2F5ADCFD18F4EC71005DF959 /* request_deleted.png in Resources */,
 				2F5ADCFF18F78AF8005DF959 /* waiting.png in Resources */,
+				2FA62107190C8A2500973E6E /* selected_0.png in Resources */,
+				2FA62108190C8A2500973E6E /* selected_1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

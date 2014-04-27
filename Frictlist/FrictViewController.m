@@ -22,9 +22,6 @@
 #define NOTES_INDEX (1)
 #define RATING_INDEX (2)
 
-#define NOT_ACKNOWLEDGED (@"Not acknowledged")
-#define DELETED (@"Deleted")
-
 @interface FrictViewController ()
 
 @end
@@ -79,6 +76,25 @@ int swipeIndex = 0;
         [self hideFields];
         mapView.hidden = false;
         searchButton.hidden = true;
+    }
+    
+    if(swipeIndex == 0)
+    {
+        [creatorSwitch setImage:[UIImage imageNamed:@"selected_1.png"] forState:UIControlStateNormal];
+        [mateSwitch setImage:[UIImage imageNamed:@"selected_0.png"] forState:UIControlStateNormal];
+        [mapSwitch setImage:[UIImage imageNamed:@"selected_0.png"] forState:UIControlStateNormal];
+    }
+    else if(swipeIndex == 1)
+    {
+        [creatorSwitch setImage:[UIImage imageNamed:@"selected_0.png"] forState:UIControlStateNormal];
+        [mateSwitch setImage:[UIImage imageNamed:@"selected_1.png"] forState:UIControlStateNormal];
+        [mapSwitch setImage:[UIImage imageNamed:@"selected_0.png"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [creatorSwitch setImage:[UIImage imageNamed:@"selected_0.png"] forState:UIControlStateNormal];
+        [mateSwitch setImage:[UIImage imageNamed:@"selected_0.png"] forState:UIControlStateNormal];
+        [mapSwitch setImage:[UIImage imageNamed:@"selected_1.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -290,16 +306,8 @@ int swipeIndex = 0;
         [mateOfFrict addObject:mateNotesStr];
         [mateOfFrict addObject:[NSString stringWithFormat:@"%d",mateRating]];
         
-        if(mateRating == 0)
-        {
-            //the mate did not act upon this frict
-            [mateOfFrict setObject:NOT_ACKNOWLEDGED atIndexedSubscript:NOTES_INDEX];
-        }
-        
         if(mateDeleted == 1)
         {
-            //the mate deleted this frict
-            [mateOfFrict setObject:DELETED atIndexedSubscript:NOTES_INDEX];
             [mateOfFrict addObject:@"1"];
         }
         else
@@ -323,16 +331,8 @@ int swipeIndex = 0;
         [mateOfFrict addObject:notesStr];
         [mateOfFrict addObject:[NSString stringWithFormat:@"%d",rating]];
         
-        if(rating == 0)
-        {
-            //the mate did not act upon this frict
-            [mateOfFrict setObject:NOT_ACKNOWLEDGED atIndexedSubscript:NOTES_INDEX];
-        }
-        
         if(mateDeleted == 1)
         {
-            //the mate deleted this frict
-            [creatorOfFrict setObject:DELETED atIndexedSubscript:NOTES_INDEX];
             [creatorOfFrict addObject:@"1"];
         }
         else
@@ -360,16 +360,8 @@ int swipeIndex = 0;
         [mateOfFrict addObject:mateNotesStr];
         [mateOfFrict addObject:[NSString stringWithFormat:@"%d",mateRating]];
         
-        if(mateRating == 0)
-        {
-            //the mate did not act upon this frict
-            [mateOfFrict setObject:NOT_ACKNOWLEDGED atIndexedSubscript:NOTES_INDEX];
-        }
-        
         if(deleted == 1)
         {
-            //the mate deleted this frict
-            [creatorOfFrict setObject:DELETED atIndexedSubscript:NOTES_INDEX];
             [creatorOfFrict addObject:@"1"];
         }
         else
@@ -397,16 +389,8 @@ int swipeIndex = 0;
         [mateOfFrict addObject:notesStr];
         [mateOfFrict addObject:[NSString stringWithFormat:@"%d",rating]];
         
-        if(rating == 0)
-        {
-            //the mate did not act upon this frict
-            [mateOfFrict setObject:NOT_ACKNOWLEDGED atIndexedSubscript:NOTES_INDEX];
-        }
-        
         if(deleted == 1)
         {
-            //the mate deleted this frict
-            [mateOfFrict setObject:DELETED atIndexedSubscript:NOTES_INDEX];
             [mateOfFrict addObject:@"1"];
         }
         else
@@ -496,14 +480,22 @@ int swipeIndex = 0;
     [notesText setText:notes];
     ratingText.text = rating;
     
+    //default hide status and button
     statusImage.hidden = true;
     searchButton.hidden = true;
+    
+    //default white text color
+    notesText.textColor = [UIColor whiteColor];
+    notesText.textAlignment = NSTextAlignmentJustified;
     
     if([rating intValue] == 0)
     {
         statusImage.image = [UIImage imageNamed:@"waiting.png"];
         statusImage.hidden = false;
         ratingText.hidden = true;
+        notesText.textColor = [UIColor colorWithRed:RED green:GREEN blue:BLUE alpha:1.0f];
+        notesText.textAlignment = NSTextAlignmentCenter;
+        [notesText setText:[NSString stringWithFormat:@"%@ hasn't acknowledged this Frict yet", name]];
     }
     
     if([deleted intValue] == 1)
@@ -511,6 +503,9 @@ int swipeIndex = 0;
         statusImage.image = [UIImage imageNamed:@"request_deleted.png"];
         statusImage.hidden = false;
         ratingText.hidden = true;
+        notesText.textColor = [UIColor colorWithRed:RED green:GREEN blue:BLUE alpha:1.0f];
+        notesText.textAlignment = NSTextAlignmentCenter;
+        [notesText setText:[NSString stringWithFormat:@"%@ deleted this Frict", name]];
     }
     
     //give the option to search for a frict if the following conditions are met
@@ -530,6 +525,8 @@ int swipeIndex = 0;
                 //user is able to search for this mate
                 searchButton.hidden = false;
                 [notesText setText:[NSString stringWithFormat:@"Click the Search button to find and share your Frictlist with %@!", name]];
+                notesText.textColor = [UIColor colorWithRed:RED green:GREEN blue:BLUE alpha:1.0f];
+                notesText.textAlignment = NSTextAlignmentCenter;
             }
             else if(status == 2)
             {
@@ -538,7 +535,9 @@ int swipeIndex = 0;
                 searchButton.enabled = false;
                 searchButton.alpha = 0.5;
                 [searchButton setTitle:@"Pending" forState:UIControlStateNormal];
-                [notesText setText:[NSString stringWithFormat:@"You have already sent a request to %@.", name]];
+                [notesText setText:[NSString stringWithFormat:@"You have already sent a request to %@", name]];
+                notesText.textColor = [UIColor colorWithRed:RED green:GREEN blue:BLUE alpha:1.0f];
+                notesText.textAlignment = NSTextAlignmentCenter;
             }
             else
             {
@@ -546,6 +545,22 @@ int swipeIndex = 0;
             }
         }
     }
+}
+
+- (IBAction)creatorButtonPress:(id)sender
+{
+    swipeIndex = 0;
+    [self checkDisplay];
+}
+- (IBAction)mateButtonPress:(id)sender
+{
+    swipeIndex = 1;
+    [self checkDisplay];
+}
+- (IBAction)mapButtonPress:(id)sender
+{
+    swipeIndex = 2;
+    [self checkDisplay];
 }
 
 @end

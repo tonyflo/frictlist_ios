@@ -201,11 +201,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/FrictViewController.m"
-         timestampString = "420249805.098622"
+         timestampString = "420257707.67098"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "211"
-         endingLineNumber = "211"
+         startingLineNumber = "227"
+         endingLineNumber = "227"
          landmarkName = "-viewWillAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -221,6 +221,19 @@
          endingLineNumber = "426"
          landmarkName = "-viewWillAppear:"
          landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Frictlist/MateViewController.h"
+         timestampString = "420251325.282568"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "29"
+         endingLineNumber = "29"
+         landmarkName = "@interface MateViewController"
+         landmarkType = "2">
       </FileBreakpoint>
    </FileBreakpoints>
    <SymbolicBreakpoints>

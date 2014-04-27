@@ -114,11 +114,17 @@ int curSwipeIndex = 0;
     {
         [self showFields];
         mapView.hidden = true;
+        NSLog(@"hide map");
+        [fieldSwitch setImage:[UIImage imageNamed:@"selected_1.png"] forState:UIControlStateNormal];
+        [mapSwitch setImage:[UIImage imageNamed:@"selected_0.png"] forState:UIControlStateNormal];
     }
     else
     {
         [self hideFields];
         mapView.hidden = false;
+        NSLog(@"show map");
+        [fieldSwitch setImage:[UIImage imageNamed:@"selected_0.png"] forState:UIControlStateNormal];
+        [mapSwitch setImage:[UIImage imageNamed:@"selected_1.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -192,7 +198,7 @@ int curSwipeIndex = 0;
     
     float map_span_lat = mapView.region.span.latitudeDelta;
     float map_span_lon = mapView.region.span.longitudeDelta;
-    
+    /*
     if(region.span.latitudeDelta > map_span_lat || region.span.latitudeDelta <= 0.0)
     {
         //invalid latitude span
@@ -206,7 +212,7 @@ int curSwipeIndex = 0;
         NSLog(@"Invalid span longitude %f", region.span.longitudeDelta);
         region.span.longitudeDelta = map_span_lon;
     }
-    
+    */
     region = [mapView regionThatFits:region];
     [mapView setRegion:region animated:YES];
     NSLog(@"Done zooming");
@@ -241,6 +247,9 @@ int curSwipeIndex = 0;
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    //reset swipe index
+    curSwipeIndex = 0;
+    
     //set background
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
     
@@ -452,4 +461,17 @@ int curSwipeIndex = 0;
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)fieldSwitchSelected:(id)sender
+{
+    curSwipeIndex = 0;
+    [fieldSwitch setImage:[UIImage imageNamed:@"selected_1.png"] forState:UIControlStateNormal];
+    [mapSwitch setImage:[UIImage imageNamed:@"selected_0.png"] forState:UIControlStateNormal];
+    [self checkDisplay];
+}
+
+- (IBAction)mapSwitchSelected:(id)sender
+{
+    curSwipeIndex = 1;
+    [self checkDisplay];
+}
 @end

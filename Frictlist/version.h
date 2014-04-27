@@ -17,9 +17,9 @@
 #define SCRIPTS_URL (@"http://frictlist.flooreeda.com/scripts/")
 #define PLATFORM (1) //iOS
 #define ZOOM (0.001)
-#define MINIMUM_ZOOM_ARC 0.014 //approximately 1 miles (1 degree of arc ~= 69 miles)
-#define ANNOTATION_REGION_PAD_FACTOR 1.50
-#define MAX_DEGREES_ARC 360
+#define RED (33.0/255.0f)
+#define GREEN (255.0/255.0f)
+#define BLUE (0.0/255.0f)
 
 #endif
 

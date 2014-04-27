@@ -23,6 +23,9 @@
     IBOutlet UILabel *scoreText;
     IBOutlet UILabel *ratingText;
     IBOutlet UIView *frictView;
+    IBOutlet UIButton *creatorSwitch;
+    IBOutlet UIButton *mateSwitch;
+    IBOutlet UIButton *mapSwitch;
 }
 
 @property (readwrite, assign) NSUInteger frict_id;
@@ -33,6 +36,10 @@
 
 @property (retain) MKPointAnnotation * pinToRemember;
 @property (strong, nonatomic) IBOutlet UIButton *searchButtonPress;
+
+- (IBAction)creatorButtonPress:(id)sender;
+- (IBAction)mateButtonPress:(id)sender;
+- (IBAction)mapButtonPress:(id)sender;
 
 
 

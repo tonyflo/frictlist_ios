@@ -507,7 +507,9 @@ NSMutableArray *rejectedGenderArray;
                 cell.textLabel.text = name;
                 cell.accessoryView = UITableViewCellAccessoryNone;
                 
+                //todo: show trash icon because creator of this FL deleted this mate
                 //show trash icon if the creator of this frictlist deleted it
+                /*
                 if([acceptedArray[i] intValue] != 1)
                 {
                     //accepted then deleted
@@ -517,6 +519,7 @@ NSMutableArray *rejectedGenderArray;
                 {
                     cell.accessoryView = UITableViewCellAccessoryNone;
                 }
+                 */
             }
             break;
         case 3://rejected

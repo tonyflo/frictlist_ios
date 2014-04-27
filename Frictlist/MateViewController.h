@@ -27,6 +27,8 @@
     IBOutlet UILabel *firstScore;
     IBOutlet UIButton *searchButton;
     IBOutlet UIButton *editButton;
+    IBOutlet UIButton *mapSwitch;
+    IBOutlet UIButton *fieldSwitch;
 }
 - (IBAction)swipeRight:(id)sender;
 - (IBAction)swipeLeft:(id)sender;
@@ -36,6 +38,10 @@
 @property (readwrite, assign) NSUInteger accepted; //1 if the mate accepted, 0 otherwise
 @property (readwrite, assign) NSUInteger creator; //1 if coming from personal, 0 if coming from accepted
 - (IBAction)sharedInfoPress:(id)sender;
+
+- (IBAction)fieldSwitchSelected:(id)sender;
+- (IBAction)mapSwitchSelected:(id)sender;
+
 
 @property (retain) MKPointAnnotation * pinToRemember;
 
