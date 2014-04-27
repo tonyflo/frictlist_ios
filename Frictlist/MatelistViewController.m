@@ -403,7 +403,7 @@ NSMutableArray *rejectedGenderArray;
 //}
 
 //code for each row
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"MateCell";
     
@@ -412,6 +412,10 @@ NSMutableArray *rejectedGenderArray;
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.editingAccessoryType = YES;
     }
+    cell.accessoryView = nil;
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.accessoryView = nil;
+    cell.editingAccessoryType = UITableViewCellAccessoryNone;
     int count;
     switch ([indexPath section]) {
         case 0:
@@ -423,7 +427,6 @@ NSMutableArray *rejectedGenderArray;
             if(indexPath.row == ([huidArray count]) && self.editing){
                 cell.textLabel.text = @"Add a Mate";
                 cell.imageView.image = [UIImage imageNamed:@"gender_.png"];
-                cell.accessoryView = UITableViewCellAccessoryNone;
                 return cell;
             }
             
@@ -466,7 +469,8 @@ NSMutableArray *rejectedGenderArray;
                 }
                 else
                 {
-                    cell.accessoryView = UITableViewCellAccessoryNone;
+                    cell.accessoryView = nil;
+                    cell.accessoryType = UITableViewCellAccessoryNone;
                 }
             }
             break;
