@@ -176,6 +176,107 @@ UIAlertView * alertView;
     return rc;
 }
 
+//get frictlist
+-(BOOL) get_frictlist:(int) uid
+{
+    BOOL rc = true;
+    
+    NSString *post = [NSString stringWithFormat:@"&uid=%d",uid];
+    
+    //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    //You need to send the actual length of your data. Calculate the length of the post string.
+    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    
+    //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //Set the Url for which your going to send the data to that request.
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_frictlist.php", SCRIPTS_URL]]];
+    
+    //Now, set HTTP method (POST or GET). Write this lines as it is in your code
+    [request setHTTPMethod:@"POST"];
+    
+    //Set HTTP header field with length of the post data.
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    //Also set the Encoded value for HTTP header Field.
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+    
+    //Set the HTTPBody of the urlrequest with postData.
+    [request setHTTPBody:postData];
+    
+    //4. Now, create URLConnection object. Initialize it with the URLRequest.
+    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    //It returns the initialized url connection and begins to load the data for the url request. You can check that whether you URL connection is done properly or not using just if/else statement as below.
+    if(conn)
+    {
+        NSLog(@"Connection Successful");
+    }
+    else
+    {
+        NSLog(@"Connection could not be made");
+        rc = false;
+    }
+    
+    //5. To receive the data from the HTTP request , you can use the delegate methods provided by the URLConnection Class Reference. Delegate methods are as below
+    return rc;
+}
+
+//get notifications
+-(BOOL) get_notifications:(int) uid
+{
+    BOOL rc = true;
+    
+    NSString *post = [NSString stringWithFormat:@"&uid=%d",uid];
+    
+    //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    //You need to send the actual length of your data. Calculate the length of the post string.
+    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    
+    //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //Set the Url for which your going to send the data to that request.
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@get_notifications.php", SCRIPTS_URL]]];
+    
+    //Now, set HTTP method (POST or GET). Write this lines as it is in your code
+    [request setHTTPMethod:@"POST"];
+    
+    //Set HTTP header field with length of the post data.
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    //Also set the Encoded value for HTTP header Field.
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+    
+    //Set the HTTPBody of the urlrequest with postData.
+    [request setHTTPBody:postData];
+    
+    //4. Now, create URLConnection object. Initialize it with the URLRequest.
+    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    //It returns the initialized url connection and begins to load the data for the url request. You can check that whether you URL connection is done properly or not using just if/else statement as below.
+    if(conn)
+    {
+        NSLog(@"Connection Successful");
+    }
+    else
+    {
+        NSLog(@"Connection could not be made");
+        rc = false;
+    }
+    
+    //5. To receive the data from the HTTP request , you can use the delegate methods provided by the URLConnection Class Reference. Delegate methods are as below
+    return rc;
+}
+
+
 -(void)showResponding:(NSString *)status
 {
     alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%@ request", status]
@@ -242,9 +343,150 @@ UIAlertView * alertView;
     NSInteger intResult = [strResult integerValue];
     
     NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
+    NSArray *query_result = [strResult componentsSeparatedByString:@"\n"];
+    NSString *searchFlag = query_result[0];
+    SqlHelper *sql = [SqlHelper alloc];
     
     //if the request id is returned, the response was successful
-    if(intResult == 1 || intResult == -1)
+    if([searchFlag isEqual:@"frictlist"])
+    {
+        //we have received the frictlist because the user has just signed in. now loop over it and save it to the sqlite db
+        
+        //store the mate_ids to avoid adding the same mate more than once
+        NSMutableArray *mateIds = [[NSMutableArray alloc] init];
+        
+        //for each row in the frictlist table
+        //start at 2 to skip over frictlist line and user data array
+        for(int i = 2; i < query_result.count - 1; i++)
+        {
+            //split the row into columns
+            NSArray *frict = [query_result[i] componentsSeparatedByString:@"\t"];
+            NSLog(@"Frict count = %d", frict.count);
+            if(frict.count == 18)
+            {
+                //check if mate has already been added to sqlite
+                if(![mateIds containsObject:frict[0]])
+                {
+                    NSLog(@"New mate %@", frict[0]);
+                    [sql add_mate:[frict[0] intValue] fn:frict[3] ln:frict[4] gender:[frict[5] intValue] accepted:[frict[1] intValue] mates_uid:[frict[2] intValue]];
+                    [mateIds addObject:frict[0]];
+                }
+                
+                //check for frict data
+                if(frict[6] != NULL && frict[6] != nil && ![frict[6] isEqual:@""] && [frict[11] intValue] != 1)
+                {
+                    NSLog(@"FOUND FRICT DATA");
+                    [sql add_frict:[frict[6] intValue] mate_id:[frict[0] intValue] from:frict[7] rating:[frict[8] intValue] base:[frict[9] intValue] notes:frict[10] mate_rating:[frict[12] intValue] mate_notes:frict[13] mate_deleted:[frict[14] intValue] creator:[frict[15] intValue] deleted:[frict[11] intValue] lat:[frict[16] doubleValue] lon:[frict[17] doubleValue]];
+                }
+            }
+            else
+            {
+                //number of columns in frictlist is not correct
+                [self showErrorCodeDialog:-402];
+                break;
+            }
+        }
+        
+        //get user data
+        NSArray *user_data = [query_result[1] componentsSeparatedByString:@"\t"];
+        PlistHelper *plist = [PlistHelper alloc];
+        
+        //set users birthday
+        NSString *bdayStr = user_data[2];
+        [plist setBirthday:bdayStr];
+        NSLog(@"user fn: %@ ln: %@ bday: %@", user_data[0], user_data[1], bdayStr);
+        
+        //set user's first and last name
+        [plist setFirstName:user_data[0]];
+        [plist setLastName:user_data[1]];
+        
+        //now, get notifications
+        [self get_notifications:[plist getPk]];
+    }
+    //notifications
+    else if([searchFlag isEqual:@"notifications"])
+    {
+        //we have received the notification list because the user has just signed in. now loop over it and save it to the sqlite db
+        
+        NSMutableArray *incommingRequestIdArray = [[NSMutableArray alloc] init];
+        NSMutableArray *acceptedRequestIdArray = [[NSMutableArray alloc] init];
+        NSMutableArray *rejectedRequestIdArray = [[NSMutableArray alloc] init];
+        
+        //for each row in the notification table
+        //start at 1 to skip over notification flag line
+        for(int i = 1; i < query_result.count - 1; i++)
+        {
+            //split the row into columns
+            NSArray *notification = [query_result[i] componentsSeparatedByString:@"\t"];
+            
+            if(notification.count == 20)
+            {
+                int status = [notification[2] intValue];
+                //pending
+                if(status == 0)
+                {
+                    //check if pending mate has already been added to sqlite
+                    if(![incommingRequestIdArray containsObject:notification[0]])
+                    {
+                        NSLog(@"heres a pending: %@", notification[3]);
+                        //this is a new or untouched notification that hasn't been accepted or rejected
+                        [sql add_notification:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                        [incommingRequestIdArray addObject:notification[0]];
+                    }
+                }
+                //accepted
+                else if(status == 1)
+                {
+                    //check if accepted mate has already been added to sqlite
+                    if(![acceptedRequestIdArray containsObject:notification[0]])
+                    {
+                        NSLog(@"heres a new accepted: %@", notification[3]);
+                        //this is an incomming request that has already been accepted
+                        [sql add_accepted:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                        [acceptedRequestIdArray addObject:notification[0]];
+                    }
+                    
+                    //check for frict data. make sure frict_id is not null and that the recipient hasn't already deleted this frict
+                    if(notification[8] != NULL && notification[8] != nil && ![notification[8] isEqual:@""] && [notification[16] intValue] != 1)
+                    {
+                        NSLog(@"FOUND FRICT DATA");
+                        [sql add_frict:[notification[8] intValue] mate_id:[notification[1] intValue] from:notification[9] rating:[notification[10] intValue] base:[notification[11] intValue] notes:notification[12] mate_rating:[notification[14] intValue] mate_notes:notification[15] mate_deleted:[notification[16] intValue] creator:[notification[17] intValue] deleted:[notification[13] intValue] lat:[notification[18] doubleValue] lon:[notification[19] doubleValue]];
+                    }
+                }
+                //rejected
+                else if(status == -1)
+                {
+                    //check if pending mate has already been added to sqlite
+                    if(![rejectedRequestIdArray containsObject:notification[0]])
+                    {
+                        NSLog(@"heres a rejected: %@", notification[3]);
+                        //this is an incomming request that has already been accepted
+                        [sql add_rejected:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                        [rejectedRequestIdArray addObject:notification[0]];
+                    }
+                }
+                else
+                {
+                    //status is not -1, 0, or 1
+                    [self showErrorCodeDialog:-400];
+                    break;
+                }
+                
+            }
+            else
+            {
+                //number of columns in notification is not correct
+                [self showErrorCodeDialog:-401];
+                break;
+            }
+        }
+        
+        //get outa here
+        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    //responding to request
+    else if(intResult == 1 || intResult == -1)
     {
         NSLog(@"request was successfully responded to");
         
@@ -277,17 +519,27 @@ UIAlertView * alertView;
             NSLog(@"accepted");
             //accepted
             [sql add_accepted:self.request_id mate_id:[request[5] intValue] first:request[0] last:request[1] un:request[2] gender:[request[3] intValue] birthdate:request[4]];
+            
+            //get frictlist after accepting mate
+            PlistHelper * plist = [PlistHelper alloc];
+            SqlHelper *sql = [SqlHelper alloc];
+            
+            BOOL success = [sql removeSqliteFile];
+            [sql createEditableCopyOfDatabaseIfNeeded];
+            if(success)
+            {
+                [self get_frictlist:[plist getPk]];
+            }
         }
         else
         {
             NSLog(@"rejected");
             //rejected
             [sql add_rejected:self.request_id mate_id:[request[5] intValue] first:request[0] last:request[1] un:request[2] gender:[request[3] intValue] birthdate:request[4]];
+            //go back
+            [alertView dismissWithClickedButtonIndex:0 animated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         }
-        
-        //go back on success
-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
-        [self.navigationController popViewControllerAnimated:YES];
     }
     //error code was returned
     else

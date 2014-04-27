@@ -57,7 +57,7 @@ NSMutableArray *rejectedGenderArray;
 {
     NSLog(@"view did load");
     [super viewDidLoad];
-    
+        
     self.title = @"Matelist";
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(addORDeleteRows)];
     [self.navigationItem setRightBarButtonItem:addButton];
@@ -232,7 +232,6 @@ NSMutableArray *rejectedGenderArray;
     acceptedLastNameArray = accepts[2]; //ln
     acceptedGenderArray = accepts[3]; //gender
     acceptedMateIdArray = accepts[4]; //sender's mate id of this user
-    NSLog(@"accepted %@", accepts);
     
     //get rejected from sqlite3
     NSArray * rejects = [sql get_rejected_list];
@@ -249,6 +248,8 @@ NSMutableArray *rejectedGenderArray;
     tableView.opaque = NO;
     tableView.backgroundView = nil;
     tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
+    
+    NSLog(@"view has appeared");
 }
 
 - (void)didReceiveMemoryWarning

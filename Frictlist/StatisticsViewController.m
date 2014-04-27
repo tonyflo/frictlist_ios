@@ -37,7 +37,7 @@ UIAlertView *alertView;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     NSLog(@"View did load");
-    
+     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 

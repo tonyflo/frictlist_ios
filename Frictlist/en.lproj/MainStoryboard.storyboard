@@ -1025,6 +1025,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="dHN-h6-K0j" kind="push" identifier="searchMate" id="sxr-pf-akZ"/>
+                                </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2AF-hI-6in">
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1312,7 +1315,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="foz-tm-Rub" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2207" y="-1242"/>
+            <point key="canvasLocation" x="2207" y="-1710"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="kVZ-EG-7fM">
@@ -1730,5 +1733,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="tXX-OL-KZ6"/>
+        <segue reference="JEp-fo-5jT"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -509,11 +509,6 @@ NSMutableArray *baseArray;
     
     if([searchFlag isEqual:@"frictlist"])
     {
-        //not sure why this goes here as opposed to in the updateFrictlist function. if it's in the updateFrictlist function, I get an array out-of-bounds exception (which I don't get in the matelistviewcontroller which has a similar architecture)
-//        matesFrictIds = [[NSMutableArray alloc] init];
-//        fromArray = [[NSMutableArray alloc] init];
-//        baseArray = [[NSMutableArray alloc] init];
-        
         //we have received the frictlist because the user has just pulled down to refresh. now loop over it and save it to the sqlite db
         SqlHelper *sql = [SqlHelper alloc];
         
@@ -541,15 +536,6 @@ NSMutableArray *baseArray;
                 {
                     NSLog(@"FOUND FRICT DATA");
                     [sql add_frict:[frict[6] intValue] mate_id:[frict[0] intValue] from:frict[7] rating:[frict[8] intValue] base:[frict[9] intValue] notes:frict[10] mate_rating:[frict[12] intValue] mate_notes:frict[13] mate_deleted:[frict[14] intValue] creator:[frict[15] intValue] deleted:[frict[11] intValue] lat:[frict[16] doubleValue] lon:[frict[17] doubleValue]];
-                    
-                    //if this frict is associated with the current mate_id
-                    //if([frict[0] intValue] == self.hu_id)
-                    //{
-                        //add it to the local arrays which control what's showed in the frict table
-                        //[matesFrictIds addObject:frict[6]];
-                        //[fromArray addObject:frict[7]];
-                        //[baseArray addObject:frict[9]];
-                    //}
                 }
             }
             else
