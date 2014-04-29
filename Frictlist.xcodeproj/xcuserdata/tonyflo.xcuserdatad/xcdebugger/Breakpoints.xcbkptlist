@@ -240,11 +240,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/SignInViewController.m"
-         timestampString = "420306811.798057"
+         timestampString = "420342087.907419"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "927"
-         endingLineNumber = "927"
+         startingLineNumber = "928"
+         endingLineNumber = "928"
          landmarkName = "-stayLoggedInPress:"
          landmarkType = "5">
       </FileBreakpoint>

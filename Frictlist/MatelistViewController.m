@@ -12,6 +12,12 @@
 #import "SqlHelper.h"
 #import "RequestViewController.h"
 #import "version.h"
+#import "QuartzCore/QuartzCore.h"
+
+//mmedia
+#import <MillennialMedia/MMAdView.h>
+#import "FrictlistAppDelegate.h"
+
 
 @interface MatelistViewController ()
 
@@ -20,6 +26,11 @@
 @implementation MatelistViewController
 
 @synthesize tableView;
+
+//ad variables
+MMAdView *banner;
+float tvHeight; //height of tableview
+CGFloat screenWidth; //width of screen
 
 UIAlertView * alertView;
 int curRow = -1;
@@ -68,6 +79,10 @@ NSMutableArray *rejectedGenderArray;
     self.refreshControl = refresh;
     [self stopRefresh];
     canRefresh = true;
+    
+    //to register tableview with scrollview
+    self.tableView.delegate = self;
+    
 }
 
 - (void)stopRefresh
@@ -250,6 +265,8 @@ NSMutableArray *rejectedGenderArray;
     tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
     
     NSLog(@"view has appeared");
+    
+    [self ad];
 }
 
 - (void)didReceiveMemoryWarning
@@ -305,7 +322,7 @@ NSMutableArray *rejectedGenderArray;
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4; //personal, pending, accepted, rejected
+    return 6; //personal, pending, accepted, rejected
 }
 
 //count rows
@@ -344,11 +361,13 @@ NSMutableArray *rejectedGenderArray;
         return [NSString stringWithFormat:@"Pending (%d)", incommingRequestIdArray.count];
     else if (section == 2)
         return [NSString stringWithFormat:@"Accepted (%d)", acceptedRequestIdArray.count];
-    else
+    else if (section == 3)
         return [NSString stringWithFormat:@"Rejected (%d)", rejectedRequestIdArray.count];
+    else
+        return @"";
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+- (UIView *)tableView:(UITableView *)tv viewForHeaderInSection:(NSInteger)section {
     NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
     if (sectionTitle == nil) {
         return nil;
@@ -634,7 +653,7 @@ NSMutableArray *rejectedGenderArray;
                 [huidArray insertObject:@"New mate" atIndex:[huidArray count]];
                 //[tableV reloadData];;
                 sentFromAdd = true;
-                [self performSegueWithIdentifier:@"showMateDetail" sender:indexPath];
+                [self performSegueWithIdentifier:@"editMate" sender:indexPath];
                 sentFromAdd = false;
             }
 
@@ -1171,5 +1190,56 @@ NSMutableArray *rejectedGenderArray;
     [alert show];
 }
 
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //anchor ad above tabbar
+    banner.frame = CGRectMake(0, tvHeight + scrollView.contentOffset.y, screenWidth, AD_BANNER_HEIGHT);
+    banner.layer.zPosition = TOP_LAYER;
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    NSLog(@"view did disappear");
+    [banner removeFromSuperview];
+}
+
+-(void)ad
+{
+    //Location Object
+    FrictlistAppDelegate *appDelegate = (FrictlistAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    //MMRequest Object
+    MMRequest *request = [MMRequest requestWithLocation:appDelegate.locationManager.location];
+    
+    // Replace YOUR_APID with the APID provided to you by Millennial Media
+    
+    CGRect tbBounds = [tableView bounds];
+    tvHeight = tbBounds.size.height - AD_BANNER_HEIGHT;
+    //attempt to make tableview shorter
+    /*[tableView setBounds:CGRectMake(tbBounds.origin.x,
+                                    tbBounds.origin.y,
+                                    tbBounds.size.width,
+                                    tvHeight)];
+     */
+    
+    //CGSize tabBarSize = [[[self tabBarController] tabBar] bounds].size;
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    screenWidth = screenRect.size.width;
+    //CGFloat screenHeight = screenRect.size.height;
+    
+    banner = [[MMAdView alloc] initWithFrame:CGRectMake(0, tvHeight + tableView.contentOffset.y, screenWidth, AD_BANNER_HEIGHT)
+                                                  apid:@"160610"
+                                    rootViewController:self];
+    [self.view addSubview:banner];
+    [banner getAdWithRequest:request onCompletion:^(BOOL success, NSError *error) {
+        if (success) {
+            NSLog(@"BANNER AD REQUEST SUCCEEDED");
+        }
+        else {
+            NSLog(@"BANNER AD REQUEST FAILED WITH ERROR: %@", error); }
+    }];
+}
 
 @end

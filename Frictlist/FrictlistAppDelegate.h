@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+//mmedia
+#import <MillennialMedia/MMSDK.h>
+#import <CoreLocation/CoreLocation.h>
+
 @interface FrictlistAppDelegate : UIResponder <UIApplicationDelegate>
 
+@property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) UIWindow *window;
 
 @end

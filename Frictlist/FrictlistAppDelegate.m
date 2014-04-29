@@ -14,7 +14,16 @@
 @implementation FrictlistAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{    
+{
+    //mmedia
+    [MMSDK initialize]; //Initialize a Millennial Media session
+    
+    //Create a location manager for passing location data for conversion tracking and ad requests
+    self.locationManager = [[CLLocationManager alloc] init];
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+    [self.locationManager startUpdatingLocation];
+    
+    //apns
     // Override point for customization after application launch.
     // Let the device know we want to receive push notifications
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
@@ -22,6 +31,7 @@
     
     return YES;
 }
+
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {

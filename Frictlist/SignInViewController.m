@@ -919,7 +919,8 @@ int maxUnLen = 20;
 
 - (IBAction)forgotPasswordPress:(id)sender
 {
-    
+    NSString *forgotPasswordLink = @"http://frictlist.flooreeda.com/forgotpassword.php";
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:forgotPasswordLink]];
 }
 
 - (IBAction)stayLoggedInPress:(id)sender
