@@ -17,6 +17,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //apns
+    // Override point for customization after application launch.
+    // Let the device know we want to receive push notifications
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    
     //mmedia
     [MMSDK initialize]; //Initialize a Millennial Media session
     
@@ -24,12 +30,6 @@
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
     [self.locationManager startUpdatingLocation];
-    
-    //apns
-    // Override point for customization after application launch.
-    // Let the device know we want to receive push notifications
-	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
     return YES;
 }
@@ -128,6 +128,9 @@
         NSLog(@"Application did become active");
         [self goToHomeTab];
     }
+
+    //load ad into cache
+    [self fetchInterstatialAd];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
