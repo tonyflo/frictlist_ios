@@ -15,6 +15,7 @@
 //mmedia
 #import "FrictlistAppDelegate.h"
 #import <MillennialMedia/MMInterstitial.h>
+#import "AdHelper.h"
 
 #define PIN_INDEX (0)
 #define BOTH_INDEX (1)
@@ -351,6 +352,7 @@ bool keyboardIsShown = NO;
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self interstatialAd];
     NSLog(@"view will appear frict detail");
     
     //disable editing date, location, and base of a shared frict
@@ -524,6 +526,10 @@ bool keyboardIsShown = NO;
                                                  name:UIKeyboardWillHideNotification
                                                object:self.view.window];
     keyboardIsShown = NO;
+    
+    //set metadata
+    AdHelper * ah = [[AdHelper alloc] init];
+    [ah getAdMetadata];
 }
 
 -(void)goBack:(id)sender
@@ -843,8 +849,6 @@ bool keyboardIsShown = NO;
         //[self.navigationController popViewControllerAnimated:YES];
         //self.navigationController popToRootViewControllerAnimated:YES];
         
-        [self interstatialAd];
-        
         [self.navigationController popToViewController:[[self.navigationController viewControllers] objectAtIndex:2] animated:YES];
     }
     //error code was returned
@@ -1019,9 +1023,9 @@ bool keyboardIsShown = NO;
     //Location Object
     FrictlistAppDelegate *appDelegate = (FrictlistAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    //Replace YOUR_APID with the APID provided to you by Millennial Media
-    if ([MMInterstitial isAdAvailableForApid:@"161158"]) {
-        [MMInterstitial displayForApid:@"161158"
+    if ([MMInterstitial isAdAvailableForApid:APID_INTERSTATIAL_ADD_FRICT]) {
+        //ad is ready to go
+        [MMInterstitial displayForApid:APID_INTERSTATIAL_ADD_FRICT
                     fromViewController:self
                        withOrientation:MMOverlayOrientationTypeAll
                           onCompletion:nil];
@@ -1030,11 +1034,16 @@ bool keyboardIsShown = NO;
         //MMRequest Object
         MMRequest *request = [MMRequest requestWithLocation:appDelegate.locationManager.location];
         
+        //set metadata
+        AdHelper * ah = [AdHelper alloc];
+        request.gender = [ah getGender];
+        request.age = [ah getAge];
+        
         [MMInterstitial fetchWithRequest:request
-                                    apid:@"161158"
+                                    apid:APID_INTERSTATIAL_ADD_FRICT
                             onCompletion:^(BOOL success, NSError *error) {
                                 if (success) {
-                                    [MMInterstitial displayForApid:@"161158"
+                                    [MMInterstitial displayForApid:APID_INTERSTATIAL_ADD_FRICT
                                                 fromViewController:self
                                                    withOrientation:MMOverlayOrientationTypeAll
                                                       onCompletion:nil];

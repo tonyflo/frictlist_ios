@@ -10,8 +10,13 @@
 #import "PlistHelper.h"
 #import "SqlHelper.h"
 #import "StatisticsViewController.h"
+#import "version.h"
 
+//ads
 #import <MillennialMedia/MMInterstitial.h>
+
+//apns
+#import "DeviceTokenHelper.h"
 
 @implementation FrictlistAppDelegate
 
@@ -32,17 +37,6 @@
     [self.locationManager startUpdatingLocation];
     
     return YES;
-}
-
-
-- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
-{
-	NSLog(@"My token is: %@", deviceToken);
-}
-
-- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
-{
-	NSLog(@"Failed to get token, error: %@", error);
 }
 
 //determine if the user wants to be signed out, and sign out if so
@@ -83,7 +77,7 @@
     
     //Replace YOUR_APID with the APID provided to you by Millennial Media
     [MMInterstitial fetchWithRequest:request
-                                apid:@"161158" //add mate
+                                apid:APID_INTERSTATIAL_ADD_FRICT //add mate
                         onCompletion:^(BOOL success, NSError *error) {
                             if (success) {
                                 NSLog(@"Ad available");
@@ -137,6 +131,91 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [self signout];
+}
+
+
+//get frictlist
+-(BOOL) update_apns_token:(int)uid deviceToken:(NSString *)deviceToken
+{
+    BOOL rc = true;
+    
+    NSString *post = [NSString stringWithFormat:@"&uid=%d&token=%@",uid, deviceToken];
+    
+    //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    //You need to send the actual length of your data. Calculate the length of the post string.
+    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    
+    //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //Set the Url for which your going to send the data to that request.
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@update_apns_token.php", SCRIPTS_URL]]];
+    
+    //Now, set HTTP method (POST or GET). Write this lines as it is in your code
+    [request setHTTPMethod:@"POST"];
+    
+    //Set HTTP header field with length of the post data.
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    //Also set the Encoded value for HTTP header Field.
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+    
+    //Set the HTTPBody of the urlrequest with postData.
+    [request setHTTPBody:postData];
+    
+    //4. Now, create URLConnection object. Initialize it with the URLRequest.
+    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    //It returns the initialized url connection and begins to load the data for the url request. You can check that whether you URL connection is done properly or not using just if/else statement as below.
+    if(conn)
+    {
+        NSLog(@"Connection Successful");
+    }
+    else
+    {
+        NSLog(@"Connection could not be made");
+        rc = false;
+    }
+    
+    //5. To receive the data from the HTTP request , you can use the delegate methods provided by the URLConnection Class Reference. Delegate methods are as below
+    return rc;
+}
+
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+	NSString *newToken = [deviceToken description];
+	newToken = [newToken stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+	newToken = [newToken stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+	NSLog(@"My apns token is: %@", newToken);
+    
+    DeviceTokenHelper * dth = [[DeviceTokenHelper alloc] initDefaults];
+    PlistHelper *plist = [PlistHelper alloc];
+    int uid = [plist getPk];
+    
+    if(uid <= 0)
+    {
+        NSLog(@"user is not signed in");
+        //if user is not signed in, save device token to plist
+        //devicetoken can be sent to db once user signs in
+        [dth setDeviceToken:newToken];
+    }
+    else
+    {
+        NSLog(@"user is signed in");
+        //if user is signed in, update device token locally and remotly
+        [self update_apns_token:uid deviceToken:newToken];
+        [dth setDeviceToken:newToken];
+    }
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+	NSLog(@"Failed to get token, error: %@", error);
 }
 
 @end

@@ -17,6 +17,7 @@
 #import <MillennialMedia/MMAdView.h>
 #import "FrictlistAppDelegate.h"
 #import "QuartzCore/QuartzCore.h"
+#import "AdHelper.h"
 
 
 @interface FrictlistViewController ()
@@ -39,8 +40,6 @@ NSMutableArray *baseArray;
 MMAdView *fl_banner;
 float fl_tvHeight; //height of tableview
 CGFloat fl_screenWidth; //width of screen
-NSNumber *gender;
-NSNumber *age;
 
 - (void)viewDidLoad
 {
@@ -61,7 +60,8 @@ NSNumber *age;
     //ads
     //to register tableview with scrollview
     self.tableView.delegate = self;
-    [self getAdMetadata];
+    AdHelper * ah = [[AdHelper alloc] init];
+    [ah getAdMetadata];
 }
 
 - (void)stopRefresh
@@ -745,24 +745,6 @@ NSNumber *age;
     [fl_banner removeFromSuperview];
 }
 
--(void)getAdMetadata
-{
-    //get metadata for ads
-    PlistHelper * plist = [PlistHelper alloc];
-    gender = [NSNumber numberWithInt:[plist getGender]];
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    NSDate * birthday = [formatter dateFromString:[plist getBirthday]];
-    NSDate* now = [NSDate date];
-    NSDateComponents* ageComponents = [[NSCalendar currentCalendar]
-                                       components:NSYearCalendarUnit
-                                       fromDate:birthday
-                                       toDate:now
-                                       options:0];
-    age = [NSNumber numberWithInteger:[ageComponents year]];
-}
-
 -(void)ad
 {
     //Location Object
@@ -772,9 +754,9 @@ NSNumber *age;
     MMRequest *request = [MMRequest requestWithLocation:appDelegate.locationManager.location];
     
     //set metadata
-    
-    request.gender = gender == 0 ? MMGenderMale : MMGenderFemale;
-    request.age = age;
+    AdHelper * ah = [AdHelper alloc];
+    request.gender = [ah getGender];
+    request.age = [ah getAge];
     
     // Replace YOUR_APID with the APID provided to you by Millennial Media
     
@@ -787,7 +769,7 @@ NSNumber *age;
     //CGFloat screenHeight = screenRect.size.height;
     
     fl_banner = [[MMAdView alloc] initWithFrame:CGRectMake(0, fl_tvHeight + tableView.contentOffset.y, fl_screenWidth, AD_BANNER_HEIGHT)
-                                        apid:@"160612"
+                                        apid:APID_BANNER_FRICTLIST
                           rootViewController:self];
     [self.view addSubview:fl_banner];
     [fl_banner getAdWithRequest:request onCompletion:^(BOOL success, NSError *error) {

@@ -80,6 +80,8 @@
 		2FDA34E81875D42F00ED5698 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E51875D42E00ED5698 /* checkbox.png */; };
 		2FDA34EE1875DF4500ED5698 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA34ED1875DF4400ED5698 /* SignInViewController.m */; };
 		2FFA9DFF18614361002775B1 /* StatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFA9DFE18614361002775B1 /* StatisticsViewController.m */; };
+		2FFF246619119B3E000117CF /* DeviceTokenHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFF246519119B3E000117CF /* DeviceTokenHelper.m */; };
+		2FFF24691911AEC9000117CF /* AdHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFF24681911AEC9000117CF /* AdHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -174,6 +176,10 @@
 		2FEEDBF3186E0D0200290B02 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		2FFA9DFD18614361002775B1 /* StatisticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsViewController.h; sourceTree = "<group>"; };
 		2FFA9DFE18614361002775B1 /* StatisticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatisticsViewController.m; sourceTree = "<group>"; };
+		2FFF246419119B3D000117CF /* DeviceTokenHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceTokenHelper.h; sourceTree = "<group>"; };
+		2FFF246519119B3E000117CF /* DeviceTokenHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTokenHelper.m; sourceTree = "<group>"; };
+		2FFF24671911AEC8000117CF /* AdHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdHelper.h; sourceTree = "<group>"; };
+		2FFF24681911AEC9000117CF /* AdHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,10 +316,14 @@
 				2FDA34ED1875DF4400ED5698 /* SignInViewController.m */,
 				2F9542151868D3BC0063CE37 /* TabBarController.h */,
 				2F9542161868D3BD0063CE37 /* TabBarController.m */,
+				2FFF24671911AEC8000117CF /* AdHelper.h */,
+				2FFF24681911AEC9000117CF /* AdHelper.m */,
 				2F66D9FA18E3C64100DE37A4 /* SqlHelper.h */,
 				2F66D9FB18E3C64200DE37A4 /* SqlHelper.m */,
 				2F383FAE18862F5F0010EF15 /* PlistHelper.h */,
 				2F383FAF18862F5F0010EF15 /* PlistHelper.m */,
+				2FFF246419119B3D000117CF /* DeviceTokenHelper.h */,
+				2FFF246519119B3E000117CF /* DeviceTokenHelper.m */,
 				2FEEDBF3186E0D0200290B02 /* version.h */,
 				2F4EE0A8176E97B100642169 /* Supporting Files */,
 				2F9A89CA18E71DC500309D13 /* SearchViewController.h */,
@@ -451,6 +461,8 @@
 				2F66D9FC18E3C64200DE37A4 /* SqlHelper.m in Sources */,
 				2F9A89CC18E71DC600309D13 /* SearchViewController.m in Sources */,
 				2F52B94718E8DFAE00FEC16F /* RequestViewController.m in Sources */,
+				2FFF246619119B3E000117CF /* DeviceTokenHelper.m in Sources */,
+				2FFF24691911AEC9000117CF /* AdHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

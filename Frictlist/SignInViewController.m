@@ -10,6 +10,7 @@
 #import "version.h"
 #import "PlistHelper.h"
 #import "SqlHelper.h"
+#import "DeviceTokenHelper.h"
 
 @interface SignInViewController ()
 
@@ -228,14 +229,16 @@ int maxUnLen = 20;
         [sql removeSqliteFile];
         [sql createEditableCopyOfDatabaseIfNeeded];
         
+        DeviceTokenHelper *dth = [DeviceTokenHelper alloc];
+        
         if(checkboxButton.selected == 1)
         {
-            rc = [self signUp:email username:username password:password firstName:firstName lastName:lastName gender:gender birthdate:birthdate];
+            rc = [self signUp:email username:username password:password firstName:firstName lastName:lastName gender:gender birthdate:birthdate token:[dth getDeviceToken]];
         }
         else
         {
             //sign in
-            rc = [self signIn:username password:password];
+            rc = [self signIn:username password:password token:[dth getDeviceToken]];
         }        
         
         if(!rc)
@@ -248,12 +251,12 @@ int maxUnLen = 20;
 }
 
 //sign in logic
--(BOOL) signIn:(NSString *) username password:(NSString *)password
+-(BOOL) signIn:(NSString *) username password:(NSString *)password token:(NSString *)token
 {
     BOOL rc = true;
 
     //1. Set post string with actual username and password.
-    NSString *post = [NSString stringWithFormat:@"&username=%@&password=%@",username,password];
+    NSString *post = [NSString stringWithFormat:@"&username=%@&password=%@&token=%@",username,password, token];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
@@ -300,12 +303,12 @@ int maxUnLen = 20;
 }
 
 //sign in logic
--(BOOL) signUp:(NSString *) email username:username password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName gender:(BOOL)gender birthdate:(NSDate *)birthdate
+-(BOOL) signUp:(NSString *) email username:username password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName gender:(BOOL)gender birthdate:(NSDate *)birthdate token:(NSString *)token
 {
     BOOL rc = true;
 
     //1. Set post string with actual username and password.
-    NSString *post = [NSString stringWithFormat:@"&firstname=%@&lastname=%@&email=%@&username=%@&password=%@&gender=%d&birthdate=%@&platform=%d",firstName, lastName, email, username, password, gender, [birthdate description], PLATFORM];
+    NSString *post = [NSString stringWithFormat:@"&firstname=%@&lastname=%@&email=%@&username=%@&password=%@&gender=%d&birthdate=%@&platform=%d&token=%@",firstName, lastName, email, username, password, gender, [birthdate description], PLATFORM, token];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
@@ -944,8 +947,10 @@ int maxUnLen = 20;
             NSString * email = emailText.text;
             NSString * password = passwordText.text;
             
+            DeviceTokenHelper * dth = [DeviceTokenHelper alloc];
+            
             //sign in or sign up
-            int rc = [self signIn:email password:password];
+            int rc = [self signIn:email password:password token:[dth getDeviceToken]];
             
             if(!rc)
             {

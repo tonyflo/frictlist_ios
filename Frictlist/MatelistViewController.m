@@ -17,6 +17,7 @@
 #import <MillennialMedia/MMAdView.h>
 #import "FrictlistAppDelegate.h"
 #import "QuartzCore/QuartzCore.h"
+#import "AdHelper.h"
 
 @interface MatelistViewController ()
 
@@ -30,8 +31,6 @@
 MMAdView *banner;
 float tvHeight; //height of tableview
 CGFloat screenWidth; //width of screen
-NSNumber *userGender;
-NSNumber *userAge;
 
 UIAlertView * alertView;
 int curRow = -1;
@@ -85,7 +84,9 @@ NSMutableArray *rejectedGenderArray;
     //ads
     //to register tableview with scrollview
     self.tableView.delegate = self;
-    [self getAdMetadata];
+    //set metadata
+    AdHelper * ah = [[AdHelper alloc] init];
+    [ah getAdMetadata];
 }
 
 - (void)stopRefresh
@@ -1207,24 +1208,6 @@ NSMutableArray *rejectedGenderArray;
     [banner removeFromSuperview];
 }
 
--(void)getAdMetadata
-{
-    //get metadata for ads
-    PlistHelper * plist = [PlistHelper alloc];
-    userGender = [NSNumber numberWithInt:[plist getGender]];
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    NSDate * birthday = [formatter dateFromString:[plist getBirthday]];
-    NSDate* now = [NSDate date];
-    NSDateComponents* ageComponents = [[NSCalendar currentCalendar]
-                                       components:NSYearCalendarUnit
-                                       fromDate:birthday
-                                       toDate:now
-                                       options:0];
-    userAge = [NSNumber numberWithInteger:[ageComponents year]];
-}
-
 -(void)ad
 {
     //Location Object
@@ -1234,9 +1217,9 @@ NSMutableArray *rejectedGenderArray;
     MMRequest *request = [MMRequest requestWithLocation:appDelegate.locationManager.location];
     
     //set metadata
-
-    request.gender = userGender == 0 ? MMGenderMale : MMGenderFemale;
-    request.age = userAge;
+    AdHelper * ah = [AdHelper alloc];
+    request.gender = [ah getGender];
+    request.age = [ah getAge];
     
     // Replace YOUR_APID with the APID provided to you by Millennial Media
     
@@ -1249,7 +1232,7 @@ NSMutableArray *rejectedGenderArray;
     //CGFloat screenHeight = screenRect.size.height;
     
     banner = [[MMAdView alloc] initWithFrame:CGRectMake(0, tvHeight + tableView.contentOffset.y, screenWidth, AD_BANNER_HEIGHT)
-                                                  apid:@"160610"
+                                                  apid:APID_BANNER_MATELIST
                                     rootViewController:self];
     [self.view addSubview:banner];
     [banner getAdWithRequest:request onCompletion:^(BOOL success, NSError *error) {
