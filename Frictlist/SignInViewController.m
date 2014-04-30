@@ -726,6 +726,7 @@ int maxUnLen = 20;
         //set user's first and last name
         [plist setFirstName:user_data[0]];
         [plist setLastName:user_data[1]];
+        [plist setGender:[user_data[3] intValue]];
         
         //now, get notifications
         [self get_notifications:[plist getPk]];

@@ -13,6 +13,12 @@
 #import "SqlHelper.h"
 #import "version.h"
 
+//mmedia
+#import <MillennialMedia/MMAdView.h>
+#import "FrictlistAppDelegate.h"
+#import "QuartzCore/QuartzCore.h"
+
+
 @interface FrictlistViewController ()
 
 @end
@@ -29,6 +35,13 @@ NSMutableArray *matesFrictIds;
 NSMutableArray *fromArray;
 NSMutableArray *baseArray;
 
+//ad variables
+MMAdView *fl_banner;
+float fl_tvHeight; //height of tableview
+CGFloat fl_screenWidth; //width of screen
+NSNumber *gender;
+NSNumber *age;
+
 - (void)viewDidLoad
 {
     NSLog(@"view did load");
@@ -44,6 +57,11 @@ NSMutableArray *baseArray;
     self.refreshControl = refresh;
     [self stopRefresh];
     ableToRefresh = true;
+    
+    //ads
+    //to register tableview with scrollview
+    self.tableView.delegate = self;
+    [self getAdMetadata];
 }
 
 - (void)stopRefresh
@@ -162,6 +180,8 @@ NSMutableArray *baseArray;
     tableView.opaque = NO;
     tableView.backgroundView = nil;
     tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
+    
+    [self ad];
 }
 
 - (void)didReceiveMemoryWarning
@@ -710,4 +730,73 @@ NSMutableArray *baseArray;
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
 }
+
+//ad stuff
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //anchor ad above tabbar
+    fl_banner.frame = CGRectMake(0, fl_tvHeight + scrollView.contentOffset.y, fl_screenWidth, AD_BANNER_HEIGHT);
+    fl_banner.layer.zPosition = TOP_LAYER;
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    NSLog(@"view did disappear");
+    [fl_banner removeFromSuperview];
+}
+
+-(void)getAdMetadata
+{
+    //get metadata for ads
+    PlistHelper * plist = [PlistHelper alloc];
+    gender = [NSNumber numberWithInt:[plist getGender]];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate * birthday = [formatter dateFromString:[plist getBirthday]];
+    NSDate* now = [NSDate date];
+    NSDateComponents* ageComponents = [[NSCalendar currentCalendar]
+                                       components:NSYearCalendarUnit
+                                       fromDate:birthday
+                                       toDate:now
+                                       options:0];
+    age = [NSNumber numberWithInteger:[ageComponents year]];
+}
+
+-(void)ad
+{
+    //Location Object
+    FrictlistAppDelegate *appDelegate = (FrictlistAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    //MMRequest Object
+    MMRequest *request = [MMRequest requestWithLocation:appDelegate.locationManager.location];
+    
+    //set metadata
+    
+    request.gender = gender == 0 ? MMGenderMale : MMGenderFemale;
+    request.age = age;
+    
+    // Replace YOUR_APID with the APID provided to you by Millennial Media
+    
+    CGRect tbBounds = [tableView bounds];
+    fl_tvHeight = tbBounds.size.height - AD_BANNER_HEIGHT;
+    
+    //CGSize tabBarSize = [[[self tabBarController] tabBar] bounds].size;
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    fl_screenWidth = screenRect.size.width;
+    //CGFloat screenHeight = screenRect.size.height;
+    
+    fl_banner = [[MMAdView alloc] initWithFrame:CGRectMake(0, fl_tvHeight + tableView.contentOffset.y, fl_screenWidth, AD_BANNER_HEIGHT)
+                                        apid:@"160612"
+                          rootViewController:self];
+    [self.view addSubview:fl_banner];
+    [fl_banner getAdWithRequest:request onCompletion:^(BOOL success, NSError *error) {
+        if (success) {
+            NSLog(@"BANNER AD REQUEST SUCCEEDED");
+        }
+        else {
+            NSLog(@"BANNER AD REQUEST FAILED WITH ERROR: %@", error); }
+    }];
+}
+
 @end

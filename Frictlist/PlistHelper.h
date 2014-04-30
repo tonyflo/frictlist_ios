@@ -36,6 +36,10 @@
 -(void)setPk:(int)pk;
 -(int)resetPk;
 
+-(int)getGender;
+-(void)setGender:(int)gender;
+-(int)resetGender;
+
 -(int)getSaveLogin;
 -(void)setSaveLogin:(int)savedLogin;
 -(int)resetSaveLogin;

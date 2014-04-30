@@ -12,12 +12,11 @@
 #import "SqlHelper.h"
 #import "RequestViewController.h"
 #import "version.h"
-#import "QuartzCore/QuartzCore.h"
 
 //mmedia
 #import <MillennialMedia/MMAdView.h>
 #import "FrictlistAppDelegate.h"
-
+#import "QuartzCore/QuartzCore.h"
 
 @interface MatelistViewController ()
 
@@ -31,6 +30,8 @@
 MMAdView *banner;
 float tvHeight; //height of tableview
 CGFloat screenWidth; //width of screen
+NSNumber *userGender;
+NSNumber *userAge;
 
 UIAlertView * alertView;
 int curRow = -1;
@@ -39,6 +40,7 @@ BOOL canRefresh = true; //if the refresh is happening
 BOOL sentFromAdd = false;
 int accepted = 0; //will be 1 if removing an accepted mate, -1 if removing a rejected mate
 int viewRequest = 0; //will be 1 if responding to a request, -1 if changing a rejected request
+
 
 NSMutableArray *huidArray;
 NSMutableArray *firstNameArray;
@@ -80,9 +82,10 @@ NSMutableArray *rejectedGenderArray;
     [self stopRefresh];
     canRefresh = true;
     
+    //ads
     //to register tableview with scrollview
     self.tableView.delegate = self;
-    
+    [self getAdMetadata];
 }
 
 - (void)stopRefresh
@@ -1190,8 +1193,7 @@ NSMutableArray *rejectedGenderArray;
     [alert show];
 }
 
-
-
+//ad stuff
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     //anchor ad above tabbar
@@ -1205,6 +1207,24 @@ NSMutableArray *rejectedGenderArray;
     [banner removeFromSuperview];
 }
 
+-(void)getAdMetadata
+{
+    //get metadata for ads
+    PlistHelper * plist = [PlistHelper alloc];
+    userGender = [NSNumber numberWithInt:[plist getGender]];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate * birthday = [formatter dateFromString:[plist getBirthday]];
+    NSDate* now = [NSDate date];
+    NSDateComponents* ageComponents = [[NSCalendar currentCalendar]
+                                       components:NSYearCalendarUnit
+                                       fromDate:birthday
+                                       toDate:now
+                                       options:0];
+    userAge = [NSNumber numberWithInteger:[ageComponents year]];
+}
+
 -(void)ad
 {
     //Location Object
@@ -1213,16 +1233,15 @@ NSMutableArray *rejectedGenderArray;
     //MMRequest Object
     MMRequest *request = [MMRequest requestWithLocation:appDelegate.locationManager.location];
     
+    //set metadata
+
+    request.gender = userGender == 0 ? MMGenderMale : MMGenderFemale;
+    request.age = userAge;
+    
     // Replace YOUR_APID with the APID provided to you by Millennial Media
     
     CGRect tbBounds = [tableView bounds];
     tvHeight = tbBounds.size.height - AD_BANNER_HEIGHT;
-    //attempt to make tableview shorter
-    /*[tableView setBounds:CGRectMake(tbBounds.origin.x,
-                                    tbBounds.origin.y,
-                                    tbBounds.size.width,
-                                    tvHeight)];
-     */
     
     //CGSize tabBarSize = [[[self tabBarController] tabBar] bounds].size;
     CGRect screenRect = [[UIScreen mainScreen] bounds];

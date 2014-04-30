@@ -17,6 +17,7 @@ NSString *defaultFirstName = @"";
 NSString *defaultLastName = @"";
 int defaultSaveLogin = 1;
 int defaultLoggedIn = 0;
+int defaultGender = -1;
 
 //getters
 -(NSString *)getEmail
@@ -61,6 +62,15 @@ int defaultLoggedIn = 0;
         uid = -1;
     }
     return uid;
+}
+
+-(int)getGender
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile: path];
+    int gender = [[plistDict objectForKey:@"gender"] intValue];
+    
+    return gender;
 }
 
 -(int)getSaveLogin
@@ -119,6 +129,14 @@ int defaultLoggedIn = 0;
     NSString * path = [self getPlistPath];
     NSMutableDictionary *data = [self getPlistData:path];
     [data setObject:[NSString stringWithFormat:@"%d", pk] forKey:@"pk"];
+    [data writeToFile: path atomically:YES];
+}
+
+-(void)setGender:(int)gender
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    [data setObject:[NSString stringWithFormat:@"%d", gender] forKey:@"gender"];
     [data writeToFile: path atomically:YES];
 }
 
@@ -182,6 +200,15 @@ int defaultLoggedIn = 0;
     [data setObject:[NSNumber numberWithInt:defaultPk ] forKey:@"pk"];
     [data writeToFile: path atomically:YES];
     return defaultPk;
+}
+
+-(int)resetGender
+{
+    NSString * path = [self getPlistPath];
+    NSMutableDictionary *data = [self getPlistData:path];
+    [data setObject:[NSNumber numberWithInt:defaultGender ] forKey:@"gender"];
+    [data writeToFile: path atomically:YES];
+    return defaultGender;
 }
 
 -(int)resetSaveLogin
@@ -268,6 +295,7 @@ int defaultLoggedIn = 0;
         [data setObject:defaultFirstName forKey:@"first"]; //first name
         [data setObject:defaultLastName forKey:@"last"]; //last name
         [data setObject:[NSNumber numberWithInt:defaultPk ] forKey:@"pk"]; //primary key
+        [data setObject:[NSNumber numberWithInt:defaultGender ] forKey:@"gender"]; //gender
         [data setObject:defaultBirthday forKey:@"bday"]; //birthday
         [data setObject:[NSNumber numberWithInt:defaultSaveLogin ] forKey:@"save_login"]; //save login
         [data setObject:[NSNumber numberWithInt:defaultLoggedIn ] forKey:@"logged_in"]; //currently logged in?

@@ -12,6 +12,10 @@
 #import "SqlHelper.h"
 #import "version.h"
 
+//mmedia
+#import "FrictlistAppDelegate.h"
+#import <MillennialMedia/MMInterstitial.h>
+
 #define PIN_INDEX (0)
 #define BOTH_INDEX (1)
 #define LOC_INDEX (2)
@@ -829,9 +833,6 @@ bool keyboardIsShown = NO;
             }
         }
         
-        //todo: testing
-
-        
         //enable tabbaar items
         [[self.tabBarController.tabBar.items objectAtIndex:0] setEnabled:TRUE];
         [[self.tabBarController.tabBar.items objectAtIndex:1] setEnabled:TRUE];
@@ -841,6 +842,9 @@ bool keyboardIsShown = NO;
         //[self dismissViewControllerAnimated:YES completion:nil];
         //[self.navigationController popViewControllerAnimated:YES];
         //self.navigationController popToRootViewControllerAnimated:YES];
+        
+        [self interstatialAd];
+        
         [self.navigationController popToViewController:[[self.navigationController viewControllers] objectAtIndex:2] animated:YES];
     }
     //error code was returned
@@ -1008,6 +1012,39 @@ bool keyboardIsShown = NO;
     [scrollView setFrame:viewFrame];
     [UIView commitAnimations];
     keyboardIsShown = YES;
+}
+
+-(void)interstatialAd
+{
+    //Location Object
+    FrictlistAppDelegate *appDelegate = (FrictlistAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    //Replace YOUR_APID with the APID provided to you by Millennial Media
+    if ([MMInterstitial isAdAvailableForApid:@"161158"]) {
+        [MMInterstitial displayForApid:@"161158"
+                    fromViewController:self
+                       withOrientation:MMOverlayOrientationTypeAll
+                          onCompletion:nil];
+    }
+    else {
+        //MMRequest Object
+        MMRequest *request = [MMRequest requestWithLocation:appDelegate.locationManager.location];
+        
+        [MMInterstitial fetchWithRequest:request
+                                    apid:@"161158"
+                            onCompletion:^(BOOL success, NSError *error) {
+                                if (success) {
+                                    [MMInterstitial displayForApid:@"161158"
+                                                fromViewController:self
+                                                   withOrientation:MMOverlayOrientationTypeAll
+                                                      onCompletion:nil];
+                                }
+                                else
+                                {
+                                    NSLog(@"INTERSTATIAL DISPLAY ERROR");
+                                }
+                            }];
+    }
 }
 
 

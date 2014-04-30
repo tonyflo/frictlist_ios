@@ -11,6 +11,8 @@
 #import "SqlHelper.h"
 #import "StatisticsViewController.h"
 
+#import <MillennialMedia/MMInterstitial.h>
+
 @implementation FrictlistAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -69,6 +71,27 @@
 {
     UITabBarController *tbc = (UITabBarController *)self.window.rootViewController;
     [tbc setSelectedIndex:1];
+}
+
+-(void)fetchInterstatialAd
+{
+    //Location Object
+    FrictlistAppDelegate *appDelegate = (FrictlistAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    //MMRequest Object
+    MMRequest *request = [MMRequest requestWithLocation:appDelegate.locationManager.location];
+    
+    //Replace YOUR_APID with the APID provided to you by Millennial Media
+    [MMInterstitial fetchWithRequest:request
+                                apid:@"161158" //add mate
+                        onCompletion:^(BOOL success, NSError *error) {
+                            if (success) {
+                                NSLog(@"Ad available");
+                            }
+                            else {
+                                NSLog(@"Error fetching ad: %@", error);
+                            }
+                        }];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
