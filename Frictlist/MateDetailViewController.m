@@ -22,7 +22,6 @@
 
 //bad globals
 UIAlertView * alertView;
-int maxStringLength = 255;
 int row_num = 0; //local index of frict (the row of the frict)
 
 NSString *firstName;
@@ -129,11 +128,11 @@ int gender;
     int gender = genderSwitch.selectedSegmentIndex;
     
     //validate user input
-    if(firstname.length > maxStringLength)
+    if(firstname.length > MAX_NAME_LENGTH)
     {
         rc = 0;
         [self showFieldTooLong:@"First Name"];
-    } else if(lastname.length > maxStringLength) {
+    } else if(lastname.length > MAX_NAME_LENGTH) {
         rc = 0;
         [self showFieldTooLong:@"Last Name"];
     } else if(firstname.length == 0)
@@ -382,7 +381,7 @@ int gender;
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:[NSString stringWithFormat:@"%@ Too Long", fieldName]];
-    [alert setMessage:[NSString stringWithFormat:@"The %@ that you entered is too long. The max is %d characters.", fieldName, maxStringLength]];
+    [alert setMessage:[NSString stringWithFormat:@"The %@ that you entered is too long. The max is %d characters.", fieldName, MAX_NAME_LENGTH]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];

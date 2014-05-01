@@ -22,11 +22,6 @@
 
 //bad globals
 UIAlertView * alertView;
-int minPwLen = 6;
-int maxPwLen = 255;
-int maxEmailLen = 35;
-int ageLimit = 14;
-int maxUnLen = 20;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -159,13 +154,13 @@ int maxUnLen = 20;
     bool rc = 1;
     
     //check valid password
-    if(password.length < minPwLen || password.length > maxPwLen)
+    if(password.length < MIN_PASSWORD_LENGTH || password.length > MAX_PASSWORD_LENGTH)
     {
         rc = 0;
         [self showInvalidPasswordDialog];
     }
     //check username too long
-    else if(username.length < minPwLen || username.length > maxUnLen)
+    else if(username.length < MIN_USERNAME_LENGTH || username.length > MAX_USERNAME_LENGTH)
     {
         rc = 0;
         [self showInvalidUsernameDialog];
@@ -183,7 +178,7 @@ int maxUnLen = 20;
         }
         
         //check email too long
-        if(rc && email.length > maxEmailLen)
+        if(rc && email.length > MAX_EMAIL_LENGTH)
         {
             rc = 0;
             [self showEmailTooLongDialog];
@@ -191,11 +186,11 @@ int maxUnLen = 20;
 
         if(rc)
         {
-            if(firstName.length > maxPwLen)
+            if(firstName.length > MAX_NAME_LENGTH)
             {
                 rc = 0;
                 [self showFieldTooLong:@"First Name"];
-            } else if(lastName.length > maxPwLen) {
+            } else if(lastName.length > MAX_NAME_LENGTH) {
                 rc = 0;
                 [self showFieldTooLong:@"Last Name"];
             } else if(firstName.length == 0)
@@ -208,7 +203,7 @@ int maxUnLen = 20;
             }
             else {
                 int yearsold = [self checkAgeLimit:birthdate];
-                if(yearsold < ageLimit)
+                if(yearsold < AGE_LIMIT)
                 {
                     rc = 0;
                     [self showTooYoung:yearsold];
@@ -484,7 +479,7 @@ int maxUnLen = 20;
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:@"Email Address Way Too Long"];
-    [alert setMessage:[NSString stringWithFormat:@"I don't believe that that is your email address. Keep email addresses under %d characters. Please use another email address.", maxEmailLen]];
+    [alert setMessage:[NSString stringWithFormat:@"I don't believe that that is your email address. Keep email addresses under %d characters. Please use another email address.", MAX_EMAIL_LENGTH]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
@@ -495,7 +490,7 @@ int maxUnLen = 20;
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:[NSString stringWithFormat:@"%@ Way To Long", fieldName]];
-    [alert setMessage:[NSString stringWithFormat:@"Is your %@ really that long? The max is %d characters. Try again.", fieldName, maxEmailLen]];
+    [alert setMessage:[NSString stringWithFormat:@"Is your %@ really that long? The max is %d characters. Try again.", fieldName, MAX_NAME_LENGTH]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
@@ -549,7 +544,7 @@ int maxUnLen = 20;
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:@"Sorry, You're Not Old Enough"];
-    [alert setMessage:[NSString stringWithFormat:@"Please come back when you're %d or older.", ageLimit]];
+    [alert setMessage:[NSString stringWithFormat:@"Please come back when you're %d or older.", AGE_LIMIT]];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];
@@ -560,15 +555,15 @@ int maxUnLen = 20;
 {
     NSString *title;
     NSString *message;
-    if(passwordText.text.length < minPwLen)
+    if(passwordText.text.length < MIN_PASSWORD_LENGTH)
     {
         title = @"Password Too Short";
-        message = [NSString stringWithFormat:@"Your password must be at least %d characters.", minPwLen];
+        message = [NSString stringWithFormat:@"Your password must be at least %d characters.", MIN_PASSWORD_LENGTH];
     }
     else
     {
         title = @"Password Too Long";
-        message = [NSString stringWithFormat:@"Your password may be no more than %d characters.", maxPwLen];
+        message = [NSString stringWithFormat:@"Your password may be no more than %d characters.", MAX_PASSWORD_LENGTH];
     }
     
     UIAlertView *alert = [[UIAlertView alloc] init];
@@ -584,15 +579,15 @@ int maxUnLen = 20;
 {
     NSString *title;
     NSString *message;
-    if(usernameText.text.length < minPwLen)
+    if(usernameText.text.length < MIN_USERNAME_LENGTH)
     {
         title = @"Username Too Short";
-        message = [NSString stringWithFormat:@"Your username must be at least %d characters.", minPwLen];
+        message = [NSString stringWithFormat:@"Your username must be at least %d characters.", MIN_USERNAME_LENGTH];
     }
     else
     {
         title = @"Username Too Long";
-        message = [NSString stringWithFormat:@"Your username may be no more than %d characters.", maxUnLen];
+        message = [NSString stringWithFormat:@"Your username may be no more than %d characters.", MAX_USERNAME_LENGTH];
     }
     
     UIAlertView *alert = [[UIAlertView alloc] init];
