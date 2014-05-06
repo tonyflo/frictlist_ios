@@ -175,11 +175,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/StatisticsViewController.m"
-         timestampString = "420307509.046612"
+         timestampString = "421033516.183413"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "444"
-         endingLineNumber = "444"
+         startingLineNumber = "451"
+         endingLineNumber = "451"
          landmarkName = "-emailButtonPress:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -240,12 +240,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/SignInViewController.m"
-         timestampString = "420585140.423378"
+         timestampString = "421032586.160957"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "932"
-         endingLineNumber = "932"
-         landmarkName = "-stayLoggedInPress:"
+         startingLineNumber = "934"
+         endingLineNumber = "934"
+         landmarkName = "-alertView:clickedButtonAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -253,11 +253,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/FrictlistAppDelegate.m"
-         timestampString = "420585140.423378"
+         timestampString = "421033922.964389"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "188"
-         endingLineNumber = "188"
+         startingLineNumber = "240"
+         endingLineNumber = "240"
          landmarkName = "-application:didRegisterForRemoteNotificationsWithDeviceToken:"
          landmarkType = "5">
       </FileBreakpoint>

@@ -13,7 +13,7 @@
 
 @implementation DeviceTokenHelper
 
-NSString *defaultDeviceToken = NULL;
+NSString *defaultDeviceToken = @"-1";
 
 
 -(NSString *)getDeviceToken

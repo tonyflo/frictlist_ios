@@ -20,6 +20,32 @@
 
 @implementation FrictlistAppDelegate
 
+/*
+- (void)addMessageFromRemoteNotification:(NSDictionary*)userInfo updateUI:(BOOL)updateUI
+{
+    UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
+    ChatViewController *chatViewController =
+    (ChatViewController*)[navigationController.viewControllers  objectAtIndex:0];
+    
+    DataModel *dataModel = chatViewController.dataModel;
+    
+	Message *message = [[Message alloc] init];
+	message.date = [NSDate date];
+    
+	NSString *alertValue = [[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
+    
+	NSMutableArray *parts = [NSMutableArray arrayWithArray:[alertValue componentsSeparatedByString:@": "]];
+	message.senderName = [parts objectAtIndex:0];
+	[parts removeObjectAtIndex:0];
+	message.text = [parts componentsJoinedByString:@": "];
+    
+	int index = [dataModel addMessage:message];
+    
+	if (updateUI)
+		[chatViewController didSaveMessage:message atIndex:index];
+}
+ */
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //apns
@@ -36,6 +62,17 @@
     [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
     [self.locationManager startUpdatingLocation];
     
+    //apns when app is open
+    if (launchOptions != nil)
+	{
+		NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+		if (dictionary != nil)
+		{
+			NSLog(@"Launched from push notification: %@", dictionary);
+			//[self addMessageFromRemoteNotification:dictionary updateUI:NO];
+		}
+	}
+    
     return YES;
 }
 
@@ -51,11 +88,11 @@
         SqlHelper *sql = [[SqlHelper alloc] init];
         [sql removeSqliteFile];
         
-        //go to home screen
-        [self goToHomeTab];
-        
         //logout
         [plist resetLoggedIn];
+        
+        //go to home screen
+        [self goToHomeTab];
         
         NSLog(@"Bye");
     }
@@ -65,6 +102,8 @@
 {
     UITabBarController *tbc = (UITabBarController *)self.window.rootViewController;
     [tbc setSelectedIndex:1];
+    //[[[((UITabBarController *)self.window.rootViewController) viewControllers] objectAtIndex:1] setNeedsDisplay];
+    
 }
 
 -(void)fetchInterstatialAd
@@ -182,6 +221,20 @@
     
     //5. To receive the data from the HTTP request , you can use the delegate methods provided by the URLConnection Class Reference. Delegate methods are as below
     return rc;
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    if ( application.applicationState == UIApplicationStateActive )
+    {
+        // app was already in the foreground
+        NSLog(@"app was already in the foreground");
+    }
+    else
+    {
+        // app was just brought from background to foreground
+        NSLog(@"app was just brought from background to foreground");
+    }
 }
 
 

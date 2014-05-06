@@ -21,6 +21,7 @@
 //bad globals
 static int uid = -1; //uid (pk) of an user that's not signed in
 UIAlertView *alertView;
+int welcomeScreenShown = false;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -87,19 +88,23 @@ UIAlertView *alertView;
     //check first sign in
     PlistHelper *plist = [[PlistHelper alloc] initDefaults];
 
-    if([plist getPk] <= 0 && [plist getLoggedIn] != 1)
+    if([plist getPk] <= 0)
     {
-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
-        [self showWelcomeDialog];
-        NSLog(@"first");
+        NSLog(@"not logged in");
+        if(welcomeScreenShown == false)
+        {
+            [alertView dismissWithClickedButtonIndex:0 animated:YES];
+            [self showWelcomeDialog];
+            welcomeScreenShown=true;
+        }
     }
     else
     {
         NSLog(@"not first or welcome screen is already showing");
+        NSLog(@"pk = %d", [plist getPk]);
+        NSLog(@"loged in = %d", [plist getLoggedIn]);
+        //this sets the "setLoggedIn" flag so that we dont' show welcome multiple times
     }
-    
-    //this sets the "setLoggedIn" flag so that we dont' show welcome multiple times
-    [plist setLoggedIn:1];
 }
 
 - (void) showWelcomeDialog
@@ -296,6 +301,8 @@ UIAlertView *alertView;
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    welcomeScreenShown = false;
+    
     NSLog(@"will appear");
     [self checkFirstAppOpen];
     

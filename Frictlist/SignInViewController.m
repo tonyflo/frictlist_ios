@@ -928,6 +928,8 @@ UIAlertView * alertView;
     NSLog(@"%d", stayLoggedInButton.selected);
 }
 
+//not used, left for reference
+/*
 //take an action when a choice is made in an alert dialog
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -935,34 +937,14 @@ UIAlertView * alertView;
     if(alertView.tag == 1)
     {
         if (buttonIndex == 0)
-        {
-            // Try Again, try to reverse sync again
-            [self showSigningInSpinnerDialog];
-            
-            NSString * email = emailText.text;
-            NSString * password = passwordText.text;
-            
-            DeviceTokenHelper * dth = [DeviceTokenHelper alloc];
-            
-            //sign in or sign up
-            int rc = [self signIn:email password:password token:[dth getDeviceToken]];
-            
-            if(!rc)
-            {
-                //something went wrong with the signin
-                [self showUnknownFailureDialog];
-            }
-
+        {          
         }
         else if (buttonIndex == 1)
         {
-            //Cancel, dismiss
-            //[self dismissViewControllerAnimated:YES completion:nil];
-
-            [self.navigationController popViewControllerAnimated:YES];
         }
     }
 }
+*/
 
 -(void)viewWillAppear:(BOOL)animated
 {
