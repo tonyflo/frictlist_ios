@@ -45,11 +45,11 @@ int welcomeScreenShown = false;
     
     //tab bar titles
     [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:@"Frictlist"];
-    [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Settings"];
+    [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Home"];
     
     //tab bar icons
     [[self.tabBarController.tabBar.items objectAtIndex:0] setImage:[UIImage imageNamed:@"list_icon.png"]];
-    [[self.tabBarController.tabBar.items objectAtIndex:1] setImage:[UIImage imageNamed:@"baseball_tab_icon.png"]];
+    [[self.tabBarController.tabBar.items objectAtIndex:1] setImage:[UIImage imageNamed:@"homeplate_tab_icon.png"]];
     
 }
 

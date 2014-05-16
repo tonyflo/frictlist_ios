@@ -175,7 +175,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/StatisticsViewController.m"
-         timestampString = "421033516.183413"
+         timestampString = "421035447.997401"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "451"
@@ -253,11 +253,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/FrictlistAppDelegate.m"
-         timestampString = "421033922.964389"
+         timestampString = "421035791.531796"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "240"
-         endingLineNumber = "240"
+         startingLineNumber = "244"
+         endingLineNumber = "244"
          landmarkName = "-application:didRegisterForRemoteNotificationsWithDeviceToken:"
          landmarkType = "5">
       </FileBreakpoint>

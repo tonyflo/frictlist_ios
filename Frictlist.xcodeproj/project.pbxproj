@@ -34,7 +34,6 @@
 		2F66DA0C18E60A3000DE37A4 /* fieldglow.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F66DA0B18E60A2F00DE37A4 /* fieldglow.png */; };
 		2F8540F718F0C190007AE3C4 /* request_rejected.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F8540F618F0C190007AE3C4 /* request_rejected.png */; };
 		2F8540F918F0C1C8007AE3C4 /* request_sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F8540F818F0C1C8007AE3C4 /* request_sent.png */; };
-		2F8540FD18F0C63A007AE3C4 /* baseball_tab_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F8540FC18F0C63A007AE3C4 /* baseball_tab_icon.png */; };
 		2F9542101868B84A0063CE37 /* gear_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F95420F1868B8490063CE37 /* gear_icon.png */; };
 		2F9542121868B8670063CE37 /* list_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F9542111868B8670063CE37 /* list_icon.png */; };
 		2F9542171868D3BD0063CE37 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9542161868D3BD0063CE37 /* TabBarController.m */; };
@@ -79,6 +78,7 @@
 		2FDA34E71875D42F00ED5698 /* checkbox-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E41875D42E00ED5698 /* checkbox-pressed.png */; };
 		2FDA34E81875D42F00ED5698 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E51875D42E00ED5698 /* checkbox.png */; };
 		2FDA34EE1875DF4500ED5698 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA34ED1875DF4400ED5698 /* SignInViewController.m */; };
+		2FFA4BFD1926A72500E11944 /* homeplate_tab_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FFA4BFC1926A72500E11944 /* homeplate_tab_icon.png */; };
 		2FFA9DFF18614361002775B1 /* StatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFA9DFE18614361002775B1 /* StatisticsViewController.m */; };
 		2FFF246619119B3E000117CF /* DeviceTokenHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFF246519119B3E000117CF /* DeviceTokenHelper.m */; };
 		2FFF24691911AEC9000117CF /* AdHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFF24681911AEC9000117CF /* AdHelper.m */; };
@@ -124,7 +124,6 @@
 		2F66DA0B18E60A2F00DE37A4 /* fieldglow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fieldglow.png; sourceTree = "<group>"; };
 		2F8540F618F0C190007AE3C4 /* request_rejected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = request_rejected.png; sourceTree = "<group>"; };
 		2F8540F818F0C1C8007AE3C4 /* request_sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = request_sent.png; sourceTree = "<group>"; };
-		2F8540FC18F0C63A007AE3C4 /* baseball_tab_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baseball_tab_icon.png; sourceTree = "<group>"; };
 		2F86FB7217A4A925008A2C8D /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		2F95420F1868B8490063CE37 /* gear_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear_icon.png; sourceTree = "<group>"; };
 		2F9542111868B8670063CE37 /* list_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list_icon.png; sourceTree = "<group>"; };
@@ -174,6 +173,7 @@
 		2FDA34EC1875DF4400ED5698 /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		2FDA34ED1875DF4400ED5698 /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		2FEEDBF3186E0D0200290B02 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
+		2FFA4BFC1926A72500E11944 /* homeplate_tab_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = homeplate_tab_icon.png; sourceTree = "<group>"; };
 		2FFA9DFD18614361002775B1 /* StatisticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsViewController.h; sourceTree = "<group>"; };
 		2FFA9DFE18614361002775B1 /* StatisticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatisticsViewController.m; sourceTree = "<group>"; };
 		2FFF246419119B3D000117CF /* DeviceTokenHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceTokenHelper.h; sourceTree = "<group>"; };
@@ -288,8 +288,8 @@
 				2F9A89BC18E67E2100309D13 /* gender_1.png */,
 				2F66DA0118E5F66800DE37A4 /* field.png */,
 				2F66DA0B18E60A2F00DE37A4 /* fieldglow.png */,
-				2F8540FC18F0C63A007AE3C4 /* baseball_tab_icon.png */,
 				2F9542111868B8670063CE37 /* list_icon.png */,
+				2FFA4BFC1926A72500E11944 /* homeplate_tab_icon.png */,
 				2F95420F1868B8490063CE37 /* gear_icon.png */,
 				2FDA34E51875D42E00ED5698 /* checkbox.png */,
 				2FDA34E31875D42E00ED5698 /* checkbox-checked.png */,
@@ -430,12 +430,12 @@
 				2F52B94218E891C000FEC16F /* request_accepted.png in Resources */,
 				2F8540F718F0C190007AE3C4 /* request_rejected.png in Resources */,
 				2F8540F918F0C1C8007AE3C4 /* request_sent.png in Resources */,
-				2F8540FD18F0C63A007AE3C4 /* baseball_tab_icon.png in Resources */,
 				2F5ADCFD18F4EC71005DF959 /* request_deleted.png in Resources */,
 				2F5ADCFF18F78AF8005DF959 /* waiting.png in Resources */,
 				2FA62107190C8A2500973E6E /* selected_0.png in Resources */,
 				2FA62108190C8A2500973E6E /* selected_1.png in Resources */,
 				2FA62121190F185100973E6E /* MMSDK in Resources */,
+				2FFA4BFD1926A72500E11944 /* homeplate_tab_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
