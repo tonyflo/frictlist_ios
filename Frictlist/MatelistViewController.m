@@ -58,6 +58,7 @@ NSMutableArray *acceptedRequestIdArray;
 NSMutableArray *acceptedFirstNameArray;
 NSMutableArray *acceptedLastNameArray;
 NSMutableArray *acceptedGenderArray;
+NSMutableArray *acceptedDeletedArray;
 
 NSMutableArray *rejectedMateIdArray; //mate id of the mate in the sender's fl
 NSMutableArray *rejectedRequestIdArray;
@@ -129,6 +130,7 @@ NSMutableArray *rejectedGenderArray;
             acceptedFirstNameArray = [[NSMutableArray alloc] init];
             acceptedLastNameArray = [[NSMutableArray alloc] init];
             acceptedGenderArray = [[NSMutableArray alloc] init];
+            acceptedDeletedArray = [[NSMutableArray alloc] init];
             
             rejectedMateIdArray = [[NSMutableArray alloc] init];
             rejectedRequestIdArray = [[NSMutableArray alloc] init];
@@ -251,6 +253,7 @@ NSMutableArray *rejectedGenderArray;
     acceptedLastNameArray = accepts[2]; //ln
     acceptedGenderArray = accepts[3]; //gender
     acceptedMateIdArray = accepts[4]; //sender's mate id of this user
+    acceptedDeletedArray = accepts[5]; // if the creator of the frictlist deleted the mate
     
     //get rejected from sqlite3
     NSArray * rejects = [sql get_rejected_list];
@@ -535,19 +538,18 @@ NSMutableArray *rejectedGenderArray;
                 cell.textLabel.text = name;
                 cell.accessoryView = UITableViewCellAccessoryNone;
                 
-                //todo: show trash icon because creator of this FL deleted this mate
+
                 //show trash icon if the creator of this frictlist deleted it
-                /*
-                if([acceptedArray[i] intValue] != 1)
+                if([acceptedDeletedArray[i] intValue] == 1)
                 {
-                    //accepted then deleted
+                    //creator of the frictlist deleted the mate
+                    //so now there will be a trash icon next to this user in the accepted section
                     cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_deleted.png"]];
                 }
                 else
                 {
                     cell.accessoryView = UITableViewCellAccessoryNone;
                 }
-                 */
             }
             break;
         case 3://rejected
@@ -984,7 +986,7 @@ NSMutableArray *rejectedGenderArray;
             //split the row into columns
             NSArray *notification = [query_result[i] componentsSeparatedByString:@"\t"];
             
-            if(notification.count == 20)
+            if(notification.count == 21)
             {
                 int status = [notification[2] intValue];
                 //pending
@@ -1010,12 +1012,14 @@ NSMutableArray *rejectedGenderArray;
                     {
                         NSLog(@"heres a new accepted: %@", notification[3]);
                         //this is an incomming request that has already been accepted
-                        [sql add_accepted:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                        [sql add_accepted:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7] deleted:[notification[20] intValue]];
                         [acceptedRequestIdArray addObject:notification[0]];
                         [acceptedMateIdArray addObject:notification[1]];
                         [acceptedFirstNameArray addObject:notification[3]];
                         [acceptedLastNameArray addObject:notification[4]];
                         [acceptedGenderArray addObject:notification[6]];
+                        [acceptedDeletedArray addObject:notification[20]];
+                        NSLog(@"Deleted=====%d", [notification[20] intValue]);
                     }
                     
                     //check for frict data. make sure frict_id is not null and that the recipient hasn't already deleted this frict
@@ -1105,6 +1109,7 @@ NSMutableArray *rejectedGenderArray;
                     [acceptedMateIdArray removeObjectAtIndex:curRow];
                     [acceptedFirstNameArray removeObjectAtIndex:curRow];
                     [acceptedLastNameArray removeObjectAtIndex:curRow];
+                    [acceptedDeletedArray removeObjectAtIndex:curRow];
                     
                     //refresh the table
                     [self updateMateList];

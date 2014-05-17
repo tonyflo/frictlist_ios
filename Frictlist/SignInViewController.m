@@ -225,16 +225,26 @@ UIAlertView * alertView;
         [sql createEditableCopyOfDatabaseIfNeeded];
         
         DeviceTokenHelper *dth = [DeviceTokenHelper alloc];
+        NSString * token = [dth getDeviceToken];
+        NSLog(@"Device token is %@", token);
         
         if(checkboxButton.selected == 1)
         {
-            rc = [self signUp:email username:username password:password firstName:firstName lastName:lastName gender:gender birthdate:birthdate token:[dth getDeviceToken]];
+            rc = [self signUp:email username:username password:password firstName:firstName lastName:lastName gender:gender birthdate:birthdate token:token];
         }
         else
         {
             //sign in
-            rc = [self signIn:username password:password token:[dth getDeviceToken]];
-        }        
+            rc = [self signIn:username password:password token:token];
+        }
+        
+        /*
+        [[UIApplication sharedApplication]
+         registerForRemoteNotificationTypes:
+         (UIRemoteNotificationTypeAlert |
+          UIRemoteNotificationTypeBadge |
+          UIRemoteNotificationTypeSound)];
+        */
         
         if(!rc)
         {
@@ -745,7 +755,7 @@ UIAlertView * alertView;
             //split the row into columns
             NSArray *notification = [query_result[i] componentsSeparatedByString:@"\t"];
             
-            if(notification.count == 20)
+            if(notification.count == 21)
             {
                 int status = [notification[2] intValue];
                 //pending
@@ -768,7 +778,7 @@ UIAlertView * alertView;
                     {
                         NSLog(@"heres a new accepted: %@", notification[3]);
                         //this is an incomming request that has already been accepted
-                        [sql add_accepted:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                        [sql add_accepted:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7] deleted:[notification[20] intValue]];
                         [acceptedRequestIdArray addObject:notification[0]];
                     }
                     

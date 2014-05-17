@@ -598,7 +598,7 @@ CGFloat fl_screenWidth; //width of screen
             //split the row into columns
             NSArray *notification = [query_result[i] componentsSeparatedByString:@"\t"];
             
-            if(notification.count == 20)
+            if(notification.count == 21)
             {
                 int status = [notification[2] intValue];
                 //pending
@@ -621,7 +621,7 @@ CGFloat fl_screenWidth; //width of screen
                     {
                         NSLog(@"heres a new accepted: %@", notification[3]);
                         //this is an incomming request that has already been accepted
-                        [sql add_accepted:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7]];
+                        [sql add_accepted:[notification[0] intValue] mate_id:[notification[1] intValue] first:notification[3] last:notification[4] un:notification[5] gender:[notification[6] intValue] birthdate:notification[7] deleted:[notification[20] intValue]];
                         [acceptedRequestIdArray addObject:notification[0]];
                     }
                     

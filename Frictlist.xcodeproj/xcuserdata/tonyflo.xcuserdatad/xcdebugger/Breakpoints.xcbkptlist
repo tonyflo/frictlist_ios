@@ -73,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/SignInViewController.m"
-         timestampString = "420585140.423378"
+         timestampString = "421985677.502648"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "311"
-         endingLineNumber = "311"
+         startingLineNumber = "321"
+         endingLineNumber = "321"
          landmarkName = "-signUp:username:password:firstName:lastName:gender:birthdate:token:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -240,24 +240,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/SignInViewController.m"
-         timestampString = "421032586.160957"
+         timestampString = "421985677.502648"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "934"
-         endingLineNumber = "934"
-         landmarkName = "-alertView:clickedButtonAtIndex:"
-         landmarkType = "5">
+         startingLineNumber = "944"
+         endingLineNumber = "944"
+         landmarkName = "@implementation SignInViewController"
+         landmarkType = "3">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Frictlist/FrictlistAppDelegate.m"
-         timestampString = "421035791.531796"
+         timestampString = "421985384.763058"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "244"
-         endingLineNumber = "244"
+         startingLineNumber = "246"
+         endingLineNumber = "246"
          landmarkName = "-application:didRegisterForRemoteNotificationsWithDeviceToken:"
          landmarkType = "5">
       </FileBreakpoint>

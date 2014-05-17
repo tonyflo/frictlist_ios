@@ -94,6 +94,9 @@
         //go to home screen
         [self goToHomeTab];
         
+        //unregister for notifications
+        //[[UIApplication sharedApplication] unregisterForRemoteNotifications];
+        
         NSLog(@"Bye");
     }
 }
@@ -236,7 +239,6 @@
         NSLog(@"app was just brought from background to foreground");
     }
 }
-
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
