@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@interface FrictDetailViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate>
+@interface FrictDetailViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate, MKMapViewDelegate>
 {
     IBOutlet UISlider *ratingSlider;
     IBOutlet UIScrollView *scrollView;

@@ -95,8 +95,8 @@ NSString * dbName = @"frictlist.sqlite";
             {
                 // The second parameter indicates the column index into the result set.
                 NSNumber *mate_id = [NSNumber numberWithInt: sqlite3_column_int(statement, 0)];
-                NSString *mate_fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
-                NSString *mate_ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
+                NSString *mate_fn = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
+                NSString *mate_ln = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 2)];
                 NSNumber *mate_gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
                 NSNumber *mate_accepted = [NSNumber numberWithInt: sqlite3_column_int(statement, 4)];
                 NSNumber *mate_uid = [NSNumber numberWithInt: sqlite3_column_int(statement, 5)];
@@ -155,10 +155,10 @@ NSString * dbName = @"frictlist.sqlite";
             {
                 // The second parameter indicates the column index into the result set.
                 NSNumber *frict_id = [NSNumber numberWithInt: sqlite3_column_int(statement, 0)];
-                NSString *from = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
+                NSString *from = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
                 NSNumber *rating = [NSNumber numberWithInt: sqlite3_column_int(statement, 2)];
                 NSNumber *base = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
-                NSString *notes = [self unsanatize:[NSString stringWithUTF8String:sqlite3_column_text(statement, 4)]];
+                NSString *notes = [self unsanatize:[NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 4)]];
                 NSNumber *lat = [NSNumber numberWithDouble:sqlite3_column_double(statement, 5)];
                 NSNumber *lon = [NSNumber numberWithDouble:sqlite3_column_double(statement, 6)];
                 [frict_id_array addObject:frict_id];
@@ -213,8 +213,8 @@ NSString * dbName = @"frictlist.sqlite";
             {
                 // The second parameter indicates the column index into the result set.
                 NSNumber *rid = [NSNumber numberWithInt: sqlite3_column_int(statement, 0)];
-                NSString *fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
-                NSString *ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
+                NSString *fn = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
+                NSString *ln = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 2)];
                 NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
                 [request_id_array addObject:rid];
                 [fn_array addObject:fn];
@@ -268,8 +268,8 @@ NSString * dbName = @"frictlist.sqlite";
             {
                 // The second parameter indicates the column index into the result set.
                 NSNumber *rid = [NSNumber numberWithInt: sqlite3_column_int(statement, 0)];
-                NSString *fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
-                NSString *ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
+                NSString *fn = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
+                NSString *ln = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 2)];
                 NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
                 NSNumber *mate_id = [NSNumber numberWithInt: sqlite3_column_int(statement, 4)];
                  NSNumber *deleted = [NSNumber numberWithInt: sqlite3_column_int(statement, 5)];
@@ -328,8 +328,8 @@ NSString * dbName = @"frictlist.sqlite";
             {
                 // The second parameter indicates the column index into the result set.
                 NSNumber *rid = [NSNumber numberWithInt: sqlite3_column_int(statement, 0)];
-                NSString *fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
-                NSString *ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
+                NSString *fn = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
+                NSString *ln = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 2)];
                 NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
                 NSNumber *mate_id = [NSNumber numberWithInt: sqlite3_column_int(statement, 4)];
 
@@ -713,12 +713,12 @@ NSString * dbName = @"frictlist.sqlite";
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 // The second parameter indicates the column index into the result set.
-                NSString *from = [NSString stringWithUTF8String:sqlite3_column_text(statement, 0)];
+                NSString *from = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 0)];
                 NSNumber *rating = [NSNumber numberWithInt: sqlite3_column_int(statement, 1)];
                 NSNumber *base = [NSNumber numberWithInt: sqlite3_column_int(statement, 2)];
-                NSString *notes = [self unsanatize:[NSString stringWithUTF8String:sqlite3_column_text(statement, 3)]];
+                NSString *notes = [self unsanatize:[NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 3)]];
                 NSNumber *mateRating = [NSNumber numberWithInt: sqlite3_column_int(statement, 4)];
-                NSString *mateNotes = [self unsanatize:[NSString stringWithUTF8String:sqlite3_column_text(statement, 5)]];
+                NSString *mateNotes = [self unsanatize:[NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 5)]];
                 NSNumber *mateDeleted = [NSNumber numberWithInt: sqlite3_column_int(statement, 6)];
                 NSNumber *creator = [NSNumber numberWithInt: sqlite3_column_int(statement, 7)];
                 NSNumber *deleted = [NSNumber numberWithInt: sqlite3_column_int(statement, 8)];
@@ -764,8 +764,8 @@ NSString * dbName = @"frictlist.sqlite";
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 // The second parameter indicates the column index into the result set.
-                NSString *fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 0)];
-                NSNumber *ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
+                NSString *fn = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 0)];
+                NSNumber *ln = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
                 NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 2)];
                 NSNumber *accepted = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
                 NSNumber *request_uid = [NSNumber numberWithInt: sqlite3_column_int(statement, 4)];
@@ -810,11 +810,11 @@ NSString * dbName = @"frictlist.sqlite";
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 // The second parameter indicates the column index into the result set.
-                NSString *fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 0)];
-                NSString *ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
-                NSString *un = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
+                NSString *fn = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 0)];
+                NSString *ln = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
+                NSString *un = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 2)];
                 NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
-                NSString *bday = [NSString stringWithUTF8String:sqlite3_column_text(statement, 4)];
+                NSString *bday = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 4)];
                 NSNumber *mid = [NSNumber numberWithInt: sqlite3_column_int(statement, 5)];
                 
                 notification = [[NSMutableArray alloc] initWithObjects:fn, ln, un, gender, bday, mid, nil];
@@ -857,11 +857,11 @@ NSString * dbName = @"frictlist.sqlite";
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 // The second parameter indicates the column index into the result set.
-                NSString *fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 0)];
-                NSString *ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
-                NSString *un = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
+                NSString *fn = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 0)];
+                NSString *ln = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
+                NSString *un = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 2)];
                 NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
-                NSString *bday = [NSString stringWithUTF8String:sqlite3_column_text(statement, 4)];
+                NSString *bday = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 4)];
                 NSNumber *mid = [NSNumber numberWithInt: sqlite3_column_int(statement, 5)];
                 NSNumber *deleted = [NSNumber numberWithInt: sqlite3_column_int(statement, 6)];
                 
@@ -905,11 +905,11 @@ NSString * dbName = @"frictlist.sqlite";
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 // The second parameter indicates the column index into the result set.
-                NSString *fn = [NSString stringWithUTF8String:sqlite3_column_text(statement, 0)];
-                NSString *ln = [NSString stringWithUTF8String:sqlite3_column_text(statement, 1)];
-                NSString *un = [NSString stringWithUTF8String:sqlite3_column_text(statement, 2)];
+                NSString *fn = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 0)];
+                NSString *ln = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
+                NSString *un = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 2)];
                 NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
-                NSString *bday = [NSString stringWithUTF8String:sqlite3_column_text(statement, 4)];
+                NSString *bday = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 4)];
                 NSNumber *mid = [NSNumber numberWithInt: sqlite3_column_int(statement, 5)];
                 
                 rejected = [[NSMutableArray alloc] initWithObjects:fn, ln, un, gender, bday, mid, nil];

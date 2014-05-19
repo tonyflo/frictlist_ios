@@ -102,6 +102,7 @@ NSString * sentTo = @"the recipient";
     BOOL rc = true;
     
     NSString *post = [NSString stringWithFormat:@"&uid=%d&firstname=%@&lastname=%@&gender=%d", uid, firstname, lastname, gender];
+    NSLog(@"%@", post);
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
@@ -345,7 +346,7 @@ NSString * sentTo = @"the recipient";
 }
 
 //code for each row
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"SearchCell";
     
@@ -410,10 +411,7 @@ NSString * sentTo = @"the recipient";
         
         if ([self respondsToSelector:@selector(presentViewController:animated:completion:)]){
             [self presentViewController:composeViewController animated:YES completion:nil];
-        } else {
-            [self presentModalViewController:composeViewController animated:YES];
         }
-        //[self presentViewController:composeViewController animated:YES completion:nil];
     }
 }
 
@@ -426,8 +424,6 @@ NSString * sentTo = @"the recipient";
         controller.messageComposeDelegate = self;
         if ([self respondsToSelector:@selector(presentViewController:animated:completion:)]){
             [self presentViewController:controller animated:YES completion:nil];
-        } else {
-            [self presentModalViewController:controller animated:YES];
         }
     }
 }
@@ -457,7 +453,9 @@ NSString * sentTo = @"the recipient";
         }
 
     }
-    [self dismissModalViewControllerAnimated:YES];
+    
+    //[self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 //catch result of email
@@ -489,7 +487,7 @@ NSString * sentTo = @"the recipient";
             
     }
     
-    //Add an alert in case of failure
+    //done
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

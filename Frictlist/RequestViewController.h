@@ -22,8 +22,4 @@
 @property (readwrite, assign) NSUInteger request_id;
 @property (readwrite, assign) NSUInteger viewRequest; //1 if a new request, -1 if a previously rejected request
 
-
-- (IBAction)acceptPressed:(id)sender;
-- (IBAction)rejectPressed:(id)sender;
-
 @end

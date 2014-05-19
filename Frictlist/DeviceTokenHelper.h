@@ -14,6 +14,5 @@
 
 -(NSString *)getDeviceToken;
 -(void)setDeviceToken:(NSString *)last;
--(NSString *)resetDeviceToken;
 
 @end

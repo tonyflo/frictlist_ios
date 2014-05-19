@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@interface FrictViewController : UIViewController
+@interface FrictViewController : UIViewController <MKMapViewDelegate>
 {
     
     IBOutlet UIButton *searchButton;

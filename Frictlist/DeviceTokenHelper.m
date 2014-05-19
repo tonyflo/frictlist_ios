@@ -15,7 +15,6 @@
 
 NSString *defaultDeviceToken = @"-1";
 
-
 -(NSString *)getDeviceToken
 {
     NSString * path = [self getPlistPath];

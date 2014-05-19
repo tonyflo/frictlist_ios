@@ -198,8 +198,8 @@ int curSwipeIndex = 0;
         NSLog(@"Invalid center longitude");
     }
     
-    float map_span_lat = mapView.region.span.latitudeDelta;
-    float map_span_lon = mapView.region.span.longitudeDelta;
+    //float map_span_lat = mapView.region.span.latitudeDelta;
+    //float map_span_lon = mapView.region.span.longitudeDelta;
     /*
     if(region.span.latitudeDelta > map_span_lat || region.span.latitudeDelta <= 0.0)
     {

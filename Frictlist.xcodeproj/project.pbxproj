@@ -68,7 +68,6 @@
 		2FA6211C190F17BF00973E6E /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA6211B190F17BF00973E6E /* Social.framework */; };
 		2FA6211E190F17C900973E6E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA6211D190F17C900973E6E /* StoreKit.framework */; };
 		2FA6211F190F17D100973E6E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F383FB51888DE760010EF15 /* SystemConfiguration.framework */; };
-		2FA62121190F185100973E6E /* MMSDK in Resources */ = {isa = PBXBuildFile; fileRef = 2FA62120190F185100973E6E /* MMSDK */; };
 		2FA62123190F18D200973E6E /* SpeechKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA62122190F18D100973E6E /* SpeechKit.framework */; };
 		2FA62125190F1E3300973E6E /* MillennialMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA62124190F1E3300973E6E /* MillennialMedia.framework */; };
 		2FAD77F918FDEC1B00EC3C86 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FAD77F818FDEC1B00EC3C86 /* MapKit.framework */; };
@@ -434,7 +433,6 @@
 				2F5ADCFF18F78AF8005DF959 /* waiting.png in Resources */,
 				2FA62107190C8A2500973E6E /* selected_0.png in Resources */,
 				2FA62108190C8A2500973E6E /* selected_1.png in Resources */,
-				2FA62121190F185100973E6E /* MMSDK in Resources */,
 				2FFA4BFD1926A72500E11944 /* homeplate_tab_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -500,8 +498,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Tony Florida (XXEFHFARHA)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tony Florida (9BGRTATMET)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tony Florida (9BGRTATMET)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -516,7 +514,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "C47938EF-ABF5-41C4-831A-B39434982A51";
+				PROVISIONING_PROFILE = "D9AEEF29-7C34-4A9E-8473-9530750FF104";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D9AEEF29-7C34-4A9E-8473-9530750FF104";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -533,8 +532,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Tony Florida (XXEFHFARHA)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tony Florida (9BGRTATMET)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tony Florida (9BGRTATMET)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -542,7 +541,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "C47938EF-ABF5-41C4-831A-B39434982A51";
+				PROVISIONING_PROFILE = "D9AEEF29-7C34-4A9E-8473-9530750FF104";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D9AEEF29-7C34-4A9E-8473-9530750FF104";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

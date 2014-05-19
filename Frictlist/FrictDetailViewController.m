@@ -379,12 +379,6 @@ bool keyboardIsShown = NO;
         //initialize helpers
         SqlHelper *sql = [SqlHelper alloc];
         
-        //get mate data
-        NSArray *mate = [sql get_mate:self.mate_id];
-        NSString *mateFirstName = mate[0];
-        NSString *mateLastName = mate[1];
-        //int mateGender = [mate[2] intValue];
-        
         //declare frict data
         NSArray *frict;
         NSString * fromDate = @"";

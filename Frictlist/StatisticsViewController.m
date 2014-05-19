@@ -465,10 +465,7 @@ int welcomeScreenShown = false;
         
         if ([self respondsToSelector:@selector(presentViewController:animated:completion:)]){
             [self presentViewController:composeViewController animated:YES completion:nil];
-        } else {
-            [self presentModalViewController:composeViewController animated:YES];
         }
-        //[self presentViewController:composeViewController animated:YES completion:nil];
     }
 }
 

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MateDetailViewController : UIViewController
+@interface MateDetailViewController : UIViewController <UITextFieldDelegate>
 {
     
     IBOutlet UITextField *firstNameText;
