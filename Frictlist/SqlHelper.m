@@ -765,7 +765,7 @@ NSString * dbName = @"frictlist.sqlite";
             {
                 // The second parameter indicates the column index into the result set.
                 NSString *fn = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 0)];
-                NSNumber *ln = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
+                NSString *ln = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
                 NSNumber *gender = [NSNumber numberWithInt: sqlite3_column_int(statement, 2)];
                 NSNumber *accepted = [NSNumber numberWithInt: sqlite3_column_int(statement, 3)];
                 NSNumber *request_uid = [NSNumber numberWithInt: sqlite3_column_int(statement, 4)];

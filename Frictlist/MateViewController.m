@@ -156,6 +156,7 @@ int curSwipeIndex = 0;
     fieldImage.hidden = false;
 }
 
+/*
 - (void)zoomToFitMapAnnotations {
     if ([mapView.annotations count] == 0) return;
     
@@ -200,24 +201,67 @@ int curSwipeIndex = 0;
     
     //float map_span_lat = mapView.region.span.latitudeDelta;
     //float map_span_lon = mapView.region.span.longitudeDelta;
-    /*
-    if(region.span.latitudeDelta > map_span_lat || region.span.latitudeDelta <= 0.0)
-    {
-        //invalid latitude span
-        NSLog(@"Invalid span latitude %f", region.span.latitudeDelta);
-        region.span.latitudeDelta = map_span_lat;
-    }
+ 
+    //if(region.span.latitudeDelta > map_span_lat || region.span.latitudeDelta <= 0.0)
+    //{
+     //   //invalid latitude span
+     //   NSLog(@"Invalid span latitude %f", region.span.latitudeDelta);
+     //   region.span.latitudeDelta = map_span_lat;
+    //}
     
-    if(region.span.longitudeDelta >= map_span_lon || region.span.longitudeDelta <= 0.0)
-    {
-        //invalid longitude span
-        NSLog(@"Invalid span longitude %f", region.span.longitudeDelta);
-        region.span.longitudeDelta = map_span_lon;
-    }
-    */
+    //if(region.span.longitudeDelta >= map_span_lon || region.span.longitudeDelta <= 0.0)
+    //{
+    //    //invalid longitude span
+    //    NSLog(@"Invalid span longitude %f", region.span.longitudeDelta);
+    //    region.span.longitudeDelta = map_span_lon;
+    //}
+    
     region = [mapView regionThatFits:region];
     [mapView setRegion:region animated:YES];
     NSLog(@"Done zooming");
+}
+*/
+
+#define MINIMUM_ZOOM_ARC 0.014 //approximately 1 miles (1 degree of arc ~= 69 miles)
+#define ANNOTATION_REGION_PAD_FACTOR 1.15
+#define MAX_DEGREES_ARC 360
+//size the mapView region to fit its annotations
+- (void)zoomMapViewToFitAnnotations
+{
+    NSArray *annotations = mapView.annotations;
+    int count = [mapView.annotations count];
+    if ( count == 0) { return; } //bail if no annotations
+    
+    //convert NSArray of id <MKAnnotation> into an MKCoordinateRegion that can be used to set the map size
+    //can't use NSArray with MKMapPoint because MKMapPoint is not an id
+    MKMapPoint points[count]; //C array of MKMapPoint struct
+    for( int i=0; i<count; i++ ) //load points C array by converting coordinates to points
+    {
+        CLLocationCoordinate2D coordinate = [(id <MKAnnotation>)[annotations objectAtIndex:i] coordinate];
+        points[i] = MKMapPointForCoordinate(coordinate);
+    }
+    //create MKMapRect from array of MKMapPoint
+    MKMapRect mapRect = [[MKPolygon polygonWithPoints:points count:count] boundingMapRect];
+    //convert MKCoordinateRegion from MKMapRect
+    MKCoordinateRegion region = MKCoordinateRegionForMapRect(mapRect);
+    
+    //add padding so pins aren't scrunched on the edges
+    region.span.latitudeDelta  *= ANNOTATION_REGION_PAD_FACTOR;
+    region.span.longitudeDelta *= ANNOTATION_REGION_PAD_FACTOR;
+    //but padding can't be bigger than the world
+    if( region.span.latitudeDelta > MAX_DEGREES_ARC ) { region.span.latitudeDelta  = MAX_DEGREES_ARC; }
+    if( region.span.longitudeDelta > MAX_DEGREES_ARC ){ region.span.longitudeDelta = MAX_DEGREES_ARC; }
+    
+    //and don't zoom in stupid-close on small samples
+    if( region.span.latitudeDelta  < MINIMUM_ZOOM_ARC ) { region.span.latitudeDelta  = MINIMUM_ZOOM_ARC; }
+    if( region.span.longitudeDelta < MINIMUM_ZOOM_ARC ) { region.span.longitudeDelta = MINIMUM_ZOOM_ARC; }
+    //and if there is a sample of 1 we want the max zoom-in instead of max zoom-out
+    if( count == 1 )
+    {
+        region.span.latitudeDelta = MINIMUM_ZOOM_ARC;
+        region.span.longitudeDelta = MINIMUM_ZOOM_ARC;
+    }
+    [mapView setRegion:region animated:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -244,7 +288,8 @@ int curSwipeIndex = 0;
         [mapView addAnnotation:[pinArray objectAtIndex:i]];
     }
     
-    [self zoomToFitMapAnnotations];
+    //[self zoomToFitMapAnnotations];
+    [self zoomMapViewToFitAnnotations];
 }
 
 -(void)viewWillAppear:(BOOL)animated
