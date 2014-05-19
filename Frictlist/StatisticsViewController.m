@@ -59,24 +59,29 @@ int welcomeScreenShown = false;
 
 }
 
+-(void)resetAllFields
+{
+    //reset all fields
+    firstCount.text = [NSString stringWithFormat:@"%d",0];
+    secondCount.text = [NSString stringWithFormat:@"%d",0];
+    thirdCount.text = [NSString stringWithFormat:@"%d",0];
+    homeCount.text = [NSString stringWithFormat:@"%d",0];
+    firstScore.text = [NSString stringWithFormat:@"%d",0];
+    secondScore.text = [NSString stringWithFormat:@"%d",0];
+    thirdScore.text = [NSString stringWithFormat:@"%d", 0];
+    homeScore.text = [NSString stringWithFormat:@"%d",0];
+    totalCount.text = [NSString stringWithFormat:@"%d", 0];
+    totalScore.text = [NSString stringWithFormat:@"%d", 0];
+    emailLabel.text = @"Not Signed In";
+    [signinBtn setTitle:@"Sign In" forState:UIControlStateNormal];
+}
+
 - (void)appDidEnterForeground:(NSNotification *)notification {
     NSLog(@"did enter foreground notification");
     PlistHelper * plist = [PlistHelper alloc];
     if([plist getPk] <= 0)
     {
-        //reset all fields
-        firstCount.text = [NSString stringWithFormat:@"%d",0];
-        secondCount.text = [NSString stringWithFormat:@"%d",0];
-        thirdCount.text = [NSString stringWithFormat:@"%d",0];
-        homeCount.text = [NSString stringWithFormat:@"%d",0];
-        firstScore.text = [NSString stringWithFormat:@"%d",0];
-        secondScore.text = [NSString stringWithFormat:@"%d",0];
-        thirdScore.text = [NSString stringWithFormat:@"%d", 0];
-        homeScore.text = [NSString stringWithFormat:@"%d",0];
-        totalCount.text = [NSString stringWithFormat:@"%d", 0];
-        totalScore.text = [NSString stringWithFormat:@"%d", 0];
-        emailLabel.text = [plist getEmail];
-        [signinBtn setTitle:@"Sign In" forState:UIControlStateNormal];
+        [self resetAllFields];
     }
 }
 

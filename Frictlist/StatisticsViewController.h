@@ -28,5 +28,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *emailButton;
 
 -(IBAction)emailButtonPress:(id)sender;
++(void)resetDiaplay;
 
 @end
