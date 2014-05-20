@@ -38,6 +38,8 @@
 #define MAX_PASSWORD_LENGTH (255)
 #define AGE_LIMIT (14)
 
+#define STATUS_BAR_HEIGHT (50)
+
 #endif
 
 @end

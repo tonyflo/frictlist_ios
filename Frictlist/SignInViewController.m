@@ -47,6 +47,8 @@ UIAlertView * alertView;
     self.navigationItem.title = @"Sign Up";
     
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
+    
+    birthdatePicker.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
 }
 
 // called when click on the retun button.
@@ -63,7 +65,7 @@ UIAlertView * alertView;
         return YES;
         
     } else {
-        [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
+        [scrollView setContentOffset:CGPointMake(0,textField.center.y-STATUS_BAR_HEIGHT) animated:YES];
         // Found next responder, so set it.
         [nextResponder becomeFirstResponder];
     }
@@ -989,8 +991,10 @@ UIAlertView * alertView;
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
- activeField = textField;
-    [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
+ /*
+  activeField = textField;
+    [scrollView setContentOffset:CGPointMake(0,textField.center.y+ STATUS_BAR_HEIGHT) animated:YES];
+  */
 }
 
 @end

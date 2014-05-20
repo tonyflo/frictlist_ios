@@ -48,6 +48,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //global tint color
+    self.window.tintColor = [UIColor colorWithRed:RED green:GREEN blue:BLUE alpha:1.0];
+    
     //apns
     // Override point for customization after application launch.
     // Let the device know we want to receive push notifications
