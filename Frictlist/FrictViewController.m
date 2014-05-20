@@ -124,6 +124,11 @@ int swipeIndex = 0;
     
     UIBarButtonItem *editFrictButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editFrictButtonPressed)];
     [self.navigationItem setRightBarButtonItem:editFrictButton];
+    
+    //disalow nav bar from hiding content
+    if([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]){ //if ios 7
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 
 -(void)editFrictButtonPressed

@@ -49,6 +49,11 @@ UIAlertView * alertView;
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
     
     birthdatePicker.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
+    
+    //disallow nav bar from covering content
+    if([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]){ //if ios 7
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 
 // called when click on the retun button.

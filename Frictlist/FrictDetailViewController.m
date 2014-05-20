@@ -524,7 +524,14 @@ bool keyboardIsShown = NO;
     //set metadata
     AdHelper * ah = [[AdHelper alloc] init];
     [ah getAdMetadata];
-}
+    
+    //datepicker backgorund color
+    fromSwitch.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
+    
+    //disallow nav bar from covering content
+    if([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]){ //if ios 7
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }}
 
 -(void)goBack:(id)sender
 {

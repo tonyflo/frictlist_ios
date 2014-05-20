@@ -93,6 +93,11 @@ int gender;
     //enable tabbaar items
     [[self.tabBarController.tabBar.items objectAtIndex:0] setEnabled:FALSE];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setEnabled:FALSE];
+    
+    //disallow nav bar from covering content
+    if([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]){ //if ios 7
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 
 -(void)goBack:(id)sender

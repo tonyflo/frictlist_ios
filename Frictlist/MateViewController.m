@@ -51,6 +51,11 @@ int curSwipeIndex = 0;
     mapView.delegate = self;
     
     fieldImage.userInteractionEnabled = NO;
+    
+    //disalow nav bar from hiding content
+    if([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]){ //if ios 7
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 
 -(void)goBack:(id)sender

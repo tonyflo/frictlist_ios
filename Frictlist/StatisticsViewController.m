@@ -51,6 +51,10 @@ int welcomeScreenShown = false;
     [[self.tabBarController.tabBar.items objectAtIndex:0] setImage:[UIImage imageNamed:@"list_icon.png"]];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setImage:[UIImage imageNamed:@"homeplate_tab_icon.png"]];
     
+    //disalow tab bar from hiding content
+    if([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]){ //if ios 7
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 
 - (void)appDidBecomeActive:(NSNotification *)notification {
