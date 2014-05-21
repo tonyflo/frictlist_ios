@@ -54,6 +54,10 @@ NSString * sentTo = @"the recipient";
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    UIView *bgView = [[UIView alloc]init];
+    bgView.backgroundColor = [UIColor grayColor];
+    [tableView setBackgroundView:bgView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -320,7 +324,7 @@ NSString * sentTo = @"the recipient";
             }
         }
         
-        statusText.text = @"No luck? Invite your mate to Frictlist by text or email.";
+        statusText.hidden = false;
         textButton.hidden = false;
         emailButton.hidden = false;
         
