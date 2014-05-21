@@ -241,6 +241,15 @@
         // app was just brought from background to foreground
         NSLog(@"app was just brought from background to foreground");
     }
+    
+    UIApplicationState state = [application applicationState];
+    if(state == UIApplicationStateActive)
+    {
+        NSString *okay = @"Okay";
+        NSString *message = [[userInfo valueForKey:@"aps"]valueForKey:@"alert"];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Notification!" message:message delegate:self cancelButtonTitle:okay otherButtonTitles:nil, nil];
+        [alertView show];
+    }
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken

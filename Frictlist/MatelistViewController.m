@@ -77,8 +77,13 @@ NSMutableArray *rejectedGenderArray;
     
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init]; refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     [refresh addTarget:self action:@selector(updateMateList) forControlEvents:UIControlEventValueChanged];
-    refresh.tintColor = [UIColor colorWithRed:33.0/255.0f green:255.0/255.0f blue:0.0/255.0f alpha:1.0];
+    refresh.tintColor = [UIColor colorWithRed:RED green:GREEN blue:BLUE alpha:1.0];
     self.refreshControl = refresh;
+    
+    NSMutableAttributedString *refreshString = [[NSMutableAttributedString alloc]initWithString:@"Pull to Refresh"];
+    [refreshString addAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} range:NSMakeRange(0, refreshString.length)];
+    refresh.attributedTitle = refreshString;
+                                   
     [self stopRefresh];
     canRefresh = true;
     

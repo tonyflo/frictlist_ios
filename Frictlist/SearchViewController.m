@@ -11,6 +11,13 @@
 #import "SqlHelper.h"
 #import "version.h"
 
+#define SHARE_TYPE_SMS (0)
+#define SHARE_TYPE_EMAIL (1)
+#define SHARE_STATUS_SENT (0)
+#define SHARE_STATUS_CANCELLED (1)
+#define SHARE_STATUS_FAILED (2)
+#define SHARE_STATUS_SAVED (3)
+
 @interface SearchViewController ()
 
 @end
@@ -148,6 +155,60 @@ NSString * sentTo = @"the recipient";
     return rc;
 }
 
+//search for mate
+-(BOOL) share_attemptOfType:(int)type status:(int)status
+{
+    BOOL rc = true;
+    
+    PlistHelper * plist = [[PlistHelper alloc]init];
+    int uid = [plist getPk];
+    
+    NSString *post = [NSString stringWithFormat:@"&uid=%d&share_type=%d&share_status=%d&mate_id=%d", uid, type, status, self.mate_id];
+    NSLog(@"%@", post);
+    
+    //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    //You need to send the actual length of your data. Calculate the length of the post string.
+    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    
+    //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    
+    //search for mate
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@add_share.php", SCRIPTS_URL]]];
+    
+    //Now, set HTTP method (POST or GET). Write this lines as it is in your code
+    [request setHTTPMethod:@"POST"];
+    
+    //Set HTTP header field with length of the post data.
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    //Also set the Encoded value for HTTP header Field.
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+    
+    //Set the HTTPBody of the urlrequest with postData.
+    [request setHTTPBody:postData];
+    
+    //4. Now, create URLConnection object. Initialize it with the URLRequest.
+    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    //It returns the initialized url connection and begins to load the data for the url request. You can check that whether you URL connection is done properly or not using just if/else statement as below.
+    if(conn)
+    {
+        NSLog(@"Connection Successful");
+    }
+    else
+    {
+        NSLog(@"Connection could not be made");
+        rc = false;
+    }
+    
+    //5. To receive the data from the HTTP request , you can use the delegate methods provided by the URLConnection Class Reference. Delegate methods are as below
+    return rc;
+}
 
 -(void)showSearchingDialog
 {
@@ -353,8 +414,9 @@ NSString * sentTo = @"the recipient";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.editingAccessoryType = YES;
-    }
+        cell.editingAccessoryType = NO;
+        cell.accessoryView = nil;
+        cell.accessoryType = UITableViewCellAccessoryNone;    }
     
     int i = indexPath.row;
     
@@ -374,13 +436,10 @@ NSString * sentTo = @"the recipient";
     //set text color
     cell.textLabel.textColor = [UIColor greenColor];
     
-    //set cell icon
-    //NSString *base = [NSString stringWithFormat:@"gender_%d.png", [genderArray[i] intValue]];
-    //cell.imageView.image = [UIImage imageNamed:base];
-    
     //set cell text
     cell.textLabel.text = [NSString stringWithFormat:@"%@ Age: %d", un, age];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryView = nil;
+    cell.accessoryType = UITableViewCellAccessoryNone;
     
     if(![userAlreadyRequestedArray[i] isEqual:@""])
     {
@@ -431,28 +490,31 @@ NSString * sentTo = @"the recipient";
 //catch result of sms
 - (void) messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
+    int status = SHARE_STATUS_CANCELLED;
+    int type = SHARE_TYPE_SMS;
     switch(result)
     {
         case MessageComposeResultCancelled:
         {
             //handle cancelled event
-            NSLog(@"Message cancelled");
+            status = SHARE_STATUS_CANCELLED;
             break;
         }
         case MessageComposeResultFailed:
         {
             //handle failed event
-            NSLog(@"Message failed");
+            status = SHARE_STATUS_FAILED;
             break;
         }
         case MessageComposeResultSent:
         {
             //handle sent event
-            NSLog(@"Message sent");
+            status = SHARE_STATUS_SENT;
             break;
         }
-
     }
+    
+    [self share_attemptOfType:type status:status];
     
     //[self dismissModalViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -461,31 +523,33 @@ NSString * sentTo = @"the recipient";
 //catch result of email
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
+    int status = SHARE_STATUS_CANCELLED;
+    int type = SHARE_TYPE_EMAIL;
     switch(result)
     {
         case MFMailComposeResultCancelled:
         {
-            NSLog(@"Mail cancelled");
+            status = SHARE_STATUS_CANCELLED;
             break;
         }
         case MFMailComposeResultSaved:
         {
-            NSLog(@"Mail saved");
+            status = SHARE_STATUS_SAVED;
             break;
         }
         case MFMailComposeResultFailed:
         {
-            NSLog(@"Mail failed");
+            status = SHARE_STATUS_FAILED;
             break;
         }
         case MFMailComposeResultSent:
         {
-            NSLog(@"Mail sent");
+            status = SHARE_STATUS_SENT;
             break;
         }
-            
-            
     }
+    
+    [self share_attemptOfType:type status:status];
     
     //done
     [self dismissViewControllerAnimated:YES completion:nil];

@@ -53,6 +53,11 @@ CGFloat fl_screenWidth; //width of screen
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init]; refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     [refresh addTarget:self action:@selector(updateFrictlist) forControlEvents:UIControlEventValueChanged];
     refresh.tintColor = [UIColor colorWithRed:33.0/255.0f green:255.0/255.0f blue:0.0/255.0f alpha:1.0];
+    
+    NSMutableAttributedString *refreshString = [[NSMutableAttributedString alloc]initWithString:@"Pull to Refresh"];
+    [refreshString addAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} range:NSMakeRange(0, refreshString.length)];
+    refresh.attributedTitle = refreshString;
+    
     self.refreshControl = refresh;
     [self stopRefresh];
     ableToRefresh = true;
@@ -228,7 +233,7 @@ CGFloat fl_screenWidth; //width of screen
     UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.editingAccessoryType = YES;
+        cell.editingAccessoryType = NO;
     }
     
     int count = 0;
@@ -260,7 +265,7 @@ CGFloat fl_screenWidth; //width of screen
     
     //set cell text
     cell.textLabel.text = [NSString stringWithFormat:@"%@", date];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;
 }
 
