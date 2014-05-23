@@ -47,7 +47,7 @@ NSString * sentTo = @"the recipient";
 -(void)viewDidAppear:(BOOL)animated
 {
     //kickoff the search when the view loads
-    [self search];
+    //[self search];
 }
 
 - (void)viewDidLoad
@@ -68,6 +68,8 @@ NSString * sentTo = @"the recipient";
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self search]; //kickoff the search
+    
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
     
     tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
