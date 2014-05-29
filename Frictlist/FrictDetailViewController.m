@@ -359,6 +359,7 @@ bool keyboardIsShown = NO;
     if(self.frict_id > 0)
     {
         fromSwitch.enabled = false;
+        fromSwitch.userInteractionEnabled = false;
         fromSwitch.alpha = 0.5;
         baseSwitch.enabled = false;
         baseSwitch.alpha = 0.5;

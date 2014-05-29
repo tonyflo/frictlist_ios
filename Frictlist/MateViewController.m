@@ -97,7 +97,7 @@ int curSwipeIndex = 0;
     curSwipeIndex--;
     if(curSwipeIndex < 0)
     {
-        curSwipeIndex = NUM_SWIPE_ZERO_BASED;
+        curSwipeIndex = 0;
     }
     
     [self checkDisplay];
@@ -109,7 +109,7 @@ int curSwipeIndex = 0;
     curSwipeIndex++;
     if(curSwipeIndex > NUM_SWIPE_ZERO_BASED)
     {
-        curSwipeIndex = 0;
+        curSwipeIndex = NUM_SWIPE_ZERO_BASED;
     }
     
     [self checkDisplay]; 

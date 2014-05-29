@@ -40,6 +40,9 @@
 
 #define STATUS_BAR_HEIGHT (50)
 
+#define TERMS_LABEL_SIGN_IN (@"By clicking Sign In, you agree to the")
+#define TERMS_LABEL_CREATE_ACCOUNT (@"By clicking Create Account, you agree to the")
+
 #endif
 
 @end

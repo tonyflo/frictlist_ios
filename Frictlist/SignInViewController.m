@@ -104,6 +104,7 @@ UIAlertView * alertView;
         lastNameText.enabled = true;
         genderSwitch.enabled = true;
         birthdatePicker.enabled = true;
+        birthdatePicker.userInteractionEnabled = true;
         emailText.enabled = true;
         firstNameText.alpha = 1;
         lastNameText.alpha = 1;
@@ -112,6 +113,7 @@ UIAlertView * alertView;
         birthdateLabel.alpha = 1;
         newAccountLabel.alpha = 1;
         emailText.alpha = 1;
+        termsLabel.text = TERMS_LABEL_CREATE_ACCOUNT;
     }
     else
     {
@@ -122,6 +124,7 @@ UIAlertView * alertView;
         lastNameText.enabled = false;
         genderSwitch.enabled = false;
         birthdatePicker.enabled = false;
+        birthdatePicker.userInteractionEnabled = false;
         emailText.enabled = false;
         firstNameText.alpha = 0.5;
         lastNameText.alpha = 0.5;
@@ -130,6 +133,7 @@ UIAlertView * alertView;
         birthdateLabel.alpha = 0.5;
         newAccountLabel.alpha = 0.5;
         emailText.alpha = 0.5;
+        termsLabel.text = TERMS_LABEL_SIGN_IN;
     }
 }
 
@@ -1002,4 +1006,9 @@ UIAlertView * alertView;
   */
 }
 
+- (IBAction)termsofservicepressed:(id)sender
+{
+    UIAlertView *tos = [[UIAlertView alloc] initWithTitle:@"Privacy & Terms" message:@"Your gender, age, and location will be shared with an advertising company for the purpose of displaying ads within the Frictlist mobile app. All other information that you, as the user, provide will be kept private and securely stored. Frictlist reserves the right to change the Privacy & Terms at anytime without notifying its users. By creating an account, you agree to these terms." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:@"Cancel", nil];
+    [tos show];
+}
 @end

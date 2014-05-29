@@ -47,7 +47,7 @@ int swipeIndex = 0;
     swipeIndex--;
     if(swipeIndex < 0)
     {
-        swipeIndex = NUM_SWIPE_INDEX_ZERO_BASED;
+        swipeIndex = 0;
     }
     
     [self checkDisplay];
@@ -57,7 +57,7 @@ int swipeIndex = 0;
     swipeIndex++;
     if(swipeIndex > NUM_SWIPE_INDEX_ZERO_BASED)
     {
-        swipeIndex = 0;
+        swipeIndex = NUM_SWIPE_INDEX_ZERO_BASED;
     }
     
     [self checkDisplay];
