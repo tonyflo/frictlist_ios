@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#if defined(MMEDIA)
 //mmedia
 #import <MillennialMedia/MMSDK.h>
+#endif
 #import <CoreLocation/CoreLocation.h>
 
 @interface FrictlistAppDelegate : UIResponder <UIApplicationDelegate>

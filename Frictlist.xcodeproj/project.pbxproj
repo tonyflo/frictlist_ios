@@ -10,7 +10,6 @@
 		2F383FB018862F600010EF15 /* PlistHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F383FAF18862F5F0010EF15 /* PlistHelper.m */; };
 		2F4EE0A2176E97B100642169 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F4EE0A1176E97B100642169 /* UIKit.framework */; };
 		2F4EE0A4176E97B100642169 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F4EE0A3176E97B100642169 /* Foundation.framework */; };
-		2F4EE0A6176E97B100642169 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F4EE0A5176E97B100642169 /* CoreGraphics.framework */; };
 		2F4EE0AC176E97B100642169 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F4EE0AA176E97B100642169 /* InfoPlist.strings */; };
 		2F4EE0AE176E97B100642169 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0AD176E97B100642169 /* main.m */; };
 		2F4EE0B2176E97B100642169 /* FrictlistAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4EE0B1176E97B100642169 /* FrictlistAppDelegate.m */; };
@@ -56,20 +55,7 @@
 		2F9DC36418DE4F6700024553 /* FrictViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9DC36318DE4F6700024553 /* FrictViewController.m */; };
 		2FA62107190C8A2500973E6E /* selected_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FA62105190C8A2400973E6E /* selected_0.png */; };
 		2FA62108190C8A2500973E6E /* selected_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FA62106190C8A2500973E6E /* selected_1.png */; };
-		2FA6210A190F173800973E6E /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA62109190F173600973E6E /* AdSupport.framework */; };
-		2FA6210C190F174F00973E6E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA6210B190F174F00973E6E /* AudioToolbox.framework */; };
-		2FA6210E190F175600973E6E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA6210D190F175500973E6E /* AVFoundation.framework */; };
-		2FA62110190F176100973E6E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA6210F190F176100973E6E /* CFNetwork.framework */; };
-		2FA62112190F178B00973E6E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA62111190F178B00973E6E /* MediaPlayer.framework */; };
-		2FA62114190F179E00973E6E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA62113190F179E00973E6E /* MobileCoreServices.framework */; };
-		2FA62116190F17A800973E6E /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA62115190F17A700973E6E /* PassKit.framework */; };
 		2FA62118190F17AF00973E6E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA62117190F17AF00973E6E /* QuartzCore.framework */; };
-		2FA6211A190F17B800973E6E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA62119190F17B800973E6E /* Security.framework */; };
-		2FA6211C190F17BF00973E6E /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA6211B190F17BF00973E6E /* Social.framework */; };
-		2FA6211E190F17C900973E6E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA6211D190F17C900973E6E /* StoreKit.framework */; };
-		2FA6211F190F17D100973E6E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F383FB51888DE760010EF15 /* SystemConfiguration.framework */; };
-		2FA62123190F18D200973E6E /* SpeechKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA62122190F18D100973E6E /* SpeechKit.framework */; };
-		2FA62125190F1E3300973E6E /* MillennialMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA62124190F1E3300973E6E /* MillennialMedia.framework */; };
 		2FAD77F918FDEC1B00EC3C86 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FAD77F818FDEC1B00EC3C86 /* MapKit.framework */; };
 		2FAD77FB18FDEEAA00EC3C86 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FAD77FA18FDEEA900EC3C86 /* CoreLocation.framework */; };
 		2FCB43A018E65891007DF46F /* frictlist.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 2FCB439F18E65891007DF46F /* frictlist.sqlite */; };
@@ -86,11 +72,9 @@
 /* Begin PBXFileReference section */
 		2F383FAE18862F5F0010EF15 /* PlistHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlistHelper.h; sourceTree = "<group>"; };
 		2F383FAF18862F5F0010EF15 /* PlistHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlistHelper.m; sourceTree = "<group>"; };
-		2F383FB51888DE760010EF15 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		2F4EE09E176E97B100642169 /* Frictlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Frictlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F4EE0A1176E97B100642169 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2F4EE0A3176E97B100642169 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		2F4EE0A5176E97B100642169 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2F4EE0A9176E97B100642169 /* Frictlist-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Frictlist-Info.plist"; sourceTree = "<group>"; };
 		2F4EE0AB176E97B100642169 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2F4EE0AD176E97B100642169 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -149,20 +133,7 @@
 		2F9DC36318DE4F6700024553 /* FrictViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrictViewController.m; sourceTree = "<group>"; };
 		2FA62105190C8A2400973E6E /* selected_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected_0.png; sourceTree = "<group>"; };
 		2FA62106190C8A2500973E6E /* selected_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected_1.png; sourceTree = "<group>"; };
-		2FA62109190F173600973E6E /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		2FA6210B190F174F00973E6E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		2FA6210D190F175500973E6E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		2FA6210F190F176100973E6E /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		2FA62111190F178B00973E6E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		2FA62113190F179E00973E6E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		2FA62115190F17A700973E6E /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		2FA62117190F17AF00973E6E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		2FA62119190F17B800973E6E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		2FA6211B190F17BF00973E6E /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		2FA6211D190F17C900973E6E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		2FA62120190F185100973E6E /* MMSDK */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MMSDK; sourceTree = "<group>"; };
-		2FA62122190F18D100973E6E /* SpeechKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpeechKit.framework; path = MMSDK/SpeechKit.framework; sourceTree = "<group>"; };
-		2FA62124190F1E3300973E6E /* MillennialMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MillennialMedia.framework; path = MMSDK/MillennialMedia.framework; sourceTree = "<group>"; };
 		2FAD77F818FDEC1B00EC3C86 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		2FAD77FA18FDEEA900EC3C86 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		2FCB439F18E65891007DF46F /* frictlist.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = frictlist.sqlite; sourceTree = "<group>"; };
@@ -186,23 +157,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FA62125190F1E3300973E6E /* MillennialMedia.framework in Frameworks */,
-				2FA62123190F18D200973E6E /* SpeechKit.framework in Frameworks */,
-				2FA6211F190F17D100973E6E /* SystemConfiguration.framework in Frameworks */,
-				2FA6211E190F17C900973E6E /* StoreKit.framework in Frameworks */,
-				2FA6211C190F17BF00973E6E /* Social.framework in Frameworks */,
-				2FA6211A190F17B800973E6E /* Security.framework in Frameworks */,
 				2FA62118190F17AF00973E6E /* QuartzCore.framework in Frameworks */,
-				2FA62116190F17A800973E6E /* PassKit.framework in Frameworks */,
-				2FA62114190F179E00973E6E /* MobileCoreServices.framework in Frameworks */,
-				2FA62112190F178B00973E6E /* MediaPlayer.framework in Frameworks */,
 				2F4EE0A4176E97B100642169 /* Foundation.framework in Frameworks */,
 				2FAD77FB18FDEEAA00EC3C86 /* CoreLocation.framework in Frameworks */,
-				2F4EE0A6176E97B100642169 /* CoreGraphics.framework in Frameworks */,
-				2FA62110190F176100973E6E /* CFNetwork.framework in Frameworks */,
-				2FA6210E190F175600973E6E /* AVFoundation.framework in Frameworks */,
-				2FA6210C190F174F00973E6E /* AudioToolbox.framework in Frameworks */,
-				2FA6210A190F173800973E6E /* AdSupport.framework in Frameworks */,
 				2FAD77F918FDEC1B00EC3C86 /* MapKit.framework in Frameworks */,
 				2F9A89CE18E7651200309D13 /* MessageUI.framework in Frameworks */,
 				2F66D9F918E3C11900DE37A4 /* libsqlite3.0.dylib in Frameworks */,
@@ -216,20 +173,7 @@
 		2F4EE095176E97B100642169 = {
 			isa = PBXGroup;
 			children = (
-				2FA62124190F1E3300973E6E /* MillennialMedia.framework */,
-				2FA62122190F18D100973E6E /* SpeechKit.framework */,
-				2FA62120190F185100973E6E /* MMSDK */,
-				2FA6211D190F17C900973E6E /* StoreKit.framework */,
-				2FA6211B190F17BF00973E6E /* Social.framework */,
-				2FA62119190F17B800973E6E /* Security.framework */,
 				2FA62117190F17AF00973E6E /* QuartzCore.framework */,
-				2FA62115190F17A700973E6E /* PassKit.framework */,
-				2FA62113190F179E00973E6E /* MobileCoreServices.framework */,
-				2FA62111190F178B00973E6E /* MediaPlayer.framework */,
-				2FA6210F190F176100973E6E /* CFNetwork.framework */,
-				2FA6210D190F175500973E6E /* AVFoundation.framework */,
-				2FA6210B190F174F00973E6E /* AudioToolbox.framework */,
-				2FA62109190F173600973E6E /* AdSupport.framework */,
 				2FAD77FA18FDEEA900EC3C86 /* CoreLocation.framework */,
 				2FAD77F818FDEC1B00EC3C86 /* MapKit.framework */,
 				2F9A89CD18E7651100309D13 /* MessageUI.framework */,
@@ -240,7 +184,6 @@
 				2F9A89C118E7016000309D13 /* icon-120.png */,
 				2F9A89C218E7016000309D13 /* icon.png */,
 				2F9A89C318E7016000309D13 /* icon@2x.png */,
-				2F383FB51888DE760010EF15 /* SystemConfiguration.framework */,
 				2F4EE0A7176E97B100642169 /* Frictlist */,
 				2F4EE0A0176E97B100642169 /* Frameworks */,
 				2F4EE09F176E97B100642169 /* Products */,
@@ -261,7 +204,6 @@
 				2F86FB7217A4A925008A2C8D /* libsqlite3.0.dylib */,
 				2F4EE0A1176E97B100642169 /* UIKit.framework */,
 				2F4EE0A3176E97B100642169 /* Foundation.framework */,
-				2F4EE0A5176E97B100642169 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -558,10 +500,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/MMSDK\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Frictlist/Frictlist-Prefix.pch";
 				INFOPLIST_FILE = "Frictlist/Frictlist-Info.plist";
@@ -581,10 +520,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/MMSDK\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Frictlist/Frictlist-Prefix.pch";
 				INFOPLIST_FILE = "Frictlist/Frictlist-Info.plist";

@@ -8,7 +8,9 @@
 
 #import "AdHelper.h"
 #import "PlistHelper.h"
+#if defined(MMEDIA)
 #import <MillennialMedia/MMAdView.h>
+#endif
 
 @implementation AdHelper
 
@@ -40,7 +42,11 @@ NSNumber *age;
 
 -(int) getGender
 {
+#if defined(MMEDI)
     return gender == 0 ? MMGenderMale : MMGenderFemale;;
+#else
+    return 0;
+#endif
 }
 
 @end
