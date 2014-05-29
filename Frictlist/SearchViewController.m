@@ -80,7 +80,7 @@ NSString * sentTo = @"the recipient";
     userAlreadyRequestedArray = [[NSMutableArray alloc] init];
     
     SqlHelper *sql = [SqlHelper alloc];
-    NSArray * mate_data = [sql get_mate:self.mate_id];
+    NSArray * mate_data = [sql get_mate:(int)self.mate_id];
     
     NSString * mate_name = [NSString stringWithFormat:@"%@ %@", mate_data[0], mate_data[1]];
     self.title = mate_name;
@@ -96,7 +96,7 @@ NSString * sentTo = @"the recipient";
     int uid = [plist getPk];
     
     SqlHelper *sql = [SqlHelper alloc];
-    NSArray * mate_data = [sql get_mate:self.mate_id];
+    NSArray * mate_data = [sql get_mate:(int)self.mate_id];
     
     rc = [self search_mate:uid firstname:mate_data[0] lastname:mate_data[1] gender:[mate_data[2] intValue]];
         
@@ -122,7 +122,7 @@ NSString * sentTo = @"the recipient";
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -169,7 +169,7 @@ NSString * sentTo = @"the recipient";
     PlistHelper * plist = [[PlistHelper alloc]init];
     int uid = [plist getPk];
     
-    NSString *post = [NSString stringWithFormat:@"&uid=%d&share_type=%d&share_status=%d&mate_id=%d", uid, type, status, self.mate_id];
+    NSString *post = [NSString stringWithFormat:@"&uid=%d&share_type=%d&share_status=%d&mate_id=%lu", uid, type, status, (unsigned long)self.mate_id];
     NSLog(@"%@", post);
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
@@ -177,7 +177,7 @@ NSString * sentTo = @"the recipient";
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -296,7 +296,7 @@ NSString * sentTo = @"the recipient";
     
     NSInteger intResult = [strResult integerValue];
     
-    NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
+    NSLog(@"Did receive data int: %ld str %@ strlen %lu", (long)intResult, strResult, (unsigned long)strResult.length);
     NSArray *user_list = [strResult componentsSeparatedByString:@"\n"];
     NSString *searchFlag = user_list[0];
     
@@ -332,7 +332,7 @@ NSString * sentTo = @"the recipient";
         
         if(userIdArray.count > 0)
         {
-            resultsText.text = [NSString stringWithFormat:@"%d Results Below", userIdArray.count];
+            resultsText.text = [NSString stringWithFormat:@"%lu Results Below", (unsigned long)userIdArray.count];
             [self.tableView reloadData];
         }
         else
@@ -355,7 +355,7 @@ NSString * sentTo = @"the recipient";
         
         //save request status to sqlite
         SqlHelper *sql = [SqlHelper alloc];
-        [sql update_mate_status:self.mate_id accepted:0 request:[userIdArray[selectedMateIndex] intValue]];
+        [sql update_mate_status:(int)self.mate_id accepted:0 request:[userIdArray[selectedMateIndex] intValue]];
         
         [self showRequestSentConfirmation: sentTo];
     }
@@ -367,7 +367,7 @@ NSString * sentTo = @"the recipient";
            intResult == -101 || //id doesn't exist or isn't unique
            intResult == -110) //request insert wasn't successful
         {
-            [self showErrorCodeDialog:intResult];
+            [self showErrorCodeDialog:(int)intResult];
         }
         else
         {
@@ -405,7 +405,7 @@ NSString * sentTo = @"the recipient";
 //count rows
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    int count = [userIdArray count];
+    int count = (int)[userIdArray count];
     if(self.editing) {
         count++;
     }
@@ -424,7 +424,7 @@ NSString * sentTo = @"the recipient";
         cell.accessoryView = nil;
         cell.accessoryType = UITableViewCellAccessoryNone;    }
     
-    int i = indexPath.row;
+    int i = (int)indexPath.row;
     
     NSString *un = usernameArray[i];
     
@@ -443,7 +443,7 @@ NSString * sentTo = @"the recipient";
     cell.textLabel.textColor = [UIColor greenColor];
     
     //set cell text
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ Age: %d", un, age];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ Age: %ld", un, (long)age];
     cell.accessoryView = nil;
     cell.accessoryType = UITableViewCellAccessoryNone;
     
@@ -463,7 +463,7 @@ NSString * sentTo = @"the recipient";
     
     if ([MFMailComposeViewController canSendMail]) {
         SqlHelper *sql = [SqlHelper alloc];
-        NSArray * mate_data = [sql get_mate:self.mate_id];
+        NSArray * mate_data = [sql get_mate:(int)self.mate_id];
         
         PlistHelper *plist = [PlistHelper alloc];
         NSString * fn = [plist getFirstName];
@@ -564,7 +564,7 @@ NSString * sentTo = @"the recipient";
 //click on a table cell
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    selectedMateIndex = indexPath.row;
+    selectedMateIndex = (int)indexPath.row;
     sentTo=usernameArray[selectedMateIndex];
     [self showRequestConfirmationDialog:sentTo];
 }
@@ -626,14 +626,14 @@ NSString * sentTo = @"the recipient";
     PlistHelper *plist = [PlistHelper alloc];
     int uid = [plist getPk];
     
-    NSString *post = [NSString stringWithFormat:@"&uid=%d&users_mate_id=%d&mates_uid=%d", uid, self.mate_id, [userIdArray[selectedMateIndex] intValue]];
+    NSString *post = [NSString stringWithFormat:@"&uid=%d&users_mate_id=%lu&mates_uid=%d", uid, (unsigned long)self.mate_id, [userIdArray[selectedMateIndex] intValue]];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];

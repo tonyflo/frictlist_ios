@@ -35,7 +35,7 @@ int gender;
     if(self.hu_id > 0)
     {
         SqlHelper *sql = [SqlHelper alloc];
-        NSArray * mate = [sql get_mate:self.hu_id];
+        NSArray * mate = [sql get_mate:(int)self.hu_id];
         
         firstName = mate[0];
         NSLog(@"%@", firstName);
@@ -130,7 +130,7 @@ int gender;
     
     NSString * firstname = firstNameText.text;
     NSString * lastname = lastNameText.text;
-    int gender = genderSwitch.selectedSegmentIndex;
+    int gender = (int)genderSwitch.selectedSegmentIndex;
     
     //validate user input
     if(firstname.length > MAX_NAME_LENGTH)
@@ -184,7 +184,7 @@ int gender;
     if(self.hu_id > 0)
     {
         //update
-        post = [NSString stringWithFormat:@"&uid=%d&mate_id=%d&firstname=%@&lastname=%@&gender=%d",uid, hu_id, firstname, lastname, gender];
+        post = [NSString stringWithFormat:@"&uid=%d&mate_id=%lu&firstname=%@&lastname=%@&gender=%d",uid, (unsigned long)hu_id, firstname, lastname, gender];
     }
     else
     {
@@ -197,7 +197,7 @@ int gender;
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -314,7 +314,7 @@ int gender;
     
     NSInteger intResult = [strResult integerValue];
     
-    NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
+    NSLog(@"Did receive data int: %ld str %@ strlen %lu", (long)intResult, strResult, (unsigned long)strResult.length);
     if(intResult > 0)
     {
         NSLog(@"Success");
@@ -324,12 +324,12 @@ int gender;
         if(self.hu_id > 0)
         {
             //update the mate in local database
-            [sql update_mate:intResult fn:firstNameText.text ln:lastNameText.text gender:genderSwitch.selectedSegmentIndex];
+            [sql update_mate:(int)intResult fn:firstNameText.text ln:lastNameText.text gender:(int)genderSwitch.selectedSegmentIndex];
         }
         else
         {
             //insert the data that has already been inserted on the remote database into the sqlite local db for this new mate
-            [sql add_mate:intResult fn:firstNameText.text ln:lastNameText.text gender:genderSwitch.selectedSegmentIndex accepted:0 mates_uid:0];
+            [sql add_mate:(int)intResult fn:firstNameText.text ln:lastNameText.text gender:(int)genderSwitch.selectedSegmentIndex accepted:0 mates_uid:0];
         }
 
         //enable tabbaar items
@@ -352,7 +352,7 @@ int gender;
            intResult == -100 || //id was null or not positive
            intResult == -101) //id doesn't exist or isn't unique
         {
-            [self showErrorCodeDialog:intResult];
+            [self showErrorCodeDialog:(int)intResult];
         }
         else
         {

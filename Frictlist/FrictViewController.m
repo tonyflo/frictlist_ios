@@ -139,7 +139,7 @@ int swipeIndex = 0;
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    NSLog(@"Frict id: %d", self.frict_id);
+    NSLog(@"Frict id: %lu", (unsigned long)self.frict_id);
     //jump to the edit view if this is a new row in the list
     if(self.frict_id <= 0)
     {
@@ -164,7 +164,7 @@ int swipeIndex = 0;
     NSLog(@"Prepare for segue");
     if([segue.identifier isEqualToString:@"editFrict"])
     {
-        NSLog(@"mate id: %d frict id: %d", self.mate_id, self.frict_id);
+        NSLog(@"mate id: %lu frict id: %lu", (unsigned long)self.mate_id, (unsigned long)self.frict_id);
         FrictDetailViewController *destViewController = segue.destinationViewController;
         destViewController.mate_id = self.mate_id;
         destViewController.frict_id = self.frict_id;
@@ -209,7 +209,7 @@ int swipeIndex = 0;
     NSString *userFirstName = [plist getFirstName];
     
     //get mate data
-    NSArray *mate = [sql get_mate:self.mate_id];
+    NSArray *mate = [sql get_mate:(int)self.mate_id];
     NSString *mateFirstName = mate[0];
     NSString *mateLastName = mate[1];
     //int mateGender = [mate[2] intValue];
@@ -232,7 +232,7 @@ int swipeIndex = 0;
     if(self.frict_id > 0)
     { 
         //get frict data
-        frict = [sql get_frict:self.frict_id];
+        frict = [sql get_frict:(int)self.frict_id];
         fromDate = frict[0];
         rating = [frict[1] intValue];
         base = [frict[2] intValue];
@@ -240,7 +240,7 @@ int swipeIndex = 0;
         mateRating = [frict[4] intValue];
         mateNotesStr = frict[5];
         mateDeleted = [frict[6] intValue];
-        NSLog(@"Mate deleted %d frict id %d", mateDeleted,self.frict_id);
+        NSLog(@"Mate deleted %d frict id %lu", mateDeleted,(unsigned long)self.frict_id);
         creator = [frict[7] intValue];
         deleted = [frict[8] intValue];
         lat = [frict[9] doubleValue];
@@ -351,7 +351,7 @@ int swipeIndex = 0;
         //My mate created this frict and my mate created the frictlist
         NSLog(@"My mate created this frict and my mate created the frictlist");//
         
-        NSArray * accepted = [sql get_accepted:self.request_id];
+        NSArray * accepted = [sql get_accepted:(int)self.request_id];
         mateFirstName = accepted[0];
         mateLastName = accepted[1];
         
@@ -380,7 +380,7 @@ int swipeIndex = 0;
         //I created this frict but my mate created the frictlist
         NSLog(@"I created this frict but my mate created the frictlist");////
         
-        NSArray * accepted = [sql get_accepted:self.request_id];
+        NSArray * accepted = [sql get_accepted:(int)self.request_id];
         mateFirstName = accepted[0];
         mateLastName = accepted[1];
 
@@ -442,7 +442,7 @@ int swipeIndex = 0;
     else
     {
         //if coming from a personal row, use the mate id to get the data for this mate
-        mate_details=[sql get_mate:self.mate_id];
+        mate_details=[sql get_mate:(int)self.mate_id];
     }
     
     if(self.creator == 1)

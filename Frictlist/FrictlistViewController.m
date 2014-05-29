@@ -13,12 +13,13 @@
 #import "SqlHelper.h"
 #import "version.h"
 
+#if defined(MMEDIA)
 //mmedia
 #import <MillennialMedia/MMAdView.h>
 #import "FrictlistAppDelegate.h"
 #import "QuartzCore/QuartzCore.h"
 #import "AdHelper.h"
-
+#endif
 
 @interface FrictlistViewController ()
 
@@ -36,10 +37,12 @@ NSMutableArray *matesFrictIds;
 NSMutableArray *fromArray;
 NSMutableArray *baseArray;
 
+#if defined(MMEDIA)
 //ad variables
 MMAdView *fl_banner;
 float fl_tvHeight; //height of tableview
 CGFloat fl_screenWidth; //width of screen
+#endif
 
 - (void)viewDidLoad
 {
@@ -61,12 +64,14 @@ CGFloat fl_screenWidth; //width of screen
     self.refreshControl = refresh;
     [self stopRefresh];
     ableToRefresh = true;
-    
+
+#if defined(MMEDIA)
     //ads
     //to register tableview with scrollview
     self.tableView.delegate = self;
     AdHelper * ah = [[AdHelper alloc] init];
     [ah getAdMetadata];
+#endif
 }
 
 - (void)stopRefresh
@@ -118,10 +123,10 @@ CGFloat fl_screenWidth; //width of screen
             indexPath = [self.tableView indexPathForSelectedRow];
         }
         
-        NSLog(@"index path row %d", indexPath.row);
+        NSLog(@"index path row %ld", (long)indexPath.row);
         
         // pass frictid
-        int local_frict_id = [indexPath row];
+        int local_frict_id = (int)[indexPath row];
         int remote_frict = [matesFrictIds[local_frict_id] intValue];
         NSLog(@"bye from fl vc local frict %d remote frict %d", local_frict_id, remote_frict);
         
@@ -156,7 +161,7 @@ CGFloat fl_screenWidth; //width of screen
     matesFrictIds = [[NSMutableArray alloc] init];
     
     SqlHelper * sql = [SqlHelper alloc];
-    NSArray *fl = [sql get_frict_list:self.hu_id];
+    NSArray *fl = [sql get_frict_list:(int)self.hu_id];
     if(fl != NULL)
     {
         matesFrictIds = fl[0];
@@ -175,7 +180,7 @@ CGFloat fl_screenWidth; //width of screen
 -(void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"view will appear");
-    NSLog(@"mate id: %d", self.hu_id);
+    NSLog(@"mate id: %lu", (unsigned long)self.hu_id);
     
     [self populateTableData];
     [self.tableView reloadData];
@@ -186,7 +191,9 @@ CGFloat fl_screenWidth; //width of screen
     tableView.backgroundView = nil;
     tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
     
+#if defined(MMEDIA)
     [self ad];
+#endif
 }
 
 - (void)didReceiveMemoryWarning
@@ -218,7 +225,7 @@ CGFloat fl_screenWidth; //width of screen
 //count rows
 - (NSInteger)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section
 {
-    int count = [matesFrictIds count];
+    int count = (int)[matesFrictIds count];
     if(self.editing) {
         count++;
     }
@@ -246,7 +253,7 @@ CGFloat fl_screenWidth; //width of screen
         return cell;
     }
     
-    int i = indexPath.row;
+    int i = (int)indexPath.row;
     
     //display date
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -289,7 +296,7 @@ CGFloat fl_screenWidth; //width of screen
         [self showRemovingFrictDialog];
         
         //remove frict from plist
-        curRowFrict = indexPath.row;
+        curRowFrict = (int)indexPath.row;
         
         //get frict_id
         int frict_id = [[matesFrictIds objectAtIndex:curRowFrict] intValue];
@@ -327,14 +334,14 @@ CGFloat fl_screenWidth; //width of screen
 {
     BOOL rc = true;
     
-    NSString * post = [NSString stringWithFormat:@"&frict_id=%d&creator=%d", frict_id, self.creator];
+    NSString * post = [NSString stringWithFormat:@"&frict_id=%d&creator=%lu", frict_id, (unsigned long)self.creator];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -384,7 +391,7 @@ CGFloat fl_screenWidth; //width of screen
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -434,7 +441,7 @@ CGFloat fl_screenWidth; //width of screen
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -538,7 +545,7 @@ CGFloat fl_screenWidth; //width of screen
     
     NSInteger intResult = [strResult integerValue];
     
-    NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
+    NSLog(@"Did receive data int: %ld str %@ strlen %lu", (long)intResult, strResult, (unsigned long)strResult.length);
     
     NSArray *query_result = [strResult componentsSeparatedByString:@"\n"];
     NSString *searchFlag = query_result[0];
@@ -557,7 +564,7 @@ CGFloat fl_screenWidth; //width of screen
         {
             //split the row into columns
             NSArray *frict = [query_result[i] componentsSeparatedByString:@"\t"];
-            NSLog(@"Frict count = %d", frict.count);
+            NSLog(@"Frict count = %lu", (unsigned long)frict.count);
             if(frict.count == 18)
             {
                 //check if mate has already been added to sqlite
@@ -686,7 +693,7 @@ CGFloat fl_screenWidth; //width of screen
         {
             //remove frict from sqlite
             SqlHelper * sql = [SqlHelper alloc];
-            [sql remove_frict:intResult];
+            [sql remove_frict:(int)intResult];
             NSLog(@"removed frict");
             
             [tableView reloadData];
@@ -707,7 +714,7 @@ CGFloat fl_screenWidth; //width of screen
            intResult == -100 || //id was null or not positive
            intResult == -101) //id doesn't exist or isn't unique
         {
-            [self showErrorCodeDialog:intResult];
+            [self showErrorCodeDialog:(int)intResult];
         }
         else
         {
@@ -736,6 +743,7 @@ CGFloat fl_screenWidth; //width of screen
     [alert show];
 }
 
+#if defined(MMEDIA)
 //ad stuff
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -785,5 +793,6 @@ CGFloat fl_screenWidth; //width of screen
             NSLog(@"BANNER AD REQUEST FAILED WITH ERROR: %@", error); }
     }];
 }
+#endif
 
 @end

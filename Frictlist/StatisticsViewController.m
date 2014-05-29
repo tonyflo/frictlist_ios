@@ -360,7 +360,7 @@ int welcomeScreenShown = false;
         NSArray *fl = [sql get_frict_list:[mate_ids[mate_index] intValue]];
         if(fl != NULL)
         {
-            int count = ((NSArray *)fl[0]).count;
+            int count = (int)(((NSArray *)fl[0]).count);
             for(int i = 0; i < count; i++)
             {
                 //sick logic
@@ -380,7 +380,7 @@ int welcomeScreenShown = false;
         NSArray *fl = [sql get_frict_list:[accepted_mate_ids[accepted_index] intValue]];
         if(fl != NULL)
         {
-            int count = ((NSArray *)fl[0]).count;
+            int count = (int)(((NSArray *)fl[0]).count);
             for(int i = 0; i < count; i++)
             {
                 //reused sick logic

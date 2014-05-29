@@ -12,39 +12,15 @@
 #import "StatisticsViewController.h"
 #import "version.h"
 
+#if defined(MMEDIA)
 //ads
 #import <MillennialMedia/MMInterstitial.h>
+#endif
 
 //apns
 #import "DeviceTokenHelper.h"
 
 @implementation FrictlistAppDelegate
-
-/*
-- (void)addMessageFromRemoteNotification:(NSDictionary*)userInfo updateUI:(BOOL)updateUI
-{
-    UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
-    ChatViewController *chatViewController =
-    (ChatViewController*)[navigationController.viewControllers  objectAtIndex:0];
-    
-    DataModel *dataModel = chatViewController.dataModel;
-    
-	Message *message = [[Message alloc] init];
-	message.date = [NSDate date];
-    
-	NSString *alertValue = [[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
-    
-	NSMutableArray *parts = [NSMutableArray arrayWithArray:[alertValue componentsSeparatedByString:@": "]];
-	message.senderName = [parts objectAtIndex:0];
-	[parts removeObjectAtIndex:0];
-	message.text = [parts componentsJoinedByString:@": "];
-    
-	int index = [dataModel addMessage:message];
-    
-	if (updateUI)
-		[chatViewController didSaveMessage:message atIndex:index];
-}
- */
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -57,7 +33,8 @@
     // Let the device know we want to receive push notifications
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
-    
+
+#if defined(MMEDIA)
     //mmedia
     [MMSDK initialize]; //Initialize a Millennial Media session
     
@@ -65,6 +42,7 @@
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
     [self.locationManager startUpdatingLocation];
+#endif
     
     //apns when app is open
     if (launchOptions != nil)
@@ -113,6 +91,7 @@
     
 }
 
+#if defined(MMEDIA)
 -(void)fetchInterstatialAd
 {
     //Location Object
@@ -133,6 +112,7 @@
                             }
                         }];
 }
+#endif
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -169,8 +149,10 @@
         [self goToHomeTab];
     }
 
+#if defined(MMEDIA)
     //load ad into cache
     [self fetchInterstatialAd];
+#endif
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -192,7 +174,7 @@
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];

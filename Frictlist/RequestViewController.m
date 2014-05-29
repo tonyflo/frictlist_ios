@@ -40,12 +40,12 @@ UIAlertView * alertView;
     if(self.viewRequest == 1)
     {
         //responding to request
-        requst = [sql get_notification:self.request_id];
+        requst = [sql get_notification:(int)self.request_id];
     }
     else if(self.viewRequest == -1)
     {
         //changing rejected
-        requst = [sql get_rejected:self.request_id];
+        requst = [sql get_rejected:(int)self.request_id];
         //disable pending index of segmented control
         [segmentedControl setEnabled:NO forSegmentAtIndex:1];
         [segmentedControl setSelectedSegmentIndex:0]; //set rejected as selected
@@ -82,7 +82,7 @@ UIAlertView * alertView;
                                        toDate:now
                                        options:0];
     NSInteger age = [ageComponents year];
-    ageText.text = [NSString stringWithFormat:@"%d", age];
+    ageText.text = [NSString stringWithFormat:@"%ld", (long)age];
     
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
 }
@@ -91,7 +91,7 @@ UIAlertView * alertView;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    NSLog(@"request id %d", self.request_id);
+    NSLog(@"request id %lu", (unsigned long)self.request_id);
 }
 
 - (void)didReceiveMemoryWarning
@@ -130,14 +130,14 @@ UIAlertView * alertView;
     PlistHelper *plist = [PlistHelper alloc];
     int uid = [plist getPk];
     NSLog(@"STATUS: %d", status);
-    NSString *post = [NSString stringWithFormat:@"&uid=%d&request_id=%d&mate_id=%d&status=%d", uid, self.request_id, mate_id, status];
+    NSString *post = [NSString stringWithFormat:@"&uid=%d&request_id=%lu&mate_id=%d&status=%d", uid, (unsigned long)self.request_id, mate_id, status];
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
     
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -188,7 +188,7 @@ UIAlertView * alertView;
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -238,7 +238,7 @@ UIAlertView * alertView;
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -342,7 +342,7 @@ UIAlertView * alertView;
     
     NSInteger intResult = [strResult integerValue];
     
-    NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
+    NSLog(@"Did receive data int: %ld str %@ strlen %lu", (long)intResult, strResult, (unsigned long)strResult.length);
     NSArray *query_result = [strResult componentsSeparatedByString:@"\n"];
     NSString *searchFlag = query_result[0];
     SqlHelper *sql = [SqlHelper alloc];
@@ -361,7 +361,7 @@ UIAlertView * alertView;
         {
             //split the row into columns
             NSArray *frict = [query_result[i] componentsSeparatedByString:@"\t"];
-            NSLog(@"Frict count = %d", frict.count);
+            NSLog(@"Frict count = %lu", (unsigned long)frict.count);
             if(frict.count == 18)
             {
                 //check if mate has already been added to sqlite
@@ -497,28 +497,28 @@ UIAlertView * alertView;
         if(self.viewRequest == 1)
         {
             //responding to request
-            request = [sql get_notification:self.request_id];
+            request = [sql get_notification:(int)self.request_id];
         }
         else if(self.viewRequest == -1)
         {
             //changing reject to accept
-            request = [sql get_rejected:self.request_id];
+            request = [sql get_rejected:(int)self.request_id];
             
             //remove rejected frict
-            [sql remove_rejected:self.request_id];
+            [sql remove_rejected:(int)self.request_id];
         }
         else
         {
             [self showErrorCodeDialog:-422];
         }
         //delete the request from the table
-        [sql remove_notification:self.request_id];
+        [sql remove_notification:(int)self.request_id];
         //add the reqeust to the appropriate table
         if(intResult == 1)
         {
             NSLog(@"accepted");
             //accepted
-            [sql add_accepted:self.request_id mate_id:[request[5] intValue] first:request[0] last:request[1] un:request[2] gender:[request[3] intValue] birthdate:request[4] deleted:0];
+            [sql add_accepted:(int)self.request_id mate_id:[request[5] intValue] first:request[0] last:request[1] un:request[2] gender:[request[3] intValue] birthdate:request[4] deleted:0];
             
             //get frictlist after accepting mate
             PlistHelper * plist = [PlistHelper alloc];
@@ -535,7 +535,7 @@ UIAlertView * alertView;
         {
             NSLog(@"rejected");
             //rejected
-            [sql add_rejected:self.request_id mate_id:[request[5] intValue] first:request[0] last:request[1] un:request[2] gender:[request[3] intValue] birthdate:request[4]];
+            [sql add_rejected:(int)self.request_id mate_id:[request[5] intValue] first:request[0] last:request[1] un:request[2] gender:[request[3] intValue] birthdate:request[4]];
             //go back
             [alertView dismissWithClickedButtonIndex:0 animated:YES];
             [self.navigationController popViewControllerAnimated:YES];
@@ -550,7 +550,7 @@ UIAlertView * alertView;
            intResult == -120 || //accepte/reject update wasn't successful
            intResult == -121) //accept/reject value wasn't 1/-1
         {
-            [self showErrorCodeDialog:intResult];
+            [self showErrorCodeDialog:(int)intResult];
         }
         else
         {

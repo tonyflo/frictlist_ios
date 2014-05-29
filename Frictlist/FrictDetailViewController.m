@@ -12,10 +12,12 @@
 #import "SqlHelper.h"
 #import "version.h"
 
+#if defined(MMEDIA)
 //mmedia
 #import "FrictlistAppDelegate.h"
 #import <MillennialMedia/MMInterstitial.h>
 #import "AdHelper.h"
+#endif
 
 #define PIN_INDEX (0)
 #define BOTH_INDEX (1)
@@ -225,7 +227,7 @@ bool keyboardIsShown = NO;
 -(void)mapView:(MKMapView *)mv regionDidChangeAnimated:(BOOL)animated
 {
     NSLog(@"done animating");
-    int index = locationToggle.selectedSegmentIndex;
+    int index = (int)locationToggle.selectedSegmentIndex;
     if(index == BOTH_INDEX)
     {
         //show blue dot
@@ -352,7 +354,10 @@ bool keyboardIsShown = NO;
 
 -(void)viewWillAppear:(BOOL)animated
 {
+#if defined(MMEDIA)
     [self interstatialAd];
+#endif
+    
     NSLog(@"view will appear frict detail");
     
     //disable editing date, location, and base of a shared frict
@@ -394,7 +399,7 @@ bool keyboardIsShown = NO;
         double lon = 0;
         
         //get frict data
-        frict = [sql get_frict:self.frict_id];
+        frict = [sql get_frict:(int)self.frict_id];
         fromDate = frict[0];
         rating = [frict[1] intValue];
         base = [frict[2] intValue];
@@ -521,11 +526,13 @@ bool keyboardIsShown = NO;
                                                  name:UIKeyboardWillHideNotification
                                                object:self.view.window];
     keyboardIsShown = NO;
-    
+
+#if defined(MMEDIA)
     //set metadata
     AdHelper * ah = [[AdHelper alloc] init];
     [ah getAdMetadata];
-    
+#endif
+
     //datepicker backgorund color
     fromSwitch.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
     
@@ -564,7 +571,7 @@ bool keyboardIsShown = NO;
 {
     BOOL rc = true;
     
-    int base = baseSwitch.selectedSegmentIndex;
+    int base = (int)baseSwitch.selectedSegmentIndex;
     NSDate * from = fromSwitch.date;
     int ratingVal = ratingSlider.value;
     NSString * hu_notes = notes.text;
@@ -641,12 +648,12 @@ bool keyboardIsShown = NO;
     if(self.frict_id > 0)
     {
         //update
-        post = [NSString stringWithFormat:@"&frict_id=%d&mate_id=%d&base=%d&from=%@&rating=%d&notes=%@&creator=%d&lat=%f&lon=%f",self.frict_id, self.mate_id, base, from, rate, hu_notes, self.creator, pinToRemember.coordinate.latitude, pinToRemember.coordinate.longitude];
+        post = [NSString stringWithFormat:@"&frict_id=%lu&mate_id=%lu&base=%d&from=%@&rating=%d&notes=%@&creator=%lu&lat=%f&lon=%f",(unsigned long)self.frict_id, (unsigned long)self.mate_id, base, from, rate, hu_notes, (unsigned long)self.creator, pinToRemember.coordinate.latitude, pinToRemember.coordinate.longitude];
     }
     else
     {
         //add
-        post = [NSString stringWithFormat:@"&mate_id=%d&base=%d&from=%@&rating=%d&notes=%@&creator=%d&lat=%f&lon=%f",self.mate_id, base, from, rate, hu_notes, self.creator, pinToRemember.coordinate.latitude, pinToRemember.coordinate.longitude];
+        post = [NSString stringWithFormat:@"&mate_id=%lu&base=%d&from=%@&rating=%d&notes=%@&creator=%lu&lat=%f&lon=%f",(unsigned long)self.mate_id, base, from, rate, hu_notes, (unsigned long)self.creator, pinToRemember.coordinate.latitude, pinToRemember.coordinate.longitude];
     }
     
     //2. Encode the post string using NSASCIIStringEncoding and also the post string you need to send in NSData format.
@@ -654,7 +661,7 @@ bool keyboardIsShown = NO;
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -791,7 +798,7 @@ bool keyboardIsShown = NO;
     
     NSInteger intResult = [strResult integerValue];
     
-    NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
+    NSLog(@"Did receive data int: %ld str %@ strlen %lu", (long)intResult, strResult, (unsigned long)strResult.length);
     if(intResult > 0)
     {
         NSLog(@"Success");
@@ -808,13 +815,13 @@ bool keyboardIsShown = NO;
             if(self.creator == 1)
             {
                 //the creator of the frictlist is updating this frict
-                [sql update_frict_as_fl_creator:intResult from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text lat:pinToRemember.coordinate.latitude lon:pinToRemember.coordinate.longitude];
+                [sql update_frict_as_fl_creator:(int)intResult from:fromFormatted rating:ratingSlider.value base:(int)baseSwitch.selectedSegmentIndex notes:notes.text lat:pinToRemember.coordinate.latitude lon:pinToRemember.coordinate.longitude];
                 NSLog(@"updating frict as creator");
             }
             else if(self.creator == 0)
             {
                 //the recipient of the frictlist is updating this frict
-                [sql update_frict_as_fl_recipient:intResult from:fromFormatted base:baseSwitch.selectedSegmentIndex mate_rating:ratingSlider.value mate_notes:notes.text mate_deleted:0];
+                [sql update_frict_as_fl_recipient:(int)intResult from:fromFormatted base:(int)baseSwitch.selectedSegmentIndex mate_rating:ratingSlider.value mate_notes:notes.text mate_deleted:0];
                 NSLog(@"updating frict as recipient");
             }
             else
@@ -828,12 +835,12 @@ bool keyboardIsShown = NO;
             if(self.creator == 1)
             {
                 //creator of the frictlist is adding a frict
-                [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:ratingSlider.value base:baseSwitch.selectedSegmentIndex notes:notes.text mate_rating:0 mate_notes:NULL mate_deleted:0 creator:self.creator deleted:0 lat:pinToRemember.coordinate.latitude lon:pinToRemember.coordinate.longitude];
+                [sql add_frict:(int)intResult mate_id:(int)self.mate_id from:fromFormatted rating:ratingSlider.value base:(int)baseSwitch.selectedSegmentIndex notes:notes.text mate_rating:0 mate_notes:NULL mate_deleted:0 creator:(int)self.creator deleted:0 lat:pinToRemember.coordinate.latitude lon:pinToRemember.coordinate.longitude];
             }
             else if(self.creator == 0)
             {
                 //recipient of the frictlist is adding a frict
-                [sql add_frict:intResult mate_id:self.mate_id from:fromFormatted rating:0 base:baseSwitch.selectedSegmentIndex notes:@"" mate_rating:ratingSlider.value mate_notes:notes.text mate_deleted:0 creator:self.creator deleted:0 lat:pinToRemember.coordinate.latitude lon:pinToRemember.coordinate.longitude];
+                [sql add_frict:(int)intResult mate_id:(int)self.mate_id from:fromFormatted rating:0 base:(int)baseSwitch.selectedSegmentIndex notes:@"" mate_rating:ratingSlider.value mate_notes:notes.text mate_deleted:0 creator:(int)self.creator deleted:0 lat:pinToRemember.coordinate.latitude lon:pinToRemember.coordinate.longitude];
             }
             else
             {
@@ -863,7 +870,7 @@ bool keyboardIsShown = NO;
            intResult == -100 || //id was null or not positive
            intResult == -101) //id doesn't exist or isn't unique
         {
-            [self showErrorCodeDialog:intResult];
+            [self showErrorCodeDialog:(int)intResult];
         }
         else
         {
@@ -1020,6 +1027,7 @@ bool keyboardIsShown = NO;
     keyboardIsShown = YES;
 }
 
+#if defined(MMEDIA)
 -(void)interstatialAd
 {
     //Location Object
@@ -1057,6 +1065,6 @@ bool keyboardIsShown = NO;
                             }];
     }
 }
-
+#endif
 
 @end

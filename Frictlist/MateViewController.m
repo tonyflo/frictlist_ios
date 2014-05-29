@@ -234,7 +234,7 @@ int curSwipeIndex = 0;
 - (void)zoomMapViewToFitAnnotations
 {
     NSArray *annotations = mapView.annotations;
-    int count = [mapView.annotations count];
+    int count = (int)[mapView.annotations count];
     if ( count == 0) { return; } //bail if no annotations
     
     //convert NSArray of id <MKAnnotation> into an MKCoordinateRegion that can be used to set the map size
@@ -280,7 +280,7 @@ int curSwipeIndex = 0;
     else
     {
         NSLog(@"staying here");
-        NSLog(@"Mate ID: %d", self.hu_id);
+        NSLog(@"Mate ID: %lu", (unsigned long)self.hu_id);
         
         [self populateMapWithPins];
     }
@@ -313,12 +313,12 @@ int curSwipeIndex = 0;
     {
         NSLog(@"Accpted this incomming request");
         //if coming from an accepted incomming request row, use the request id to get the data for the accepted mate
-        mate_details=[sql get_accepted:self.request_id];
+        mate_details=[sql get_accepted:(int)self.request_id];
     }
     else
     {
         //if coming from a personal row, use the mate id to get the data for this mate
-        mate_details=[sql get_mate:self.hu_id];
+        mate_details=[sql get_mate:(int)self.hu_id];
     }
      
     
@@ -347,14 +347,14 @@ int curSwipeIndex = 0;
     int counts[4] = {0,0,0,0};
     
     //get frict bases count
-    NSArray *fl = [sql get_frict_list:self.hu_id];
+    NSArray *fl = [sql get_frict_list:(int)self.hu_id];
     
     if(fl != NULL)
     {
         //init pin array
         pinArray = [[NSMutableArray alloc] init];
         
-        int count = ((NSArray *)fl[0]).count;
+        int count = (int)(((NSArray *)fl[0]).count);
         for(int i = 0; i < count; i++)
         {
             //sick logic to determine score and base count
@@ -454,7 +454,8 @@ int curSwipeIndex = 0;
 }
 
 - (IBAction)sharedInfoPress:(id)sender
-{SqlHelper *sql = [SqlHelper alloc];
+{
+    SqlHelper *sql = [SqlHelper alloc];
     NSArray * mate_details;
     
     //get mate info
@@ -462,12 +463,12 @@ int curSwipeIndex = 0;
     {
         NSLog(@"Accpted this incomming request");
         //if coming from an accepted incomming request row, use the request id to get the data for the accepted mate
-        mate_details=[sql get_accepted:self.request_id];
+        mate_details=[sql get_accepted:(int)self.request_id];
     }
     else
     {
         //if coming from a personal row, use the mate id to get the data for this mate
-        mate_details=[sql get_mate:self.hu_id];
+        mate_details=[sql get_mate:(int)self.hu_id];
     }
     
     

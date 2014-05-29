@@ -13,11 +13,13 @@
 #import "RequestViewController.h"
 #import "version.h"
 
+#if defined(MMEDIA)
 //mmedia
 #import <MillennialMedia/MMAdView.h>
 #import "FrictlistAppDelegate.h"
 #import "QuartzCore/QuartzCore.h"
 #import "AdHelper.h"
+#endif
 
 @interface MatelistViewController ()
 
@@ -27,10 +29,12 @@
 
 @synthesize tableView;
 
+#if defined(MMEDIA)
 //ad variables
 MMAdView *banner;
 float tvHeight; //height of tableview
 CGFloat screenWidth; //width of screen
+#endif
 
 UIAlertView * alertView;
 int curRow = -1;
@@ -39,7 +43,6 @@ BOOL canRefresh = true; //if the refresh is happening
 BOOL sentFromAdd = false;
 int accepted = 0; //will be 1 if removing an accepted mate, -1 if removing a rejected mate
 int viewRequest = 0; //will be 1 if responding to a request, -1 if changing a rejected request
-
 
 NSMutableArray *huidArray;
 NSMutableArray *firstNameArray;
@@ -86,13 +89,15 @@ NSMutableArray *rejectedGenderArray;
                                    
     [self stopRefresh];
     canRefresh = true;
-    
+
+#if defined(MMEDIA)
     //ads
     //to register tableview with scrollview
     self.tableView.delegate = self;
     //set metadata
     AdHelper * ah = [[AdHelper alloc] init];
     [ah getAdMetadata];
+#endif
 }
 
 - (void)stopRefresh
@@ -170,7 +175,7 @@ NSMutableArray *rejectedGenderArray;
             indexPath = [self.tableView indexPathForSelectedRow];
         }
         
-        int local_hid = [indexPath row];
+        int local_hid = (int)[indexPath row];
         int remote_hid = [huidArray[local_hid] intValue];
         NSLog(@"%@", acceptedArray);
         
@@ -277,8 +282,10 @@ NSMutableArray *rejectedGenderArray;
     tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
     
     NSLog(@"view has appeared");
-    
+
+#if defined(MMEDIA)
     [self ad];
+#endif
 }
 
 - (void)didReceiveMemoryWarning
@@ -345,7 +352,7 @@ NSMutableArray *rejectedGenderArray;
     {
         case 0:
             //personal matelist
-            count = [huidArray count];
+            count = (int)[huidArray count];
             if(self.editing)
             {
                 count++;
@@ -353,13 +360,13 @@ NSMutableArray *rejectedGenderArray;
             break;
         case 1:
             //incomming notifications
-            count = incommingRequestIdArray.count;
+            count = (int)incommingRequestIdArray.count;
             break;
         case 2:
-            count = acceptedRequestIdArray.count;
+            count = (int)acceptedRequestIdArray.count;
             break;
         case 3:
-            count = rejectedRequestIdArray.count;
+            count = (int)rejectedRequestIdArray.count;
             break;
     }
     return count;
@@ -368,13 +375,13 @@ NSMutableArray *rejectedGenderArray;
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
     if(section == 0)
-        return [NSString stringWithFormat:@"Personal (%d)", huidArray.count];
+        return [NSString stringWithFormat:@"Personal (%lu)", (unsigned long)huidArray.count];
     else if (section == 1)
-        return [NSString stringWithFormat:@"Pending (%d)", incommingRequestIdArray.count];
+        return [NSString stringWithFormat:@"Pending (%lu)", (unsigned long)incommingRequestIdArray.count];
     else if (section == 2)
-        return [NSString stringWithFormat:@"Accepted (%d)", acceptedRequestIdArray.count];
+        return [NSString stringWithFormat:@"Accepted (%lu)", (unsigned long)acceptedRequestIdArray.count];
     else if (section == 3)
-        return [NSString stringWithFormat:@"Rejected (%d)", rejectedRequestIdArray.count];
+        return [NSString stringWithFormat:@"Rejected (%lu)", (unsigned long)rejectedRequestIdArray.count];
     else
         return @"";
 }
@@ -462,7 +469,7 @@ NSMutableArray *rejectedGenderArray;
                 return cell;
             }
             
-            int i = indexPath.row;
+            int i = (int)indexPath.row;
             
             if(firstNameArray.count > i)
             {
@@ -509,7 +516,7 @@ NSMutableArray *rejectedGenderArray;
         case 1://pending
             if(imcommingFirstNameArray.count > indexPath.row)
             {
-                int i = indexPath.row;
+                int i = (int)indexPath.row;
                 
                 NSString *name = [NSString stringWithFormat:@"%@ %@", imcommingFirstNameArray[i], imcommingLastNameArray[i]];
                 
@@ -528,7 +535,7 @@ NSMutableArray *rejectedGenderArray;
         case 2://accepted
             if(acceptedFirstNameArray.count > indexPath.row)
             {
-                int i = indexPath.row;
+                int i = (int)indexPath.row;
                 
                 NSString *name = [NSString stringWithFormat:@"%@ %@", acceptedFirstNameArray[i], acceptedLastNameArray[i]];
                 
@@ -560,7 +567,7 @@ NSMutableArray *rejectedGenderArray;
         case 3://rejected
             if(rejectedFirstNameArray.count > indexPath.row)
             {
-                int i = indexPath.row;
+                int i = (int)indexPath.row;
                 
                 NSString *name = [NSString stringWithFormat:@"%@ %@", rejectedFirstNameArray[i], rejectedLastNameArray[i]];
                 
@@ -648,7 +655,7 @@ NSMutableArray *rejectedGenderArray;
                 [self showRemovingMateDialog];
                 
                 //get row
-                curRow = indexPath.row;
+                curRow = (int)indexPath.row;
                 
                 //get mate_id
                 int mate_id = [[huidArray objectAtIndex:curRow] intValue];
@@ -675,7 +682,7 @@ NSMutableArray *rejectedGenderArray;
                 [self showRemovingMateDialog];
                 
                 //get row
-                curRow = indexPath.row;
+                curRow = (int)indexPath.row;
                 
                 //get mate_id
                 int mate_id = [[acceptedMateIdArray objectAtIndex:curRow] intValue];
@@ -693,7 +700,7 @@ NSMutableArray *rejectedGenderArray;
                 [self showRemovingMateDialog];
                 
                 //get row
-                curRow = indexPath.row;
+                curRow = (int)indexPath.row;
                 
                 //get mate_id
                 int mate_id = [[rejectedMateIdArray objectAtIndex:curRow] intValue];
@@ -721,7 +728,7 @@ NSMutableArray *rejectedGenderArray;
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -771,7 +778,7 @@ NSMutableArray *rejectedGenderArray;
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -821,7 +828,7 @@ NSMutableArray *rejectedGenderArray;
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -925,7 +932,7 @@ NSMutableArray *rejectedGenderArray;
     
     NSInteger intResult = [strResult integerValue];
     
-    NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
+    NSLog(@"Did receive data int: %ld str %@ strlen %lu", (long)intResult, strResult, (unsigned long)strResult.length);
     NSArray *query_result = [strResult componentsSeparatedByString:@"\n"];
     NSString *searchFlag = query_result[0];
     
@@ -943,7 +950,7 @@ NSMutableArray *rejectedGenderArray;
         {
             //split the row into columns
             NSArray *frict = [query_result[i] componentsSeparatedByString:@"\t"];
-            NSLog(@"Frict count = %d", frict.count);
+            NSLog(@"Frict count = %lu", (unsigned long)frict.count);
             if(frict.count == 18)
             {
                 //check if mate has already been added to sqlite
@@ -1080,7 +1087,7 @@ NSMutableArray *rejectedGenderArray;
             {
                 NSLog(@"removing mate!");
                 SqlHelper * sql = [SqlHelper alloc];
-                [sql remove_mate:intResult];
+                [sql remove_mate:(int)intResult];
                 
                 //remove mate data from local arrays
                 [huidArray removeObjectAtIndex:curRow];
@@ -1107,7 +1114,7 @@ NSMutableArray *rejectedGenderArray;
                 {
                     NSLog(@"removing accepted!");
                     SqlHelper * sql = [SqlHelper alloc];
-                    [sql remove_accepted:intResult];
+                    [sql remove_accepted:(int)intResult];
                     
                     //remove mate data from local arrays
                     [acceptedRequestIdArray removeObjectAtIndex:curRow];
@@ -1124,7 +1131,7 @@ NSMutableArray *rejectedGenderArray;
                 {
                     NSLog(@"removing rejected!");
                     SqlHelper * sql = [SqlHelper alloc];
-                    [sql remove_rejected:intResult];
+                    [sql remove_rejected:(int)intResult];
                     
                     //remove mate data from local arrays
                     [rejectedRequestIdArray removeObjectAtIndex:curRow];
@@ -1172,7 +1179,7 @@ NSMutableArray *rejectedGenderArray;
            intResult == -100 || //id was null or not positive
            intResult == -101) //id doesn't exist or isn't unique
         {
-            [self showErrorCodeDialog:intResult];
+            [self showErrorCodeDialog:(int)intResult];
         }
         else
         {
@@ -1204,6 +1211,7 @@ NSMutableArray *rejectedGenderArray;
     [alert show];
 }
 
+#if defined(MMEDIA)
 //ad stuff
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -1253,5 +1261,6 @@ NSMutableArray *rejectedGenderArray;
             NSLog(@"BANNER AD REQUEST FAILED WITH ERROR: %@", error); }
     }];
 }
+#endif
 
 @end

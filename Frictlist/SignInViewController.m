@@ -279,7 +279,7 @@ UIAlertView * alertView;
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -331,7 +331,7 @@ UIAlertView * alertView;
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -383,7 +383,7 @@ UIAlertView * alertView;
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -433,7 +433,7 @@ UIAlertView * alertView;
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     //You need to send the actual length of your data. Calculate the length of the post string.
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
     //3. Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string. Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -480,7 +480,7 @@ UIAlertView * alertView;
     NSDateComponents *components = [gregorian components:units fromDate:bday toDate:now options:0];
     NSUInteger years = [components year];
     
-    return years;
+    return (int)years;
 }
 
 
@@ -689,7 +689,7 @@ UIAlertView * alertView;
     
     NSInteger intResult = [strResult integerValue];
     
-    NSLog(@"Did receive data int: %d str %@ strlen %d", intResult, strResult, strResult.length);
+    NSLog(@"Did receive data int: %ld str %@ strlen %lu", (long)intResult, strResult, (unsigned long)strResult.length);
     NSArray *query_result = [strResult componentsSeparatedByString:@"\n"];
     NSString *searchFlag = query_result[0];
     SqlHelper *sql = [SqlHelper alloc];
@@ -707,7 +707,7 @@ UIAlertView * alertView;
         {
             //split the row into columns
             NSArray *frict = [query_result[i] componentsSeparatedByString:@"\t"];
-            NSLog(@"Frict count = %d", frict.count);
+            NSLog(@"Frict count = %lu", (unsigned long)frict.count);
             if(frict.count == 18)
             {
                 //check if mate has already been added to sqlite
@@ -836,14 +836,14 @@ UIAlertView * alertView;
     {
         //To insert username and pk into the plist
         PlistHelper *plist = [PlistHelper alloc];
-        [plist setPk:intResult];
+        [plist setPk:(int)intResult];
         [plist setEmail:usernameText.text];
         
         //now, get the frictlist
         if(checkboxButton.selected == 0)
         {
             //get the frictlist because this is not a new account
-            [self get_frictlist:intResult];
+            [self get_frictlist:(int)intResult];
         }
         else
         {
@@ -894,7 +894,7 @@ UIAlertView * alertView;
             else if(intResult == -10)
             {
                 //insert into db was not successful
-                [self showErrorCodeDialog:intResult];
+                [self showErrorCodeDialog:(int)intResult];
             }
             else
             {
