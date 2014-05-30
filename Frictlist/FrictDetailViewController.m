@@ -746,7 +746,7 @@ bool keyboardIsShown = NO;
 {
     UIAlertView *alert = [[UIAlertView alloc] init];
     [alert setTitle:@"Time Travling Error"];
-    [alert setMessage:@"Unfortunately, time travel hasn't been invented yet."];
+    [alert setMessage:@"Unfortunately, time travel hasn't been invented yet.\nPlese pick a date in the past."];
     [alert setDelegate:self];
     [alert addButtonWithTitle:@"Okay"];
     [alert show];

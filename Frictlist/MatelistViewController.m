@@ -220,7 +220,7 @@ NSMutableArray *rejectedGenderArray;
         {
             [self showErrorCodeDialog:-420];
         }
-
+        [banner removeFromSuperview];
     }
     else if([segue.identifier isEqualToString:@"showAcceptedDetail"])
     {
