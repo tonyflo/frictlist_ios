@@ -22,6 +22,7 @@
 #if defined(REVMOB)
 #import "FrictlistAppDelegate.h"
 #import <RevMobAds/RevMobAds.h>
+#import "RevMobHelper.h"
 #endif
 
 #define PIN_INDEX (0)
@@ -364,7 +365,9 @@ bool keyboardIsShown = NO;
 #endif
     
 #if defined(REVMOB)
-    [[RevMobAds session] showFullscreen];
+    RevMobHelper * rmh = [RevMobHelper alloc];
+    [rmh getUserData];
+    [[RevMobAds session]showFullscreen];
 #endif
     
     NSLog(@"view will appear frict detail");

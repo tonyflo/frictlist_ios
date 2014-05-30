@@ -57,12 +57,13 @@
 		2F9D1007193806B700DE774A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9D1006193806B700DE774A /* StoreKit.framework */; };
 		2F9D1009193806BF00DE774A /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9D1008193806BF00DE774A /* AdSupport.framework */; };
 		2F9D100B19380A3D00DE774A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9D100A19380A3D00DE774A /* CoreGraphics.framework */; };
+		2F9D100E1938113A00DE774A /* RevMobHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9D100D1938113A00DE774A /* RevMobHelper.m */; };
+		2F9D100F193812EC00DE774A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FAD77FA18FDEEA900EC3C86 /* CoreLocation.framework */; };
 		2F9DC36418DE4F6700024553 /* FrictViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9DC36318DE4F6700024553 /* FrictViewController.m */; };
 		2FA62107190C8A2500973E6E /* selected_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FA62105190C8A2400973E6E /* selected_0.png */; };
 		2FA62108190C8A2500973E6E /* selected_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FA62106190C8A2500973E6E /* selected_1.png */; };
 		2FA62118190F17AF00973E6E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA62117190F17AF00973E6E /* QuartzCore.framework */; };
 		2FAD77F918FDEC1B00EC3C86 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FAD77F818FDEC1B00EC3C86 /* MapKit.framework */; };
-		2FAD77FB18FDEEAA00EC3C86 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FAD77FA18FDEEA900EC3C86 /* CoreLocation.framework */; };
 		2FCB43A018E65891007DF46F /* frictlist.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 2FCB439F18E65891007DF46F /* frictlist.sqlite */; };
 		2FDA34E61875D42F00ED5698 /* checkbox-checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E31875D42E00ED5698 /* checkbox-checked.png */; };
 		2FDA34E71875D42F00ED5698 /* checkbox-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA34E41875D42E00ED5698 /* checkbox-pressed.png */; };
@@ -139,6 +140,8 @@
 		2F9D1006193806B700DE774A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2F9D1008193806BF00DE774A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		2F9D100A19380A3D00DE774A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2F9D100C1938113A00DE774A /* RevMobHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RevMobHelper.h; sourceTree = "<group>"; };
+		2F9D100D1938113A00DE774A /* RevMobHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RevMobHelper.m; sourceTree = "<group>"; };
 		2F9DC36218DE4F6700024553 /* FrictViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictViewController.h; sourceTree = "<group>"; };
 		2F9DC36318DE4F6700024553 /* FrictViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrictViewController.m; sourceTree = "<group>"; };
 		2FA62105190C8A2400973E6E /* selected_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected_0.png; sourceTree = "<group>"; };
@@ -167,6 +170,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F9D100F193812EC00DE774A /* CoreLocation.framework in Frameworks */,
 				2F9D100B19380A3D00DE774A /* CoreGraphics.framework in Frameworks */,
 				2F9D1009193806BF00DE774A /* AdSupport.framework in Frameworks */,
 				2F9D1007193806B700DE774A /* StoreKit.framework in Frameworks */,
@@ -174,7 +178,6 @@
 				2FA62118190F17AF00973E6E /* QuartzCore.framework in Frameworks */,
 				2F4EE0A4176E97B100642169 /* Foundation.framework in Frameworks */,
 				2F9D10031938068B00DE774A /* RevMobAds.framework in Frameworks */,
-				2FAD77FB18FDEEAA00EC3C86 /* CoreLocation.framework in Frameworks */,
 				2FAD77F918FDEC1B00EC3C86 /* MapKit.framework in Frameworks */,
 				2F9A89CE18E7651200309D13 /* MessageUI.framework in Frameworks */,
 				2F66D9F918E3C11900DE37A4 /* libsqlite3.0.dylib in Frameworks */,
@@ -188,7 +191,6 @@
 		2F4EE095176E97B100642169 = {
 			isa = PBXGroup;
 			children = (
-				2FA62117190F17AF00973E6E /* QuartzCore.framework */,
 				2F9A89BE18E7015F00309D13 /* icon-29.png */,
 				2F9A89BF18E7015F00309D13 /* icon-58.png */,
 				2F9A89C018E7016000309D13 /* icon-60.png */,
@@ -213,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				2FCB439F18E65891007DF46F /* frictlist.sqlite */,
+				2FA62117190F17AF00973E6E /* QuartzCore.framework */,
 				2FAD77FA18FDEEA900EC3C86 /* CoreLocation.framework */,
 				2FAD77F818FDEC1B00EC3C86 /* MapKit.framework */,
 				2F9A89CD18E7651100309D13 /* MessageUI.framework */,
@@ -279,6 +282,8 @@
 				2F9542161868D3BD0063CE37 /* TabBarController.m */,
 				2FFF24671911AEC8000117CF /* AdHelper.h */,
 				2FFF24681911AEC9000117CF /* AdHelper.m */,
+				2F9D100C1938113A00DE774A /* RevMobHelper.h */,
+				2F9D100D1938113A00DE774A /* RevMobHelper.m */,
 				2F66D9FA18E3C64100DE37A4 /* SqlHelper.h */,
 				2F66D9FB18E3C64200DE37A4 /* SqlHelper.m */,
 				2F383FAE18862F5F0010EF15 /* PlistHelper.h */,
@@ -427,6 +432,7 @@
 				2F9A89CC18E71DC600309D13 /* SearchViewController.m in Sources */,
 				2F52B94718E8DFAE00FEC16F /* RequestViewController.m in Sources */,
 				2FFF246619119B3E000117CF /* DeviceTokenHelper.m in Sources */,
+				2F9D100E1938113A00DE774A /* RevMobHelper.m in Sources */,
 				2FFF24691911AEC9000117CF /* AdHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

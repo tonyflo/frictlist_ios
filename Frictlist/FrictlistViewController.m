@@ -21,6 +21,13 @@
 #import "AdHelper.h"
 #endif
 
+#if defined(REVMOB)
+#import "FrictlistAppDelegate.h"
+#import <RevMobAds/RevMobAds.h>
+#import "AdHelper.h"
+#import "RevMobHelper.h"
+#endif
+
 @interface FrictlistViewController ()
 
 @end
@@ -193,6 +200,12 @@ CGFloat fl_screenWidth; //width of screen
     
 #if defined(MMEDIA)
     [self ad];
+#endif
+    
+#if defined(REVMOB)
+    RevMobHelper * rmh = [RevMobHelper alloc];
+    [rmh getUserData];
+    [[RevMobAds session]showBanner];
 #endif
 }
 
@@ -743,6 +756,19 @@ CGFloat fl_screenWidth; //width of screen
     [alert show];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    NSLog(@"view did disappear");
+#if defined(MMEDIA)
+    [fl_banner removeFromSuperview];
+#endif
+    
+#if defined(REVMOB)
+    [[RevMobAds session]hideBanner];
+#endif
+}
+
+
 #if defined(MMEDIA)
 //ad stuff
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -750,12 +776,6 @@ CGFloat fl_screenWidth; //width of screen
     //anchor ad above tabbar
     fl_banner.frame = CGRectMake(0, fl_tvHeight + scrollView.contentOffset.y, fl_screenWidth, AD_BANNER_HEIGHT);
     fl_banner.layer.zPosition = TOP_LAYER;
-}
-
--(void)viewDidDisappear:(BOOL)animated
-{
-    NSLog(@"view did disappear");
-    [fl_banner removeFromSuperview];
 }
 
 -(void)ad

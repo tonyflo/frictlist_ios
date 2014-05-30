@@ -11,6 +11,12 @@
 #import "SqlHelper.h"
 #import "version.h"
 
+#if defined(REVMOB)
+#import "FrictlistAppDelegate.h"
+#import <RevMobAds/RevMobAds.h>
+#import "RevMobHelper.h"
+#endif
+
 @interface MateDetailViewController ()
 
 @end
@@ -30,6 +36,11 @@ int gender;
 
 -(void)viewWillAppear:(BOOL)animated
 {
+#if defined(REVMOB)
+    RevMobHelper * rmh = [RevMobHelper alloc];
+    [rmh getUserData];
+    [[RevMobAds session]showFullscreen];
+#endif
     //check if this is an existing hookup
     //this mean that we have to display the data for edit
     if(self.hu_id > 0)

@@ -19,6 +19,7 @@
 
 #if defined(REVMOB)
 #import <RevMobAds/RevMobAds.h>
+#import "RevMobHelper.h"
 #endif
 
 //apns
@@ -28,7 +29,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
     //global tint color
     self.window.tintColor = [UIColor colorWithRed:RED green:GREEN blue:BLUE alpha:1.0];
     
@@ -50,7 +50,9 @@
     
 #if defined(REVMOB)
     [RevMobAds startSessionWithAppID:REVMOB_APP_ID];
+#if defined(NON_PRODUCTION)
     [RevMobAds session].testingMode = RevMobAdsTestingModeWithAds; //todo remove for production
+#endif
 #endif
     
     //apns when app is open
@@ -120,6 +122,31 @@
                                 NSLog(@"Error fetching ad: %@", error);
                             }
                         }];
+}
+#endif
+
+#if defined(REVMOB)
+- (void)setUserLocation {
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_2
+    RevMobAds *revmob = [RevMobAds session];
+    BOOL locationAllowed = [CLLocationManager locationServicesEnabled] && ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);
+    
+    if (locationAllowed){
+        CLLocation *location = self.locationManager.location;
+        
+        [self.locationManager setDistanceFilter: kCLDistanceFilterNone];
+        [self.locationManager setDesiredAccuracy: kCLLocationAccuracyHundredMeters];
+        [self.locationManager startUpdatingLocation];
+        
+        [revmob setUserLatitude: location.coordinate.latitude
+                  userLongitude: location.coordinate.longitude
+                   userAccuracy: location.horizontalAccuracy];
+    }
+#endif
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    [self setUserLocation];
 }
 #endif
 

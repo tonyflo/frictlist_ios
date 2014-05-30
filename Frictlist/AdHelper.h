@@ -13,5 +13,6 @@
 -(void)getAdMetadata;
 -(NSNumber *) getAge;
 -(int) getGender;
+-(NSDate *) getBday;
 
 @end

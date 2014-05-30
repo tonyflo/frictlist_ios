@@ -21,6 +21,12 @@
 #import "AdHelper.h"
 #endif
 
+#if defined(REVMOB)
+#import "FrictlistAppDelegate.h"
+#import <RevMobAds/RevMobAds.h>
+#import "RevMobHelper.h"
+#endif
+
 @interface MatelistViewController ()
 
 @end
@@ -89,15 +95,6 @@ NSMutableArray *rejectedGenderArray;
                                    
     [self stopRefresh];
     canRefresh = true;
-
-#if defined(MMEDIA)
-    //ads
-    //to register tableview with scrollview
-    self.tableView.delegate = self;
-    //set metadata
-    AdHelper * ah = [[AdHelper alloc] init];
-    [ah getAdMetadata];
-#endif
 }
 
 - (void)stopRefresh
@@ -236,6 +233,21 @@ NSMutableArray *rejectedGenderArray;
 
 -(void)viewWillAppear:(BOOL)animated
 {
+#if defined(MMEDIA)
+    //ads
+    //to register tableview with scrollview
+    self.tableView.delegate = self;
+    //set metadata
+    AdHelper * ah = [[AdHelper alloc] init];
+    [ah getAdMetadata];
+#endif
+    
+#if defined(REVMOB)
+    RevMobHelper * rmh = [RevMobHelper alloc];
+    [rmh getUserData];
+    [[RevMobAds session]showBanner];
+#endif
+    
     NSLog(@"view will appear");
     
     SqlHelper * sql = [SqlHelper alloc];
@@ -1211,6 +1223,18 @@ NSMutableArray *rejectedGenderArray;
     [alert show];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    NSLog(@"view did disappear");
+#if defined(MMEDIA)
+    [banner removeFromSuperview];
+#endif
+    
+#if defined(REVMOB)
+    [[RevMobAds session]hideBanner];
+#endif
+}
+
 #if defined(MMEDIA)
 //ad stuff
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -1218,12 +1242,6 @@ NSMutableArray *rejectedGenderArray;
     //anchor ad above tabbar
     banner.frame = CGRectMake(0, tvHeight + scrollView.contentOffset.y, screenWidth, AD_BANNER_HEIGHT);
     banner.layer.zPosition = TOP_LAYER;
-}
-
--(void)viewDidDisappear:(BOOL)animated
-{
-    NSLog(@"view did disappear");
-    [banner removeFromSuperview];
 }
 
 -(void)ad
