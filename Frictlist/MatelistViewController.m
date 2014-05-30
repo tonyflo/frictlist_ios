@@ -259,7 +259,7 @@ NSMutableArray *rejectedGenderArray;
     [rmh getUserData];
     
     banner = [[RevMobAds session]bannerViewWithPlacementId:REVMOB_MATELIST_BANNER_ID];
-    banner.delegate = self;
+    //banner.delegate = self;
     [banner loadAd];
     
     [banner loadWithSuccessHandler:^(RevMobBannerView *banner) {

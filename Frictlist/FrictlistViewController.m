@@ -44,11 +44,18 @@ NSMutableArray *matesFrictIds;
 NSMutableArray *fromArray;
 NSMutableArray *baseArray;
 
+#if defined(MMEDIA) || defined(REVMOB)
+float fl_tvHeight; //height of tableview
+CGFloat fl_screenWidth; //width of screen
+#endif
+
 #if defined(MMEDIA)
 //ad variables
 MMAdView *fl_banner;
-float fl_tvHeight; //height of tableview
-CGFloat fl_screenWidth; //width of screen
+#endif
+
+#if defined(REVMOB)
+RevMobBannerView *fl_banner;
 #endif
 
 - (void)viewDidLoad
@@ -186,8 +193,37 @@ CGFloat fl_screenWidth; //width of screen
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"view will appear");
-    NSLog(@"mate id: %lu", (unsigned long)self.hu_id);
+#if defined(MMEDIA) || (REVMOB)
+    [self setupBannerForTableView];
+#endif
+    
+#if defined(MMEDIA)
+    //ads
+    //to register tableview with scrollview
+    self.tableView.delegate = self;
+    //set metadata
+    AdHelper * ah = [[AdHelper alloc] init];
+    [ah getAdMetadata];
+    [self ad];
+#endif
+    
+#if defined(REVMOB)
+    RevMobHelper * rmh = [RevMobHelper alloc];
+    [rmh getUserData];
+    
+    fl_banner = [[RevMobAds session]bannerViewWithPlacementId:REVMOB_FRICTLIST_BANNER_ID];
+    //fl_banner.delegate = self;
+    [fl_banner loadAd];
+    
+    [fl_banner loadWithSuccessHandler:^(RevMobBannerView *banner) {
+        [fl_banner setFrame:CGRectMake(0, fl_tvHeight + tableView.contentOffset.y - AD_BANNER_HEIGHT, fl_screenWidth, AD_BANNER_HEIGHT)];
+        [self.view addSubview:banner];
+    } andLoadFailHandler:^(RevMobBannerView *banner, NSError *error) {
+        //fail
+    } onClickHandler:^(RevMobBannerView *banner) {
+        //click
+    }];
+#endif
     
     [self populateTableData];
     [self.tableView reloadData];
@@ -197,17 +233,6 @@ CGFloat fl_screenWidth; //width of screen
     tableView.opaque = NO;
     tableView.backgroundView = nil;
     tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
-    
-#if defined(MMEDIA)
-    [self ad];
-#endif
-    
-#if defined(REVMOB)
-    RevMobHelper * rmh = [RevMobHelper alloc];
-    [rmh getUserData];
-    [[RevMobAds session] bannerViewWithPlacementId:REVMOB_FRICTLIST_BANNER_ID];
-    [[RevMobAds session]showBanner];
-#endif
 }
 
 - (void)didReceiveMemoryWarning
@@ -757,28 +782,32 @@ CGFloat fl_screenWidth; //width of screen
     [alert show];
 }
 
--(void)viewDidDisappear:(BOOL)animated
+#if defined(MMEDIA) || defined(REVMOB)
+- (void)setupBannerForTableView
 {
-    NSLog(@"view did disappear");
-#if defined(MMEDIA)
-    [fl_banner removeFromSuperview];
-#endif
+    CGRect tbBounds = [tableView bounds];
+    fl_tvHeight = tbBounds.size.height - AD_BANNER_HEIGHT;
     
-#if defined(REVMOB)
-    [[RevMobAds session]hideBanner];
-#endif
+    //CGSize tabBarSize = [[[self tabBarController] tabBar] bounds].size;
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    fl_screenWidth = screenRect.size.width;
 }
 
-
-#if defined(MMEDIA)
-//ad stuff
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     //anchor ad above tabbar
-    fl_banner.frame = CGRectMake(0, fl_tvHeight + scrollView.contentOffset.y, fl_screenWidth, AD_BANNER_HEIGHT);
+    fl_banner.frame = CGRectMake(0, fl_tvHeight + scrollView.contentOffset.y - AD_BANNER_HEIGHT, fl_screenWidth, AD_BANNER_HEIGHT);
     fl_banner.layer.zPosition = TOP_LAYER;
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [fl_banner removeFromSuperview];
+}
+#endif
+
+
+#if defined(MMEDIA)
 -(void)ad
 {
     //Location Object
