@@ -261,12 +261,26 @@ RevMobBannerView *fl_banner;
     }
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    int numsections = 1; //frictlist
+#if defined(MMEDIA) || defined(REVMOB)
+    numsections+=2; //leave room at bottom of table for ad
+#endif
+    return numsections;
+}
+
 //count rows
 - (NSInteger)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section
 {
-    int count = (int)[matesFrictIds count];
-    if(self.editing) {
-        count++;
+    int count = 0;
+    switch(section)
+    {
+        case 0:
+             count = (int)[matesFrictIds count];
+            if(self.editing) {
+                count++;
+            }
     }
     return count;
 }

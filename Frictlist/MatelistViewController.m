@@ -375,7 +375,11 @@ NSMutableArray *rejectedGenderArray;
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 6; //personal, pending, accepted, rejected
+    int numsections = 4; //personal, pending, accepted, rejected
+#if defined(MMEDIA) || defined(REVMOB)
+    numsections+=2; //leave room at bottom of table for ad
+#endif
+    return numsections;
 }
 
 //count rows
