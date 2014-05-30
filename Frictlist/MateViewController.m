@@ -50,7 +50,7 @@ int curSwipeIndex = 0;
     UIBarButtonItem *frictlistButton = [[UIBarButtonItem alloc] initWithTitle:@"Frictlist" style:UIBarButtonItemStyleBordered target:self action:@selector(goToFrictlist)];
     [self.navigationItem setRightBarButtonItem:frictlistButton];
     
-    mapView.delegate = self;
+    mapView.delegate = self; 
     
     fieldImage.userInteractionEnabled = NO;
     

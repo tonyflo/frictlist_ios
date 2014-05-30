@@ -120,7 +120,7 @@ int swipeIndex = 0;
     [super viewDidLoad];
     
     mapView.delegate = self;
-
+ 
     
     UIBarButtonItem *editFrictButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editFrictButtonPressed)];
     [self.navigationItem setRightBarButtonItem:editFrictButton];
