@@ -205,6 +205,7 @@ CGFloat fl_screenWidth; //width of screen
 #if defined(REVMOB)
     RevMobHelper * rmh = [RevMobHelper alloc];
     [rmh getUserData];
+    [[RevMobAds session] bannerViewWithPlacementId:REVMOB_FRICTLIST_BANNER_ID];
     [[RevMobAds session]showBanner];
 #endif
 }

@@ -39,7 +39,9 @@ int gender;
 #if defined(REVMOB)
     RevMobHelper * rmh = [RevMobHelper alloc];
     [rmh getUserData];
-    [[RevMobAds session]showFullscreen];
+    RevMobFullscreen *fullscreen = [[RevMobAds session] fullscreenWithPlacementId:REVMOB_MATE_DETAIL_FULLSCREEN_ID];
+    [fullscreen showAd];
+    //[[RevMobAds session]showFullscreen];
 #endif
     //check if this is an existing hookup
     //this mean that we have to display the data for edit

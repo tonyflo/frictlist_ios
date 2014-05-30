@@ -367,7 +367,9 @@ bool keyboardIsShown = NO;
 #if defined(REVMOB)
     RevMobHelper * rmh = [RevMobHelper alloc];
     [rmh getUserData];
-    [[RevMobAds session]showFullscreen];
+    RevMobFullscreen *fullscreen = [[RevMobAds session] fullscreenWithPlacementId:REVMOB_FRICT_DETAIL_FULLSCREEN_ID];
+    [fullscreen showAd];
+    //[[RevMobAds session]showFullscreen];
 #endif
     
     NSLog(@"view will appear frict detail");

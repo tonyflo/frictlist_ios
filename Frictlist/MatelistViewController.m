@@ -35,11 +35,18 @@
 
 @synthesize tableView;
 
+#if defined(MMEDIA) || defined(REVMOB)
+float tvHeight; //height of tableview
+CGFloat screenWidth; //width of screen
+#endif
+
 #if defined(MMEDIA)
 //ad variables
 MMAdView *banner;
-float tvHeight; //height of tableview
-CGFloat screenWidth; //width of screen
+#endif
+
+#if defined(REVMOB)
+RevMobBannerView *banner;
 #endif
 
 UIAlertView * alertView;
@@ -233,6 +240,10 @@ NSMutableArray *rejectedGenderArray;
 
 -(void)viewWillAppear:(BOOL)animated
 {
+#if defined(MMEDIA) || (REVMOB)
+    [self setupBannerForTableView];
+#endif
+    
 #if defined(MMEDIA)
     //ads
     //to register tableview with scrollview
@@ -240,12 +251,27 @@ NSMutableArray *rejectedGenderArray;
     //set metadata
     AdHelper * ah = [[AdHelper alloc] init];
     [ah getAdMetadata];
+    [self ad];
 #endif
     
 #if defined(REVMOB)
     RevMobHelper * rmh = [RevMobHelper alloc];
     [rmh getUserData];
-    [[RevMobAds session]showBanner];
+    
+    banner = [[RevMobAds session]bannerViewWithPlacementId:REVMOB_MATELIST_BANNER_ID];
+    banner.delegate = self;
+    [banner loadAd];
+    
+    [banner loadWithSuccessHandler:^(RevMobBannerView *banner) {
+        [banner setFrame:CGRectMake(0, tvHeight + tableView.contentOffset.y - AD_BANNER_HEIGHT, screenWidth, AD_BANNER_HEIGHT)];
+        [self.view addSubview:banner];
+    } andLoadFailHandler:^(RevMobBannerView *banner, NSError *error) {
+        //fail
+    } onClickHandler:^(RevMobBannerView *banner) {
+        //click
+    }];
+    
+    //[[RevMobAds session]showBanner];
 #endif
     
     NSLog(@"view will appear");
@@ -294,10 +320,6 @@ NSMutableArray *rejectedGenderArray;
     tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.gif"]];
     
     NSLog(@"view has appeared");
-
-#if defined(MMEDIA)
-    [self ad];
-#endif
 }
 
 - (void)didReceiveMemoryWarning
@@ -1223,27 +1245,31 @@ NSMutableArray *rejectedGenderArray;
     [alert show];
 }
 
--(void)viewDidDisappear:(BOOL)animated
+#if defined(MMEDIA) || defined(REVMOB)
+- (void)setupBannerForTableView
 {
-    NSLog(@"view did disappear");
-#if defined(MMEDIA)
-    [banner removeFromSuperview];
-#endif
+    CGRect tbBounds = [tableView bounds];
+    tvHeight = tbBounds.size.height - AD_BANNER_HEIGHT;
     
-#if defined(REVMOB)
-    [[RevMobAds session]hideBanner];
-#endif
+    //CGSize tabBarSize = [[[self tabBarController] tabBar] bounds].size;
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    screenWidth = screenRect.size.width;
 }
 
-#if defined(MMEDIA)
-//ad stuff
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     //anchor ad above tabbar
-    banner.frame = CGRectMake(0, tvHeight + scrollView.contentOffset.y, screenWidth, AD_BANNER_HEIGHT);
+    banner.frame = CGRectMake(0, tvHeight + scrollView.contentOffset.y - AD_BANNER_HEIGHT, screenWidth, AD_BANNER_HEIGHT);
     banner.layer.zPosition = TOP_LAYER;
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [banner removeFromSuperview];
+}
+#endif
+
+#if defined(MMEDIA)
 -(void)ad
 {
     //Location Object
@@ -1256,16 +1282,6 @@ NSMutableArray *rejectedGenderArray;
     AdHelper * ah = [AdHelper alloc];
     request.gender = [ah getGender];
     request.age = [ah getAge];
-    
-    // Replace YOUR_APID with the APID provided to you by Millennial Media
-    
-    CGRect tbBounds = [tableView bounds];
-    tvHeight = tbBounds.size.height - AD_BANNER_HEIGHT;
-    
-    //CGSize tabBarSize = [[[self tabBarController] tabBar] bounds].size;
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    screenWidth = screenRect.size.width;
-    //CGFloat screenHeight = screenRect.size.height;
     
     banner = [[MMAdView alloc] initWithFrame:CGRectMake(0, tvHeight + tableView.contentOffset.y, screenWidth, AD_BANNER_HEIGHT)
                                                   apid:APID_BANNER_MATELIST
