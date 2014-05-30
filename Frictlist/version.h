@@ -15,7 +15,7 @@
 }
 
 //comment for releases
-#define NON_PRODUCTION
+//#define NON_PRODUCTION
 
 #define SCRIPTS_URL (@"http://frictlist.flooreeda.com/scripts/")
 #define PLATFORM (1) //iOS
