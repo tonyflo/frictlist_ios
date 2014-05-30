@@ -45,6 +45,8 @@ int curSwipeIndex = 0;
 {
     [super viewDidLoad];
     
+    self.edgesForExtendedLayout = UIRectEdgeAll;
+    
     UIBarButtonItem *frictlistButton = [[UIBarButtonItem alloc] initWithTitle:@"Frictlist" style:UIBarButtonItemStyleBordered target:self action:@selector(goToFrictlist)];
     [self.navigationItem setRightBarButtonItem:frictlistButton];
     
@@ -161,75 +163,6 @@ int curSwipeIndex = 0;
     fieldImage.hidden = false;
 }
 
-/*
-- (void)zoomToFitMapAnnotations {
-    if ([mapView.annotations count] == 0) return;
-    
-    CLLocationCoordinate2D topLeftCoord;
-    topLeftCoord.latitude = -90;
-    topLeftCoord.longitude = 180;
-    
-    CLLocationCoordinate2D bottomRightCoord;
-    bottomRightCoord.latitude = 90;
-    bottomRightCoord.longitude = -180;
-    
-    for(id<MKAnnotation> annotation in mapView.annotations) {
-        topLeftCoord.longitude = fmin(topLeftCoord.longitude, annotation.coordinate.longitude);
-        topLeftCoord.latitude = fmax(topLeftCoord.latitude, annotation.coordinate.latitude);
-        bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, annotation.coordinate.longitude);
-        bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, annotation.coordinate.latitude);
-    }
-    
-    MKCoordinateRegion region;
-    region.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
-    region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
-    region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.1;
-    
-    // Add a little extra space on the sides
-    region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.1;
-    
-    //validate region
-    
-    if(region.center.latitude >= 90.0 || region.center.latitude <= -90.0)
-    {
-        //invalid latitude center
-        region.center.latitude = 0.0;
-        NSLog(@"Invalid center latatude");
-    }
-    
-    if(region.center.longitude >= 180.0 || region.center.longitude <= -180.0)
-    {
-        //invalid longitude center
-        region.center.longitude = 0.0;
-        NSLog(@"Invalid center longitude");
-    }
-    
-    //float map_span_lat = mapView.region.span.latitudeDelta;
-    //float map_span_lon = mapView.region.span.longitudeDelta;
- 
-    //if(region.span.latitudeDelta > map_span_lat || region.span.latitudeDelta <= 0.0)
-    //{
-     //   //invalid latitude span
-     //   NSLog(@"Invalid span latitude %f", region.span.latitudeDelta);
-     //   region.span.latitudeDelta = map_span_lat;
-    //}
-    
-    //if(region.span.longitudeDelta >= map_span_lon || region.span.longitudeDelta <= 0.0)
-    //{
-    //    //invalid longitude span
-    //    NSLog(@"Invalid span longitude %f", region.span.longitudeDelta);
-    //    region.span.longitudeDelta = map_span_lon;
-    //}
-    
-    region = [mapView regionThatFits:region];
-    [mapView setRegion:region animated:YES];
-    NSLog(@"Done zooming");
-}
-*/
-
-#define MINIMUM_ZOOM_ARC 0.014 //approximately 1 miles (1 degree of arc ~= 69 miles)
-#define ANNOTATION_REGION_PAD_FACTOR 1.15
-#define MAX_DEGREES_ARC 360
 //size the mapView region to fit its annotations
 - (void)zoomMapViewToFitAnnotations
 {

@@ -187,6 +187,8 @@ bool keyboardIsShown = NO;
             break;
         case BOTH_INDEX:
             NSLog(@"BOTH LOCATIONS");
+            
+            /*
             //note: pin is shown in regionDidChangeAnimated
             
             bool pinExists = (pinToRemember == NULL) ? false : true;
@@ -194,7 +196,7 @@ bool keyboardIsShown = NO;
             if(pinExists)
             {
                 //show both pin and user location in map view
-                [self zoomToFitMapAnnotations];
+                [self zoomMapViewToFitAnnotations];
                 
                 //show pin
                 [[mapView viewForAnnotation:pinToRemember] setHidden:NO];
@@ -205,7 +207,11 @@ bool keyboardIsShown = NO;
                 //move view to user location
                 [self goToUserLocation];
             }
- 
+             */
+            
+            //show all map annotations in ios7
+            [self zoomMapViewToFitAnnotations];
+            
             break;
         case LOC_INDEX:
             NSLog(@"USER LOCATION");
@@ -265,70 +271,43 @@ bool keyboardIsShown = NO;
     
 }
 
-- (void)zoomToFitMapAnnotations {
-    if ([mapView.annotations count] == 0) return;
+//size the mapView region to fit its annotations
+- (void)zoomMapViewToFitAnnotations
+{
+    NSArray *annotations = mapView.annotations;
+    int count = (int)[mapView.annotations count];
+    if ( count == 0) { return; } //bail if no annotations
     
-    CLLocationCoordinate2D topLeftCoord;
-    topLeftCoord.latitude = -90;
-    topLeftCoord.longitude = 180;
-    
-    CLLocationCoordinate2D bottomRightCoord;
-    bottomRightCoord.latitude = 90;
-    bottomRightCoord.longitude = -180;
-    
-    for(id<MKAnnotation> annotation in mapView.annotations) {
-        topLeftCoord.longitude = fmin(topLeftCoord.longitude, annotation.coordinate.longitude);
-        topLeftCoord.latitude = fmax(topLeftCoord.latitude, annotation.coordinate.latitude);
-        bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, annotation.coordinate.longitude);
-        bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, annotation.coordinate.latitude);
-    }
-    
-    MKCoordinateRegion region;
-    region.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
-    region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
-    region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.1;
-    
-    // Add a little extra space on the sides
-    region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.1;
-    
-    //validate region
-    
-    if(region.center.latitude >= 90.0 || region.center.latitude <= -90.0)
+    //convert NSArray of id <MKAnnotation> into an MKCoordinateRegion that can be used to set the map size
+    //can't use NSArray with MKMapPoint because MKMapPoint is not an id
+    MKMapPoint points[count]; //C array of MKMapPoint struct
+    for( int i=0; i<count; i++ ) //load points C array by converting coordinates to points
     {
-        //invalid latitude center
-        region.center.latitude = 0.0;
-        NSLog(@"Invalid center latatude");
+        CLLocationCoordinate2D coordinate = [(id <MKAnnotation>)[annotations objectAtIndex:i] coordinate];
+        points[i] = MKMapPointForCoordinate(coordinate);
     }
+    //create MKMapRect from array of MKMapPoint
+    MKMapRect mapRect = [[MKPolygon polygonWithPoints:points count:count] boundingMapRect];
+    //convert MKCoordinateRegion from MKMapRect
+    MKCoordinateRegion region = MKCoordinateRegionForMapRect(mapRect);
     
-    if(region.center.longitude >= 180.0 || region.center.longitude <= -180.0)
+    //add padding so pins aren't scrunched on the edges
+    region.span.latitudeDelta  *= ANNOTATION_REGION_PAD_FACTOR;
+    region.span.longitudeDelta *= ANNOTATION_REGION_PAD_FACTOR;
+    //but padding can't be bigger than the world
+    if( region.span.latitudeDelta > MAX_DEGREES_ARC ) { region.span.latitudeDelta  = MAX_DEGREES_ARC; }
+    if( region.span.longitudeDelta > MAX_DEGREES_ARC ){ region.span.longitudeDelta = MAX_DEGREES_ARC; }
+    
+    //and don't zoom in stupid-close on small samples
+    if( region.span.latitudeDelta  < MINIMUM_ZOOM_ARC ) { region.span.latitudeDelta  = MINIMUM_ZOOM_ARC; }
+    if( region.span.longitudeDelta < MINIMUM_ZOOM_ARC ) { region.span.longitudeDelta = MINIMUM_ZOOM_ARC; }
+    //and if there is a sample of 1 we want the max zoom-in instead of max zoom-out
+    if( count == 1 )
     {
-        //invalid longitude center
-        region.center.longitude = 0.0;
-        NSLog(@"Invalid center longitude");
+        region.span.latitudeDelta = MINIMUM_ZOOM_ARC;
+        region.span.longitudeDelta = MINIMUM_ZOOM_ARC;
     }
-    
-    float map_span_lat = mapView.region.span.latitudeDelta;
-    float map_span_lon = mapView.region.span.longitudeDelta;
-    NSLog(@"map span lat: %f", map_span_lat);
-    NSLog(@"map span lon: %f", map_span_lon);
-    
-    if(region.span.latitudeDelta > map_span_lat || region.span.latitudeDelta <= 0.0)
-    {
-        //invalid latitude span
-        NSLog(@"Invalid span latitude %f", region.span.latitudeDelta);
-        region.span.latitudeDelta = map_span_lat;
-    }
-    
-    if(region.span.longitudeDelta >= map_span_lon || region.span.longitudeDelta <= 0.0)
-    {
-        //invalid longitude span
-        NSLog(@"Invalid span longitude %f", region.span.longitudeDelta);
-        region.span.longitudeDelta = map_span_lon;
-    }
-    
-    region = [mapView regionThatFits:region];
     [mapView setRegion:region animated:YES];
-    NSLog(@"Done zooming");
 }
 
 -(void)viewDidAppear:(BOOL)animated

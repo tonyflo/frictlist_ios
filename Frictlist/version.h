@@ -17,6 +17,11 @@
 //comment for releases
 //#define NON_PRODUCTION
 
+//for viewing all map annotations
+#define MINIMUM_ZOOM_ARC 0.014 //approximately 1 miles (1 degree of arc ~= 69 miles)
+#define ANNOTATION_REGION_PAD_FACTOR 1.15
+#define MAX_DEGREES_ARC 360
+
 #define SCRIPTS_URL (@"http://frictlist.flooreeda.com/scripts/")
 #define PLATFORM (1) //iOS
 #define ZOOM (0.001)
