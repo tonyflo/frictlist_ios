@@ -17,6 +17,10 @@
 #import <MillennialMedia/MMInterstitial.h>
 #endif
 
+#if defined(REVMOB)
+#import <RevMobAds/RevMobAds.h>
+#endif
+
 //apns
 #import "DeviceTokenHelper.h"
 
@@ -42,6 +46,11 @@
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
     [self.locationManager startUpdatingLocation];
+#endif
+    
+#if defined(REVMOB)
+    [RevMobAds startSessionWithAppID:REVMOB_APP_ID];
+    [RevMobAds session].testingMode = RevMobAdsTestingModeWithAds; //todo remove for production
 #endif
     
     //apns when app is open

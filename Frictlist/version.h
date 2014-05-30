@@ -43,6 +43,14 @@
 #define TERMS_LABEL_SIGN_IN (@"By clicking Sign In, you agree to the")
 #define TERMS_LABEL_CREATE_ACCOUNT (@"By clicking Create Account, you agree to the")
 
+//choose ad service
+#define REVMOB (1)
+//#define MMEDIA (1)
+
+#if defined(REVMOB)
+#define REVMOB_APP_ID (@"5387b9942a709ab206a8166f")
+#endif
+
 #endif
 
 @end

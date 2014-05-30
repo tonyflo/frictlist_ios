@@ -52,6 +52,11 @@
 		2F9A89C918E7016000309D13 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F9A89C318E7016000309D13 /* icon@2x.png */; };
 		2F9A89CC18E71DC600309D13 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A89CB18E71DC500309D13 /* SearchViewController.m */; };
 		2F9A89CE18E7651200309D13 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9A89CD18E7651100309D13 /* MessageUI.framework */; };
+		2F9D10031938068B00DE774A /* RevMobAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9D10021938068B00DE774A /* RevMobAds.framework */; };
+		2F9D1005193806AE00DE774A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9D1004193806AE00DE774A /* SystemConfiguration.framework */; };
+		2F9D1007193806B700DE774A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9D1006193806B700DE774A /* StoreKit.framework */; };
+		2F9D1009193806BF00DE774A /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9D1008193806BF00DE774A /* AdSupport.framework */; };
+		2F9D100B19380A3D00DE774A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9D100A19380A3D00DE774A /* CoreGraphics.framework */; };
 		2F9DC36418DE4F6700024553 /* FrictViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9DC36318DE4F6700024553 /* FrictViewController.m */; };
 		2FA62107190C8A2500973E6E /* selected_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FA62105190C8A2400973E6E /* selected_0.png */; };
 		2FA62108190C8A2500973E6E /* selected_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FA62106190C8A2500973E6E /* selected_1.png */; };
@@ -129,6 +134,11 @@
 		2F9A89CA18E71DC500309D13 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		2F9A89CB18E71DC500309D13 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		2F9A89CD18E7651100309D13 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		2F9D10021938068B00DE774A /* RevMobAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RevMobAds.framework; sourceTree = "<group>"; };
+		2F9D1004193806AE00DE774A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		2F9D1006193806B700DE774A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		2F9D1008193806BF00DE774A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		2F9D100A19380A3D00DE774A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2F9DC36218DE4F6700024553 /* FrictViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictViewController.h; sourceTree = "<group>"; };
 		2F9DC36318DE4F6700024553 /* FrictViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrictViewController.m; sourceTree = "<group>"; };
 		2FA62105190C8A2400973E6E /* selected_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected_0.png; sourceTree = "<group>"; };
@@ -157,8 +167,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F9D100B19380A3D00DE774A /* CoreGraphics.framework in Frameworks */,
+				2F9D1009193806BF00DE774A /* AdSupport.framework in Frameworks */,
+				2F9D1007193806B700DE774A /* StoreKit.framework in Frameworks */,
+				2F9D1005193806AE00DE774A /* SystemConfiguration.framework in Frameworks */,
 				2FA62118190F17AF00973E6E /* QuartzCore.framework in Frameworks */,
 				2F4EE0A4176E97B100642169 /* Foundation.framework in Frameworks */,
+				2F9D10031938068B00DE774A /* RevMobAds.framework in Frameworks */,
 				2FAD77FB18FDEEAA00EC3C86 /* CoreLocation.framework in Frameworks */,
 				2FAD77F918FDEC1B00EC3C86 /* MapKit.framework in Frameworks */,
 				2F9A89CE18E7651200309D13 /* MessageUI.framework in Frameworks */,
@@ -174,10 +189,6 @@
 			isa = PBXGroup;
 			children = (
 				2FA62117190F17AF00973E6E /* QuartzCore.framework */,
-				2FAD77FA18FDEEA900EC3C86 /* CoreLocation.framework */,
-				2FAD77F818FDEC1B00EC3C86 /* MapKit.framework */,
-				2F9A89CD18E7651100309D13 /* MessageUI.framework */,
-				2FCB439F18E65891007DF46F /* frictlist.sqlite */,
 				2F9A89BE18E7015F00309D13 /* icon-29.png */,
 				2F9A89BF18E7015F00309D13 /* icon-58.png */,
 				2F9A89C018E7016000309D13 /* icon-60.png */,
@@ -201,6 +212,15 @@
 		2F4EE0A0176E97B100642169 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2FCB439F18E65891007DF46F /* frictlist.sqlite */,
+				2FAD77FA18FDEEA900EC3C86 /* CoreLocation.framework */,
+				2FAD77F818FDEC1B00EC3C86 /* MapKit.framework */,
+				2F9A89CD18E7651100309D13 /* MessageUI.framework */,
+				2F9D100A19380A3D00DE774A /* CoreGraphics.framework */,
+				2F9D1008193806BF00DE774A /* AdSupport.framework */,
+				2F9D1006193806B700DE774A /* StoreKit.framework */,
+				2F9D1004193806AE00DE774A /* SystemConfiguration.framework */,
+				2F9D10021938068B00DE774A /* RevMobAds.framework */,
 				2F86FB7217A4A925008A2C8D /* libsqlite3.0.dylib */,
 				2F4EE0A1176E97B100642169 /* UIKit.framework */,
 				2F4EE0A3176E97B100642169 /* Foundation.framework */,
@@ -500,7 +520,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Frictlist/Frictlist-Prefix.pch";
 				INFOPLIST_FILE = "Frictlist/Frictlist-Info.plist";
@@ -520,7 +540,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Frictlist/Frictlist-Prefix.pch";
 				INFOPLIST_FILE = "Frictlist/Frictlist-Info.plist";

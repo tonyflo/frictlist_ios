@@ -19,6 +19,11 @@
 #import "AdHelper.h"
 #endif
 
+#if defined(REVMOB)
+#import "FrictlistAppDelegate.h"
+#import <RevMobAds/RevMobAds.h>
+#endif
+
 #define PIN_INDEX (0)
 #define BOTH_INDEX (1)
 #define LOC_INDEX (2)
@@ -356,6 +361,10 @@ bool keyboardIsShown = NO;
 {
 #if defined(MMEDIA)
     [self interstatialAd];
+#endif
+    
+#if defined(REVMOB)
+    [[RevMobAds session] showFullscreen];
 #endif
     
     NSLog(@"view will appear frict detail");
